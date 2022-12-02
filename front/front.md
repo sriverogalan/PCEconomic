@@ -1,1 +1,1 @@
-front
+Frontend amb quasar

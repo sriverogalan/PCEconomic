@@ -1,1 +1,1 @@
-back
+Backend amb Spring boot, Thymeleaf, boostrap e Hibernate
