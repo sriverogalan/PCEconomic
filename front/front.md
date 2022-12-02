@@ -1,1 +1,1 @@
-Frontend amb quasar
+Frontend amb quasar (vue) amb material i php (laravel)
