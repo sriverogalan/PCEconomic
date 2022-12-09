@@ -33,4 +33,3 @@ La direcció de la botiga sera components-pc.me i el nom de la botiga sera Compo
 ## Requisits no funcionals:
 - El sistema ha de ser segur.
 - El sistema ha de tenir una bona usabilitat tan en desktop com amb mòbil.
-
