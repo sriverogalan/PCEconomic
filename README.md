@@ -1,7 +1,8 @@
 # ProjecteBotiga
 
 ## Autors
-Miquel Angel Amengual Sastre and Sergi Rivero Galan 
+- Miquel Angel Amengual Sastre 
+- Sergi Rivero Galan 
 
 ## Descripció
 
