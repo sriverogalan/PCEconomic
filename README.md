@@ -30,5 +30,6 @@ La direcció de la botiga sera components-pc.me i el nom de la botiga sera Compo
 - L’administrador ha de poder treure un llistat en Excel dels aricles filtrats i ordenats per varis criteris del articles i propietats.
 -  Un usuari públic es pot registrar. Durant el procés de registre s’ha de validar l’adreça de correu.
 ## Requisits no funcionals:
-- [x] El sistema ha de ser segur.
-- [x] El sistema ha de tenir una bona usabilitat tan en desktop com amb mòbil.
+- El sistema ha de ser segur.
+- El sistema ha de tenir una bona usabilitat tan en desktop com amb mòbil.
+
