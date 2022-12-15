@@ -1,6 +1,6 @@
 # EconomicPC
 
-![alt text](https://github.com/sriverogalan/ProjecteBotiga/blob/main/docs/logo.png?raw=true)
+<img src="https://github.com/sriverogalan/ProjecteBotiga/raw/main/docs/logo.png?raw=true" alt="alt text" width="50%">
 
 ## Autors
 
@@ -9,7 +9,7 @@
 
 ## Descripció
 
-ProjecteBotiga és un projecte de botiga online que permet gestionar els productes, les categories i les comandes.
+El nostre projecte es basa en una botiga online que permet gestionar els productes, les categories i les comandes.
 La direcció de la botiga sera economicpc.me i el nom de la botiga sera EconomicPC. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc.
 
 ## Stakeholders:

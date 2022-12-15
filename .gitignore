@@ -1,4 +1,4 @@
 ./back/esquelet-BotigaInformatica/node/node_modules/**/.*
 .idea
-.vscode
+.vscode/**/.*
 .vscode/settings.json
