@@ -1,6 +1,6 @@
 # EconomicPC
 
-<img src="https://github.com/sriverogalan/ProjecteBotiga/raw/main/docs/logo.png?raw=true" alt="alt text" width="50%">
+<img src="https://github.com/sriverogalan/ProjecteBotiga/raw/main/docs/logo.png?raw=true" alt="alt text" width="50%" style="margin: 0 auto">
 
 ## Autors
 
