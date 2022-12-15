@@ -1,4 +1,7 @@
 ./back/esquelet-BotigaInformatica/node/node_modules/**/.*
 .idea
 .vscode/**/.*
+.vscode/.*
+.vscode/*.*
 .vscode/settings.json
+back/esquelet-BotigaInformatica/src/frontend/node_modules/**/.*
