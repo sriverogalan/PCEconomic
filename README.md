@@ -7,7 +7,7 @@
 ## Descripció
 
 ProjecteBotiga és un projecte de botiga online que permet gestionar els productes, les categories i les comandes.
-La direcció de la botiga sera TecnoShop.me i el nom de la botiga sera TecnoShop. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc. 
+La direcció de la botiga sera economicpc.me i el nom de la botiga sera EconomicPC. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc. 
 
 ## Stakeholders:
 - Administrador
