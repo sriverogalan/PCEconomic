@@ -10,7 +10,7 @@
 ## Descripció
 
 El nostre projecte es basa en una botiga online que permet gestionar els productes, les categories i les comandes.
-La direcció de la botiga sera economicpc.me i el nom de la botiga sera EconomicPC. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc.
+La direcció de la botiga sera pceconomic.me i el nom de la botiga sera PCEconomic. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc.
 
 ## Stakeholders:
 
