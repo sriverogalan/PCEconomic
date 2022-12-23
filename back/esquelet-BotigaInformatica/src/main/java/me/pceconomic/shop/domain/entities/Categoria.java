@@ -1,9 +1,10 @@
 package me.pceconomic.shop.domain.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
-public class Categoria {
+public @Data class Categoria {
 
     @Id @GeneratedValue
     @Column(name = "id")
