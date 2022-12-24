@@ -1,0 +1,37 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../../../frontend/node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "../../../../frontend/node_modules/bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "../../../../frontend/node_modules/bootstrap/scss/maps";
+@import "../../../../frontend/node_modules/bootstrap/scss/mixins";
+@import "../../../../frontend/node_modules/bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "../../../../frontend/node_modules/bootstrap/scss/utilities";
+@import "../../../../frontend/node_modules/bootstrap/scss/reboot";
+@import "../../../../frontend/node_modules/bootstrap/scss/type";
+@import "../../../../frontend/node_modules/bootstrap/scss/images";
+@import "../../../../frontend/node_modules/bootstrap/scss/containers";
+@import "../../../../frontend/node_modules/bootstrap/scss/grid";
+@import "../../../../frontend/node_modules/bootstrap/scss/helpers";
+@import "../../../../frontend/node_modules/bootstrap/scss/navbar";
+@import "../../../../frontend/node_modules/bootstrap/scss/dropdown";
+@import "../../../../frontend/node_modules/bootstrap/scss/buttons";
+@import "../../../../frontend/node_modules/bootstrap/scss/nav";
+@import "../../../../frontend/node_modules/bootstrap/scss/navbar";
+@import "../../../../frontend/node_modules/bootstrap/scss/transitions";
+@import "../../../../frontend/node_modules/bootstrap/scss/spinners";
+@import "../../../../frontend/node_modules/bootstrap/scss/carousel";
+@import "../../../../frontend/node_modules/bootstrap/scss/containers";
+@import "../../../../frontend/node_modules/bootstrap/scss/badge";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "../../../../frontend/node_modules/bootstrap/scss/utilities/api";
+@import "../../../../frontend/node_modules/bootstrap/scss/buttons";
