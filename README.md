@@ -1,15 +1,19 @@
-# ProjecteBotiga
+<p align="center">
+    <img src="https://github.com/sriverogalan/ProjecteBotiga/raw/main/docs/logo.png?raw=true" alt="alt text" width="50%" style="margin: 0 auto">
+</p>
 
 ## Autors
-- Miquel Angel Amengual Sastre 
-- Sergi Rivero Galan 
+
+- Miquel Angel Amengual Sastre
+- Sergi Rivero Galan
 
 ## Descripció
 
-ProjecteBotiga és un projecte de botiga online que permet gestionar els productes, les categories i les comandes.
-La direcció de la botiga sera components-pc.me i el nom de la botiga sera Components PC. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc. 
+El nostre projecte es basa en una botiga online que permet gestionar els productes, les categories i les comandes.
+La direcció de la botiga sera pceconomic.me i el nom de la botiga sera PCEconomic. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc.
 
 ## Stakeholders:
+
 - Administrador
 - Usuari registrat
 - Usuari públic
@@ -29,8 +33,9 @@ La direcció de la botiga sera components-pc.me i el nom de la botiga sera Compo
 - Els usuaris registrats han de tenir poder consultar les comandes anteriors.
 - Els usuaris registrats han de poder pagar a través de Paypal i una pasarel·la de pagament d’un banc.
 - L’administrador ha de poder treure un llistat en Excel dels aricles filtrats i ordenats per varis criteris del articles i propietats.
--  Un usuari públic es pot registrar. Durant el procés de registre s’ha de validar l’adreça de correu.
+- Un usuari públic es pot registrar. Durant el procés de registre s’ha de validar l’adreça de correu.
+
 ## Requisits no funcionals:
+
 - El sistema ha de ser segur.
 - El sistema ha de tenir una bona usabilitat tan en desktop com amb mòbil.
-
