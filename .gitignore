@@ -80,3 +80,5 @@
 .idea/ProjecteBotiga.iml
 .idea/vcs.xml
 back/esquelet-BotigaInformatica/esquelet-BotigaInformatica.iml
+back/esquelet-BotigaInformatica/src/main/resources/application.properties
+*.properties
