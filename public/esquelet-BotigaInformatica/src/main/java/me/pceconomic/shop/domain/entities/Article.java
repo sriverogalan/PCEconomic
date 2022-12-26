@@ -26,7 +26,11 @@ public @Data class Article {
     private double weight;
 
     @OneToMany
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_categoria")
     private List<Categoria> categories;
+
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca marques;
 
 }

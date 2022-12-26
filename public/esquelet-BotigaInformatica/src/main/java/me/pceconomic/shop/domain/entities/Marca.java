@@ -4,6 +4,8 @@ package me.pceconomic.shop.domain.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "marques")
 public @Data class Marca {
@@ -17,5 +19,10 @@ public @Data class Marca {
 
     @Column(name = "nom")
     private String name;
+
+    @Column(name = "id_article")
+    @OneToMany
+    private List<Article> article;
+
 
 }
