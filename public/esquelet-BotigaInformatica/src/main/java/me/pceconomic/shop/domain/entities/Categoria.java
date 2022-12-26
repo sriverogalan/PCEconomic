@@ -21,7 +21,7 @@ public @Data class Categoria {
     private List<Subcategoria> subcategories;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id_article")
     private Article article;
 
 }
