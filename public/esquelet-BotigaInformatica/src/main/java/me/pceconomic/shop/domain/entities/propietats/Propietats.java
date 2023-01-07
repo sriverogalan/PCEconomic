@@ -11,14 +11,22 @@ import java.util.List;
 public @Data class Propietats {
     @Id
     @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id_propìetats")
     private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "id_article")
-    private List<Article> articles;
+    @ManyToOne
+    @JoinColumn(name = "id_valor")
+    private Valor valor;
 
-    @OneToMany
+    @ManyToOne
+    @JoinColumn(name = "id_article")
+    private Article articles;
+
+    @ManyToOne
     @JoinColumn(name = "id_preu")
-    private List<Preu> preus;
+    private Preu preus;
+
+    @ManyToOne
+    @JoinColumn(name = "id_stock")
+    private Stock stock;
 }

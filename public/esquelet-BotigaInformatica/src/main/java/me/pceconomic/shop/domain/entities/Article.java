@@ -10,7 +10,7 @@ import java.util.List;
 public @Data class Article {
 
     @Id @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id_article")
     private int id;
 
     @Column(name = "nom")
