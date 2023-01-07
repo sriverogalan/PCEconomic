@@ -1,15 +1,23 @@
 package me.pceconomic.shop.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
-public @Data class Subcategoria extends Categoria{
+@Table(name = "subcategories")
+public @Data class Subcategoria {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "nom")
+    private String name;
+
     @ManyToOne
-    @JoinColumn(name = "id_subcategoria")
+    @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
 }
