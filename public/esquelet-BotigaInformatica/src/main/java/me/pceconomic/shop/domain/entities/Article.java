@@ -29,6 +29,10 @@ public @Data class Article {
     @JoinColumn(name = "id_categoria")
     private List<Categoria> categories;
 
+    @OneToMany
+    @JoinColumn(name = "id_oferta")
+    private List<Oferta> subcategories;
+
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marques;
