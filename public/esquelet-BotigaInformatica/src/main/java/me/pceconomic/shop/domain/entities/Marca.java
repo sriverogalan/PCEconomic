@@ -1,6 +1,5 @@
 package me.pceconomic.shop.domain.entities;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +22,5 @@ public @Data class Marca {
     @Column(name = "id_article")
     @OneToMany
     private List<Article> article;
-
 
 }

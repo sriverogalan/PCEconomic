@@ -17,4 +17,8 @@ public @Data class Propietats {
     @OneToMany
     @JoinColumn(name = "id_article")
     private List<Article> articles;
+
+    @OneToMany
+    @JoinColumn(name = "id_preu")
+    private List<Preu> preus;
 }
