@@ -19,6 +19,10 @@ public @Data class Propietats {
     private Valor valor;
 
     @ManyToOne
+    @JoinColumn(name = "id_propietat")
+    private Propietat propietat;
+
+    @ManyToOne
     @JoinColumn(name = "id_article")
     private Article articles;
 

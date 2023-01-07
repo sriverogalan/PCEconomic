@@ -19,4 +19,8 @@ public class Propietat {
     @JoinColumn(name = "id_valor")
     private List<Valor> valor;
 
+    @OneToMany
+    @JoinColumn(name = "id_propietats")
+    private List<Propietats> propietats;
+
 }
