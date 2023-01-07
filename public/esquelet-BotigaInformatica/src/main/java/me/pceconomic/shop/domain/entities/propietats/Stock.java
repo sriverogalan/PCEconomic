@@ -12,6 +12,6 @@ public @Data class Stock {
     private int id;
 
     @Column(name = "stock")
-    private int stockTotal;
+    private int stock;
 
 }
