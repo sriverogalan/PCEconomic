@@ -6,22 +6,21 @@ import lombok.Data;
 import java.util.List;
 
 @Entity
-@Table(name = "categories")
-public @Data class Categoria {
+@Table(name = "marques")
+public @Data class Marca {
 
     @Id @GeneratedValue
     @Column(name = "id")
     private int id;
 
+    @Column(name = "cif")
+    private String cif;
+
     @Column(name = "nom")
     private String name;
 
+    @Column(name = "id_article")
     @OneToMany
-    @JoinColumn(name = "id_subcategoria")
-    private List<Subcategoria> subcategories;
-
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
+    private List<Article> article;
 
 }
