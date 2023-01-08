@@ -1,8 +1,7 @@
-package me.pceconomic.shop.domain.entities;
+package me.pceconomic.shop.domain.entities.categories;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "subcategories")
