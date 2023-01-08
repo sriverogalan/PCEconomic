@@ -7,8 +7,8 @@ import java.util.List;
 @Table(name = "persones")
 public class Persona {
     @Id @GeneratedValue
-    @Column(name = "nom")
-    private Long id;
+    @Column(name = "id_persona")
+    private int id;
 
     @Column(name = "nom")
     private String name;
