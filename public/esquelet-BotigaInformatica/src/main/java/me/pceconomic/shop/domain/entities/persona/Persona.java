@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities.persona;
 
 import jakarta.persistence.*;
 import lombok.*;
+import me.pceconomic.shop.domain.entities.persona.direction.Direccio;
 
 import java.util.List;
 
