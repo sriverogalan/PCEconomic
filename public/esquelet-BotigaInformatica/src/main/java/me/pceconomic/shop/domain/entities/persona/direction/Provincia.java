@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "provincies")
-public @Data class Province {
+public @Data class Provincia {
 
     @Id @GeneratedValue
     @Column(name = "id_provincia")
