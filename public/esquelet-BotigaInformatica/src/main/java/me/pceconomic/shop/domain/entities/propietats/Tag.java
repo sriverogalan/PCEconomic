@@ -5,22 +5,18 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "propietat")
-public class Propietat {
+@Table(name = "tags")
+public class Tag {
 
     @Id @GeneratedValue
-    @Column(name = "id_propietat")
+    @Column(name = "id_tag")
     private int id;
 
     @Column(name = "nom")
-    private String name;
+    private String tag;
 
     @OneToMany
     @JoinColumn(name = "id_valor")
     private List<Valor> valor;
-
-    @OneToMany
-    @JoinColumn(name = "id_propietats")
-    private List<Propietats> propietats;
 
 }
