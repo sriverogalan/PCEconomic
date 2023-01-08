@@ -1,10 +1,13 @@
 package me.pceconomic.shop.domain.entities.persona;
 
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
 @Table(name = "persones")
+@Getter @Setter
 public class Persona {
     @Id @GeneratedValue
     @Column(name = "nom")
@@ -30,7 +33,6 @@ public class Persona {
     @OneToMany
     @JoinColumn(name = "id_direccio")
     private List<Direccio> direccions;
-
 
 
 }
