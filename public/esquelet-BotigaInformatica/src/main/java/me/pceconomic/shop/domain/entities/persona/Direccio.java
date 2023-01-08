@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "direccions")
 public class Direccio {
     @Id @GeneratedValue
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "id_direccio")
+    private int id;
 
     @Column(name = "carrer")
     private String street;
