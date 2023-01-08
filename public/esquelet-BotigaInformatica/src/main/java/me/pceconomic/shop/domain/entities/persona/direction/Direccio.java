@@ -1,6 +1,8 @@
-package me.pceconomic.shop.domain.entities.persona;
+package me.pceconomic.shop.domain.entities.persona.direction;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "direccions")
@@ -15,18 +17,10 @@ public class Direccio {
     @Column(name = "numero")
     private int number;
 
-    @Column(name = "poblacio")
-    private String city;
-
-    @Column(name = "provincia")
-    private String province;
-
-    @Column(name = "codiPostal")
-    private String postalCode;
-
-    @Column(name = "pais")
-    private String country;
-
     @Column(name = "estaActiva")
     private boolean isActive;
+
+    @OneToMany
+    @JoinColumn(name = "id_pais")
+    private List<Country> country;
 }
