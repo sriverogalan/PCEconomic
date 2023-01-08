@@ -10,8 +10,8 @@ import java.util.List;
 @Getter @Setter
 public class Persona {
     @Id @GeneratedValue
-    @Column(name = "nom")
-    private Long id;
+    @Column(name = "id_persona")
+    private int id;
 
     @Column(name = "nom")
     private String name;
