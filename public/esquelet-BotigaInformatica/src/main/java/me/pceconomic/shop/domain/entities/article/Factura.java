@@ -1,6 +1,5 @@
 package me.pceconomic.shop.domain.entities.article;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +12,7 @@ public @Data class Factura {
 
     @Id @GeneratedValue
     @Column(name = "id_factura")
-    private int id; 
+    private int id;
 
     @Column(name = "numero_factura")
     private int numeroFactura;
@@ -36,9 +35,7 @@ public @Data class Factura {
     private EstatFactura estatFactura;
 
     @OneToMany
-    @JoinColumn(name = "id_articles")
+    @JoinColumn(name = "id_article")
     private List<Article> articles;
-
-
 
 }

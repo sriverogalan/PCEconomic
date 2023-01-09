@@ -38,4 +38,8 @@ public @Data class Article {
     @JoinColumn(name = "id_marca")
     private Marca marques;
 
+    @ManyToOne
+    @JoinColumn(name = "id_carrito")
+    private Carrito carrito;
+
 }
