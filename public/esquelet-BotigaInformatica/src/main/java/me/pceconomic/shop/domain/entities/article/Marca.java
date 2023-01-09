@@ -1,7 +1,8 @@
-package me.pceconomic.shop.domain.entities;
+package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.util.List;
 

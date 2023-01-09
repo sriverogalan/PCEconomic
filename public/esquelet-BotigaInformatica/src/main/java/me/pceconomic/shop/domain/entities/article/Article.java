@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.entities;
+package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -37,5 +37,9 @@ public @Data class Article {
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marques;
+
+    @ManyToOne
+    @JoinColumn(name = "id_carrito")
+    private Carrito carrito;
 
 }
