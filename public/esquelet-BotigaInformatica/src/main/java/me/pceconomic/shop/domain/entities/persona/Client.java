@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities.persona;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Carrito;
 
 @Entity
 @Table(name = "clients")

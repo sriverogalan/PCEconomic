@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.entities;
+package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,6 +10,7 @@ import java.util.List;
 public @Data class Carrito {
     @Id
     @GeneratedValue
+    @Column(name = "id_carrito")
     private int id;
 
     @OneToOne

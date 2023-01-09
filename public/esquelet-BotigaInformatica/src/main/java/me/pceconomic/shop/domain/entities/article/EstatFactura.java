@@ -1,2 +1,9 @@
-package me.pceconomic.shop.domain.entities.article;public enum EstatFactura {
+package me.pceconomic.shop.domain.entities.article;
+
+public enum EstatFactura {
+    PAGADA,
+    PENDIENTE,
+    CANCELADA,
+    ANULADA,
+    ENVIADA
 }
