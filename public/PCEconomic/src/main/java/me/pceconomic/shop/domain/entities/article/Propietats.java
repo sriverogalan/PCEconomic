@@ -8,20 +8,12 @@ import lombok.Data;
 public @Data class Propietats {
     @Id
     @GeneratedValue
-    @Column(name = "id_propìetats")
+    @Column(name = "id_propietat")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_valor")
     private Valor valor;
-
-    @ManyToOne
-    @JoinColumn(name = "id_propietat")
-    private Propietat propietat;
-
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article articles;
 
     @ManyToOne
     @JoinColumn(name = "id_preu")
@@ -30,4 +22,9 @@ public @Data class Propietats {
     @ManyToOne
     @JoinColumn(name = "id_stock")
     private Stock stock;
+
+    @ManyToOne
+    @JoinColumn(name = "id_article")
+    private Article article;
+
 }
