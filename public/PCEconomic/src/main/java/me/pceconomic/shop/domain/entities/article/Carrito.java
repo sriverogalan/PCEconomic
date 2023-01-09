@@ -18,8 +18,8 @@ public @Data class Carrito {
     private Client client;
 
     @OneToMany
-    @JoinColumn(name = "id_article")
-    private List<Article> idArticles;
+    @JoinColumn(name = "lista_articulos")
+    private List<Article> article;
 
     @Column(name = "quantitat")
     private int quantity;

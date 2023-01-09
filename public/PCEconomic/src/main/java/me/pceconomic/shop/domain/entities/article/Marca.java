@@ -11,7 +11,7 @@ import java.util.List;
 public @Data class Marca {
 
     @Id @GeneratedValue
-    @Column(name = "id")
+    @Column(name = "id_marca")
     private int id;
 
     @Column(name = "cif")

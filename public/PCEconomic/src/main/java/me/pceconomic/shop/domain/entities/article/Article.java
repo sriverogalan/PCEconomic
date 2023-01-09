@@ -36,14 +36,6 @@ public @Data class Article {
 
     @ManyToOne
     @JoinColumn(name = "id_marca")
-    private Marca marques;
-
-    @ManyToOne
-    @JoinColumn(name = "id_carrito")
-    private Carrito carrito;
-
-    @ManyToOne
-    @JoinColumn(name = "id_factura")
-    private Factura factura;
+    private Marca marca;
 
 }
