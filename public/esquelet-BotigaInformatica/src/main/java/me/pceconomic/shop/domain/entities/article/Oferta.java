@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Article;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
