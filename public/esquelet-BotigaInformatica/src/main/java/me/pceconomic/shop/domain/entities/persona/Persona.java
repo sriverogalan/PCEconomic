@@ -10,7 +10,9 @@ import java.util.List;
 @Table(name = "persones")
 @Getter @Setter
 public class Persona {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     @Column(name = "id_persona")
     private int id;
 
@@ -31,10 +33,11 @@ public class Persona {
     @Column(name = "telefon")
     private String telefon;
 
+    @Column(name = "rol")
+    private Rol rol;
+
     @OneToMany
     @JoinColumn(name = "id_direccio")
     private List<Direccio> direccions;
-
-
 }
 

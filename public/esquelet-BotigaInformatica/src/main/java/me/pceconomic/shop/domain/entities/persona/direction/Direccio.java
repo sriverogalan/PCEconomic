@@ -22,5 +22,5 @@ public class Direccio {
 
     @OneToMany
     @JoinColumn(name = "id_pais")
-    private List<Country> country;
+    private List<Pais> country;
 }
