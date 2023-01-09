@@ -30,6 +30,7 @@ public class Persona {
 
     @Column(name = "contrasenya")
     private String password;
+
     @Column(name = "telefon")
     private String telefon;
 
