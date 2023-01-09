@@ -1,8 +1,7 @@
-package me.pceconomic.shop.domain.entities.categories;
+package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ public @Data class Categoria {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "pare")
+    @JoinColumn(name = "categoria_pare")
     private Categoria parent;
 
     @OneToMany(mappedBy = "parent")
@@ -28,5 +27,4 @@ public @Data class Categoria {
     @ManyToOne
     @JoinColumn(name = "id_article")
     private Article articles;
-
 }

@@ -23,15 +23,14 @@ public @Data class Factura {
     @Column(name = "quantitat")
     private int quantity;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "data")
+
+    @Column(name = "data") @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
 
-    @Column(name = "preu_transport")
+    @Column(name = "preuTransport")
     private double preuTransport;
 
-    @Column(name = "estat")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "estat") @Enumerated(EnumType.STRING)
     private EstatFactura estatFactura;
 
     @OneToMany

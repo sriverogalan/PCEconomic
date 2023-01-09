@@ -5,5 +5,8 @@ public enum EstatFactura {
     PENDIENTE,
     CANCELADA,
     ANULADA,
-    ENVIADA
+    ENVIADA,
+    RECIBIDA,
+    DEVUELTA,
+    REEMBOLSADA
 }

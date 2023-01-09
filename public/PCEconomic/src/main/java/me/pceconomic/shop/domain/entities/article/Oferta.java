@@ -6,6 +6,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "ofertes")
@@ -31,12 +32,15 @@ public @Data class Oferta {
     private String type;
 
     @Column(name = "descompte")
-    private int descompte;
+    private double descompte;
 
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne
+    @Column(name = "isDeleted")
+    private boolean isDeleted;
+
+    @ManyToMany
     @JoinColumn(name = "id_article")
-    private Article article;
+    private List<Article> article;
 }
