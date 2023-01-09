@@ -33,9 +33,6 @@ public class Persona {
     @Column(name = "telefon")
     private String telefon;
 
-    @Column(name = "rol")
-    private Rol rol;
-
     @OneToMany
     @JoinColumn(name = "id_direccio")
     private List<Direccio> direccions;
