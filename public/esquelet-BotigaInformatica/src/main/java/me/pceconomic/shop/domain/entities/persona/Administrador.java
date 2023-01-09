@@ -19,6 +19,6 @@ public @Data class Administrador {
     private Persona persona;
 
     @OneToMany
-    @JoinColumn(name = "id_article")
+    @JoinTable(name = "article-administrador", joinColumns = @JoinColumn(name = "id_administrador"), inverseJoinColumns = @JoinColumn(name = "id_article"))
     private List<Article> articles;
 }

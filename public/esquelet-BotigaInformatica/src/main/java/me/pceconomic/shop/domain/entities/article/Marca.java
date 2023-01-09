@@ -20,8 +20,4 @@ public @Data class Marca {
     @Column(name = "nom")
     private String name;
 
-    @Column(name = "id_article")
-    @OneToMany
-    private List<Article> article;
-
 }
