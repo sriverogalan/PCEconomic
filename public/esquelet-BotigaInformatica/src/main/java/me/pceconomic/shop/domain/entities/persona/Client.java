@@ -11,10 +11,6 @@ public @Data class Client {
     @Column(name = "id_client")
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "id_persona")
-    private Persona persona;
-
     @Column(name = "dni")
     private String dni;
 
@@ -23,5 +19,9 @@ public @Data class Client {
 
     @Column(name = "isActiu")
     private boolean isActive;
+
+    @OneToOne
+    @JoinColumn(name = "id_persona")
+    private Persona persona;
 
 }

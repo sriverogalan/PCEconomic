@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "codis_postals")
-public @Data class PostalCode {
+public @Data class CodiPostal {
 
     @Id @GeneratedValue
     @Column(name = "id_codipostal")
@@ -17,6 +17,6 @@ public @Data class PostalCode {
 
     @OneToOne
     @JoinColumn(name = "id_ciutat")
-    private City city;
+    private Ciutat city;
 
 }

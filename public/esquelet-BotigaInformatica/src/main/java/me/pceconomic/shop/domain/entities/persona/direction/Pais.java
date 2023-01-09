@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "paisos")
-public @Data class Country {
+public @Data class Pais {
 
     @Id
     @GeneratedValue

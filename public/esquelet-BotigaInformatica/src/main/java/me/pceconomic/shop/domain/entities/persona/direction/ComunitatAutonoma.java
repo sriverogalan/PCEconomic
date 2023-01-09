@@ -18,14 +18,14 @@ public @Data class ComunitatAutonoma {
 
     @OneToMany
     @JoinColumn(name = "id_ciutat")
-    private List<City> cities;
+    private List<Ciutat> cities;
 
     @ManyToOne
     @JoinColumn(name = "id_pais")
-    private Country country;
+    private Pais country;
 
     @OneToMany
     @JoinColumn(name = "id_provincia")
-    private List<Province> provinces;
+    private List<Provincia> provinces;
 
 }
