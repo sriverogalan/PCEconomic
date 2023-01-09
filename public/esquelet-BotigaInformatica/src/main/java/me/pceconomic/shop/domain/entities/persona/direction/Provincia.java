@@ -3,6 +3,8 @@ package me.pceconomic.shop.domain.entities.persona.direction;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Table(name = "provincies")
 public @Data class Provincia {
@@ -14,8 +16,8 @@ public @Data class Provincia {
     @Column(name = "nom")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "id_comunitat_autonoma")
-    private ComunitatAutonoma comunitatAutonoma;
+    @OneToMany
+    @JoinColumn(name = "id_ciutat")
+    private List<Ciutat> ciutats;
 
 }

@@ -19,10 +19,6 @@ public @Data class Pais {
 
     @OneToMany
     @JoinColumn(name = "id_comunitat_autonoma")
-    private List<ComunitatAutonoma> comunitatsAutonomes;
-
-    @ManyToOne
-    @JoinColumn(name = "id_direccio")
-    private Direccio direccio;
+    private List<ComunitatAutonoma> comunitatAutonomas;
 
 }

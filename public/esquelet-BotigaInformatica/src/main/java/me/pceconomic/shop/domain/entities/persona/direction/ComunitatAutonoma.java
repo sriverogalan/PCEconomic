@@ -17,15 +17,7 @@ public @Data class ComunitatAutonoma {
     private String name;
 
     @OneToMany
-    @JoinColumn(name = "id_ciutat")
-    private List<Ciutat> cities;
-
-    @ManyToOne
-    @JoinColumn(name = "id_pais")
-    private Pais country;
-
-    @OneToMany
     @JoinColumn(name = "id_provincia")
-    private List<Provincia> provinces;
+    private List<Provincia> provincies;
 
 }
