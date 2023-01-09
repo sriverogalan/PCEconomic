@@ -42,4 +42,8 @@ public @Data class Article {
     @JoinColumn(name = "id_carrito")
     private Carrito carrito;
 
+    @ManyToOne
+    @JoinColumn(name = "id_factura")
+    private Factura factura;
+
 }
