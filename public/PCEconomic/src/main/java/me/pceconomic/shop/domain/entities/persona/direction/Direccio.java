@@ -1,12 +1,16 @@
 package me.pceconomic.shop.domain.entities.persona.direction;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "direccions")
-public class Direccio {
+@EqualsAndHashCode(exclude = "countries")
+public @Data class Direccio {
     @Id @GeneratedValue
     @Column(name = "id_direccio")
     private int id;
@@ -22,5 +26,5 @@ public class Direccio {
 
     @OneToMany
     @JoinColumn(name = "id_pais")
-    private List<Pais> country;
+    private Set<Pais> countries;
 }

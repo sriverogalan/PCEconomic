@@ -5,11 +5,12 @@ import lombok.*;
 import me.pceconomic.shop.domain.entities.persona.direction.Direccio;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "persones")
-@Getter @Setter
-public class Persona {
+@EqualsAndHashCode(exclude = {"direccions"})
+public @Data class Persona {
 
     @Id
     @GeneratedValue
@@ -36,6 +37,6 @@ public class Persona {
 
     @OneToMany
     @JoinColumn(name = "id_direccio")
-    private List<Direccio> direccions;
+    private Set<Direccio> direccions;
 }
 
