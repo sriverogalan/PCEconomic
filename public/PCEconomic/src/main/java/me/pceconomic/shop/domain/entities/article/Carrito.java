@@ -2,11 +2,14 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.persona.Client;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(exclude = {"articles"})
 public @Data class Carrito {
     @Id
     @GeneratedValue
@@ -19,8 +22,8 @@ public @Data class Carrito {
     @Column(name = "preu")
     private double price;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn(name = "id_article")
-    private Article article;
+    private Set<Article> articles;
 
 }
