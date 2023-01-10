@@ -3,11 +3,9 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Carrito;
 import me.pceconomic.shop.domain.entities.article.Factura;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
