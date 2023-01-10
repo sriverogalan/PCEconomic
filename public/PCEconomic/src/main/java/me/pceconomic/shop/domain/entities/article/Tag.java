@@ -15,8 +15,8 @@ public class Tag {
     @Column(name = "nom")
     private String tag;
 
-    @OneToMany
-    @JoinColumn(name = "id_valor")
-    private List<Valor> valor;
+    @OneToOne
+    @JoinColumn(name = "id_valor", referencedColumnName = "id_valor")
+    private Valor valor;
 
 }
