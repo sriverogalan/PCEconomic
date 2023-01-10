@@ -1,8 +1,6 @@
-package me.pceconomic.shop.domain.entities.article;
+package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "tags")

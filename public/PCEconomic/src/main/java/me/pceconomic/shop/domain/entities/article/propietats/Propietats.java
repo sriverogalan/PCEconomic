@@ -1,7 +1,8 @@
-package me.pceconomic.shop.domain.entities.article;
+package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Preu;
 
 @Entity
 @Table(name = "propietats")
@@ -22,9 +23,5 @@ public @Data class Propietats {
     @ManyToOne
     @JoinColumn(name = "id_stock")
     private Stock stock;
-
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
 
 }
