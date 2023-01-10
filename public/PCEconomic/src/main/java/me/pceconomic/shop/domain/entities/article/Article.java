@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 @Entity
 @Table(name = "articles")
@@ -26,7 +27,7 @@ public @Data class Article {
     @ManyToOne
     @JoinColumn(name = "id_propietats")
     private Propietats propietats;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
