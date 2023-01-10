@@ -11,8 +11,4 @@ public @Data class Valor {
     @Column(name = "id_valor")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tag")
-    private Tag tag;
-
 }
