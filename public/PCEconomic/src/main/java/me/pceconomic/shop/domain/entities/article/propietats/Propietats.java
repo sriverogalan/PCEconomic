@@ -27,5 +27,4 @@ public @Data class Propietats {
     @ManyToOne
     @JoinColumn(name = "id_article")
     private Article article;
-
 }
