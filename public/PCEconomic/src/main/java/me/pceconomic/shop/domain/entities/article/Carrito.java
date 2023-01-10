@@ -13,10 +13,6 @@ public @Data class Carrito {
     @Column(name = "id_carrito")
     private int id;
 
-    @OneToOne
-    @JoinColumn(name = "id_client")
-    private Client client;
-
     @Column(name = "quantitat")
     private int quantity;
 
@@ -24,7 +20,7 @@ public @Data class Carrito {
     private double price;
 
     @ManyToOne
-    @JoinColumn(name = "article_id")
+    @JoinColumn(name = "id_article")
     private Article article;
 
 }
