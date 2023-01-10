@@ -3,9 +3,7 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.persona.Client;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
