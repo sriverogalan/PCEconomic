@@ -1,12 +1,16 @@
 package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "propietat")
-public class Propietat {
+@EqualsAndHashCode(exclude = "propietats")
+public @Data class Propietat {
 
     @Id @GeneratedValue
     @Column(name = "id_propietat")
@@ -17,10 +21,10 @@ public class Propietat {
 
     @OneToMany
     @JoinColumn(name = "id_valor")
-    private List<Valor> valor;
+    private Set<Valor> valor;
 
     @OneToMany
     @JoinColumn(name = "id_propietats")
-    private List<Propietats> propietats;
+    private Set<Propietats> propietats;
 
 }
