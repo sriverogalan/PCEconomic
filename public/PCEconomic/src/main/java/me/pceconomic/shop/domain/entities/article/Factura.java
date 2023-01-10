@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.persona.Administrador;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Entity
 public @Data class Factura {
-
     @Id @GeneratedValue
     @Column(name = "id_factura")
     private int id;

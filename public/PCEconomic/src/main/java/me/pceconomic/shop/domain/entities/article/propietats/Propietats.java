@@ -2,7 +2,7 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.article.Preu;
+import me.pceconomic.shop.domain.entities.article.Article;
 
 @Entity
 @Table(name = "propietats")
@@ -10,7 +10,7 @@ public @Data class Propietats {
     @Id
     @GeneratedValue
     @Column(name = "id_propietat")
-    private Long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "id_valor")
@@ -23,5 +23,9 @@ public @Data class Propietats {
     @ManyToOne
     @JoinColumn(name = "id_stock")
     private Stock stock;
+
+    @ManyToOne
+    @JoinColumn(name = "id_article")
+    private Article article;
 
 }
