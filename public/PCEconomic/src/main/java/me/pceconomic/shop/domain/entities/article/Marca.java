@@ -20,4 +20,7 @@ public @Data class Marca {
     @Column(name = "nom")
     private String name;
 
+    @OneToMany(mappedBy = "marca")
+    private List<Article> articles;
+
 }
