@@ -10,6 +10,7 @@ public @Data class Article {
     @GeneratedValue
     @Column(name = "id_article")
     private int id;
+
     @Column(name = "nom")
     private String nom;
 
@@ -21,4 +22,12 @@ public @Data class Article {
 
     @Column(name = "pes")
     private double pes;
+
+    @ManyToOne
+    @JoinColumn(name = "id_propietats")
+    private Propietats propietats;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_marca")
+    private Marca marca;
 }

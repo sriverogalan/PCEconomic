@@ -23,9 +23,8 @@ public @Data class Carrito {
     @Column(name = "preu")
     private double price;
 
-    @OneToMany
-    @JoinTable(name = "articles-carrito", joinColumns = @JoinColumn(name = "id_article"), inverseJoinColumns = @JoinColumn(name = "id_carrito") ) // Como hacer mas de un JoinColumn?
-    //
-    private List<Article> articles;
+    @ManyToOne
+    @JoinColumn(name = "article_id")
+    private Article article;
 
 }

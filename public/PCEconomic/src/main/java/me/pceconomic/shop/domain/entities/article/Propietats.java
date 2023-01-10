@@ -23,8 +23,4 @@ public @Data class Propietats {
     @JoinColumn(name = "id_stock")
     private Stock stock;
 
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
-
 }
