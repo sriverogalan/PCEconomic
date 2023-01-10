@@ -2,14 +2,17 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.Article;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "ofertes")
+@EqualsAndHashCode(exclude = {"articles"})
 public @Data class Oferta {
 
     @Id
@@ -42,5 +45,5 @@ public @Data class Oferta {
 
     @ManyToMany
     @JoinColumn(name = "id_article")
-    private List<Article> article;
+    private Set<Article> articles;
 }

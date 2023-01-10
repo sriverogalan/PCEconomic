@@ -2,11 +2,14 @@ package me.pceconomic.shop.domain.entities.persona.direction;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "provincies")
+@EqualsAndHashCode(exclude = {"ciutats"})
 public @Data class Provincia {
 
     @Id @GeneratedValue
@@ -18,6 +21,6 @@ public @Data class Provincia {
 
     @OneToMany
     @JoinColumn(name = "id_ciutat")
-    private List<Ciutat> ciutats;
+    private Set<Ciutat> ciutats;
 
 }

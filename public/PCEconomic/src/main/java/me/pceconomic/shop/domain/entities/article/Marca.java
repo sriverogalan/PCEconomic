@@ -2,12 +2,15 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "marques")
+@EqualsAndHashCode(exclude = "articles")
 public @Data class Marca {
 
     @Id @GeneratedValue
@@ -21,6 +24,6 @@ public @Data class Marca {
     private String name;
 
     @OneToMany(mappedBy = "marca")
-    private List<Article> articles;
+    private Set<Article> articles;
 
 }
