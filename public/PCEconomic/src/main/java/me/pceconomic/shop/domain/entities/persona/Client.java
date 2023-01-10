@@ -29,8 +29,11 @@ public @Data class Client {
     @JoinColumn(name = "id_persona")
     private Persona persona;
 
+    @OneToOne
+    @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito")
+    private Carrito carrito;
+
     @OneToMany
-    @JoinColumn(name = "id_article")
-    private List<Article> article;
+    private List<Factura> factures;
 
 }

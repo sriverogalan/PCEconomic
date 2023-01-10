@@ -2,6 +2,8 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.persona.Administrador;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -33,8 +35,10 @@ public @Data class Factura {
     @Column(name = "estat") @Enumerated(EnumType.STRING)
     private EstatFactura estatFactura;
 
-    @OneToMany
-    @JoinColumn(name = "id_article")
-    private List<Article> articles;
+    @ManyToOne
+    private Client client;
+
+    @ManyToOne
+    private Administrador administrador;
 
 }
