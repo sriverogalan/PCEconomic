@@ -1,7 +1,8 @@
-package me.pceconomic.shop.domain.entities.article;
+package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Preu;
 
 @Entity
 @Table(name = "propietats")
