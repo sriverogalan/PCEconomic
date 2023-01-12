@@ -39,9 +39,9 @@ public class FrontController {
         Set<Imatge> imatges1 = new HashSet<>();
         Set<Imatge> imatges2 = new HashSet<>();
         Set<Imatge> imatges3 = new HashSet<>();
-        imatges1.add(new Imatge("/src/1.jpg"));
-        imatges2.add(new Imatge("/src/2.jpg"));
-        imatges3.add(new Imatge("/src/3.jpg"));
+        imatges1.add(new Imatge("/img/products/0/0.jpg"));
+        imatges2.add(new Imatge("/img/products/1/1.jpg"));
+        imatges3.add(new Imatge("/img/products/2/2.jpg"));
 
         Marca marca1 = new Marca("12345678A", "Marca 1", null);
         Marca marca2 = new Marca("87654321B", "Marca 2", null);
