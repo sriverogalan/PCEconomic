@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-public @Data class LineasFactura {
+@Table(name = "imatges")
+public @Data class Imatge {
+
     @Id
     @GeneratedValue
-    @Column(name = "id_lineaFactura")
+    @Column(name = "id_imatge")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_factura")
-    private Factura factura;
-
+    @Column(name = "path")
+    private String path;
 }

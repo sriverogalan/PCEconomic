@@ -2,10 +2,14 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "articles")
+@EqualsAndHashCode(exclude = {"propietats"})
 public @Data class Article {
     @Id
     @GeneratedValue
@@ -26,4 +30,14 @@ public @Data class Article {
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
+
+    @OneToMany
+    @JoinColumn(name = "id_imatge")
+    private Set<Imatge> imatges;
+
+    @ManyToMany
+    @JoinTable(name = "articles_propietats",
+            joinColumns = @JoinColumn(name = "id_article"),
+            inverseJoinColumns = @JoinColumn(name = "id_propietats"))
+    private Set<Propietats> propietats;
 }

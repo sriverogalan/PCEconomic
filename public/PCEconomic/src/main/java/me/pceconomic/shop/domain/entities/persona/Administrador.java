@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Factura;
+import me.pceconomic.shop.domain.entities.article.factura.Factura;
 
 import java.util.Set;
 
@@ -13,7 +13,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"articles", "factures"})
 public @Data class Administrador {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_administrador")
     private int id;
 

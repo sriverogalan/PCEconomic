@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "tags")
 public class Tag {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_tag")
     private int id;
 

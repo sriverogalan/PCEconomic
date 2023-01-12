@@ -14,23 +14,23 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"valores"})
 public @Data class Idioma {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_idioma")
     private int id;
 
     @Column(name = "nom")
     private String name;
 
-    @OneToMany(mappedBy="idioma", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "idioma", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ValorIdioma> valores;
 
-    @OneToMany(mappedBy="idioma", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "idioma", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Estatic> estatics;
 
     @ManyToMany
     @JoinTable(name = "idioma_articles",
-        joinColumns = @JoinColumn(name = "id_idioma"),
-        inverseJoinColumns = @JoinColumn(name = "id_article"))
+            joinColumns = @JoinColumn(name = "id_idioma"),
+            inverseJoinColumns = @JoinColumn(name = "id_article"))
     private Set<Article> articles;
 
     @ManyToMany

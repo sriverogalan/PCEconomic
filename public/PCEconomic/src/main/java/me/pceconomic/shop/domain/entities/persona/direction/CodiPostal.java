@@ -8,7 +8,8 @@ import lombok.Data;
 @Table(name = "codis_postals")
 public @Data class CodiPostal {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_codipostal")
     private int id;
 

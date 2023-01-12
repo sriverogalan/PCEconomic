@@ -11,7 +11,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "articles")
 public @Data class Marca {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_marca")
     private int id;
 
