@@ -11,7 +11,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "countries")
 public @Data class Direccio {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_direccio")
     private int id;
 

@@ -9,7 +9,7 @@ import lombok.Data;
 public @Data class CodiPostal {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_codipostal")
     private int id;
 

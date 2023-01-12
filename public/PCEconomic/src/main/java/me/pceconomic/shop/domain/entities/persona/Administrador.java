@@ -14,7 +14,7 @@ import java.util.Set;
 public @Data class Administrador {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_administrador")
     private int id;
 

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Entity
 public @Data class Factura {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura")
     private int id;
 
