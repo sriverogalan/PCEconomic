@@ -16,15 +16,11 @@ public @Data class Propietats {
     @JoinColumn(name = "id_valor")
     private Valor valor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_preu")
-    private Preu preus;
+    @Column(name = "preu")
+    private int preu;
 
     @ManyToOne
     @JoinColumn(name = "id_stock")
     private Stock stock;
 
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
 }
