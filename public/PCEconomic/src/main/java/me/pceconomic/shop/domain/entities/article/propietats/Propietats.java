@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Article;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "propietats")
 public @Data class Propietats {
@@ -16,11 +18,11 @@ public @Data class Propietats {
     @JoinColumn(name = "id_valor")
     private Valor valor;
 
-    @Column(name = "preu")
-    private int preu;
-
     @ManyToOne
     @JoinColumn(name = "id_stock")
     private Stock stock;
+
+    @OneToMany(mappedBy = "propietats")
+    private Set<ArticlePropietat> articlePropietats;
 
 }
