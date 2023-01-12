@@ -30,7 +30,6 @@ public class FrontController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("articles", articleRepository.findAll());
         return "index";
     }
