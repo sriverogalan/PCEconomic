@@ -15,10 +15,10 @@ task("watch", async function () {
   watch("./scss/**/*.scss", { usePolling: true }, series(compileSASS));
 });
 
-function copyjs() {
+function jscopy() {
   return src("./node_modules/bootstrap/dist/js/*.js").pipe(dest("./js"));
 }
 
-exports.jscopy = copyjs;
-exports.compile = compileSASS;
-exports.default = compileSASS;
+exports.jscopy = jscopy;
+exports.compileSASS = compileSASS;
+exports.default = series(compileSASS, jscopy);
