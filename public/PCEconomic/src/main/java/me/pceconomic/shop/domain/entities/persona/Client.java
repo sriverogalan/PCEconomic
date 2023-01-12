@@ -13,7 +13,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "factures")
 public @Data class Client {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_client")
     private int id;
 

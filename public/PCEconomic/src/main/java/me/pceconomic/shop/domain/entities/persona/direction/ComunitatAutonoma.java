@@ -11,7 +11,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"provincies"})
 public @Data class ComunitatAutonoma {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_comunitat_autonoma")
     private int id;
 

@@ -13,7 +13,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"articles", "factures"})
 public @Data class Administrador {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_administrador")
     private int id;
 

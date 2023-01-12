@@ -10,7 +10,8 @@ import java.util.Set;
 @Table(name = "direccions")
 @EqualsAndHashCode(exclude = "countries")
 public @Data class Direccio {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_direccio")
     private int id;
 

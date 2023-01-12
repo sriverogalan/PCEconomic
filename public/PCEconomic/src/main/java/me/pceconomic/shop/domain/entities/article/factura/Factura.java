@@ -10,7 +10,8 @@ import java.time.LocalDate;
 
 @Entity
 public @Data class Factura {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_factura")
     private int id;
 
@@ -24,13 +25,15 @@ public @Data class Factura {
     private int quantity;
 
 
-    @Column(name = "data") @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "data")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
 
     @Column(name = "preuTransport")
     private double preuTransport;
 
-    @Column(name = "estat") @Enumerated(EnumType.STRING)
+    @Column(name = "estat")
+    @Enumerated(EnumType.STRING)
     private EstatFactura estatFactura;
 
     @ManyToOne

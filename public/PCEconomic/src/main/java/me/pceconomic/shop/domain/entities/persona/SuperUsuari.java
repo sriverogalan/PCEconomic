@@ -7,7 +7,8 @@ import lombok.Data;
 @Table(name = "superusuaris")
 public @Data class SuperUsuari {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_superusuari")
     private int id;
 

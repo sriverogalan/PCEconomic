@@ -11,7 +11,8 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = "propietats")
 public @Data class Propietat {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "id_propietat")
     private int id;
 
