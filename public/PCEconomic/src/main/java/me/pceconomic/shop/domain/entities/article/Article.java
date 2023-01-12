@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "articles")
 public @Data class Article {
@@ -26,4 +28,8 @@ public @Data class Article {
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
+
+    @OneToMany
+    @JoinColumn(name = "id_imatge")
+    private Set<Imatge> imatges;
 }

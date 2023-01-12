@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.entities.article;
+package me.pceconomic.shop.domain.entities.article.factura;
 
 import jakarta.persistence.*;
 import lombok.Data;
