@@ -8,7 +8,8 @@ import me.pceconomic.shop.domain.entities.article.Article;
 @Table(name = "article_propietats")
 public class ArticlePropietat {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_article_propietat")
     private int id;
 

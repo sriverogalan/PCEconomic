@@ -8,7 +8,7 @@ import lombok.Data;
 public @Data class Stock {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_stock")
     private int id;
 
