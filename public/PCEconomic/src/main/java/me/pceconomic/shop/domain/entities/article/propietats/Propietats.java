@@ -2,7 +2,6 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.util.Set;
 
@@ -10,7 +9,7 @@ import java.util.Set;
 @Table(name = "propietats")
 public @Data class Propietats {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_propietats")
     private int id;
 
