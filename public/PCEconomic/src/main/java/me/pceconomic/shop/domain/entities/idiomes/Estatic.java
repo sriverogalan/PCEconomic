@@ -7,13 +7,13 @@ import lombok.Data;
 public @Data class Estatic {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "ruta")
     private String ruta;
 
     @ManyToOne
-    @JoinColumn(name="id_idioma")
+    @JoinColumn(name = "id_idioma")
     private Idioma idioma;
 }

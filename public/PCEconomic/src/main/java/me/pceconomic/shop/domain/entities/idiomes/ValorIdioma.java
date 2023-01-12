@@ -6,15 +6,15 @@ import lombok.Data;
 @Entity
 public @Data class ValorIdioma {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_valor")
     private int id;
 
     @ManyToOne
-    @JoinColumn(name="idioma_id")
+    @JoinColumn(name = "idioma_id")
     private Idioma idioma;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="id_clau")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_clau")
     private Clau clau;
 }

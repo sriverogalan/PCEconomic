@@ -9,7 +9,8 @@ import jakarta.persistence.Table;
 @Table(name = "preus")
 public class Preu {
 
-    @Id @Column(name = "id_preu")
+    @Id
+    @Column(name = "id_preu")
     private int id;
 
     @Column(name = "preu")
