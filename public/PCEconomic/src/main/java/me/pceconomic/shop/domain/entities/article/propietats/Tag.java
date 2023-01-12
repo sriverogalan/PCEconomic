@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Tag {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tag")
     private int id;
 
