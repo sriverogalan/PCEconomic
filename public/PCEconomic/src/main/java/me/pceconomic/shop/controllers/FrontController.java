@@ -78,8 +78,6 @@ public class FrontController {
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
-
-
         return "index";
     }
 

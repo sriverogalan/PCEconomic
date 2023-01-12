@@ -8,7 +8,7 @@ import lombok.Data;
 public @Data class Valor {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_valor")
     private int id;
 
