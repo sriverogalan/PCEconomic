@@ -13,7 +13,7 @@ import java.util.Set;
 public @Data class Persona {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_persona")
     private int id;
 

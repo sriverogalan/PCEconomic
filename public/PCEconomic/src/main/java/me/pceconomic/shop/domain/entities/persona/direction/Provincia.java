@@ -12,7 +12,7 @@ import java.util.Set;
 public @Data class Provincia {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_provincia")
     private int id;
 

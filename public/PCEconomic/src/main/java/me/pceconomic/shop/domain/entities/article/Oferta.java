@@ -14,7 +14,7 @@ import java.util.Set;
 public @Data class Oferta {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_oferta")
     private int id;
 

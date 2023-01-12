@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.propietats.ArticlePropietat;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 import java.util.Set;
 
@@ -13,7 +12,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"propietats"})
 public @Data class Article {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_article")
     private int id;
 
@@ -32,10 +31,10 @@ public @Data class Article {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_imatge")
     private Set<Imatge> imatges;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private Set<ArticlePropietat> propietats;
 }
