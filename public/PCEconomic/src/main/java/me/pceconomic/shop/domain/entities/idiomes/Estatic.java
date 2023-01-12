@@ -13,5 +13,7 @@ public @Data class Estatic {
     @Column(name = "ruta")
     private String ruta;
 
-
+    @ManyToOne
+    @JoinColumn(name="id_idioma")
+    private Idioma idioma;
 }

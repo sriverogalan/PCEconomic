@@ -9,7 +9,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 public @Data class Propietats {
     @Id
     @GeneratedValue
-    @Column(name = "id_propietat")
+    @Column(name = "id_propietats")
     private int id;
 
     @ManyToOne
