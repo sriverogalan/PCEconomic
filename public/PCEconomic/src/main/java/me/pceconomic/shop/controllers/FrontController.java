@@ -5,7 +5,6 @@ import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.repositories.ArticleRepository;
 import me.pceconomic.shop.repositories.CategoriaRepository;
-import me.pceconomic.shop.repositories.ImatgeRepository;
 import me.pceconomic.shop.repositories.MarcaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,12 @@ public class FrontController {
 
     private final CategoriaRepository categoriaRepository;
     private final ArticleRepository articleRepository;
-    private final ImatgeRepository imatgeRepository;
     private final MarcaRepository marcaRepository;
 
     @Autowired
-    public FrontController(CategoriaRepository categoriaRepository, ArticleRepository articleRepository, ImatgeRepository imatgeRepository, MarcaRepository marcaRepository) {
+    public FrontController(CategoriaRepository categoriaRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
-        this.imatgeRepository = imatgeRepository;
         this.marcaRepository = marcaRepository;
     }
 
