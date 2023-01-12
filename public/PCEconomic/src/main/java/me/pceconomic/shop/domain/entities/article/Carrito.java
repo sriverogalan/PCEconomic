@@ -11,7 +11,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"articles"})
 public @Data class Carrito {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_carrito")
     private int id;
 

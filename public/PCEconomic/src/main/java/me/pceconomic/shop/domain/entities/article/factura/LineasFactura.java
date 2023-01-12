@@ -6,7 +6,7 @@ import lombok.Data;
 @Entity
 public @Data class LineasFactura {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_lineaFactura")
     private int id;
 

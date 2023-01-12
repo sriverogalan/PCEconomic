@@ -8,7 +8,7 @@ import lombok.Data;
 public @Data class SuperUsuari {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_superusuari")
     private int id;
 

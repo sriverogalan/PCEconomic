@@ -12,7 +12,7 @@ import java.util.Set;
 public @Data class Pais {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pais")
     private int id;
 
