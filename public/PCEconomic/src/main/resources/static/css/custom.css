@@ -1,4 +1,14 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap");
+* {
+  font-family: "Oswald", sans-serif;
+}
+
+.slider-principal {
+  height: 25vh;
+  width: 100%;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
