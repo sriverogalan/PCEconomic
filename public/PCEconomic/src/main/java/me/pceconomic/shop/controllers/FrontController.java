@@ -1,6 +1,7 @@
 package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.repositories.ArticleRepository;
@@ -54,6 +55,19 @@ public class FrontController {
         marcaRepository.save(marca2);
         marcaRepository.save(marca3);
 
+        Categoria categoria1 = new Categoria();
+        categoria1.setName("Categoria 1");
+        categoria1.setArticles(new HashSet<>());
+        categoria1.setChildren(new HashSet<>());
+
+        Categoria categoria2 = new Categoria();
+        categoria2.setName("Categoria 2");
+        categoria2.setArticles(new HashSet<>());
+        categoria2.setChildren(new HashSet<>());
+
+        categoriaRepository.save(categoria1);
+        categoriaRepository.save(categoria2);
+
         Article article = new Article();
         article.setPes(10);
         article.setNom("Producte 1");
@@ -81,6 +95,13 @@ public class FrontController {
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
+
+        categoria1.getArticles().add(article);
+        categoria2.getArticles().add(article1);
+        categoria2.getArticles().add(article2);
+
+        categoriaRepository.save(categoria1);
+        categoriaRepository.save(categoria2);
 
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
