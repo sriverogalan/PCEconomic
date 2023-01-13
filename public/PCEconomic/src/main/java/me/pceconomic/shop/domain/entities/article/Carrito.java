@@ -8,7 +8,7 @@ import me.pceconomic.shop.domain.entities.article.propietats.ArticlePropietat;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(exclude = {"articles"})
+@EqualsAndHashCode(exclude = {"articlePropietats"})
 public @Data class Carrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
