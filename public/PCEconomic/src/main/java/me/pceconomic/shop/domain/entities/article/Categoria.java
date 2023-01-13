@@ -26,7 +26,7 @@ public @Data class Categoria {
     @OneToMany(mappedBy = "parent")
     private Set<Categoria> children;
 
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article articles;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_categoria")
+    private Set<Article> articles;
 }
