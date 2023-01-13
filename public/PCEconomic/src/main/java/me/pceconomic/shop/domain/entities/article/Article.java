@@ -37,8 +37,9 @@ public @Data class Article {
     @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
 
-    @Column(name = "id_categoria")
-    private int idCategoria;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_categoria")
+    private Set<Categoria> categories;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private Set<ArticlePropietat> propietats;
