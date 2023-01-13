@@ -24,6 +24,9 @@ public @Data class Marca {
     @Column(name = "nom")
     private String name;
 
+    @Column(name = "web")
+    private String web;
+
     @OneToMany(mappedBy = "marca")
     private Set<Article> articles;
 
