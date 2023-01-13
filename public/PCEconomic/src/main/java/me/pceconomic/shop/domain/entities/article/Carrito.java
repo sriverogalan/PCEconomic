@@ -22,7 +22,7 @@ public @Data class Carrito {
     private double price;
 
     @OneToMany
-    @JoinColumn(name = "id_article_propietat")
+    @JoinColumn(name = "id_carrito")
     private Set<ArticlePropietat> articlePropietats;
 
 }

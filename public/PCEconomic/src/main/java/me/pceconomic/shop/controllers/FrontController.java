@@ -43,6 +43,8 @@ public class FrontController {
 
     @GetMapping("/crearproducte")
     public String createProducts() {
+        
+
         Set<Imatge> imatges1 = new HashSet<>();
         Set<Imatge> imatges2 = new HashSet<>();
         Set<Imatge> imatges3 = new HashSet<>();

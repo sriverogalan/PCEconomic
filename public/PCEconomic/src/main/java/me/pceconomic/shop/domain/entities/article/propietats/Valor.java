@@ -15,4 +15,7 @@ public @Data class Valor {
     @Column(name = "clau")
     private String clau;
 
+    @Column(name = "id_propietat")
+    private int idPropietat;
+
 }

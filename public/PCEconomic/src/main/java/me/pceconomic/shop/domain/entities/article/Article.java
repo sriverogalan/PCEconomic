@@ -32,7 +32,7 @@ public @Data class Article {
     private Marca marca;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_imatge")
+    @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
