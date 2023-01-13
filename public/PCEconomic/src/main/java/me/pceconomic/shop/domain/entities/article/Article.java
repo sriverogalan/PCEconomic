@@ -11,6 +11,7 @@ import java.util.Set;
 @Table(name = "articles")
 @EqualsAndHashCode(exclude = {"propietats"})
 public @Data class Article {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_article")
@@ -27,12 +28,13 @@ public @Data class Article {
 
     @Column(name = "pes")
     private double pes;
+
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_imatge")
+    @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)

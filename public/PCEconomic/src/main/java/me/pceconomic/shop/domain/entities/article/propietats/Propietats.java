@@ -17,6 +17,9 @@ public @Data class Propietats {
     @JoinColumn(name = "id_valor")
     private Valor valor;
 
+    @Column(name = "id_propietat")
+    private int idPropietats;
+
     @OneToMany(mappedBy = "propietats")
     private Set<ArticlePropietat> articlePropietats;
 

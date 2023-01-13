@@ -20,11 +20,11 @@ public @Data class Propietat {
     private String name;
 
     @OneToMany
-    @JoinColumn(name = "id_valor")
+    @JoinColumn(name = "id_propietat")
     private Set<Valor> valor;
 
     @OneToMany
-    @JoinColumn(name = "id_propietats")
+    @JoinColumn(name = "id_propietat")
     private Set<Propietats> propietats;
 
 }
