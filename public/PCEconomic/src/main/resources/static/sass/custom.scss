@@ -27,15 +27,34 @@
     color: #8a8a8a;
 }
 
-.img-card{
+.img-article{
+    width: 100%;
     height: 400px;
 }
+
+.logo{
+    width: 100%;
+    height: 50px;
+}
+
+.slider-principal{
+    height: 30vh;
+}
+
+$pc-economic-dark: #4c0bce;
+$pc-economic-light: #712cf9;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../../../../frontend/node_modules/bootstrap/scss/variables";
 
 // 4. Include any default map overrides here
-
+// Create your own map
+$custom-colors: (
+        "pc-economic-dark": #4c0bce, // orange
+        "pc-economic-light": #712cf9,
+);
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
 // 5. Include remainder of required parts
 @import "../../../../frontend/node_modules/bootstrap/scss/maps";
 @import "../../../../frontend/node_modules/bootstrap/scss/mixins";
