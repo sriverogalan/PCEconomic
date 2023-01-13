@@ -8,7 +8,6 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
-        <title>Document</title>
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     </head>
     <header th:fragment="navbar">
@@ -19,25 +18,15 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="#">Left</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="//codeply.com">Codeply</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
                     </ul>
                 </div>
                 <div class="mx-auto order-0">
-                    <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                    <div class="col-12">
+                        <a class="navbar-brand mx-auto col-xs-9" href="#">Aqui va el cercador</a>
+                        <button class="navbar-toggler col-xs-3" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                     <ul class="navbar-nav ms-auto">
@@ -73,3 +62,11 @@
             <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
         </ul>
     </footer>
+
+    <div th:fragment="jquery">
+        <script>
+            src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+            crossorigin="anonymous"
+        </script>
+    </div>
