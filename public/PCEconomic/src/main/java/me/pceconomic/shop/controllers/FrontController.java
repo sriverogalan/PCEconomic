@@ -39,7 +39,10 @@ public class FrontController {
 
     @GetMapping("/article/{id}")
     public String article(Model model, @PathVariable int id) {
-        model.addAttribute("article", articleRepository.findById(id).get());
+        Article article = articleRepository.findById(id).orElse(null);
+        if (article == null) return "404";
+
+        model.addAttribute("article", article);
         return "article";
     }
 
