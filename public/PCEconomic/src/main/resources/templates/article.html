@@ -5,13 +5,32 @@
 
     <header th:replace="layout/layout.html :: header"></header>
     <main>
-        <span th:each="foto : ${article.imatges}">
-            <img th:src="${foto.getPath()}" alt="...">
-        </span>
-        <p th:text="'Nom: ' + ${article.nom}"></p>
-        <p th:text="'Descripcio: ' + ${article.descripcio}"></p>
-        <p th:text="'Pes: ' + ${article.pes} + 'Kg'"></p>
-        <p th:text="'StockTotal: ' + ${article.stockTotal}"></p>
+        <div class="container d-flex flex-row">
+            <div>
+                 <span th:each="foto : ${article.imatges}">
+                    <img th:id="${foto.id}" style="height: 550px;" class="size-image-card" th:src="${foto.path}"
+                         alt="...">
+                </span>
+            </div>
+            <div class="d-flex flex-column">
+                <h1 th:text="${article.nom}"></h1>
+                <p th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "></p>
+                <label>Cantidad:
+                    <input type="number" min="1" th:max="${article.stockTotal}"/>
+                </label>
+                <div class="d-flex flex-row">
+                    <button>Me Gusta</button>
+                    <button>Añadir al Carrito</button>
+                    <button>Comprar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>Descripción</h2>
+            <p th:text="${article.descripcio}"></p>
+        </div>
+
     </main>
     <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
