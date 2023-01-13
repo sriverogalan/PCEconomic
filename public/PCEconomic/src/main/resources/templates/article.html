@@ -8,8 +8,7 @@
         <div class="container d-flex flex-row">
             <div>
                  <span th:each="foto : ${article.imatges}">
-                    <img th:id="${foto.id}" style="height: 550px;" class="size-image-card" th:src="${foto.path}"
-                         alt="...">
+                    <img th:id="${foto.id}" style="height: 550px;" class="size-image-card" th:src="${foto.path}" >
                 </span>
             </div>
             <div class="d-flex flex-column">

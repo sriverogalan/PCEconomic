@@ -90,11 +90,11 @@ public class FrontController {
 
         Imatge imatge2 = new Imatge();
         imatge2.setIdArticle(article.getId());
-        imatge2.setPath("/img/productes/2/1.jpg");
+        imatge2.setPath("/img/productes/2/2.jpg");
 
         Imatge imatge3 = new Imatge();
         imatge3.setIdArticle(article.getId());
-        imatge3.setPath("/img/productes/3/1.jpg");
+        imatge3.setPath("/img/productes/3/3.jpg");
 
         imatgeRepository.save(imatge);
         imatgeRepository.save(imatge2);
