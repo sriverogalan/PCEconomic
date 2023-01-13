@@ -17,10 +17,6 @@ public @Data class Propietats {
     @JoinColumn(name = "id_valor")
     private Valor valor;
 
-    @ManyToOne
-    @JoinColumn(name = "id_stock")
-    private Stock stock;
-
     @OneToMany(mappedBy = "propietats")
     private Set<ArticlePropietat> articlePropietats;
 
