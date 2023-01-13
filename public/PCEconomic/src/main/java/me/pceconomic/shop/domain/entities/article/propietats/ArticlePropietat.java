@@ -19,6 +19,9 @@ public class ArticlePropietat {
     @Column(name = "stock")
     private int stock;
 
+    @Column(name = "id_carrito")
+    private int idCarrito;
+
     @ManyToOne
     @JoinColumn(name = "id_article")
     private Article article;
