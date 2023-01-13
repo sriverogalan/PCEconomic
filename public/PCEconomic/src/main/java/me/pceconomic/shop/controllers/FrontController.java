@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -34,14 +35,20 @@ public class FrontController {
         return "index";
     }
 
+    @GetMapping("/article/{id}")
+    public String article(Model model, @PathVariable int id) {
+        model.addAttribute("article", articleRepository.findById(id).get());
+        return "article";
+    }
+
     @GetMapping("/crearproducte")
     public String createProducts() {
         Set<Imatge> imatges1 = new HashSet<>();
         Set<Imatge> imatges2 = new HashSet<>();
         Set<Imatge> imatges3 = new HashSet<>();
-        imatges1.add(new Imatge("/img/products/0/0.jpg"));
-        imatges2.add(new Imatge("/img/products/1/1.jpg"));
-        imatges3.add(new Imatge("/img/products/2/2.jpg"));
+        imatges1.add(new Imatge("/img/productes/1/1.jpg"));
+        imatges2.add(new Imatge("/img/productes/2/2.jpg"));
+        imatges3.add(new Imatge("/img/productes/3/3.jpg"));
 
         Marca marca1 = new Marca("12345678A", "Marca 1", null);
         Marca marca2 = new Marca("87654321B", "Marca 2", null);
@@ -78,7 +85,7 @@ public class FrontController {
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
-        return "index";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
