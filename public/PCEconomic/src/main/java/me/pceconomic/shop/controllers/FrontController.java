@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -32,6 +33,12 @@ public class FrontController {
     public String index(Model model) {
         model.addAttribute("articles", articleRepository.findAll());
         return "index";
+    }
+
+    @GetMapping("/article/{id}")
+    public String article(Model model, @PathVariable int id) {
+        model.addAttribute("article", articleRepository.findById(id).get());
+        return "article";
     }
 
     @GetMapping("/crearproducte")
@@ -78,7 +85,7 @@ public class FrontController {
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
-        return "index";
+        return "redirect:/";
     }
 
     @GetMapping("/register")

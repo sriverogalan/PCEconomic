@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout.html :: head"></head>
+<body>
+
+    <header th:replace="layout/layout.html :: header"></header>
+    <main>
+
+        <p th:text="${article.nom}"></p>
+
+    </main>
+    <footer th:replace="layout/layout.html :: footer"></footer>
+</body>
+</html>
