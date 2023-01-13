@@ -37,6 +37,13 @@
     height: 50px;
 }
 
+.slider-principal{
+    height: 30vh;
+}
+
+$pc-economic-dark: #4c0bce;
+$pc-economic-light: #712cf9;
+
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../../../../frontend/node_modules/bootstrap/scss/variables";
 
