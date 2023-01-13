@@ -45,8 +45,6 @@ public class FrontController {
 
     @GetMapping("/crearproducte")
     public String createProducts() {
-
-
         Marca marca1 = new Marca("12345678A", "Marca 1", null);
         Marca marca2 = new Marca("87654321B", "Marca 2", null);
         Marca marca3 = new Marca("12345678C", "Marca 3", null);
@@ -85,15 +83,15 @@ public class FrontController {
 
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
-        imatge.setPath("/img/productes/" + article.getId() + "/" + imatge.getId() + ".jpg");
+        imatge.setPath("/img/productes/1/1.jpg");
 
         Imatge imatge2 = new Imatge();
         imatge2.setIdArticle(article.getId());
-        imatge2.setPath("/img/productes/" + article.getId() + "/" + imatge.getId() + ".jpg");
+        imatge2.setPath("/img/productes/2/1.jpg");
 
         Imatge imatge3 = new Imatge();
         imatge3.setIdArticle(article.getId());
-        imatge3.setPath("/img/productes/" + article.getId() + "/" + imatge.getId() + ".jpg");
+        imatge3.setPath("/img/productes/3/1.jpg");
 
         imatgeRepository.save(imatge);
         imatgeRepository.save(imatge2);
