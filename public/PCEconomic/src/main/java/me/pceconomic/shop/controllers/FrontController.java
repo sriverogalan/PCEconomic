@@ -40,8 +40,6 @@ public class FrontController {
     @GetMapping("/article/{id}")
     public String article(Model model, @PathVariable int id) {
         Article article = articleRepository.findById(id).orElse(null);
-        if (article == null) return "404";
-
         model.addAttribute("article", article);
         return "article";
     }
@@ -108,11 +106,6 @@ public class FrontController {
         articleRepository.save(article1);
         articleRepository.save(article2);
         return "redirect:/";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
     }
 
 }
