@@ -1,6 +1,7 @@
 package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.repositories.ArticleRepository;
@@ -40,8 +41,6 @@ public class FrontController {
     @GetMapping("/article/{id}")
     public String article(Model model, @PathVariable int id) {
         Article article = articleRepository.findById(id).orElse(null);
-        if (article == null) return "404";
-
         model.addAttribute("article", article);
         return "article";
     }
@@ -55,6 +54,19 @@ public class FrontController {
         marcaRepository.save(marca1);
         marcaRepository.save(marca2);
         marcaRepository.save(marca3);
+
+        Categoria categoria1 = new Categoria();
+        categoria1.setName("Categoria 1");
+        categoria1.setArticles(new HashSet<>());
+        categoria1.setChildren(new HashSet<>());
+
+        Categoria categoria2 = new Categoria();
+        categoria2.setName("Categoria 2");
+        categoria2.setArticles(new HashSet<>());
+        categoria2.setChildren(new HashSet<>());
+
+        categoriaRepository.save(categoria1);
+        categoriaRepository.save(categoria2);
 
         Article article = new Article();
         article.setPes(10);
@@ -84,6 +96,13 @@ public class FrontController {
         articleRepository.save(article1);
         articleRepository.save(article2);
 
+        categoria1.getArticles().add(article);
+        categoria2.getArticles().add(article1);
+        categoria2.getArticles().add(article2);
+
+        categoriaRepository.save(categoria1);
+        categoriaRepository.save(categoria2);
+
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
         imatge.setPath("/img/productes/1/1.jpg");
@@ -108,11 +127,6 @@ public class FrontController {
         articleRepository.save(article1);
         articleRepository.save(article2);
         return "redirect:/";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
     }
 
 }
