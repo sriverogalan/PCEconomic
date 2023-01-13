@@ -7,24 +7,14 @@
             <section id="slider-principal">
                 <img th:src="@{/img/static/slider.webp}" class="slider-principal" alt="slider-principal">
             </section>
-            <section id="productes">
-                <div class="card" style="width: 18rem;" th:each="article : ${articles}">
-                    <img src="..." class="card-img-top" alt="...">
+            <section id="productes" class="row">
+                <div class="card col-4 " th:each="article : ${articles}">
+                    <img th:src="@{/img/productes/{id}/{id}.jpg(id=${article.id})}" class="size-card" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${producte.nom}"></h5>
-                        <a class="btn btn-primary" th:href="/productes/${producte.id}">Go somewhere</a>
+                        <h5 class="card-title" th:text="${article.nom}"></h5>
                     </div>
                 </div>
             </section>
-            <tr th:each="producto : ${productos}">
-                <td th:text="${producto.id}"></td>
-                <td th:text="${producto.nombre}"></td>
-                <td th:text="${producto.precio}"></td>
-                <td>
-                    <a th:href="@{/editar/{id}(id=${producto.id})}" class="btn btn-primary">Editar</a>
-                    <a th:href="@{/eliminar/{id}(id=${producto.id})}" class="btn btn-danger">Eliminar</a>
-                </td>
-            </tr>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>

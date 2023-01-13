@@ -5,8 +5,14 @@
 }
 
 .slider-principal {
-  height: 25vh;
+  margin-top: 50px;
+  height: 30vh;
   width: 100%;
+}
+
+.size-card {
+  height: 300px;
+  width: 250px;
 }
 
 :root {
