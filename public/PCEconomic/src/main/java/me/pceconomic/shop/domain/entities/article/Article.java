@@ -36,7 +36,7 @@ public @Data class Article {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
-
+    
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_categories",
