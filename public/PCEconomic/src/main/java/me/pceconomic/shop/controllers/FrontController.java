@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class FrontController {
@@ -57,16 +58,26 @@ public class FrontController {
 
         Categoria categoria1 = new Categoria();
         categoria1.setName("Categoria 1");
-        categoria1.setArticles(new HashSet<>());
-        categoria1.setChildren(new HashSet<>());
+        categoria1.setChildren(null);
 
         Categoria categoria2 = new Categoria();
         categoria2.setName("Categoria 2");
-        categoria2.setArticles(new HashSet<>());
-        categoria2.setChildren(new HashSet<>());
+        categoria2.setChildren(null);
 
+        Categoria categoria3 = new Categoria();
+        categoria3.setName("Categoria 3");
+        categoria3.setChildren(null);
+
+        Set<Categoria> categories1 = new HashSet<>();
+        categories1.add(categoria1);
+        Set<Categoria> categories2 = new HashSet<>();
+        categories2.add(categoria2);
+        Set<Categoria> categories3 = new HashSet<>();
+        categories3.add(categoria3);
+        
         categoriaRepository.save(categoria1);
         categoriaRepository.save(categoria2);
+        categoriaRepository.save(categoria3);
 
         Article article = new Article();
         article.setPes(10);
@@ -96,13 +107,6 @@ public class FrontController {
         articleRepository.save(article1);
         articleRepository.save(article2);
 
-        categoria1.getArticles().add(article);
-        categoria2.getArticles().add(article1);
-        categoria2.getArticles().add(article2);
-
-        categoriaRepository.save(categoria1);
-        categoriaRepository.save(categoria2);
-
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
         imatge.setPath("/img/productes/1/1.jpg");
@@ -122,6 +126,10 @@ public class FrontController {
         article.getImatges().add(imatge);
         article1.getImatges().add(imatge2);
         article2.getImatges().add(imatge3);
+
+        article.setCategories(categories1);
+        article1.setCategories(categories2);
+        article2.setCategories(categories3);
 
         articleRepository.save(article);
         articleRepository.save(article1);
