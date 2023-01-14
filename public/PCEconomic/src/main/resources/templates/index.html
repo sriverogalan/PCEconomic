@@ -13,7 +13,7 @@
                    th:each="article : ${articles}">
                     <div class="col-12">
                         <div th:if="${article.id}" class="col-12">
-                            <img th:attr="srcset=@{/img/productes/{id}/{id}.jpg(id=${article.id})}"
+                            <img th:attr="srcset=@{/img/productes/{id}/0.jpg(id=${article.id})}"
                                  class=" img-fluid  col-12">
                         </div>
                         <div class="card-body">
