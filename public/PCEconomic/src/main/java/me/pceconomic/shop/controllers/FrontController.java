@@ -45,6 +45,7 @@ public class FrontController {
         Article article = articleRepository.findById(id).orElse(null);
         if (article == null) return "error";
         model.addAttribute("article", article);
+        model.addAttribute("categories", categoriaRepository.findAll());
         return "article";
     }
 
@@ -121,15 +122,15 @@ public class FrontController {
 
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
-        imatge.setPath("/img/productes/1/1.jpg");
+        imatge.setPath("/img/productes/1/0.jpg");
 
         Imatge imatge2 = new Imatge();
         imatge2.setIdArticle(article.getId());
-        imatge2.setPath("/img/productes/2/1.jpg");
+        imatge2.setPath("/img/productes/2/0.jpg");
 
         Imatge imatge3 = new Imatge();
         imatge3.setIdArticle(article.getId());
-        imatge3.setPath("/img/productes/3/1.jpg");
+        imatge3.setPath("/img/productes/3/0.jpg");
 
         imatgeRepository.save(imatge);
         imatgeRepository.save(imatge2);
