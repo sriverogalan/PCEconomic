@@ -35,6 +35,7 @@ public class FrontController {
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("articles", articleRepository.findAll());
         return "index";
     }
@@ -42,8 +43,19 @@ public class FrontController {
     @GetMapping("/article/{id}")
     public String article(Model model, @PathVariable int id) {
         Article article = articleRepository.findById(id).orElse(null);
+        if (article == null) return "error";
         model.addAttribute("article", article);
         return "article";
+    }
+
+    @GetMapping("/categoria/{id}")
+    public String getCategories(Model model, @PathVariable int id) {
+        Categoria categoria = categoriaRepository.findById(id).orElse(null);
+        Set<Article> articles = articleRepository.findByCategories(categoria);
+        if (categoria == null || articles == null) return "error";
+        model.addAttribute("articles", articles);
+        model.addAttribute("categories", categoriaRepository.findAll());
+        return "categories";
     }
 
     @GetMapping("/crearproducte")
@@ -74,7 +86,7 @@ public class FrontController {
         categories2.add(categoria2);
         Set<Categoria> categories3 = new HashSet<>();
         categories3.add(categoria3);
-        
+
         categoriaRepository.save(categoria1);
         categoriaRepository.save(categoria2);
         categoriaRepository.save(categoria3);
