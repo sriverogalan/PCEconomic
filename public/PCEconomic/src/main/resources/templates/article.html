@@ -1,97 +1,72 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="layout/layout.html :: head"></head>
-  <body>
-    <header th:replace="layout/layout.html :: header"></header>
-    <main class="container">
-      <div class="col-12 row">
-        <div
-          id="carouselExampleIndicators"
-          class="carousel slide"
-          data-ride="carousel"
-        >
-          <ol class="carousel-indicators">
-            <li
-              data-target="#carouselExampleIndicators"
-              data-slide-to="0"
-              class="active"
-            ></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div th:each="foto : ${article.getImatges()}" class="carousel-item">
-              <img
-                th:id="${foto.getId()}"
-                class="d-block w-100"
-                th:src="${foto.path}"
-                alt="First slide"
-              />
+    <head th:replace="layout/layout.html :: head"></head>
+    <body>
+        <header th:replace="layout/layout.html :: header"></header>
+        <main class="container">
+            <div class="col-12 row">
+                <div class="col-6 justify-content-center">
+                    <div id="carouselExample" class="carousel slide h-250px">
+                        <div class="carousel-inner">
+                            <div th:each="foto : ${article.getImatges()}" class="carousel-item">
+                                <img th:id="${foto.getId()}" class="d-block w-100" th:src="${foto.path}" alt="img"/>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev text-dark" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next text-dark" type="button" data-bs-target="#carouselExample"
+                                data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column col-6">
+                    <h1 th:text="${article.nom}"></h1>
+                    <p
+                            th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "
+                    ></p>
+                    <label for="cant"> Cantidad: </label>
+                    <input
+                            id="cant"
+                            type="number"
+                            min="1"
+                            th:max="${article.stockTotal}"
+                    />
+                    <div class="d-flex flex-row">
+                        <button class="btn btn-pc-economic-light">Me Gusta</button>
+                        <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
+                        <button class="btn btn-pc-economic-dark">Comprar</button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <a
-            class="carousel-control-prev"
-            href="#carouselExampleIndicators"
-            role="button"
-            data-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a
-            class="carousel-control-next"
-            href="#carouselExampleIndicators"
-            role="button"
-            data-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
 
-        <div class="d-flex flex-column col-6">
-          <h1 th:text="${article.nom}"></h1>
-          <p
-            th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "
-          ></p>
-          <label for="cant"> Cantidad: </label>
-          <input
-            id="cant"
-            type="number"
-            min="1"
-            th:max="${article.stockTotal}"
-          />
-          <div class="d-flex flex-row">
-            <button class="btn btn-pc-economic-light">Me Gusta</button>
-            <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
-            <button class="btn btn-pc-economic-dark">Comprar</button>
-          </div>
-        </div>
-      </div>
-
-      <span th:each="prop : ${article.propietats}">
+            <span th:each="prop : ${article.propietats}">
         <p th:text="'Preu: ' + ${prop.preu}"></p>
         <p th:text="'Stock: ' + ${prop.stock}"></p>
         <p th:text=" + ${prop.propietats.valor.clau}"></p>
       </span>
 
-      <div>
-        <h2>Descripción</h2>
-        <p th:text="${article.descripcio}"></p>
-      </div>
-    </main>
-    <script
-      src="https://code.jquery.com/jquery-3.6.2.min.js"
-      integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
-      crossorigin="anonymous"
-    ></script>
+            <div>
+                <h2>Descripción</h2>
+                <p th:text="${article.descripcio}"></p>
+            </div>
+        </main>
+        <script
+                src="https://code.jquery.com/jquery-3.6.2.min.js"
+                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+                crossorigin="anonymous"
+        ></script>
 
-    <script>
-      $(document).ready(function () {
-        $(".carousel-item:first").addClass("active");
-      });
-    </script>
+        <script>
+            $(document).ready(function () {
+                $(".carousel-item:first").addClass("active");
+            });
+        </script>
 
-    <footer th:replace="layout/layout :: footer"></footer>
-  </body>
+        <footer th:replace="layout/layout :: footer"></footer>
+    </body>
 </html>
