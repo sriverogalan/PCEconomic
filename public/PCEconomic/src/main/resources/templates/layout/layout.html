@@ -10,47 +10,41 @@
         <link rel="stylesheet" th:href="@{/css/custom.css}"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/js/bootstrap.min.js}"></script>
-        <script th:src="@{/js/bootstrap.esm.min.js}"></script>
-        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
     </head>
     <header th:fragment="navbar">
-        <nav class="navbar navbar-expand-md navbar-pc-economic-light bg-pc-economic-light">
+        <nav class="navbar navbar-expand-md navbar-pc-economic-light bg-pc-economic-default">
             <div class="container-fluid">
-                <div class="navbar-collapse collapse order-1 col-3">
+                <div class="navbar-collapse collapse order-1 col-1">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" th:href="@{/}"><img class="logo col-12"
-                                                                    th:src="@{/img/static/logo-no-background.png}"></a>
+                            <a class="nav-link" href="/"><img class="col-12" src="/img/static/logo-no-background.png"></a>
                         </li>
                     </ul>
                 </div>
                 <!-- Cercador -->
-                <div class="mx-auto order-2 col-6">
+                <div class="mx-auto order-2 col-xs-8 col-7">
                     <div class="col-12">
                         <form class="d-flex">
-                            <!-- Categories Offcanvas -->
-                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas">
-                                Toggle static offcanvas
-                            </button>
-
                             <!-- Buscar -->
                             <input aria-label="Search" class="form-control me-2" placeholder="Buscar" type="search">
-                            <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
+                            <button class="btn btn-pc-economic-dark" type="submit"><i class="bi bi-search"></i></button>
                         </form>
                     </div>
                 </div>
-                <button class="navbar-toggler" data-bs-target=".dual-collapse2" data-bs-toggle="collapse"
-                        type="button">
+                <!-- Login + Carrito -->
+                <button class="navbar-toggler" data-bs-target=".dual-collapse2" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse order-3 col-3">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-pc-economic-dark mr-4" th:href="@{/}">Mi cuenta</a>
+                <div class="navbar-collapse collapse order-3 col">
+                    <ul class="navbar-nav col-12 justify-content-evenly">
+                        <li class="nav-item " style="">
+                            <a class="nav-link btn btn-pc-economic-dark " href="/">
+                                <i class="bi bi-person"></i>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn btn-pc-economic-dark" th:href="@{/}">
+                            <a class="nav-link btn btn-pc-economic-dark " href="/">
                                 <i class="bi bi-cart4"></i>
                             </a>
                         </li>
@@ -58,7 +52,20 @@
                 </div>
             </div>
         </nav>
+        <nav class="navbar navbar-expand-md bg-pc-economic-light">
+            <!-- Categories Offcanvas -->
+            <button class="nav-link btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Todas las categorias</button>
+        </nav>
 
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <p>Try scrolling the rest of the page to see this option in action.</p>
+            </div>
+        </div>
     </header>
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container"
             th:fragment="footer">
@@ -78,12 +85,5 @@
             src = "https://code.jquery.com/jquery-3.6.3.min.js"
             integrity = "sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
             crossorigin = "anonymous"
-        </script>
-        <script>
-            $(document).ready(function () {
-                $('.navbar-toggler').click(function(){
-                    $('#navbarNav').toggle();
-                });
-            });
         </script>
     </div>
