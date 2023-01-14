@@ -2,11 +2,12 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Article;
 
 @Entity
 @Table(name = "article_propietats")
-public class ArticlePropietat {
+public @Data class ArticlePropietat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

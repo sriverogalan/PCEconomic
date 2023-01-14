@@ -20,7 +20,8 @@ public @Data class Article {
     @Column(name = "nom")
     private String nom;
 
-    @Column(name = "descripcio")
+    @Lob // Large Object (BLOB)
+    @Column(name = "descripcio", columnDefinition = "LONGTEXT")
     private String descripcio;
 
     @Column(name = "stockTotal")
@@ -36,7 +37,7 @@ public @Data class Article {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
-    
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_categories",
