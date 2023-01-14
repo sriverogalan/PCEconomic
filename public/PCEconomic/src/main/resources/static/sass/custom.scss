@@ -4,58 +4,59 @@
 // 2. Include any default variable overrides here
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
 * {
-    font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 
-.size-card{
-    width: 250px;
-    height: 300px;
-    margin-left: auto;
-    margin-right: auto;
+.size-card {
+  width: 250px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.titolPrincipal{
-    font-size: 15px;
-    text-align: left;
-    color: #000000;
+.titolPrincipal {
+  font-size: 15px;
+  text-align: left;
+  color: #000000;
 }
 
-.titolSpan{
-    font-size: 15px;
-    text-align: left;
-    color: #8a8a8a;
+.titolSpan {
+  font-size: 15px;
+  text-align: left;
+  color: #8a8a8a;
 }
 
-.img-article{
-    width: 100%;
-    height: 400px;
+.img-article {
+  width: 100%;
+  height: 400px;
 }
 
-.logo{
-    width: 100%;
-    height: 50px;
+.logo {
+  width: 100%;
+  height: 50px;
 }
 
-.slider-principal{
-    height: 30vh;
+.slider-principal {
+  height: 30vh;
 }
 
 
-.ml-4{
-    margin-left: 15px;
+.ml-4 {
+  margin-left: 15px;
 }
 
 .mr-4 {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 
-.ml-auto{
-    margin-left: auto;
+.ml-auto {
+  margin-left: auto;
 }
 
-.mr-auto{
-    margin-right: auto;
+.mr-auto {
+  margin-right: auto;
 }
 
 
@@ -88,7 +89,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "../../../../frontend/node_modules/bootstrap/scss/containers";
 @import "../../../../frontend/node_modules/bootstrap/scss/grid";
 @import "../../../../frontend/node_modules/bootstrap/scss/helpers";
-@import "../../../../frontend/node_modules/bootstrap/scss/navbar";
 @import "../../../../frontend/node_modules/bootstrap/scss/dropdown";
 @import "../../../../frontend/node_modules/bootstrap/scss/buttons";
 @import "../../../../frontend/node_modules/bootstrap/scss/nav";
