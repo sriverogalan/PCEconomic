@@ -36,9 +36,13 @@ public @Data class Article {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_categoria")
+    
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "articles_categories",
+            joinColumns = @JoinColumn(name = "id_article"),
+            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+    )
     private Set<Categoria> categories;
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)

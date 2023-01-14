@@ -2,13 +2,11 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "categories")
-@EqualsAndHashCode(exclude = "articles")
 public @Data class Categoria {
 
     @Id
@@ -26,6 +24,4 @@ public @Data class Categoria {
     @OneToMany(mappedBy = "parent")
     private Set<Categoria> children;
 
-    @Column(name = "id_article")
-    private int idArticle;
 }
