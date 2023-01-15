@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "propietat")
-@EqualsAndHashCode(exclude = "propietats")
+@EqualsAndHashCode(exclude = "valors")
 public @Data class Propietat {
 
     @Id
