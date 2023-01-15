@@ -32,5 +32,5 @@ public @Data class ArticlePropietat {
 
     @OneToMany
     @JoinColumn(name = "id_propietats")
-    private Set<Propietat> propietats;
+    private Set<Propietats> propietats;
 }
