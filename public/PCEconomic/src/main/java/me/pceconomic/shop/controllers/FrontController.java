@@ -4,10 +4,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
-import me.pceconomic.shop.repositories.ArticleRepository;
-import me.pceconomic.shop.repositories.CategoriaRepository;
-import me.pceconomic.shop.repositories.ImatgeRepository;
-import me.pceconomic.shop.repositories.MarcaRepository;
+import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,19 +21,21 @@ public class FrontController {
     private final ArticleRepository articleRepository;
     private final MarcaRepository marcaRepository;
     private final ImatgeRepository imatgeRepository;
+    private final ArticlePropietatRepository articlePropietatRepository;
 
     @Autowired
-    public FrontController(CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
+    public FrontController(ArticlePropietatRepository articlePropietatRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.marcaRepository = marcaRepository;
         this.imatgeRepository = imatgeRepository;
+        this.articlePropietatRepository = articlePropietatRepository;
     }
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("categories", categoriaRepository.findAll());
-        model.addAttribute("articles", articleRepository.findAll());
+        model.addAttribute("articles", articlePropietatRepository.findAll());
         return "index";
     }
 
