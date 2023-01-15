@@ -15,7 +15,8 @@ public @Data class Valor {
     @Column(name = "clau")
     private String clau;
 
-    @Column(name = "id_propietat")
-    private int idPropietat;
-
+    @ManyToOne
+    @JoinColumn(name = "id_propietat")
+    private Propietat propietat;
 }
+
