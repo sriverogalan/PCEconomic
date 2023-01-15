@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout.html :: head"></head>
     <body>
-        ERROR 404
+        <header th:replace="layout/layout.html :: header"></header>
+        <main class="container text-center">
+            <h1>ERROR 404</h1>
+            <p>La página que buscas no existe</p>
+        </main>
+        <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
+    <script th:replace="layout/layout.html :: jquery"></script>
+
+    <script>
+    </script>
 </html>
