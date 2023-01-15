@@ -51,6 +51,12 @@
           <p
             th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "
           ></p>
+
+
+            <label for="propietat"> Propietats: </label>
+            <select th:each="prop : ${article.propietats}" id="propietat">
+                <option th:text="${prop.propietats.valor.propietat.name} + ': ' +  ${prop.propietats.valor.clau} + ' - Preu: ' + ${prop.preu} +   '- Stock:'  + ${prop.stock} " th:value="${prop.propietats.valor.propietat.id}"></option>
+            </select>
           <label for="cant"> Cantidad: </label>
           <input
             id="cant"
@@ -66,13 +72,6 @@
         </div>
       </div>
 
-      <span th:each="prop : ${article.propietats}">
-        <p th:text="'Preu: ' + ${prop.preu}"></p>
-        <p th:text="'Stock: ' + ${prop.stock}"></p>
-        <p
-          th:text="${prop.propietats.valor.propietat.name} + ': ' +  ${prop.propietats.valor.clau}"
-        ></p>
-      </span>
 
       <div>
         <h2>Descripción</h2>
