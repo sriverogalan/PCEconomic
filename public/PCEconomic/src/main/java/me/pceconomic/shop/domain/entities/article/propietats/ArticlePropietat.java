@@ -8,6 +8,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import java.util.Set;
 
 @Entity
+@Embeddable
 @Table(name = "article_propietats")
 public @Data class ArticlePropietat {
 
@@ -30,6 +31,6 @@ public @Data class ArticlePropietat {
     private Article article;
 
     @OneToMany
-    @JoinColumn(name = "id_propietat")
+    @JoinColumn(name = "id_propietats")
     private Set<Propietat> propietats;
 }
