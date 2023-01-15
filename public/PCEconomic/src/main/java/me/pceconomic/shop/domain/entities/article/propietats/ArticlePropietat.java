@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Article;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "article_propietats")
 public @Data class ArticlePropietat {
@@ -27,7 +29,7 @@ public @Data class ArticlePropietat {
     @JoinColumn(name = "id_article")
     private Article article;
 
-    @ManyToOne
-    @JoinColumn(name = "id_propietats")
-    private Propietats propietats;
+    @OneToMany
+    @JoinColumn(name = "id_propietat")
+    private Set<Propietat> propietats;
 }

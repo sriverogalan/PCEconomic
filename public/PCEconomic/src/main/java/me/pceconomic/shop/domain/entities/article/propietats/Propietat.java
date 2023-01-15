@@ -18,8 +18,7 @@ public @Data class Propietat {
 
     @Column(name = "nom")
     private String name;
-    @OneToMany
-    @JoinColumn(name = "id_propietat")
-    private Set<Propietats> propietats;
 
+    @OneToMany(mappedBy = "propietat", cascade = CascadeType.ALL)
+    private Set<Valor> valors;
 }
