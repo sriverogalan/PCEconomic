@@ -64,10 +64,12 @@ public class FrontController {
         Marca marca1 = new Marca("12345678A", "Marca 1", null);
         Marca marca2 = new Marca("87654321B", "Marca 2", null);
         Marca marca3 = new Marca("12345678C", "Marca 3", null);
+        Marca marca4 = new Marca("87654321D", "Marca 4", null);
 
         marcaRepository.save(marca1);
         marcaRepository.save(marca2);
         marcaRepository.save(marca3);
+        marcaRepository.save(marca4);
 
         Categoria categoria1 = new Categoria();
         categoria1.setName("Categoria 1");
@@ -81,16 +83,23 @@ public class FrontController {
         categoria3.setName("Categoria 3");
         categoria3.setChildren(null);
 
+        Categoria categoria4 = new Categoria();
+        categoria4.setName("Categoria 4");
+        categoria4.setChildren(null);
+
         Set<Categoria> categories1 = new HashSet<>();
         categories1.add(categoria1);
         Set<Categoria> categories2 = new HashSet<>();
         categories2.add(categoria2);
         Set<Categoria> categories3 = new HashSet<>();
         categories3.add(categoria3);
+        Set<Categoria> categories4 = new HashSet<>();
+        categories4.add(categoria4);
 
         categoriaRepository.save(categoria1);
         categoriaRepository.save(categoria2);
         categoriaRepository.save(categoria3);
+        categoriaRepository.save(categoria4);
 
         Article article = new Article();
         article.setPes(10);
@@ -116,6 +125,14 @@ public class FrontController {
         article2.setMarca(marca3);
         article2.setImatges(new HashSet<>());
 
+        Article article3 = new Article();
+        article3.setPes(10);
+        article3.setNom("Producte 4");
+        article3.setDescripcio("Descripció del producte 4");
+        article3.setStockTotal(40);
+        article3.setMarca(marca4);
+        article3.setImatges(new HashSet<>());
+
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
@@ -123,6 +140,10 @@ public class FrontController {
         Imatge imatge = new Imatge();
         imatge.setIdArticle(article.getId());
         imatge.setPath("/img/productes/1/0.jpg");
+
+        Imatge imatge1 = new Imatge();
+        imatge1.setIdArticle(article1.getId());
+        imatge1.setPath("/img/productes/1/1.jpg");
 
         Imatge imatge2 = new Imatge();
         imatge2.setIdArticle(article.getId());
@@ -132,21 +153,32 @@ public class FrontController {
         imatge3.setIdArticle(article.getId());
         imatge3.setPath("/img/productes/3/0.jpg");
 
+        Imatge imatge4 = new Imatge();
+        imatge4.setIdArticle(article.getId());
+        imatge4.setPath("/img/productes/4/0.jpg");
+
         imatgeRepository.save(imatge);
+        imatgeRepository.save(imatge1);
         imatgeRepository.save(imatge2);
         imatgeRepository.save(imatge3);
+        imatgeRepository.save(imatge4);
 
         article.getImatges().add(imatge);
+        article.getImatges().add(imatge1);
         article1.getImatges().add(imatge2);
         article2.getImatges().add(imatge3);
+        article3.getImatges().add(imatge4);
 
         article.setCategories(categories1);
+        article1.setCategories(categories1);
         article1.setCategories(categories2);
         article2.setCategories(categories3);
+        article3.setCategories(categories4);
 
         articleRepository.save(article);
         articleRepository.save(article1);
         articleRepository.save(article2);
+        articleRepository.save(article3);
         return "redirect:/";
     }
 

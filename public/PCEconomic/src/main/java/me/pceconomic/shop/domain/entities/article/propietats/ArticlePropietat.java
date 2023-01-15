@@ -30,5 +30,4 @@ public @Data class ArticlePropietat {
     @ManyToOne
     @JoinColumn(name = "id_propietats")
     private Propietats propietats;
-
 }

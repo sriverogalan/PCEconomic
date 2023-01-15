@@ -18,11 +18,6 @@ public @Data class Propietat {
 
     @Column(name = "nom")
     private String name;
-
-    @OneToMany
-    @JoinColumn(name = "id_propietat")
-    private Set<Valor> valor;
-
     @OneToMany
     @JoinColumn(name = "id_propietat")
     private Set<Propietats> propietats;
