@@ -21,5 +21,4 @@ public @Data class Propietat {
     @JoinColumn(name = "id_propietat")
     private Set<Valor> valor;
 
-
 }
