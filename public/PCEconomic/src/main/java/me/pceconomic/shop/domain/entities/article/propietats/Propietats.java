@@ -18,6 +18,10 @@ public @Data class Propietats {
     @JoinColumn(name = "id_article")
     private Article article;
 
+    @ManyToOne
+    @JoinColumn(name = "id_propietat")
+    private Propietat propietat;
+
     @OneToMany
     @JoinColumn(name = "id_propietats_valor")
     private Set<PropietatsValor> propietatsValor;

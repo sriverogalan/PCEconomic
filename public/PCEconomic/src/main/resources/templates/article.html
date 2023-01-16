@@ -53,22 +53,22 @@
           ></p>
 
           <span th:each="prop : ${article.propietats}">
-            <span th:each="prop2 : ${prop.propietats}">
-              <span th:each="prop3 : ${prop2.propietats}">
-                <p th:text="${prop3.name}"></p>
+            <span th:each="propValor : ${prop.propietatsValor}">
+              <span th:each="prop3 : ${propValor}">
+                <p th:text="${prop.propietat.nom}"></p>
                 <select>
-                  <option th:each="prop4 : ${prop3.valors}">
-                    <p th:text="${prop4.clau}"></p>
-                  </option>
-                </select>
+                  <option th:each="prop4 : ${propValor.valor}">
+                    <p th:text="${prop4.valor}"></p>
+                  </option></select
+                >0
               </span>
             </span>
           </span>
 
           <!--<label for="propietat"> Propietats: </label>
-                                                                                                                                                                                    <select th:each="prop : ${article.propietats}" id="propietat">
-                                                                                                                                                                                        <option th:text="${prop.propietats.valor.propietat.name} + ': ' +  ${prop.propietats.valor.clau} + ' - Preu: ' + ${prop.preu} +   '- Stock:'  + ${prop.stock} " th:value="${prop.propietats.valor.propietat.id}"></option>
-                                                                                                                                                                                    </select>-->
+                                                                                                                                                                                                                  <select th:each="prop : ${article.propietats}" id="propietat">
+                                                                                                                                                                                                                      <option th:text="${prop.propietats.valor.propietat.name} + ': ' +  ${prop.propietats.valor.clau} + ' - Preu: ' + ${prop.preu} +   '- Stock:'  + ${prop.stock} " th:value="${prop.propietats.valor.propietat.id}"></option>
+                                                                                                                                                                                                                  </select>-->
           <label for="cant"> Cantidad: </label>
           <input
             id="cant"

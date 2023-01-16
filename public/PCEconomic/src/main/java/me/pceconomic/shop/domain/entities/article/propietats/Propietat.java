@@ -2,7 +2,6 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
@@ -19,6 +18,6 @@ public @Data class Propietat {
     private String nom;
 
     @OneToMany
-    @JoinColumn(name = "id_propietats")
+    @JoinColumn(name = "id_propietat")
     private Set<Propietats> propietats;
 }

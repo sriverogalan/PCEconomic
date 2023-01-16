@@ -21,21 +21,21 @@ public class FrontController {
     private final ArticleRepository articleRepository;
     private final MarcaRepository marcaRepository;
     private final ImatgeRepository imatgeRepository;
-    private final ArticlePropietatRepository articlePropietatRepository;
+    private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public FrontController(ArticlePropietatRepository articlePropietatRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
+    public FrontController(PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.marcaRepository = marcaRepository;
         this.imatgeRepository = imatgeRepository;
-        this.articlePropietatRepository = articlePropietatRepository;
+        this.propietatsRepository = propietatsRepository;
     }
 
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("categories", categoriaRepository.findAll());
-        model.addAttribute("articles", articlePropietatRepository.findAll());
+        model.addAttribute("articles", propietatsRepository.findAll());
         return "index";
     }
 
