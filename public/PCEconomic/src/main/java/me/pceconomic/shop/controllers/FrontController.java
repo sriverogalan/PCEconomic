@@ -2,7 +2,6 @@ package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Categoria;
-import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
@@ -12,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -36,38 +33,30 @@ public class FrontController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("articles", propietatsRepository.findAll());
+        model.addAttribute("marques", marcaRepository.findAll());
+        model.addAttribute("imatges", imatgeRepository.findAll());
+        model.addAttribute("categories", categoriaRepository.findAll());
         return "index";
     }
 
-    @GetMapping("/article/{id}/{propietat}")
-    public String article(Model model, @PathVariable int id, @PathVariable int propietat) {
-        Propietats propietats = propietatsRepository.findById(propietat).orElse(null);
+    @GetMapping("/article/{idArticle}/{idPropietat}")
+    public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat) {
 
-        if (propietats == null) return "error";
+        Article article = articleRepository.findById(idArticle).orElse(null);
 
-        Article article = propietats.getArticle();
+        Propietats propietats = propietatsRepository.findById(idPropietat).orElse(null);
 
-        if (article == null) return "error";
+        if (article == null || propietats == null) return "error";
 
-        model.addAttribute("article", article);
-        model.addAttribute("propietats", propietats);
-        model.addAttribute("categories", categoriaRepository.findAll());
-        return "article";
-    }
 
-    @GetMapping("/article/{id}")
-    public String article(Model model, @PathVariable int id) {
-        List<Propietats> propietats = propietatsRepository.findAll();
-
-        propietats.forEach(prop -> {
-            if (prop.getArticle().getId() == id) {
-                model.addAttribute("article", prop.getArticle());
+        article.getPropietats().forEach(prop -> {
+            if (prop.getId() == propietats.getId()) {
+                model.addAttribute("propietats", propietats);
+                model.addAttribute("categories", categoriaRepository.findAll());
             }
         });
 
-        model.addAttribute("categories", categoriaRepository.findAll());
         return "article";
     }
 
