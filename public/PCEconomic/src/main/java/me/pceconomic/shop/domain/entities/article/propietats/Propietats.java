@@ -3,6 +3,7 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Imatge;
 
 import java.util.Set;
 
@@ -17,16 +18,20 @@ public @Data class Propietats {
     @JoinColumn(name = "id_article")
     private Article article;
 
+    @Column(name = "preu")
+    private double preu;
+
+    @Column(name = "stock")
+    private int stock;
+
     @OneToMany
     @JoinColumn(name = "id_propietats_valor")
-    private Set<PropietatsValor> propietatsValor;
+    private Set<Valor> valor;
 
-    @ManyToMany
-    @JoinTable(
-            name = "propietats_propietat",
-            joinColumns = @JoinColumn(name = "id_propietats"),
-            inverseJoinColumns = @JoinColumn(name = "id_propietat")
-    )
-    private Set<Propietat> propietat;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_article")
+    private Set<Imatge> imatges;
+
 
 }

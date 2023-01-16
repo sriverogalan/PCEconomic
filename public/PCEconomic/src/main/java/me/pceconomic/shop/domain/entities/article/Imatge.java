@@ -14,11 +14,10 @@ public @Data class Imatge {
     @Column(name = "id_imatge")
     private int id;
 
+    @Column(name = "id_propietats")
+    private int idPropietats;
     @Column(name = "path")
     private String path;
-
-    @Column(name = "id_article")
-    private int idArticle;
 
     public Imatge(String path) {
         this.path = path;

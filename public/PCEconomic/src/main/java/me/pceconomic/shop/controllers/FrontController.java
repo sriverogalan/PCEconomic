@@ -83,8 +83,8 @@ public class FrontController {
 
     @GetMapping("/crearproducte")
     public String createProducts() {
-        Marca marca1 = new Marca("12345678A", "Marca 1", null);
-        Marca marca2 = new Marca("87654321B", "Marca 2", null);
+        Marca marca1 = new Marca("12345678A", "Corsair", null);
+        Marca marca2 = new Marca("87654321B", "Iphone", null);
         Marca marca3 = new Marca("12345678C", "Marca 3", null);
         Marca marca4 = new Marca("87654321D", "Marca 4", null);
 
@@ -93,91 +93,46 @@ public class FrontController {
         marcaRepository.save(marca3);
         marcaRepository.save(marca4);
 
-        Categoria categoria1 = new Categoria();
-        categoria1.setName("Categoria 1");
-        categoria1.setChildren(null);
 
-        Categoria categoria2 = new Categoria();
-        categoria2.setName("Categoria 2");
-        categoria2.setChildren(null);
+        Categoria ram = new Categoria();
+        ram.setName("RAM");
+        Categoria iphone13 = new Categoria();
+        iphone13.setName("Iphone 13");
 
-        Categoria categoria3 = new Categoria();
-        categoria3.setName("Categoria 3");
-        categoria3.setChildren(null);
+        Categoria informatica = new Categoria();
+        informatica.setName("Informatica");
+        informatica.setChildren((Set<Categoria>) ram);
+        informatica.setChildren((Set<Categoria>) iphone13);
 
-        Categoria categoria4 = new Categoria();
-        categoria4.setName("Categoria 4");
-        categoria4.setChildren(null);
-
-        Set<Categoria> categories1 = new HashSet<>();
-        categories1.add(categoria1);
-        Set<Categoria> categories2 = new HashSet<>();
-        categories2.add(categoria2);
-        Set<Categoria> categories3 = new HashSet<>();
-        categories3.add(categoria3);
-        Set<Categoria> categories4 = new HashSet<>();
-        categories4.add(categoria4);
-
-        categoriaRepository.save(categoria1);
-        categoriaRepository.save(categoria2);
-        categoriaRepository.save(categoria3);
-        categoriaRepository.save(categoria4);
+        categoriaRepository.save(informatica);
+        categoriaRepository.save(ram);
+        categoriaRepository.save(iphone13);
 
         Article article = new Article();
         article.setPes(10);
-        article.setNom("Producte 1");
+        article.setNom("Corsair CMK16GX4M2B3200C16 Vengeance LPX 16 GB (2 x 8 GB) DDR4 3200 MHz C16 XMP 2.0 Módulo de Memoria de Alto Rendimiento");
         article.setDescripcio("Descripció del producte 1");
-        article.setStockTotal(10);
         article.setMarca(marca1);
-        article.setImatges(new HashSet<>());
 
         Article article1 = new Article();
         article1.setPes(10);
-        article1.setNom("Producte 2");
-        article1.setDescripcio("Descripció del producte 2");
-        article1.setStockTotal(10);
+        article1.setNom("Iphone 13");
+        article1.setDescripcio("Pantalla Super Retina XDR de 6,1 pulgadas\n" +
+                "El modo Cine añade poca profundidad de campo y cambia el enfoque automáticamente en los vídeos\n" +
+                "Sistema avanzado de cámara dual de 12 Mpx con gran angular y ultra gran angular, Estilos Fotográficos, HDR Inteligente 4, modo Noche y grabación de vídeo en 4K HDR con Dolby Vision\n" +
+                "Cámara delantera TrueDepth de 12 Mpx con modo Noche y grabación de vídeo en 4K HDR con Dolby Vision\n" +
+                "Chip A15 Bionic para un rendimiento ultrarrápido\n" +
+                "Hasta 19 horas de reproducción de vídeo\n" +
+                "Diseño robusto con Ceramic Shield");
         article1.setMarca(marca2);
-        article1.setImatges(new HashSet<>());
-
-        Article article2 = new Article();
-        article2.setPes(10);
-        article2.setNom("Producte 3");
-        article2.setDescripcio("Descripció del producte 3");
-        article2.setStockTotal(10);
-        article2.setMarca(marca3);
-        article2.setImatges(new HashSet<>());
-
-        Article article3 = new Article();
-        article3.setPes(10);
-        article3.setNom("Producte 4");
-        article3.setDescripcio("Descripció del producte 4");
-        article3.setStockTotal(40);
-        article3.setMarca(marca4);
-        article3.setImatges(new HashSet<>());
 
         articleRepository.save(article);
         articleRepository.save(article1);
-        articleRepository.save(article2);
 
-        Imatge imatge = new Imatge();
-        imatge.setIdArticle(article.getId());
-        imatge.setPath("/img/productes/1/0.jpg");
+        /*imatge.setPath("/img/productes/1/1/0.jpg");
+        imatge1.setPath("/img/productes/1/1/1.jpg");
 
-        Imatge imatge1 = new Imatge();
-        imatge1.setIdArticle(article1.getId());
-        imatge1.setPath("/img/productes/1/1.jpg");
-
-        Imatge imatge2 = new Imatge();
-        imatge2.setIdArticle(article.getId());
-        imatge2.setPath("/img/productes/2/0.jpg");
-
-        Imatge imatge3 = new Imatge();
-        imatge3.setIdArticle(article.getId());
-        imatge3.setPath("/img/productes/3/0.jpg");
-
-        Imatge imatge4 = new Imatge();
-        imatge4.setIdArticle(article.getId());
-        imatge4.setPath("/img/productes/4/0.jpg");
+        imatge2.setPath("/img/productes/1/2/0.jpg");
 
         imatgeRepository.save(imatge);
         imatgeRepository.save(imatge1);
@@ -189,18 +144,10 @@ public class FrontController {
         article.getImatges().add(imatge1);
         article1.getImatges().add(imatge2);
         article2.getImatges().add(imatge3);
-        article3.getImatges().add(imatge4);
-
-        article.setCategories(categories1);
-        article1.setCategories(categories1);
-        article1.setCategories(categories2);
-        article2.setCategories(categories3);
-        article3.setCategories(categories4);
+        article3.getImatges().add(imatge4);*/
 
         articleRepository.save(article);
         articleRepository.save(article1);
-        articleRepository.save(article2);
-        articleRepository.save(article3);
         return "redirect:/";
     }
 
