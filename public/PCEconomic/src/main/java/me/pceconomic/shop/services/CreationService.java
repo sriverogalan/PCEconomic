@@ -80,23 +80,6 @@ public class CreationService {
         articleRepository.save(article);
         articleRepository.save(article1);
 
-        Valor valor = new Valor();
-        valor.setValor("S");
-
-        Valor valor2 = new Valor();
-        valor.setValor("M");
-
-        Valor valor3 = new Valor();
-        valor.setValor("Blau");
-
-        Valor valor4 = new Valor();
-        valor.setValor("Negre");
-
-        valorRepository.save(valor);
-        valorRepository.save(valor2);
-        valorRepository.save(valor3);
-        valorRepository.save(valor4);
-
         Propietat propietat = new Propietat();
         propietat.setNom("Talla");
 
@@ -106,15 +89,38 @@ public class CreationService {
         propietatRepository.save(propietat);
         propietatRepository.save(propietat2);
 
+        Valor S = new Valor();
+        S.setValor("S");
+        S.setPropietat(propietat);
+
+        Valor M = new Valor();
+        M.setValor("M");
+        M.setPropietat(propietat);
+
+        Valor blau = new Valor();
+        blau.setValor("Blau");
+        blau.setPropietat(propietat2);
+
+        Valor negre = new Valor();
+        negre.setValor("Negre");
+        negre.setPropietat(propietat2);
+
+        valorRepository.save(S);
+        valorRepository.save(M);
+        valorRepository.save(blau);
+        valorRepository.save(negre);
+
         Propietats propietats = new Propietats();
         propietats.setArticle(article);
         propietats.setPreu(100);
         propietats.setStock(10);
+        propietats.setValor(Set.of(M, negre));
 
         Propietats propietats1 = new Propietats();
         propietats1.setArticle(article1);
         propietats1.setPreu(1000);
         propietats1.setStock(10);
+        propietats1.setValor(Set.of(S, blau));
 
         propietatsRepository.save(propietats);
         propietatsRepository.save(propietats1);
