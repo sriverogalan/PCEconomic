@@ -3,7 +3,8 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.propietats.ArticlePropietat;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.article.propietats.PropietatsValor;
 
 import java.util.Set;
 
@@ -46,6 +47,7 @@ public @Data class Article {
     )
     private Set<Categoria> categories;
 
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private Set<ArticlePropietat> propietats;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_article")
+    private Set<Propietats> propietats;
 }
