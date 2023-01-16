@@ -19,5 +19,7 @@ public @Data class Propietat {
 
     @OneToMany
     @JoinColumn(name = "id_propietat")
-    private Set<Propietats> propietats;
+private Set<Valor> valor;
+
+
 }
