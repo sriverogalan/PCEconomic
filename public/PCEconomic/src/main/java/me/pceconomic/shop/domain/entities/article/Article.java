@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.article.propietats.PropietatsValor;
 
 import java.util.Set;
 
@@ -25,19 +24,12 @@ public @Data class Article {
     @Column(name = "descripcio", columnDefinition = "LONGTEXT")
     private String descripcio;
 
-    @Column(name = "stockTotal")
-    private double stockTotal;
-
     @Column(name = "pes")
     private double pes;
 
     @ManyToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_article")
-    private Set<Imatge> imatges;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
