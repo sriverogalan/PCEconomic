@@ -18,7 +18,11 @@ public @Data class Propietat {
     private String nom;
 
     @OneToMany
-    @JoinColumn(name = "id_propietat")
+    @JoinTable(name = "propietat_valor",
+            joinColumns = @JoinColumn(name = "id_propietat"),
+            inverseJoinColumns = @JoinColumn(name = "id_valor")
+    )
     private Set<Valor> valor;
+
 
 }

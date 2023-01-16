@@ -101,8 +101,8 @@ public class FrontController {
 
         Categoria informatica = new Categoria();
         informatica.setName("Informatica");
-        informatica.setChildren((Set<Categoria>) ram);
-        informatica.setChildren((Set<Categoria>) iphone13);
+        informatica.setChildren(Set.of(ram));
+        informatica.setChildren(Set.of(iphone13));
 
         categoriaRepository.save(informatica);
         categoriaRepository.save(ram);
