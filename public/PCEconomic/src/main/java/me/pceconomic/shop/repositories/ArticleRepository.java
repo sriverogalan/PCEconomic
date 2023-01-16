@@ -10,4 +10,6 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
     Set<Article> findByCategories(Categoria categoria);
 
+
+
 }

@@ -20,7 +20,7 @@ public @Data class Article {
     @Column(name = "nom")
     private String nom;
 
-    @Lob // Large Object (BLOB)
+    @Lob
     @Column(name = "descripcio", columnDefinition = "LONGTEXT")
     private String descripcio;
 
@@ -42,4 +42,7 @@ public @Data class Article {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")
     private Set<Propietats> propietats;
+
+
+
 }

@@ -25,17 +25,10 @@ public @Data class Propietats {
     private int stock;
 
     @OneToMany
-    @JoinColumn(name = "id_propietats")
-    private Set<Propietat> propietat;
-
-    @OneToMany
     @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
-
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")
     private Set<Imatge> imatges;
-
-
 }
