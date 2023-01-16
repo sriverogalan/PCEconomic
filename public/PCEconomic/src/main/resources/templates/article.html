@@ -6,7 +6,7 @@
     <main class="container">
       <div class="col-12 row">
         <div class="col-6 justify-content-center">
-          <div id="carouselExample" class="carousel slide h-250px">
+          <!--<div id="carouselExample" class="carousel slide h-250px">
             <div class="carousel-inner">
               <div th:each="foto : ${article.imatges}" class="carousel-item">
                 <img
@@ -41,7 +41,7 @@
               ></span>
               <span class="visually-hidden">Next</span>
             </button>
-          </div>
+          </div>-->
         </div>
         <div class="d-flex flex-column col-md-6 col-sm-12">
           <h1 th:text="${article.nom}"></h1>
@@ -50,20 +50,15 @@
           ></p>
 
           <span th:if="${propietats != null}">
-            <span th:each="props : ${propietats.propietat}">
-              <p th:text="${props.nom}"></p>
-              <p th:text="${props.valor}"></p>
-              <span th:each="prop : ${propietats.propietatsValor}">
-                <p th:text="${prop.preu}"></p>
-                <p th:text="${prop.stock}"></p>
-                <p th:text="${prop.valor}"></p>
+              <span th:each="prop : ${propietats.valor}">
+                <p th:text="'Nom Propietat: ' + ${prop.propietat.nom}"></p>
+                <p th:text="'Preu: ' + ${propietats.preu}"></p>
+                <p th:text="'Stock: ' + ${propietats.stock}"></p>
+                <p th:text="'Valor: ' + ${prop.valor}"></p>
+                <p>-----------------------------------------------------</p>
               </span>
             </span>
-          </span>
         </div>
-
-        <label for="cant"> Cantidad: </label>
-        <input id="cant" type="number" min="1" th:max="${article.stockTotal}" />
         <div class="d-flex justify-content-evenly">
           <button class="btn btn-pc-economic-light">Me Gusta</button>
           <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
