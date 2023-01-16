@@ -2,11 +2,9 @@ package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.article.propietats.PropietatsValor;
 import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.repositories.PropietatRepository;
 import me.pceconomic.shop.repositories.PropietatsRepository;
-import me.pceconomic.shop.repositories.PropietatsValorRepository;
 import me.pceconomic.shop.repositories.ValorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +21,6 @@ public class TestController {
     private PropietatsRepository propietatsRepository;
     @Autowired
     private ValorRepository valorRepository;
-    @Autowired
-    private PropietatsValorRepository propietatsValorRepository;
 
     @GetMapping("/test/propietats")
     public List<Propietat> getValors() {
@@ -34,11 +30,6 @@ public class TestController {
     @GetMapping("/test/valors")
     public List<Valor> getProp() {
         return valorRepository.findAll();
-    }
-
-    @GetMapping("/test/propietatsvalors")
-    public List<PropietatsValor> getPropValors() {
-        return propietatsValorRepository.findAll();
     }
 
     @GetMapping("/test/propietatsssss")
