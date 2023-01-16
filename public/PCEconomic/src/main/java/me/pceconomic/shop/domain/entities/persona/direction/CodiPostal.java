@@ -16,4 +16,9 @@ public @Data class CodiPostal {
     @Column(name = "codi")
     private String code;
 
+    @ManyToOne
+    @JoinColumn(name = "id_ciutat")
+    private Ciutat ciutat;
+
+
 }

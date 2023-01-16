@@ -20,7 +20,11 @@ public @Data class Pais {
     private String name;
 
     @OneToMany
-    @JoinColumn(name = "id_comunitat_autonoma")
+    @JoinColumn(name = "id_pais")
     private Set<ComunitatAutonoma> comunitatsAutonomes;
+
+    @ManyToOne
+    @JoinColumn(name = "id_direccio")
+    private Direccio direccio;
 
 }
