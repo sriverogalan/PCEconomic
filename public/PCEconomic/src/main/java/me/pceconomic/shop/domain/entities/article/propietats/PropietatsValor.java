@@ -22,7 +22,7 @@ public @Data class PropietatsValor {
     private int stock;
 
     @OneToMany
-    @JoinColumn(name = "id_valor")
+    @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
 
 

@@ -16,6 +16,10 @@ public @Data class Valor {
     private String valor;
 
     @ManyToOne
+    @JoinColumn(name = "id_propietats_valor")
+    private PropietatsValor propietatsValor;
+
+    @ManyToOne
     @JoinColumn(name = "id_propietat")
     private Propietat propietat;
 }
