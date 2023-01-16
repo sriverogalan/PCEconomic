@@ -36,7 +36,7 @@ public @Data class Persona {
     private String telefon;
 
     @OneToMany
-    @JoinColumn(name = "id_direccio")
+    @JoinColumn(name = "id_persona")
     private Set<Direccio> direccions;
 }
 
