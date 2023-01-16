@@ -2,6 +2,7 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.util.Set;
 
@@ -14,10 +15,11 @@ public @Data class Propietats {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "id_valor")
-    private Valor valor;
+    @JoinColumn(name = "id_article")
+    private Article article;
 
     @OneToMany
-    @JoinColumn(name = "id_propietats")
-    private Set<Propietat> propietats;
+    @JoinColumn(name = "id_propietats_valor")
+    private Set<PropietatsValor> propietatsValor;
+
 }

@@ -3,7 +3,7 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.propietats.ArticlePropietat;
+import me.pceconomic.shop.domain.entities.article.propietats.PropietatsValor;
 
 import java.util.Set;
 
@@ -23,6 +23,6 @@ public @Data class Carrito {
 
     @OneToMany
     @JoinColumn(name = "id_carrito")
-    private Set<ArticlePropietat> articlePropietats;
+    private Set<PropietatsValor> articlePropietats;
 
 }
