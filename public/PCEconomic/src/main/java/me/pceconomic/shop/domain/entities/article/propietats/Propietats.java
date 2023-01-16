@@ -13,17 +13,20 @@ public @Data class Propietats {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_propietats")
     private int id;
-
     @ManyToOne
     @JoinColumn(name = "id_article")
     private Article article;
 
-    @ManyToOne
-    @JoinColumn(name = "id_propietat")
-    private Propietat propietat;
-
     @OneToMany
     @JoinColumn(name = "id_propietats_valor")
     private Set<PropietatsValor> propietatsValor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "propietats_propietat",
+            joinColumns = @JoinColumn(name = "id_propietats"),
+            inverseJoinColumns = @JoinColumn(name = "id_propietat")
+    )
+    private Set<Propietat> propietat;
 
 }
