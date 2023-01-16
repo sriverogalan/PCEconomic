@@ -44,19 +44,18 @@
           </div>-->
         </div>
         <div class="d-flex flex-column col-md-6 col-sm-12">
-          <h1 th:text="${article.nom}"></h1>
+          <h1 th:text="${propietats.article.nom}"></h1>
           <p
-            th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "
+            th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "
           ></p>
 
-          <span th:if="${propietats != null}">
+          <h1>PROPIETATS</h1>
               <span th:each="prop : ${propietats.valor}">
                 <p th:text="'Nom Propietat: ' + ${prop.propietat.nom}"></p>
                 <p th:text="'Preu: ' + ${propietats.preu}"></p>
                 <p th:text="'Stock: ' + ${propietats.stock}"></p>
                 <p th:text="'Valor: ' + ${prop.valor}"></p>
               </span>
-            </span>
         </div>
         <div class="d-flex justify-content-evenly">
           <button class="btn btn-pc-economic-light">Me Gusta</button>
@@ -67,7 +66,7 @@
 
       <div>
         <h2>Descripción</h2>
-        <p th:text="${article.descripcio}"></p>
+        <p th:text="${propietats.article.descripcio}"></p>
       </div>
     </main>
     <script

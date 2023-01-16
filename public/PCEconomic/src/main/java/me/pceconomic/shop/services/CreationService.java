@@ -99,23 +99,19 @@ public class CreationService {
 
         Propietat propietat = new Propietat();
         propietat.setNom("Talla");
-        propietat.setValor(Set.of(valor, valor2));
 
         Propietat propietat2 = new Propietat();
         propietat2.setNom("Color");
-        propietat2.setValor(Set.of(valor3, valor4));
 
         propietatRepository.save(propietat);
         propietatRepository.save(propietat2);
 
         Propietats propietats = new Propietats();
-        propietats.setPropietat(Set.of(propietat, propietat2));
         propietats.setArticle(article);
         propietats.setPreu(100);
         propietats.setStock(10);
 
         Propietats propietats1 = new Propietats();
-        propietats1.setPropietat(Set.of(propietat, propietat2));
         propietats1.setArticle(article1);
         propietats1.setPreu(1000);
         propietats1.setStock(10);
