@@ -4,6 +4,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -39,11 +41,32 @@ public class FrontController {
         return "index";
     }
 
+    @GetMapping("/article/{id}/{propietat}")
+    public String article(Model model, @PathVariable int id, @PathVariable int propietat) {
+        Propietats propietats = propietatsRepository.findById(propietat).orElse(null);
+
+        if (propietats == null) return "error";
+
+        Article article = propietats.getArticle();
+
+        if (article == null) return "error";
+
+        model.addAttribute("article", article);
+        model.addAttribute("propietats", propietats);
+        model.addAttribute("categories", categoriaRepository.findAll());
+        return "article";
+    }
+
     @GetMapping("/article/{id}")
     public String article(Model model, @PathVariable int id) {
-        Article article = articleRepository.findById(id).orElse(null);
-        if (article == null) return "error";
-        model.addAttribute("article", article);
+        List<Propietats> propietats = propietatsRepository.findAll();
+
+        propietats.forEach(prop -> {
+            if (prop.getArticle().getId() == id) {
+                model.addAttribute("article", prop.getArticle());
+            }
+        });
+
         model.addAttribute("categories", categoriaRepository.findAll());
         return "article";
     }

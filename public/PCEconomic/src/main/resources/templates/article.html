@@ -8,12 +8,9 @@
         <div class="col-6 justify-content-center">
           <div id="carouselExample" class="carousel slide h-250px">
             <div class="carousel-inner">
-              <div
-                th:each="foto : ${article.getImatges()}"
-                class="carousel-item"
-              >
+              <div th:each="foto : ${article.imatges}" class="carousel-item">
                 <img
-                  th:id="${foto.getId()}"
+                  th:id="${foto.id}"
                   class="d-block w-100"
                   th:src="${foto.path}"
                   alt="img"
@@ -52,35 +49,25 @@
             th:text="'Marca: ' + ${article.marca.name} + ' - P/N: ' + ${article.marca.cif} "
           ></p>
 
-          <span th:each="prop : ${article.propietats}">
-            <span th:each="propValor : ${prop.propietatsValor}">
-              <span th:each="prop3 : ${propValor}">
-                <p th:text="${prop.propietat.nom}"></p>
-                <select>
-                  <option th:each="prop4 : ${propValor.valor}">
-                    <p th:text="${prop4.valor}"></p>
-                  </option></select
-                >0
+          <span th:if="${propietats != null}">
+            <span th:each="props : ${propietats.propietat}">
+              <p th:text="${props.nom}"></p>
+              <p th:text="${props.valor}"></p>
+              <span th:each="prop : ${propietats.propietatsValor}">
+                <p th:text="${prop.preu}"></p>
+                <p th:text="${prop.stock}"></p>
+                <p th:text="${prop.valor}"></p>
               </span>
             </span>
           </span>
+        </div>
 
-          <!--<label for="propietat"> Propietats: </label>
-                                                                                                                                                                                                                  <select th:each="prop : ${article.propietats}" id="propietat">
-                                                                                                                                                                                                                      <option th:text="${prop.propietats.valor.propietat.name} + ': ' +  ${prop.propietats.valor.clau} + ' - Preu: ' + ${prop.preu} +   '- Stock:'  + ${prop.stock} " th:value="${prop.propietats.valor.propietat.id}"></option>
-                                                                                                                                                                                                                  </select>-->
-          <label for="cant"> Cantidad: </label>
-          <input
-            id="cant"
-            type="number"
-            min="1"
-            th:max="${article.stockTotal}"
-          />
-          <div class="d-flex justify-content-evenly">
-            <button class="btn btn-pc-economic-light">Me Gusta</button>
-            <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
-            <button class="btn btn-pc-economic-dark">Comprar</button>
-          </div>
+        <label for="cant"> Cantidad: </label>
+        <input id="cant" type="number" min="1" th:max="${article.stockTotal}" />
+        <div class="d-flex justify-content-evenly">
+          <button class="btn btn-pc-economic-light">Me Gusta</button>
+          <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
+          <button class="btn btn-pc-economic-dark">Comprar</button>
         </div>
       </div>
 
