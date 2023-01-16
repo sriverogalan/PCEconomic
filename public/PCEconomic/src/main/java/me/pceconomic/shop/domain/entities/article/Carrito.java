@@ -3,9 +3,6 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.propietats.PropietatsValor;
-
-import java.util.Set;
 
 @Entity
 @EqualsAndHashCode(exclude = {"articlePropietats"})
@@ -20,9 +17,5 @@ public @Data class Carrito {
 
     @Column(name = "preu")
     private double price;
-
-    @OneToMany
-    @JoinColumn(name = "id_carrito")
-    private Set<PropietatsValor> articlePropietats;
 
 }
