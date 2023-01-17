@@ -15,12 +15,19 @@
                         <div th:if="${prop.article.id == article.id}">
                             <p th:text="${prop.id}"></p>
                             <a th:href="@{/article/{id}/{idPropietat}(id=${article.id},idPropietat=${prop.id})}">
-
-                                <div >
-                                    <p th:text="${article.nom}"></p>
-                                    <span th:each="valor : ${prop.valor}">
-                                        <span th:text="${valor.propietat.nom} + ' ' + ${valor.valor}"></span>
-                                    </span>
+                                <div class="col-12">
+                                    <div th:if="${article.article.id}" class="col-12">
+                                        <img th:attr="srcset=@{/img/productes/{idArticle}/{idPropietats}/0.jpg(id=${article.id},idPropietats=${prop.id})}"
+                                             class=" img-fluid  col-12">
+                                    </div>
+                                    <div class="card-body">
+                                        <div>
+                                            <p th:text="${article.nom}"></p>
+                                            <span th:each="valor : ${prop.valor}">
+                                            <span th:text="${valor.propietat.nom} + ' ' + ${valor.valor}"></span>
+                                        </span>
+                                        </div>
+                                    </div>
                                 </div>
 
                             </a>
