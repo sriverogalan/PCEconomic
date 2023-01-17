@@ -21,8 +21,8 @@
                                     <div class="col-12">
                                         <p th:text="${prop.imatges}"></p>
                                         <div th:each="img : ${imatges}">
-                                            <img th:if="${img.propietats.id == prop.id}"
-                                                 th:src="@{/img/productes/{idArticle}/{idPropietat}/{idPath} (idArticle=${article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
+                                            <img th:if="${img.propietats.id == prop.id && img.principal == true}"
+                                                 th:src="@{/img/productes/{idArticle}/{idPropietat}/0.jpg (idArticle=${article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
                                                  class="img-fluid col-12" alt="img">
                                             <div th:if="${img.propietats.id != prop.id}" th:remove="tag"></div>
                                         </div>

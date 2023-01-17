@@ -22,6 +22,9 @@ public @Data class Imatge {
     @Column(name = "path")
     private String path;
 
+    @Column(name = "principal")
+    private boolean principal;
+
     public Imatge(String path) {
         this.path = path;
     }
