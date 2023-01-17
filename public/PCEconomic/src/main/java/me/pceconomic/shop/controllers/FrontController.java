@@ -73,10 +73,10 @@ public class FrontController {
         });
 
         if (categoria == null || articles == null || propietats == null) return "error";
-        model.addAttribute("articles", articles);
-        model.addAttribute("propietats", propietats);
-        model.addAttribute("imatges", imatgeRepository.findAll());
-        model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("articles", articles );
+        model.addAttribute("propietats", propietats );
+        model.addAttribute("imatges", imatgeRepository.findAll() );
+        model.addAttribute("categories", categoriaRepository.findAll() );
         return "index";
     }
 
@@ -85,5 +85,4 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
-
 }

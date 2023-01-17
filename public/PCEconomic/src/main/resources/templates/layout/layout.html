@@ -75,17 +75,26 @@
         </nav>
         <nav class="navbar navbar-expand-md bg-pc-economic-light">
             <!-- Categories Offcanvas -->
-            <button
-                    class="nav-link btn btn-pc-economic-dark ml-4"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasScrolling"
-                    aria-controls="offcanvasScrolling"
-            >
-                Todas las categorias
-            </button>
+            <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                Todas las categorias</button>
         </nav>
 
+
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header bg-pc-economic-default">
+                <h5 class="offcanvas-title text-light" id="offcanvasWithBothOptionsLabel">
+                    Todas las categorias :</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div th:each="categoria : ${categories}">
+                    <a th:href="@{/categoria/{id}(id=${categoria.id})}">
+                        <h5 th:text="${categoria.name}"></h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+<!--
         <div
                 class="offcanvas offcanvas-start text-light mt-5"
                 data-bs-scroll="true"
@@ -96,7 +105,6 @@
         >
             <div class="offcanvas-header bg-pc-economic-default">
                 <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-                    Todas las categorias :
                 </h5>
                 <button
                         type="button"
@@ -106,13 +114,9 @@
                 ></button>
             </div>
             <div class="offcanvas-body text-dark">
-                <div th:each="categoria : ${categories}">
-                    <a th:href="@{/categoria/{id}(id=${categoria.id})}">
-                        <h5 th:text="${categoria.name}"></h5>
-                    </a>
-                </div>
+
             </div>
-        </div>
+        </div>-->
     </header>
     <footer
             class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container"

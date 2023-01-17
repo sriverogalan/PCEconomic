@@ -6,12 +6,12 @@
     <main class="container">
       <div class="col-12 row">
         <div class="col-6 justify-content-center">
-          <div id="carouselExample" class="carousel slide h-250px">
-            <div class="carousel-inner">
+          <div id="carouselExample" class="carousel slide">
+            <div class="carousel-inner imgSizeArticle">
               <div th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" class="carousel-item">
                 <img
                   th:id="${foto.id}"
-                  class="d-block w-100"
+                  class="d-block imgSizeArticle"
                   alt="img"
                   th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
                 />
