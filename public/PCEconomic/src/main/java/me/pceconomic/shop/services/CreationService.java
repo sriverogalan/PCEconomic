@@ -1,9 +1,10 @@
 package me.pceconomic.shop.services;
 
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Categoria;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.article.propietats.Valor;
@@ -47,19 +48,16 @@ public class CreationService {
         marcaRepository.save(marca3);
         marcaRepository.save(marca4);
 
-        Categoria ram = new Categoria();
+        Subcategoria ram = new Subcategoria();
         ram.setName("RAM");
-        Categoria iphone13 = new Categoria();
+        Subcategoria iphone13 = new Subcategoria();
         iphone13.setName("Iphone 13");
 
         Categoria informatica = new Categoria();
         informatica.setName("Informatica");
-        informatica.setChildren(Set.of(ram));
-        informatica.setChildren(Set.of(iphone13));
+        informatica.setSubcategorias(Set.of(ram, iphone13));
 
         categoriaRepository.save(informatica);
-        categoriaRepository.save(ram);
-        categoriaRepository.save(iphone13);
 
         Article article = new Article();
         article.setPes(10);

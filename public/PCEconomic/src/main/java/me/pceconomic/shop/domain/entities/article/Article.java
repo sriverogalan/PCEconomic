@@ -3,6 +3,7 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 import java.util.Set;

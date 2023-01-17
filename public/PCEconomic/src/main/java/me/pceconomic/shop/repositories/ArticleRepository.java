@@ -1,7 +1,7 @@
 package me.pceconomic.shop.repositories;
 
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Categoria;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;

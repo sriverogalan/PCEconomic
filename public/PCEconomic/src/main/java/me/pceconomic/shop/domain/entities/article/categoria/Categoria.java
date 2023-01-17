@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.entities.article;
+package me.pceconomic.shop.domain.entities.article.categoria;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,11 +17,8 @@ public @Data class Categoria {
     @Column(name = "nom")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "categoria_pare")
-    private Categoria parent;
-
-    @OneToMany(mappedBy = "parent")
-    private Set<Categoria> children;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_categoria")
+    private Set<Subcategoria> subcategorias;
 
 }

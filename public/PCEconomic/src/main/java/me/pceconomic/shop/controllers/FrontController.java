@@ -1,8 +1,7 @@
 package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Categoria;
-import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
 import me.pceconomic.shop.services.CreationService;
@@ -19,18 +18,20 @@ import java.util.Set;
 public class FrontController {
 
     private final CategoriaRepository categoriaRepository;
+    private final SubcategoriaRepository subcategoriaRepository;
     private final ArticleRepository articleRepository;
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
     private final CreationService creationService;
 
     @Autowired
-    public FrontController(CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository ) {
+    public FrontController(SubcategoriaRepository subcategoriaRepository, CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository ) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.creationService = creationService;
+        this.subcategoriaRepository = subcategoriaRepository;
     }
 
     @GetMapping("/")
@@ -39,6 +40,7 @@ public class FrontController {
         model.addAttribute("propietats", propietatsRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
         model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("subcategories", subcategoriaRepository.findAll());
         return "index";
     }
 
@@ -54,6 +56,7 @@ public class FrontController {
         });
 
         model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
         return "article";
     }
