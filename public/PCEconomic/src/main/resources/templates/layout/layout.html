@@ -87,11 +87,29 @@
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
-                <div th:each="categoria : ${categories}">
+
+                <span th:each="cat : ${categories}">
+                    <p th:text="${cat.name}"></p>
+                    <ul th:if="${cat.id == subcat.categoria.id}" th:each="subcat : ${subcategories}">
+                        <li th:text="${subcat.name}"></li>
+                    </ul>
+                </span>
+
+                <!--<ul>
+                    <li th:each="category : ${categories}">
+                        <span th:text="${category.name}"></span>
+                        <ul th:if="${category.children!=null}">
+                            <li th:each="subcategory : ${category.children}">
+                                <span th:text="${subcategory.name}"></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>-->
+                <!--<div th:each="categoria : ${categories}">
                     <a th:href="@{/categoria/{id}(id=${categoria.id})}">
                         <h5 th:text="${categoria.name}"></h5>
                     </a>
-                </div>
+                </div>-->
             </div>
         </div>
 <!--
