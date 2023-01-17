@@ -129,20 +129,29 @@ public class CreationService {
 
         Imatge corsairNegre = new Imatge();
         corsairNegre.setPath("0.jpg");
+        corsairNegre.setPropietats(corsair);
 
         Imatge corsairNegre2 = new Imatge();
         corsairNegre2.setPath("1.jpg");
+        corsairNegre2.setPropietats(corsair);
 
         Imatge corsairNegre3 = new Imatge();
-        corsairNegre2.setPath("2.jpg");
+        corsairNegre3.setPath("2.jpg");
+        corsairNegre3.setPropietats(corsair);
 
-        Imatge corsairVermell = new Imatge();
-        corsairVermell.setPath("0.jpg");
+        Imatge iphone13blau = new Imatge();
+        iphone13blau.setPath("0.jpg");
+        iphone13blau.setPropietats(propietats1);
 
-        Imatge corsairVermell2 = new Imatge();
-        corsairVermell2.setPath("1.jpg");
+        Imatge iphone13blau2 = new Imatge();
+        iphone13blau2.setPath("1.jpg");
+        iphone13blau2.setPropietats(propietats1);
 
-        corsair.setImatges(Set.of(corsairNegre, corsairNegre2, corsairNegre3));
+        imatgeRepository.save(corsairNegre);
+        imatgeRepository.save(corsairNegre2);
+        imatgeRepository.save(corsairNegre3);
 
+        imatgeRepository.save(iphone13blau);
+        imatgeRepository.save(iphone13blau2);
     }
 }
