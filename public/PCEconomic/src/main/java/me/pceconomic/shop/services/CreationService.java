@@ -125,5 +125,4 @@ public class CreationService {
         propietatsRepository.save(propietats);
         propietatsRepository.save(propietats1);
     }
-
 }
