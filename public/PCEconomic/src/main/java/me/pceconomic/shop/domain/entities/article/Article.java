@@ -43,6 +43,4 @@ public @Data class Article {
     @JoinColumn(name = "id_article")
     private Set<Propietats> propietats;
 
-
-
 }

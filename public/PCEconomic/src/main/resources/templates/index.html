@@ -4,23 +4,51 @@
     <body>
         <header th:replace="layout/layout.html :: header"></header>
         <main class="container">
-            <section class="col-12 mt-5">
+            <!--<section class="col-12 mt-5">
                 <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
                      alt="slider-principal">
-            </section>
+            </section>-->
             <section id="productes" class="row mt-5">
-                <a th:href="@{/article/{id}(id=${article.id})}" class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none"
+
+                <div th:each="article : ${articles}">
+                    <div th:each="prop : ${propietats}">
+                        <div th:if="${prop.article.id == article.id}">
+                            <p th:text="${prop.id}"></p>
+                            <a th:href="@{/article/{id}/{idPropietat}(id=${article.id},idPropietat=${prop.id})}">
+                                <div class="col-12">
+                                    <div th:if="${article.article.id}" class="col-12">
+                                        <img th:attr="srcset=@{/img/productes/{idArticle}/{idPropietats}/0.jpg(id=${article.id},idPropietats=${prop.id})}"
+                                             class=" img-fluid  col-12">
+                                    </div>
+                                    <div class="card-body">
+                                        <div>
+                                            <p th:text="${article.nom}"></p>
+                                            <span th:each="valor : ${prop.valor}">
+                                            <span th:text="${valor.propietat.nom} + ' ' + ${valor.valor}"></span>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <a th:href="@{/article/{id}(id=${article.id})}" class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none"
                    th:each="article : ${articles}">
+
                     <div class="col-12">
                         <div th:if="${article.article.id}" class="col-12">
                             <img th:attr="srcset=@{/img/productes/{id}/0.jpg(id=${article.id})}"
-                                 class="img-fluid col-12">
+                                 class=" img-fluid  col-12">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title" th:text="${article.article.nom}">Card title</h5>
                         </div>
                     </div>
-                </a>
+                </a> -->
             </section>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>

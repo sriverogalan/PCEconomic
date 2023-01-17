@@ -36,9 +36,9 @@ public class FrontController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("articles", propietatsRepository.findAll());
-        model.addAttribute("marques", marcaRepository.findAll());
-        model.addAttribute("imatges", imatgeRepository.findAll());
+        model.addAttribute("articles", articleRepository.findAll());
+        model.addAttribute("propietats", propietatsRepository.findAll());
+
         model.addAttribute("categories", categoriaRepository.findAll());
         return "index";
     }
