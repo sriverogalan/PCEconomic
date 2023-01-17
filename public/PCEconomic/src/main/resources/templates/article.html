@@ -50,11 +50,10 @@
           ></p>
 
           <h1>PROPIETATS</h1>
-
-                <p th:text="'Preu: ' + ${propietats.preu} + ' € '"></p>
-                <p th:text="'Stock: ' + ${propietats.stock}+ ' ud '"></p>
+          <p th:text="'Preu: ' + ${propietats.preu}"></p>
+          <p th:text="'Stock: ' + ${propietats.stock}"></p>
               <span th:each="prop : ${propietats.valor}">
-                <p th:text="${prop.propietat.nom} + ' : ' + ${prop.valor}"></p>
+                <p th:text="${prop.propietat.nom} +': ' + ${prop.valor}"></p>
               </span>
         </div>
         <div class="d-flex justify-content-evenly">
