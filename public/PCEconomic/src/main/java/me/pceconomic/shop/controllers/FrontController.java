@@ -19,16 +19,14 @@ public class FrontController {
 
     private final CategoriaRepository categoriaRepository;
     private final ArticleRepository articleRepository;
-    private final MarcaRepository marcaRepository;
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
     private final CreationService creationService;
 
     @Autowired
-    public FrontController(CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository) {
+    public FrontController(CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository ) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
-        this.marcaRepository = marcaRepository;
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.creationService = creationService;
@@ -38,7 +36,7 @@ public class FrontController {
     public String index(Model model) {
         model.addAttribute("articles", articleRepository.findAll());
         model.addAttribute("propietats", propietatsRepository.findAll());
-
+        model.addAttribute("imatges", imatgeRepository.findAll());
         model.addAttribute("categories", categoriaRepository.findAll());
         return "index";
     }
@@ -53,6 +51,7 @@ public class FrontController {
 
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
+//                model.addAttribute("marca", marcaRepository.findById(prop.getMarca().getId()).orElse(null));
                 model.addAttribute("propietats", propietats);
                 model.addAttribute("categories", categoriaRepository.findAll());
             }
