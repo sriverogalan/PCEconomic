@@ -8,7 +8,7 @@
         <div class="col-6 justify-content-center">
           <div id="carouselExample" class="carousel slide h-250px">
             <div class="carousel-inner">
-              <div th:each="foto : ${imatges}" class="carousel-item">
+              <div th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" class="carousel-item">
                 <img
                   th:id="${foto.id}"
                   class="d-block w-100"
