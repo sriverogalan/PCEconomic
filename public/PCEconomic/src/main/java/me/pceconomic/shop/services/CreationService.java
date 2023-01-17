@@ -2,6 +2,7 @@ package me.pceconomic.shop.services;
 
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Categoria;
+import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
@@ -21,15 +22,17 @@ public class CreationService {
     private final PropietatsRepository propietatsRepository;
     private final ValorRepository valorRepository;
     private final PropietatRepository propietatRepository;
+    private final ImatgeRepository imatgeRepository;
 
     @Autowired
-    public CreationService(ArticleRepository articleRepository, MarcaRepository marcaRepository, CategoriaRepository categoriaRepository, PropietatsRepository propietatsRepository, ValorRepository valorRepository, PropietatRepository propietatRepository) {
+    public CreationService(ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository, CategoriaRepository categoriaRepository, PropietatsRepository propietatsRepository, ValorRepository valorRepository, PropietatRepository propietatRepository) {
         this.articleRepository = articleRepository;
         this.marcaRepository = marcaRepository;
         this.categoriaRepository = categoriaRepository;
         this.propietatsRepository = propietatsRepository;
         this.valorRepository = valorRepository;
         this.propietatRepository = propietatRepository;
+        this.imatgeRepository = imatgeRepository;
     }
 
 
@@ -43,7 +46,6 @@ public class CreationService {
         marcaRepository.save(marca2);
         marcaRepository.save(marca3);
         marcaRepository.save(marca4);
-
 
         Categoria ram = new Categoria();
         ram.setName("RAM");
@@ -62,7 +64,7 @@ public class CreationService {
         Article article = new Article();
         article.setPes(10);
         article.setNom("Corsair CMK16GX4M2B3200C16 Vengeance LPX 16 GB (2 x 8 GB) DDR4 3200 MHz C16 XMP 2.0 Módulo de Memoria de Alto Rendimiento");
-        article.setDescripcio("Descripció del producte 1");
+        article.setDescripcio("Corsair CMK16GX4M2B3200C16 Vengeance LPX 16 GB (2 x 8 GB) DDR4 3200 MHz C16 XMP 2.0 Módulo de Memoria de Alto Rendimiento");
         article.setMarca(marca1);
 
         Article article1 = new Article();
@@ -110,11 +112,11 @@ public class CreationService {
         valorRepository.save(blau);
         valorRepository.save(negre);
 
-        Propietats propietats = new Propietats();
-        propietats.setArticle(article);
-        propietats.setPreu(100);
-        propietats.setStock(10);
-        propietats.setValor(Set.of(M, negre));
+        Propietats corsair = new Propietats();
+        corsair.setArticle(article);
+        corsair.setPreu(100);
+        corsair.setStock(10);
+        corsair.setValor(Set.of(M, negre));
 
         Propietats propietats1 = new Propietats();
         propietats1.setArticle(article1);
@@ -122,7 +124,25 @@ public class CreationService {
         propietats1.setStock(10);
         propietats1.setValor(Set.of(S, blau));
 
-        propietatsRepository.save(propietats);
+        propietatsRepository.save(corsair);
         propietatsRepository.save(propietats1);
+
+        Imatge corsairNegre = new Imatge();
+        corsairNegre.setPath("0.jpg");
+
+        Imatge corsairNegre2 = new Imatge();
+        corsairNegre2.setPath("1.jpg");
+
+        Imatge corsairNegre3 = new Imatge();
+        corsairNegre2.setPath("2.jpg");
+
+        Imatge corsairVermell = new Imatge();
+        corsairVermell.setPath("0.jpg");
+
+        Imatge corsairVermell2 = new Imatge();
+        corsairVermell2.setPath("1.jpg");
+
+        corsair.setImatges(Set.of(corsairNegre, corsairNegre2, corsairNegre3));
+
     }
 }
