@@ -22,3 +22,4 @@ function jscopy() {
 exports.jscopy = jscopy;
 exports.compileSASS = compileSASS;
 exports.default = series(compileSASS, jscopy);
+exports.build = series(compileSASS, jscopy);
