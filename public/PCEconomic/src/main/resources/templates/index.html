@@ -4,10 +4,10 @@
     <body>
         <header th:replace="layout/layout.html :: header"></header>
         <main class="container">
-            <section class="col-12 mt-5">
+            <!--<section class="col-12 mt-5">
                 <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
                      alt="slider-principal">
-            </section>
+            </section>-->
             <section id="productes" class="row mt-5">
 
                 <div th:each="article : ${articles}">
@@ -15,10 +15,14 @@
                         <div th:if="${prop.article.id == article.id}">
                             <p th:text="${prop.id}"></p>
                             <a th:href="@{/article/{id}/{idPropietat}(id=${article.id},idPropietat=${prop.id})}">
-                            <span th:each="valor : ${prop.valor}">
-                                <p th:text="${valor.valor}"></p>
-                            </span>
-                                <p th:text="${article.nom}"></p>
+
+                                <div >
+                                    <p th:text="${article.nom}"></p>
+                                    <span th:each="valor : ${prop.valor}">
+                                        <span th:text="${valor.propietat.nom} + ' ' + ${valor.valor}"></span>
+                                    </span>
+                                </div>
+
                             </a>
                         </div>
                     </div>
