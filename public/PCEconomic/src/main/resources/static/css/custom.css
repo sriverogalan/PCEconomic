@@ -53,8 +53,18 @@
   margin-right: auto;
 }
 
-.h-250px {
-  width: 250px;
+.imgSize {
+  max-width: 300px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
+
+.imgSizeArticle {
+  max-width: 624px;
+  max-height: 624px;
+  width: auto;
+  height: auto;
 }
 
 :root {
