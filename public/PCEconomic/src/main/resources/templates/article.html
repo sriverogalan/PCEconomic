@@ -8,7 +8,7 @@
         <div class="col-md-6 col-sm-12">
           <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-inner" >
-              <div class="carousel-item active" th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" >
+              <div class="carousel-item" th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" >
                 <img  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" class="d-block w-100" alt="foto">
               </div>
             </div>
