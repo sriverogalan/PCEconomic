@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -60,11 +61,23 @@ public class FrontController {
     @GetMapping("/categoria/{id}")
     public String getCategories(Model model, @PathVariable int id) {
         Categoria categoria = categoriaRepository.findById(id).orElse(null);
+
         Set<Article> articles = articleRepository.findByCategories(categoria);
-        if (categoria == null || articles == null) return "error";
+
+        Set<Propietats> propietats = new HashSet<>();
+
+        articles.forEach(article -> {
+            article.getPropietats().forEach(prop -> {
+                propietats.add(prop);
+            });
+        });
+
+        if (categoria == null || articles == null || propietats == null) return "error";
         model.addAttribute("articles", articles);
+        model.addAttribute("propietats", propietats);
+        model.addAttribute("imatges", imatgeRepository.findAll());
         model.addAttribute("categories", categoriaRepository.findAll());
-        return "categories";
+        return "index";
     }
 
     @GetMapping("/crearproducte")
