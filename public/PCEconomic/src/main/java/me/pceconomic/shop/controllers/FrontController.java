@@ -48,15 +48,12 @@ public class FrontController {
 
         if (article == null || propietats == null) return "error";
 
-
         article.getPropietats().forEach(prop -> {
-            if (prop.getId() == propietats.getId()) {
-//                model.addAttribute("marca", marcaRepository.findById(prop.getMarca().getId()).orElse(null));
-                model.addAttribute("propietats", propietats);
-                model.addAttribute("categories", categoriaRepository.findAll());
-            }
+            if (prop.getId() == propietats.getId()) model.addAttribute("propietats", propietats);
         });
 
+        model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("imatges", imatgeRepository.findAll());
         return "article";
     }
 
