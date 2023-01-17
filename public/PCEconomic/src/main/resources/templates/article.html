@@ -5,44 +5,24 @@
     <header th:replace="layout/layout.html :: header"></header>
     <main class="container">
       <div class="col-12 row">
-        <div class="col-6 justify-content-center">
-          <div id="carouselExample" class="carousel slide">
-            <div class="carousel-inner imgSizeArticle">
-              <div th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" class="carousel-item">
-                <img
-                  th:id="${foto.id}"
-                  class="d-block imgSizeArticle"
-                  alt="img"
-                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                />
+        <div class="col-md-6 col-sm-12">
+          <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-inner" >
+              <div class="carousel-item active" th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" >
+                <img  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" class="d-block w-100" alt="foto">
               </div>
             </div>
-            <button
-              class="carousel-control-prev text-dark"
-              type="button"
-              data-bs-target="#carouselExample"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
             </button>
-            <button
-              class="carousel-control-next text-dark"
-              type="button"
-              data-bs-target="#carouselExample"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
             </button>
           </div>
         </div>
+
         <div class="d-flex flex-column col-md-6 col-sm-12">
           <h1 th:text="${propietats.article.nom}"></h1>
           <p
