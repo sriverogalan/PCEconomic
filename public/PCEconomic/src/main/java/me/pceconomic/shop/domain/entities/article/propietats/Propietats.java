@@ -29,6 +29,6 @@ public @Data class Propietats {
     private Set<Valor> valor;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_article")
+    @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
 }
