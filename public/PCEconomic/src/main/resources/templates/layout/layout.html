@@ -75,11 +75,14 @@
         </nav>
         <nav class="navbar navbar-expand-md bg-pc-economic-light">
             <!-- Categories Offcanvas -->
-            <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-                Todas las categorias</button>
+            <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                Todas las categorias
+            </button>
         </nav>
 
-        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+             aria-labelledby="offcanvasWithBothOptionsLabel">
             <div class="offcanvas-header bg-pc-economic-default">
                 <h5 class="offcanvas-title text-light" id="offcanvasWithBothOptionsLabel">
                     Todas las categorias :</h5>
@@ -88,10 +91,12 @@
             <div class="offcanvas-body">
 
                 <span th:each="cat : ${categories}">
-                    <p th:text="${cat.name}"></p>
-                    <ul th:if="${cat.id == subcat.categoria.id}" th:each="subcat : ${subcategories}">
-                        <li th:text="${subcat.name}"></li>
-                    </ul>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"  th:text="${cat.name}"></button>
+                      <ul class="dropdown-menu" th:if="${cat.id == subcat.categoria.id}" th:each="subcat : ${subcategories}">
+                        <li><a class="dropdown-item" th:href="@{/categoria/{id}(id=${subcat.id})}" th:text="${subcat.name}">Action</a></li>
+                      </ul>
+                    </div>
                 </span>
 
                 <!--<ul>
@@ -111,29 +116,29 @@
                 </div>-->
             </div>
         </div>
-<!--
-        <div
-                class="offcanvas offcanvas-start text-light mt-5"
-                data-bs-scroll="true"
-                data-bs-backdrop="false"
-                tabindex="-1"
-                id="offcanvasScrolling"
-                aria-labelledby="offcanvasScrollingLabel"
-        >
-            <div class="offcanvas-header bg-pc-economic-default">
-                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-                </h5>
-                <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                ></button>
-            </div>
-            <div class="offcanvas-body text-dark">
+        <!--
+                <div
+                        class="offcanvas offcanvas-start text-light mt-5"
+                        data-bs-scroll="true"
+                        data-bs-backdrop="false"
+                        tabindex="-1"
+                        id="offcanvasScrolling"
+                        aria-labelledby="offcanvasScrollingLabel"
+                >
+                    <div class="offcanvas-header bg-pc-economic-default">
+                        <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
+                        </h5>
+                        <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="offcanvas"
+                                aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="offcanvas-body text-dark">
 
-            </div>
-        </div>-->
+                    </div>
+                </div>-->
     </header>
     <footer
             class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container"
