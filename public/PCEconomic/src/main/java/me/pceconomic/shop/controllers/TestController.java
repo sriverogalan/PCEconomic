@@ -3,38 +3,44 @@ package me.pceconomic.shop.controllers;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.article.propietats.Valor;
-import me.pceconomic.shop.repositories.PropietatRepository;
-import me.pceconomic.shop.repositories.PropietatsRepository;
-import me.pceconomic.shop.repositories.ValorRepository;
+import me.pceconomic.shop.domain.entities.persona.Administrador;
+import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.entities.persona.SuperUsuari;
+import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 public class TestController {
 
-    @Autowired
-    private PropietatRepository propietatRepository;
-    @Autowired
-    private PropietatsRepository propietatsRepository;
-    @Autowired
-    private ValorRepository valorRepository;
+    private final PersonaRepository personaRepository;
+    private final ClientRepository clientRepository;
+    private final AdministradorRepository administradorRepository;
+    private final SuperUsuariRepository superUsuariRepository;
 
-    @GetMapping("/test/propietats")
-    public List<Propietat> getValors() {
-        return propietatRepository.findAll();
+    @Autowired
+    public TestController(PersonaRepository personaRepository, ClientRepository clientRepository, AdministradorRepository administradorRepository, SuperUsuariRepository superUsuariRepository) {
+        this.personaRepository = personaRepository;
+        this.clientRepository = clientRepository;
+        this.administradorRepository = administradorRepository;
+        this.superUsuariRepository = superUsuariRepository;
     }
 
-    @GetMapping("/test/valors")
-    public List<Valor> getProp() {
-        return valorRepository.findAll();
+    @GetMapping("/persones")
+    public Iterable<Persona> persones() {
+        return personaRepository.findAll();
     }
 
-    @GetMapping("/test/propietatsssss")
-    public List<Propietats> aaaaaa() {
-        return propietatsRepository.findAll();
+    @GetMapping("/admins")
+    public Iterable<Administrador> admins() {
+        return administradorRepository.findAll();
+    }
+
+    @GetMapping("/root")
+    public Iterable<SuperUsuari> root() {
+        return superUsuariRepository.findAll();
     }
 
 }

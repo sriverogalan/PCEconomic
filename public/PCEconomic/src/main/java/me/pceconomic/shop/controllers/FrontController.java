@@ -50,4 +50,10 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
+
+    @GetMapping("/areaclients")
+    public String areaClients() {
+        return "areaclients";
+    }
+
 }
