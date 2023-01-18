@@ -1,9 +1,9 @@
 package me.pceconomic.shop.services;
 
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
@@ -128,6 +128,7 @@ public class CreationService {
         Imatge corsairNegre = new Imatge();
         corsairNegre.setPath("0.jpg");
         corsairNegre.setPropietats(corsair);
+        corsairNegre.setPrincipal(true);
 
         Imatge corsairNegre2 = new Imatge();
         corsairNegre2.setPath("1.jpg");
@@ -140,6 +141,7 @@ public class CreationService {
         Imatge iphone13blau = new Imatge();
         iphone13blau.setPath("0.jpg");
         iphone13blau.setPropietats(propietats1);
+        iphone13blau.setPrincipal(true);
 
         Imatge iphone13blau2 = new Imatge();
         iphone13blau2.setPath("1.jpg");
