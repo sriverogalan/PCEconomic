@@ -2,6 +2,7 @@ package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
+import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
 import me.pceconomic.shop.services.CreationService;
@@ -63,9 +64,9 @@ public class FrontController {
 
     @GetMapping("/categoria/{id}")
     public String getCategories(Model model, @PathVariable int id) {
-        Categoria categoria = categoriaRepository.findById(id).orElse(null);
+        Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
 
-        Set<Article> articles = articleRepository.findByCategories(categoria);
+        Set<Article> articles = articleRepository.findBySubcategories(subcategoria);
 
         Set<Propietats> propietats = new HashSet<>();
 
@@ -75,7 +76,7 @@ public class FrontController {
             });
         });
 
-        if (categoria == null || articles == null || propietats == null) return "error";
+        if (subcategoria == null || articles == null || propietats == null) return "error";
         model.addAttribute("articles", articles );
         model.addAttribute("propietats", propietats );
         model.addAttribute("imatges", imatgeRepository.findAll() );

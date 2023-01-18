@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
+import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 import java.util.Set;
@@ -34,11 +35,11 @@ public @Data class Article {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "articles_categories",
+            name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),
-            inverseJoinColumns = @JoinColumn(name = "id_categoria")
+            inverseJoinColumns = @JoinColumn(name = "id_subcategoria")
     )
-    private Set<Categoria> categories;
+    private Set<Subcategoria> subcategories;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article")

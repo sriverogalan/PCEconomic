@@ -14,7 +14,7 @@
                    class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">
                     <div th:each="img : ${imatges}">
                         <img th:if="${img.propietats.id == prop.id && img.principal == true}"
-                             th:src="@{/img/productes/{idArticle}/{idPropietat}/0.jpg (idArticle=${prop.article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
+                             th:src="@{/img/productes/{idArticle}/{idPropietat}/{idPath} (idArticle=${prop.article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
                              class="card-img-top col-12 imgSize" alt="img" >
                         <div th:if="${img.propietats.id != prop.id}" th:remove="tag"></div>
                     </div>
