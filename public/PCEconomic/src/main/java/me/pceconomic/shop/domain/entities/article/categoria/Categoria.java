@@ -2,11 +2,13 @@ package me.pceconomic.shop.domain.entities.article.categoria;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "categories")
+@EqualsAndHashCode(exclude = "subcategorias")
 public @Data class Categoria {
 
     @Id
