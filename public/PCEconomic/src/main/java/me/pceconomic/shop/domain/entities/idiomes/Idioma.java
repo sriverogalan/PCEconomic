@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "idiomes")
-@EqualsAndHashCode(exclude = {"valores"})
+@EqualsAndHashCode(exclude = {"valores", "estatics", "articles", "ofertes", "propietats"})
 public @Data class Idioma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

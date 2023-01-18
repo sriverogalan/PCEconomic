@@ -4,38 +4,93 @@
 // 2. Include any default variable overrides here
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
 * {
-    font-family: 'Oswald', sans-serif;
+  font-family: 'Oswald', sans-serif;
 }
 
-.size-card{
-    width: 250px;
-    height: 300px;
-    margin-left: auto;
-    margin-right: auto;
+.size-card {
+  width: 250px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.titolPrincipal{
-    font-size: 15px;
-    text-align: left;
-    color: #000000;
+.titolPrincipal {
+  font-size: 15px;
+  text-align: left;
+  color: #000000;
 }
 
-.titolSpan{
-    font-size: 15px;
-    text-align: left;
-    color: #8a8a8a;
+.titolSpan {
+  font-size: 15px;
+  text-align: left;
+  color: #8a8a8a;
 }
 
-.img-card{
-    height: 400px;
+.img-article {
+  width: 100%;
+  height: 400px;
 }
+
+.logo {
+  width: 100%;
+  height: 50px;
+}
+
+.slider-principal {
+  height: 30vh;
+}
+
+
+.ml-4 {
+  margin-left: 15px;
+}
+
+.mr-4 {
+  margin-right: 15px;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.imgSize {
+  max-width: 300px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
+
+
+.imgSizeArticle {
+  max-width: 624px;
+  max-height: 624px;
+  width: auto;
+  height: auto;
+  margin: auto;
+}
+
+$pc-economic-dark: #4c0bce;
+$pc-economic-default: #712cf9;
+$pc-economic-light: #8b5fff;
 
 // 3. Include remainder of required Bootstrap stylesheets
 @import "../../../../frontend/node_modules/bootstrap/scss/variables";
 
 // 4. Include any default map overrides here
-
+// Create your own map
+$custom-colors: (
+        "pc-economic-dark": $pc-economic-dark, // orange
+        "pc-economic-light": $pc-economic-light,
+        "pc-economic-default": $pc-economic-default,
+);
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
 // 5. Include remainder of required parts
 @import "../../../../frontend/node_modules/bootstrap/scss/maps";
 @import "../../../../frontend/node_modules/bootstrap/scss/mixins";
@@ -49,7 +104,6 @@
 @import "../../../../frontend/node_modules/bootstrap/scss/containers";
 @import "../../../../frontend/node_modules/bootstrap/scss/grid";
 @import "../../../../frontend/node_modules/bootstrap/scss/helpers";
-@import "../../../../frontend/node_modules/bootstrap/scss/navbar";
 @import "../../../../frontend/node_modules/bootstrap/scss/dropdown";
 @import "../../../../frontend/node_modules/bootstrap/scss/buttons";
 @import "../../../../frontend/node_modules/bootstrap/scss/nav";
@@ -67,6 +121,20 @@
 @import "../../../../frontend/node_modules/bootstrap/scss/buttons";
 @import "../../../../frontend/node_modules/bootstrap/scss/button-group";
 @import "../../../../frontend/node_modules/bootstrap/scss/close";
+@import "../../../../frontend/node_modules/bootstrap/scss/offcanvas";
+@import "../../../../frontend/node_modules/bootstrap/scss/progress";
+@import "../../../../frontend/node_modules/bootstrap/scss/modal";
+@import "../../../../frontend/node_modules/bootstrap/scss/alert";
+@import "../../../../frontend/node_modules/bootstrap/scss/toasts";
+@import "../../../../frontend/node_modules/bootstrap/scss/tooltip";
+@import "../../../../frontend/node_modules/bootstrap/scss/popover";
+@import "../../../../frontend/node_modules/bootstrap/scss/pagination";
+@import "../../../../frontend/node_modules/bootstrap/scss/badge";
+@import "../../../../frontend/node_modules/bootstrap/scss/list-group";
+@import "../../../../frontend/node_modules/bootstrap/scss/accordion";
+@import "../../../../frontend/node_modules/bootstrap/scss/close";
+@import "../../../../frontend/node_modules/bootstrap/scss/mixins/backdrop";
+
 
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "../../../../frontend/node_modules/bootstrap/scss/utilities/api";

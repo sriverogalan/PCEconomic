@@ -3,6 +3,7 @@ package me.pceconomic.shop.domain.entities.persona.direction;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 
 import java.util.Set;
 
@@ -25,6 +26,10 @@ public @Data class Direccio {
     private boolean isActive;
 
     @OneToMany
-    @JoinColumn(name = "id_pais")
+    @JoinColumn(name = "id_direccio")
     private Set<Pais> countries;
+
+    @ManyToOne
+    @JoinColumn(name = "id_persona")
+    private Persona persona;
 }

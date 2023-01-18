@@ -1,43 +1,35 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout.html :: head"></head>
-<body>
-<header th:replace="layout/layout.html :: header"></header>
-<main class="container">
-    <section id="slider-principal " class="col-12 mt-5">
-        <h1 class="text-left titolPrincipal col-6">Expertos en tecnología</h1>
-        <span class="titolSpan col-6"> con un servicio 5 estrellas</span>
-        <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 " alt="slider-principal">
-    </section>
-    <section id="productes" class="row mt-5">
-        <div class="card col-xs-12 col-sm-6 col-lg-4 col-xl-3 col-xxl-2" th:each="article : ${articles}">
-            <picture>
-                <div th:if="${article.id}">
-                    <img th:attr="srcset=@{/img/productes/{id}/{id}.jpg(id=${article.id})}" class="card-img-top img-card" >
-                </div>
-                <div th:unless="${article.id}">
-                    <img th:attr="src=@{/img/static/no-picture/no-picture.jpg}" class="card-img-top" alt="Default Image">
-                </div>
-                </picture>
-           <div class="card-body">
-                <h5 class="card-title" th:text="${article.nom}">Card title</h5>
-            </div>
-        </div>
+    <head th:replace="layout/layout.html :: head"></head>
+    <body>
+        <header th:replace="layout/layout.html :: header"></header>
+        <main class="container">
+            <section class="col-12 mt-5">
+                <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
+                     alt="slider-principal">
+            </section>
+            <section id="productes" class="row mt-5">
+                <a th:each="prop : ${propietats}"
+                   th:href="@{/article/{id}/{idPropietat}(id=${prop.article.id},idPropietat=${prop.id})}"
+                   class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">
+                    <div th:each="img : ${imatges}">
+                        <img th:if="${img.propietats.id == prop.id && img.principal == true}"
+                             th:src="@{/img/productes/{idArticle}/{idPropietat}/{idPath} (idArticle=${prop.article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
+                             class="card-img-top col-12 imgSize" alt="img" >
+                        <div th:if="${img.propietats.id != prop.id}" th:remove="tag"></div>
+                    </div>
+                    <div class="card-body align-items-center">
+                        <p th:text="${prop.article.nom}"></p>
+                        <p th:each="valor : ${prop.valor}" th:text="${valor.propietat.nom} +':' + ${valor.valor}">
+                        </p>
+                    </div>
+                </a>
+            </section>
+        </main>
+        <footer th:replace="layout/layout.html :: footer"></footer>
+    </body>
+    <script th:replace="layout/layout.html :: jquery"></script>
 
-
-        <!--
-        <div class="card col-4 " th:each="article : ${articles}">
-            <img th:src="@{/img/productes/{id}/{id}.jpg(id=${article.id})}" class="size-card" alt="...">
-            <div class="card-body">
-                <h5 class="card-title" th:text="${article.nom}"></h5>
-            </div>
-        </div>-->
-    </section>
-</main>
-<footer th:replace="layout/layout.html :: footer"></footer>
-</body>
-<script th:replace="layout/layout.html :: jquery"></script>
-
-<script>
-</script>
+    <script>
+    </script>
 </html>
