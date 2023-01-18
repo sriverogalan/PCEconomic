@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.text.NumberFormat;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 @Service
@@ -45,9 +47,17 @@ public class FrontService {
 
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) model.addAttribute("propietats", propietats);
+            if (prop.getId() == propietats.getId()) model.addAttribute("preuEuros", formatearComoEuros(prop.getPreu()));
         });
+
         sendListsToView(model);
     }
+
+    private String formatearComoEuros(double value) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("es", "ES"));
+        return formatter.format(value);
+    }
+
 
     public void getCategoria(Model model, int id) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
