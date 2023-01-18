@@ -78,6 +78,7 @@ public class FrontController {
         model.addAttribute("propietats", propietats);
         model.addAttribute("imatges", imatgeRepository.findAll());
         model.addAttribute("categories", categoriaRepository.findAll());
+        model.addAttribute("subcategories", subcategoriaRepository.findAll());
         return "index";
     }
 
