@@ -2,9 +2,11 @@ package me.pceconomic.shop.domain.entities.article.categoria;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "subcategories")
+@EqualsAndHashCode(exclude = "categoria")
 public @Data class Subcategoria {
 
     @Id

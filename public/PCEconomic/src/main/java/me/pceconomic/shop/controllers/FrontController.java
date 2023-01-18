@@ -1,7 +1,6 @@
 package me.pceconomic.shop.controllers;
 
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
@@ -26,7 +25,7 @@ public class FrontController {
     private final CreationService creationService;
 
     @Autowired
-    public FrontController(SubcategoriaRepository subcategoriaRepository, CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository ) {
+    public FrontController(SubcategoriaRepository subcategoriaRepository, CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
@@ -65,22 +64,20 @@ public class FrontController {
     @GetMapping("/categoria/{id}")
     public String getCategories(Model model, @PathVariable int id) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
-
         Set<Article> articles = articleRepository.findBySubcategories(subcategoria);
-
         Set<Propietats> propietats = new HashSet<>();
 
+        if (articles == null) return "error";
+
         articles.forEach(article -> {
-            article.getPropietats().forEach(prop -> {
-                propietats.add(prop);
-            });
+            propietats.addAll(article.getPropietats());
         });
 
-        if (subcategoria == null || articles == null || propietats == null) return "error";
-        model.addAttribute("articles", articles );
-        model.addAttribute("propietats", propietats );
-        model.addAttribute("imatges", imatgeRepository.findAll() );
-        model.addAttribute("categories", categoriaRepository.findAll() );
+        if (subcategoria == null) return "error";
+        model.addAttribute("articles", articles);
+        model.addAttribute("propietats", propietats);
+        model.addAttribute("imatges", imatgeRepository.findAll());
+        model.addAttribute("categories", categoriaRepository.findAll());
         return "index";
     }
 
