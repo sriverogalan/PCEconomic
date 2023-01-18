@@ -3,7 +3,6 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
@@ -11,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "articles")
-@EqualsAndHashCode(exclude = {"propietats"})
+@EqualsAndHashCode(exclude = {"propietats", "subcategories"})
 public @Data class Article {
 
     @Id
