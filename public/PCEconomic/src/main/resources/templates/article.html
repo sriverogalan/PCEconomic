@@ -9,7 +9,7 @@
           <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-inner" >
               <div class="carousel-item" th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" >
-                <img  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" class="d-block w-100" alt="foto">
+                <img  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" class="d-block  imgSizeArticle" alt="foto">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

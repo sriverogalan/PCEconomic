@@ -70,9 +70,9 @@
 .imgSizeArticle {
   max-width: 624px;
   max-height: 624px;
-  width: auto;
-  height: auto;
-  margin: auto;
+  width: 624px;
+  height: 624px;
+  object-fit: contain;
 }
 
 $pc-economic-dark: #4c0bce;
