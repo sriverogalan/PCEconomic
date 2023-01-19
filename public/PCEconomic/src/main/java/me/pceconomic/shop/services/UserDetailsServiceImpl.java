@@ -11,10 +11,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final PersonaRepository personaRepository;
     private final ClientRepository clientRepository;
@@ -22,7 +23,10 @@ public class UserService implements UserDetailsService {
     private final SuperUsuariRepository superUsuariRepository;
 
     @Autowired
-    public UserService(PersonaRepository personaRepository, ClientRepository clientRepository, AdministradorRepository administradorRepository, SuperUsuariRepository superUsuariRepository) {
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserDetailsServiceImpl(PersonaRepository personaRepository, ClientRepository clientRepository, AdministradorRepository administradorRepository, SuperUsuariRepository superUsuariRepository) {
         this.personaRepository = personaRepository;
         this.clientRepository = clientRepository;
         this.administradorRepository = administradorRepository;
@@ -37,8 +41,7 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("No s'ha trobat l'usuari");
         }
 
-        System.out.println(persona.getEmail());
-        System.out.println(persona.getPassword());
+        persona.setPassword(passwordEncoder.encode(persona.getPassword()));
 
         if (clientRepository.findByPersona(persona) != null) {
             return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("CLIENT"));

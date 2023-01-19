@@ -1,33 +1,26 @@
 package me.pceconomic.shop.config;
 
-import me.pceconomic.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
-
-    private final UserService userService;
+public class SecurityConfig {
 
     @Autowired
-    public SecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
+    private UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .userDetailsService(userDetailsService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/areaclients/**").authenticated()
                         .anyRequest().permitAll()
@@ -42,26 +35,9 @@ public class SecurityConfig{
         return http.build();
     }
 
- /*   @Bean
-    public UserDetailsService userDetailsService() {
-        return userService;
-    }*/
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("admin")
-                        .roles("USER")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
     }
 
 }

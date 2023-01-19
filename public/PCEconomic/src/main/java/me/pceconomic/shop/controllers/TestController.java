@@ -1,13 +1,16 @@
 package me.pceconomic.shop.controllers;
 
-import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Administrador;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.entities.persona.SuperUsuari;
-import me.pceconomic.shop.repositories.*;
+import me.pceconomic.shop.repositories.AdministradorRepository;
+import me.pceconomic.shop.repositories.ClientRepository;
+import me.pceconomic.shop.repositories.PersonaRepository;
+import me.pceconomic.shop.repositories.SuperUsuariRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,4 +55,22 @@ public class TestController {
         return passwordEncoder.encode(password);
     }
 
+    @GetMapping("/test2")
+    public User test2(@RequestParam String email) throws UsernameNotFoundException {
+        Persona persona = personaRepository.findByEmail(email);
+
+        if (persona == null) {
+            throw new UsernameNotFoundException("No s'ha trobat l'usuari");
+        }
+
+        if (clientRepository.findByPersona(persona) != null) {
+            return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("CLIENT"));
+        } else if (administradorRepository.findByPersona(persona) != null) {
+            return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("ADMINISTRADOR"));
+        } else if (superUsuariRepository.findByPersona(persona) != null) {
+            return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("SUPERUSUARI"));
+        } else {
+            throw new UsernameNotFoundException("No s'ha trobat l'usuari");
+        }
+    }
 }
