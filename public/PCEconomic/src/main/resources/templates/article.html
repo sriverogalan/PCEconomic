@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head"></head>
-    <body class="bgbd">
-        <header th:replace="layout/layout.html :: header"></header>
-        <main class="container bg-cont mt-md-5 mt-5">
-            <div class="col-12 row m-2 justify-content-center">
-                <div class="col-md-6 col-sm-12">
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-inner">
-                            <div class="carousel-item" th:each="foto : ${imatges}"
-                                 th:if=" ${propietats.id == foto.propietats.id}">
-                                <img class="d-block img-fluid imgSizeArticle"
-                                     th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}">
-                            </div>
+<head th:replace="layout/layout.html :: head"></head>
+<body class="bgbd">
+    <header th:replace="layout/layout.html :: header"></header>
+    <main class="container bg-cont mt-md-5 mt-5">
+        <div class="col-12 row m-2 justify-content-center">
+            <div class="col-md-6 col-sm-12">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" th:each="foto : ${imatges}"
+                             th:if=" ${propietats.id == foto.propietats.id}">
+                            <img class="d-block img-fluid imgSizeArticle"
+                                 th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}">
                         </div>
-                        <button class="carousel-control-prev" data-bs-slide="prev"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                        </button>
-                        <button class="carousel-control-next" data-bs-slide="next"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                        </button>
                     </div>
+                    <button class="carousel-control-prev" data-bs-slide="prev"
+                            data-bs-target="#carouselExampleIndicators"
+                            type="button">
+                        <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                    </button>
+                    <button class="carousel-control-next" data-bs-slide="next"
+                            data-bs-target="#carouselExampleIndicators"
+                            type="button">
+                        <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="row justify-content-around">
+                    <a th:if="${foto.principal == true && foto.propietats.esPrincipal == false && foto.propietats.article.id == foto.propietats.article.id}"
+                       th:each="foto : ${imatges}"
+                       th:href="@{/article/{idarticle}/{idpropietat}(idarticle=${foto.propietats.article.id}, idpropietat=${foto.propietats.id})}">
+                        <img th:src="@{/img/productes/{idarticle}/{idpropietat}/{path}(path=${foto.path},idarticle=${foto.propietats.article.id}, idpropietat=${foto.propietats.id})}">
+                    </a>
                 </div>
 
-                <div class="col-md-6 col-sm-12">
-                    <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
-                    <h5 class="text-body mt-2"
-                        th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
                     <h3 class="text-center mt-3" th:text="${preuEuros}" ></h3>
                     <input type="number" class="mt-4" id="quantity" name="quantity" min="1"
@@ -39,7 +44,22 @@
                         <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
                         <button class="btn btn-pc-economic-dark col-5">Comprar</button>
                     </div>
+
+                <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
+                <h5 class="text-body mt-2"
+                    th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
+
+                <h3 class="text-center mt-3" th:text="${preuEuros}"></h3>
+
+                <input type="number" class="form-control mt-4" id="quantity" name="quantity" min="1"
+                       th:max="${propietats.stock}" value="1">
+                <div class="d-flex justify-content-evenly mt-5">
+                    <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
+                    <button class="btn btn-pc-economic-dark col-5">Comprar</button>
+
                 </div>
+            </div>
+
 
                 <div class="col-12 mt-5 row justify-content-center">
                     <div class="col-12">
@@ -54,12 +74,30 @@
         </main>
         <div th:replace="layout/layout.html :: jquery"></div>
 
-        <script>
-            $(document).ready(function () {
-                $(".carousel-item:first").addClass("active");
-            });
-        </script>
+            <div class="col-12 mt-5 row justify-content-center">
+                <div class="col-12">
+                    <h3>Propietades del producto</h3>
+                    <p th:each="prop : ${propietats.valor}"
+                       th:text="' - ' + ${prop.propietat.nom} + ': ' + ${prop.valor}"></p>
 
-        <footer th:replace="layout/layout :: footer"></footer>
-    </body>
+                    <h3>Descripción</h3>
+                    <p th:text="${propietats.article.descripcio}"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script
+            crossorigin="anonymous"
+            integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+            src="https://code.jquery.com/jquery-3.6.2.min.js"
+    ></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".carousel-item:first").addClass("active");
+        });
+    </script>
+
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
 </html>
