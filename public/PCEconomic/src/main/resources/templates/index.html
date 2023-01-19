@@ -9,7 +9,11 @@
                      alt="slider-principal">
             </section>
             <section id="productes" class="row mt-5 justify-content-center">
-                <div id="articles" class="row  mt-2 mb-2"></div>
+                <div id="articles" class="row mt-2 justify-content-center mb-2">
+                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </section>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
@@ -20,8 +24,13 @@
             url: "/api/articles",
             type: "GET",
             dataType: "json",
+            beforeSend: function() {
+                $("#loading-wheel").show();
+            },
+            complete: function() {
+                $("#loading-wheel").hide();
+            },
             success: function (resp) {
-                console.log(resp);
                 var articles = resp;
                 for (var img of resp) {
                     if (img.principal === true && img.propietats.esPrincipal === true) {
@@ -40,7 +49,11 @@
                         for (var i of articles) {
                             if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id) {
                                 $('#' + img.propietats.id).append(
-                                    '<a class="col-4 mt-2 mb-2 row" href="http://localhost:8080/article/' + i.propietats.article.id + '/' + i.propietats.id + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
+                                    '<a data-bs-toggle="tooltip" data-bs-placement="top"' +
+                                    '        data-bs-custom-class="custom-tooltip"' +
+                                    '        data-bs-title="'+ i.propietats.article.nom +'" class="col-4 mt-2 mb-2 row"' +
+                                    ' href="http://localhost:8080/article/' + i.propietats.article.id + '/' + i.propietats.id
+                                    + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
                                 );
                             }
                         }

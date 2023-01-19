@@ -4,12 +4,13 @@
     <body class="bgbd">
         <header th:replace="layout/layout.html :: header"></header>
         <main class="container-lg bg-cont mt-md-5 mt-1" th:id="${subcategoria.id}">
-            <section class="col-12 mt-5">
-                <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
-                     alt="slider-principal">
-            </section>
+            <h1 th:text="${subcategoria.categoria.name} + ' -> ' + ${subcategoria.name}" class="mt-4 text-center"></h1>
             <section id="productes" class="row mt-5 justify-content-center">
-                <div id="articles" class="row  mt-2 mb-2"></div>
+                <div id="articles" class="row mt-2 justify-content-center mb-2">
+                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </section>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
@@ -20,6 +21,12 @@
             url: "/api/articles",
             type: "GET",
             dataType: "json",
+            beforeSend: function() {
+                $("#loading-wheel").show();
+            },
+            complete: function() {
+                $("#loading-wheel").hide();
+            },
             success: function (resp) {
                 console.log(resp);
                 var articles = resp;

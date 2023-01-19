@@ -11,7 +11,7 @@
                             <div class="carousel-item" th:each="foto : ${imatges}"
                                  th:if=" ${propietats.id == foto.propietats.id}">
                                 <img class="d-block img-fluid imgSizeArticle"
-                                     th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}">
+                                     th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" id="propietats.id">
                             </div>
                         </div>
                         <button class="carousel-control-prev" data-bs-slide="prev"
@@ -58,6 +58,9 @@
             $(document).ready(function () {
                 $(".carousel-item:first").addClass("active");
             });
+
+
+
         </script>
 
         <footer th:replace="layout/layout :: footer"></footer>
