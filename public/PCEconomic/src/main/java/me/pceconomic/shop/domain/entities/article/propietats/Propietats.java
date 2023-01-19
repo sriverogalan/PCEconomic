@@ -24,6 +24,9 @@ public @Data class Propietats {
     @Column(name = "stock")
     private int stock;
 
+    @Column(name = "esPrincipal")
+    private boolean esPrincipal;
+
     @OneToMany
     @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
