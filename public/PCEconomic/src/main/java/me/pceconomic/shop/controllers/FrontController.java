@@ -42,7 +42,7 @@ public class FrontController {
     @GetMapping("/categoria/{id}")
     public String getCategories(Model model, @PathVariable int id) {
         frontService.getCategoria(model, id);
-        return "index";
+        return "categoria";
     }
 
     @GetMapping("/crearproducte")

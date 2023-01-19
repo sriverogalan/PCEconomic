@@ -36,7 +36,6 @@ public @Data class Article {
     private Marca marca;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
     @JoinTable(
             name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),

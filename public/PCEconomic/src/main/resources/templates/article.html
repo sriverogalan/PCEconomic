@@ -36,6 +36,15 @@
                     </a>
                 </div>
 
+
+                    <h3 class="text-center mt-3" th:text="${preuEuros}" ></h3>
+                    <input type="number" class="mt-4" id="quantity" name="quantity" min="1"
+                           th:max="${propietats.stock}" value="1">
+                    <div class="d-flex justify-content-evenly mt-5">
+                        <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
+                        <button class="btn btn-pc-economic-dark col-5">Comprar</button>
+                    </div>
+
                 <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
                 <h5 class="text-body mt-2"
                     th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
@@ -47,8 +56,23 @@
                 <div class="d-flex justify-content-evenly mt-5">
                     <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
                     <button class="btn btn-pc-economic-dark col-5">Comprar</button>
+
                 </div>
             </div>
+
+
+                <div class="col-12 mt-5 row justify-content-center">
+                    <div class="col-12">
+                        <h3>Propietades del producto</h3>
+                        <p th:each="prop : ${propietats.valor}"
+                           th:text="' - ' + ${prop.propietat.nom} + ': ' + ${prop.valor}"></p>
+                        <h3>Descripción</h3>
+                        <p th:text="${propietats.article.descripcio}"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div th:replace="layout/layout.html :: jquery"></div>
 
             <div class="col-12 mt-5 row justify-content-center">
                 <div class="col-12">

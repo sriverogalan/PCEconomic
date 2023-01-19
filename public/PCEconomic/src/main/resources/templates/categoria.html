@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout.html :: head"></head>
+    <body class="bgbd">
+        <header th:replace="layout/layout.html :: header"></header>
+        <main class="container-lg bg-cont mt-md-5 mt-1" th:id="${subcategoria.id}">
+            <section class="col-12 mt-5">
+                <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
+                     alt="slider-principal">
+            </section>
+            <section id="productes" class="row mt-5 justify-content-center">
+                <div id="articles" class="row  mt-2 mb-2"></div>
+            </section>
+        </main>
+        <footer th:replace="layout/layout.html :: footer"></footer>
+    </body>
+    <div th:replace="layout/layout.html :: jquery"></div>
+    <script>
+        $.ajax({
+            url: "/api/articles",
+            type: "GET",
+            dataType: "json",
+            success: function (resp) {
+                console.log(resp);
+                var articles = resp;
+                var mainId = $('main').attr('id');
+                console.log(mainId);
+
+
+                for (var img of resp) {
+                    if (img.principal === true && img.propietats.esPrincipal === true) {
+                        if (img.propietats.article.subcategories[0].id == mainId){
+                            $('#articles').append(
+                                '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
+                                '<span class="text-end h2 text-pc-economic-default bold col-12">' + img.propietats.preu + ' € </span>' +
+                                '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-12 object-fit-cover" alt="img">' +
+                                '<div class="col-12 justify-content-center row">' +
+                                '<div id="id' + img.propietats.id + '" class="row justify-content-around col-12"></div>' +
+                                '<div class="text-start h3 col-12"> <p>' + img.propietats.article.nom + '</p></div>' +
+                                '<span class="text-success col-12 text-start mb-2"> Recíbelo mañana </span>' +
+                                '</div>' +
+                                '</div>' +
+                                '</a>'
+                            );
+                            for (var i of articles) {
+                                if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id) {
+                                    $('#id' + img.propietats.id).append(
+                                        '<a class="col-4 mt-2 mb-2 row" href="http://localhost:8080/article/' + i.propietats.article.id + '/' + i.propietats.id + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        });
+    </script>
+</html>
