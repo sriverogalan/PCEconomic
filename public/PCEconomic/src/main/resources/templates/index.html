@@ -8,7 +8,11 @@
                 <img th:src="@{/img/static/slider.webp}" class="img-fluid col-12 h-50 slider-principal"
                      alt="slider-principal">
             </section>
-            <section id="productes" class="row mt-5">
+            <section id="productes" class="row mt-5 justify-content-center">
+                <div id="articles" class="row  mt-2 mb-2"></div>
+
+
+                <!--
                 <a th:each="prop : ${propietats}"
                    th:href="@{/article/{id}/{idPropietat}(id=${prop.article.id},idPropietat=${prop.id})}"
                    class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">
@@ -23,13 +27,43 @@
                         <p th:each="valor : ${prop.valor}" th:text="${valor.propietat.nom} +':' + ${valor.valor}">
                         </p>
                     </div>
-                </a>
+                </a>-->
             </section>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
-    <script th:replace="layout/layout.html :: jquery"></script>
-
+    <div th:replace="layout/layout.html :: jquery"></div>
     <script>
+        $.ajax({
+            url: "/api/articles",
+            type: "GET",
+            dataType: "json",
+            success: function (resp) {
+                console.log(resp);
+                var articles = resp;
+                for (var img of resp) {
+                    if (img.principal === true && img.propietats.esPrincipal === true) {
+                        $('#articles').append(
+                            '<a href="article/' + img.propietats.article.id + '/' + img.propietats.id +'" class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">' +
+                            '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-12 object-fit-cover" alt="img">' +
+                            '<div class="card-img-top col-12 imgSize mt-2 mb-2">' +
+                                '<div id="' + img.propietats.id + '" class="row justify-content-around"></div>' +
+                                    '<div> <p>' + img.propietats.article.nom + '</p></div>' +
+                                    '<span class="text-start h2">' + img.propietats.preu + ' € </span>' +
+                                '</div>' +
+                            '</div>' +
+                            '</a>'
+                        );
+                        for (var i of articles){
+                            if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id){
+                                $('#'+img.propietats.id).append(
+                                    '<img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-2 mt-2 mb-2" alt="img">'
+                                );
+                            }
+                        }
+                    }
+                }
+            },
+        });
     </script>
 </html>
