@@ -10,24 +10,6 @@
             </section>
             <section id="productes" class="row mt-5 justify-content-center">
                 <div id="articles" class="row  mt-2 mb-2"></div>
-
-
-                <!--
-                <a th:each="prop : ${propietats}"
-                   th:href="@{/article/{id}/{idPropietat}(id=${prop.article.id},idPropietat=${prop.id})}"
-                   class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">
-                    <div th:each="img : ${imatges}">
-                        <img th:if="${img.propietats.id == prop.id && img.principal == true}"
-                             th:src="@{/img/productes/{idArticle}/{idPropietat}/{idPath} (idArticle=${prop.article.id}, idPropietat=${img.propietats.id}, idPath=${img.path})} "
-                             class="card-img-top col-12 imgSize" alt="img" >
-                        <div th:if="${img.propietats.id != prop.id}" th:remove="tag"></div>
-                    </div>
-                    <div class="card-body align-items-center">
-                        <p th:text="${prop.article.nom}"></p>
-                        <p th:each="valor : ${prop.valor}" th:text="${valor.propietat.nom} +':' + ${valor.valor}">
-                        </p>
-                    </div>
-                </a>-->
             </section>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
@@ -58,7 +40,7 @@
                         for (var i of articles) {
                             if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id) {
                                 $('#' + img.propietats.id).append(
-                                    '<img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-2 mt-2 mb-2" alt="img">'
+                                    '<a class="col-4 mt-2 mb-2 row" href="http://localhost:8080/article/' + i.propietats.article.id + '/' + i.propietats.id + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
                                 );
                             }
                         }

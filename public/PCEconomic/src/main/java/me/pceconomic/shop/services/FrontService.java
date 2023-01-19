@@ -64,19 +64,10 @@ public class FrontService {
 
     public void getCategoria(Model model, int id) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
-        Set<Article> articles = articleRepository.findBySubcategories(subcategoria);
-        Set<Propietats> propietats = new HashSet<>();
-
-        if (articles == null) return;
-
-        articles.forEach(article -> {
-            propietats.addAll(article.getPropietats());
-        });
 
         if (subcategoria == null) return;
 
-        model.addAttribute("articles", articles);
-        model.addAttribute("propietats", propietats);
+        model.addAttribute("subcategoria", subcategoria);
         sendListsToView(model);
     }
 
