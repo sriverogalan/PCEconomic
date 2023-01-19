@@ -1,57 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head th:replace="layout/layout.html :: head"></head>
-  <body>
+  <body class="bgbd">
     <header th:replace="layout/layout.html :: header"></header>
-    <main class="container">
-      <div class="col-12 row">
+    <main class="container bg-cont mt-md-5 mt-1">
+      <div class="col-12 row mt-2">
         <div class="col-md-6 col-sm-12">
           <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-inner" >
-              <div class="carousel-item" th:each="foto : ${imatges}" th:if="${propietats.id == foto.propietats.id}" >
-                <img  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}" class="d-block w-100" alt="foto">
+            <div class="carousel-inner">
+              <div class="carousel-item" th:each="foto : ${imatges}"
+                   th:if=" ${propietats.id == foto.propietats.id}">
+                <img class="d-block img-fluid imgSizeArticle"
+                     th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}">
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Anterior</span>
+            <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators"
+                    type="button">
+              <span class="carousel-color" aria-hidden="true">Anterior</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Siguiente</span>
+            <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators"
+                    type="button">
+              <span class="carousel-color" aria-hidden="true">Siguiente</span>
             </button>
           </div>
         </div>
 
-        <div class="d-flex flex-column col-md-6 col-sm-12">
-          <h1 th:text="${propietats.article.nom}"></h1>
-          <p
-            th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "
-          ></p>
+        <div class="col-md-6 col-sm-12">
+          <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
+          <h5 class="text-body mt-2"
+              th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
-          <h1>PROPIETATS</h1>
-          <p th:text="'Preu: ' + ${propietats.preu}"></p>
-          <p th:text="'Stock: ' + ${propietats.stock}"></p>
-              <span th:each="prop : ${propietats.valor}">
-                <p th:text="${prop.propietat.nom} +': ' + ${prop.valor}"></p>
-              </span>
+          <h3 class="text-center mt-2" th:text="${preuEuros}"></h3>
+
+          <input type="number" class="form-control mt-2" id="quantity" name="quantity" min="1" th:max="${propietats.stock}" value="1">
+          <div class="d-flex justify-content-evenly mt-4">
+            <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
+            <button class="btn btn-pc-economic-dark col-5">Comprar</button>
+          </div>
         </div>
-        <div class="d-flex justify-content-evenly">
-          <button class="btn btn-pc-economic-light">Me Gusta</button>
-          <button class="btn btn-pc-economic-light">Añadir al Carrito</button>
-          <button class="btn btn-pc-economic-dark">Comprar</button>
-        </div>
+
+
       </div>
-
+      </div>
       <div>
-        <h2>Descripción</h2>
+        <h3>Propietats del producte</h3>
+        <span th:each="prop : ${propietats.valor}"> <p
+                th:text="${prop.propietat.nom} +': ' + ${prop.valor}"></p> </span>
+        <h3>Descripción</h3>
         <p th:text="${propietats.article.descripcio}"></p>
       </div>
     </main>
     <script
-      src="https://code.jquery.com/jquery-3.6.2.min.js"
-      integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
-      crossorigin="anonymous"
+            crossorigin="anonymous"
+            integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+            src="https://code.jquery.com/jquery-3.6.2.min.js"
     ></script>
 
     <script>
