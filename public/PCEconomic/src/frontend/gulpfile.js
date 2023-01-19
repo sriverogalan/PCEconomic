@@ -16,7 +16,7 @@ task("watch", async function () {
 });
 
 function jscopy() {
-    return src("./node_modules/bootstrap/dist/js/*.js").pipe(dest("../main/resources/static/js"));
+    return src("./node_modules/bootstrap/dist/js/*.js").pipe(dest("./js"));
 }
 
 exports.jscopy = jscopy;

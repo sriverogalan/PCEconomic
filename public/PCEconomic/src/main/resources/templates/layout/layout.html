@@ -14,8 +14,8 @@
         <link
                 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
                 rel="stylesheet"
-        />
-        <!--<script th:src="@{/js/bootstrap.js}"></script>-->
+        /><!--
+        <script th:src="@{/js/bootstrap.js}"></script>-->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
                 integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
                 crossorigin="anonymous"></script>
@@ -31,8 +31,8 @@
                 <div class="navbar-collapse collapse order-1 col-1">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/"
-                            ><img class="col-12" src="/img/static/logo-no-background.png"
+                            <a class="nav-link col-12 d-flex justify-content-center" href="/"
+                            ><img class="col-9" src="/img/static/logo-no-background.png"
                             /></a>
                         </li>
                     </ul>
@@ -40,7 +40,7 @@
                 <!-- Cercador -->
                 <div class="mx-auto order-2 col-xs-8 col-7">
                     <div class="col-12">
-                        <form class="d-flex">
+                        <form class="d-flex mt-1">
                             <!-- Buscar -->
                             <input
                                     aria-label="Search"
@@ -55,23 +55,25 @@
                     </div>
                 </div>
                 <!-- Login + Carrito -->
-                <button
-                        class="navbar-toggler"
-                        data-bs-target=".dual-collapse2"
-                        data-bs-toggle="collapse"
-                        type="button"
-                >
+                <div class="d-flex justify-content-center d-md-none d-block mx-1">
+                    <a class="nav-link btn btn-pc-economic-dark" href="/">
+                        <i class="bi bi-house"></i>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse order-3 col">
+                <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
                     <ul class="navbar-nav col-12 justify-content-evenly">
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-pc-economic-dark" href="/">
+                        <li class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" href="/">
                                 <i class="bi bi-person"></i>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link btn btn-pc-economic-dark" href="/">
+                        <li class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" href="/">
                                 <i class="bi bi-cart4"></i>
                             </a>
                         </li>
@@ -111,21 +113,13 @@
         </div>
     </header>
     <footer
-            class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container"
+            class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container bg-cont"
             th:fragment="footer"
     >
         <p class="col-md-4 mb-0 text-muted">
             © 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses
             Tapereres, 32, 07500 Manacor, Balearic Islands
         </p>
-        <a
-                class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none"
-                href="/"
-        >
-            <svg class="bi me-2" height="32" width="40">
-                <use xlink:href="#bootstrap"></use>
-            </svg>
-        </a>
     </footer>
 
     <div th:fragment="jquery">
