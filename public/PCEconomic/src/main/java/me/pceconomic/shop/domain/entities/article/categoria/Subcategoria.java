@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article.categoria;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,7 @@ public @Data class Subcategoria {
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
+    @JsonIgnore
     private Categoria categoria;
 
 }

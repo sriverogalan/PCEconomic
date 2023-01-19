@@ -46,8 +46,11 @@ public class FrontService {
         if (article == null || propietats == null) return;
 
         article.getPropietats().forEach(prop -> {
-            if (prop.getId() == propietats.getId()) model.addAttribute("propietats", propietats);
-            if (prop.getId() == propietats.getId()) model.addAttribute("preuEuros", formatearComoEuros(prop.getPreu()));
+            if (prop.getId() == propietats.getId()) {
+                model.addAttribute("propietats", propietats);
+                model.addAttribute("preuEuros", formatearComoEuros(prop.getPreu()));
+                model.addAttribute("propietatsArticles", propietatsRepository.findAll());
+            }
         });
 
         sendListsToView(model);

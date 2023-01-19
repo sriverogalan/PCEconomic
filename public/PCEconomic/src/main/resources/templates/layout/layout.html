@@ -96,19 +96,19 @@
                     Todas las categorias :</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body">
-                <div th:each="cat : ${categories}" class="row justify-content-center">
+            <div class="offcanvas-body" id="canvasBody">
+                <!--<div th:each="cat : ${categories}" class="row justify-content-center">
                     <div class="btn-group col-12 mb-2">
-                      <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
-                              aria-expanded="false" th:text="${cat.name}"></button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" th:if="${cat.id == subcat.categoria.id}"
-                               th:each="subcat : ${subcategories}" th:href="@{/categoria/{id}(id=${subcat.id})}"
-                               th:text="${subcat.name}">Action</a></li>
-                      </ul>
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false" th:text="${cat.name}"></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:if="${cat.id == subcat.categoria.id}"
+                                   th:each="subcat : ${subcategories}" th:href="@{/categoria/{id}(id=${subcat.id})}"
+                                   th:text="${subcat.name}">Action</a></li>
+                        </ul>
                     </div>
                     <br>
-                </div>
+                </div>-->
             </div>
         </div>
     </header>
@@ -123,10 +123,13 @@
     </footer>
 
     <div th:fragment="jquery">
+        <script
+                crossorigin="anonymous"
+                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+                src="https://code.jquery.com/jquery-3.6.2.min.js"
+        >
         <script>
-            src = "https://code.jquery.com/jquery-3.6.3.min.js";
-            integrity = "sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=";
-            crossorigin = "anonymous";
+
         </script>
     </div>
 </html>

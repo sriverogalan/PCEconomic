@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,7 @@ public @Data class Article {
     private String nom;
 
     @Lob
+    @JsonIgnore
     @Column(name = "descripcio", columnDefinition = "LONGTEXT")
     private String descripcio;
 
@@ -29,10 +31,12 @@ public @Data class Article {
     private double pes;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinTable(
             name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),
@@ -41,6 +45,7 @@ public @Data class Article {
     private Set<Subcategoria> subcategories;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     @JoinColumn(name = "id_article")
     private Set<Propietats> propietats;
 
