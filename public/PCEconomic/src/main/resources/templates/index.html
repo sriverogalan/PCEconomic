@@ -44,19 +44,20 @@
                 for (var img of resp) {
                     if (img.principal === true && img.propietats.esPrincipal === true) {
                         $('#articles').append(
-                            '<a href="article/' + img.propietats.article.id + '/' + img.propietats.id +'" class="col-xs-12 col-sm-6 col-lg-4 text-center text-decoration-none card d-flex align-items-center">' +
+                            '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
+                            '<span class="text-end h2 text-pc-economic-default bold col-12">' + img.propietats.preu + ' € </span>' +
                             '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-12 object-fit-cover" alt="img">' +
-                            '<div class="card-img-top col-12 imgSize mt-2 mb-2">' +
-                                '<div id="' + img.propietats.id + '" class="row justify-content-around"></div>' +
-                                    '<div> <p>' + img.propietats.article.nom + '</p></div>' +
-                                    '<span class="text-start h2">' + img.propietats.preu + ' € </span>' +
-                                '</div>' +
+                            '<div class="col-12 justify-content-center row">' +
+                            '<div id="' + img.propietats.id + '" class="row justify-content-around col-12"></div>' +
+                            '<div class="text-start h3 col-12"> <p>' + img.propietats.article.nom + '</p></div>' +
+                            '<span class="text-success col-12 text-start mb-2"> Recíbelo mañana </span>' +
+                            '</div>' +
                             '</div>' +
                             '</a>'
                         );
-                        for (var i of articles){
-                            if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id){
-                                $('#'+img.propietats.id).append(
+                        for (var i of articles) {
+                            if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id) {
+                                $('#' + img.propietats.id).append(
                                     '<img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-2 mt-2 mb-2" alt="img">'
                                 );
                             }

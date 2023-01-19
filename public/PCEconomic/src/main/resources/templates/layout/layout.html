@@ -111,6 +111,7 @@
                 </div>-->
             </div>
         </div>
+
     </header>
     <footer
             class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container bg-cont"
@@ -128,8 +129,34 @@
                 integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
                 src="https://code.jquery.com/jquery-3.6.2.min.js"
         >
+        </script>
         <script>
-
+            $.ajax({
+                url: "/api/categories",
+                type: "GET",
+                success: function (data) {
+                    console.log(data);
+                    for(var c of data){
+                        $("#canvasBody").append(
+                            '<div class="row justify-content-center">'+
+                            '<div class="btn-group col-12 mb-2">'+
+                            '<button type="button" class="btn btn-pc-economic-default text-light dropdown-toggle" data-bs-toggle="dropdown"'+
+                            'aria-expanded="false">'+ c.name +'</button>'+
+                            '<ul class="dropdown-menu " id="cat-'+ c.id +'">'+
+                            '</ul>'+
+                            '</div>'+
+                            '<br>'+
+                            '</div>'
+                        );
+                        for (var s of c.subcategorias){
+                            $("#cat-"+c.id).append(
+                                '<li><a class="dropdown-item" href="/categoria/'+ s.id +'">'+ s.name +'</a></li>'
+                            );
+                        }
+                    }
+                    $("#canvasBody").html(html);
+                },
+            });
         </script>
     </div>
 </html>
