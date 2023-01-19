@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.text.NumberFormat;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 @Service
 public class FrontService {
@@ -23,7 +21,7 @@ public class FrontService {
     private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public FrontService(SubcategoriaRepository subcategoriaRepository, CreationService creationService, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;

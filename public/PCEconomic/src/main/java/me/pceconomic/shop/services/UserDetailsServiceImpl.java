@@ -21,16 +21,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final ClientRepository clientRepository;
     private final AdministradorRepository administradorRepository;
     private final SuperUsuariRepository superUsuariRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserDetailsServiceImpl(PersonaRepository personaRepository, ClientRepository clientRepository, AdministradorRepository administradorRepository, SuperUsuariRepository superUsuariRepository) {
+    public UserDetailsServiceImpl(PasswordEncoder passwordEncoder, PersonaRepository personaRepository, ClientRepository clientRepository, AdministradorRepository administradorRepository, SuperUsuariRepository superUsuariRepository) {
         this.personaRepository = personaRepository;
         this.clientRepository = clientRepository;
         this.administradorRepository = administradorRepository;
         this.superUsuariRepository = superUsuariRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
