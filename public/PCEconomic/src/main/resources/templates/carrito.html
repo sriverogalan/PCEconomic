@@ -1,23 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
-<body>
-    <header th:replace="layout/layout :: navbar"></header>
-    <p>------------------------------</p>
-    <span th:each="ses : ${carrito}">
-       <p th:text="${ses.id}"></p>
-       <p th:text="${ses.article.nom}"></p>
-       <p th:text="${ses.preu}"></p>
-       <p th:text="${ses.stock}"></p>
-       <span th:each="val : ${ses.valor}">
-           <p th:text="${val.propietat.nom}"></p>
-           <p th:text="${val.valor}"></p>
-       </span>
-       <p>------------------------------</p>
-   </span>
-    <span th:each="foto : ${imatges}">
-        <p th:text="'Id prop + foto path: ' + ${foto.propietats.id} + ' | ' + ${foto.path}"></p>
-    </span>
-    <footer th:replace="layout/layout.html :: footer"></footer>
-</body>
+    <head th:replace="layout/layout :: head"></head>
+    <body>
+        <header th:replace="layout/layout :: navbar"></header>
+        <main>
+            <section id="articles">
+
+            </section>
+        </main>
+        <div th:replace="layout/layout.html :: jquery"></div>
+        <script>
+            $.ajax({
+                url: "/api/carrito",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#loading-wheel").show();
+                },
+                complete: function () {
+                    $("#loading-wheel").hide();
+                },
+                success: function (carrito) {
+                    $.ajax({
+                        url: "/api/articles",
+                        type: "GET",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#loading-wheel").show();
+                        },
+                        complete: function () {
+                            $("#loading-wheel").hide();
+                        },
+                        success: function (articles) {
+                            for (var c of carrito.ids) {
+                                for (var a of articles) {
+                                    if (c.idprops === a.propietats.id && a.principal === true) {
+                                        $("#articles").append(
+                                            '<p>' + a.propietats.article.nom +'</p>' +
+                                            '<p>' + c.quantity +'</p>'
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+        </script>
+        <footer th:replace="layout/layout.html :: footer"></footer>
+    </body>
 </html>
