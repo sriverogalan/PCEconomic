@@ -44,9 +44,4 @@ public class FrontController {
         return "redirect:/";
     }
 
-    @GetMapping("/areaclients")
-    public String areaClients() {
-        return "areaclients";
-    }
-
 }
