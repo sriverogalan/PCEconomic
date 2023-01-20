@@ -1,9 +1,5 @@
 package me.pceconomic.shop.controllers;
 
-import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.repositories.*;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class FrontController {
@@ -50,4 +43,5 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
+
 }

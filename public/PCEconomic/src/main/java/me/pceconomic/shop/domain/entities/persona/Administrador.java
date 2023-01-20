@@ -28,4 +28,5 @@ public @Data class Administrador {
 
     @OneToMany
     private Set<Factura> factures;
+
 }

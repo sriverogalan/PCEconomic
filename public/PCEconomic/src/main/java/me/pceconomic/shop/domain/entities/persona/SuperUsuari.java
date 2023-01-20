@@ -3,6 +3,8 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "superusuaris")
 public @Data class SuperUsuari {

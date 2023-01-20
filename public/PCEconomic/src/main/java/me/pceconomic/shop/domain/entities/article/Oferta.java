@@ -3,6 +3,7 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -42,6 +43,18 @@ public @Data class Oferta {
     private boolean isDeleted;
 
     @ManyToMany
-    @JoinColumn(name = "id_article")
+    @JoinTable(
+            name = "ofertes_propietats",
+            joinColumns = @JoinColumn(name = "id_oferta"),
+            inverseJoinColumns = @JoinColumn(name = "id_propietats")
+    )
+    private Set<Propietats> propietats;
+
+    @ManyToMany
+    @JoinTable(
+            name = "ofertes_articles",
+            joinColumns = @JoinColumn(name = "id_oferta"),
+            inverseJoinColumns = @JoinColumn(name = "id_article")
+    )
     private Set<Article> articles;
 }
