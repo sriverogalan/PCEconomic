@@ -9,10 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cat.iesmanacor.projecte</groupId>
-    <artifactId>esquelet-BotigaInformatica</artifactId>
+    <artifactId>PCEconomic</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>esquelet-BotigaInformatica</name>
-    <description>esquelet-BotigaInformatica</description>
+    <name>PCEconomic</name>
+    <description>Botiga de components informatics</description>
+    <packaging>war</packaging>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -58,9 +59,15 @@
             <artifactId>thymeleaf-extras-springsecurity6</artifactId>
             <version>3.1.1.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

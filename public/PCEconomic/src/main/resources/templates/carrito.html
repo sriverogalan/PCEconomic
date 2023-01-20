@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="layout/layout :: head"></head>
 <body>
+    <header th:replace="layout/layout :: navbar"></header>
     <p>------------------------------</p>
-   <span th:each="ses : ${carrito}">
+    <span th:each="ses : ${carrito}">
        <p th:text="${ses.id}"></p>
        <p th:text="${ses.article.nom}"></p>
        <p th:text="${ses.preu}"></p>
@@ -17,5 +15,9 @@
        </span>
        <p>------------------------------</p>
    </span>
+    <span th:each="foto : ${imatges}">
+        <p th:text="'Id prop + foto path: ' + ${foto.propietats.id} + ' | ' + ${foto.path}"></p>
+    </span>
+    <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 </html>
