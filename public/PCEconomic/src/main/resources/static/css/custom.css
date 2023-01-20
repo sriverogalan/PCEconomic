@@ -76,6 +76,10 @@
   object-fit: cover;
 }
 
+.width-minicards {
+  width: 50px;
+}
+
 .container-bg {
   border: 1px solid #282828;
 }

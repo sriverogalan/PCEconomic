@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:fragment="head">
     <meta charset="UTF-8"/>
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
@@ -52,6 +53,84 @@
                             <i class="bi bi-search"></i>
                         </button>
                     </form>
+    <head th:fragment="head">
+        <meta charset="UTF-8"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <link href="https://fonts.googleapis.com" rel="preconnect"/>
+        <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+        <link
+                href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap"
+                rel="stylesheet"
+        />
+        <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+        <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+                rel="stylesheet"
+        />
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+                integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+                integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+                crossorigin="anonymous"></script>-->
+    </head>
+    <header th:fragment="navbar">
+        <nav
+                class="navbar navbar-expand-md navbar-pc-economic-light bg-pc-economic-default"
+        >
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse order-1 col-1">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link col-12 d-flex justify-content-center" href="/"
+                            ><img class="col-9" src="/img/static/logo-no-background.png"
+                            /></a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Cercador -->
+                <div class="mx-auto order-2 col-xs-8 col-7">
+                    <div class="col-12">
+                        <form class="d-flex mt-1">
+                            <!-- Buscar -->
+                            <input id="cercador"
+                                    aria-label="Search"
+                                    class="form-control me-2"
+                                    placeholder="Buscar"
+                                    type="search"
+                            />
+                            <button class="btn btn-pc-economic-dark" id="cercar">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Login + Carrito -->
+                <div class="d-flex justify-content-center d-md-none d-block mx-1">
+                    <a class="nav-link btn btn-pc-economic-dark" href="/">
+                        <i class="bi bi-house"></i>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
+                    <ul class="navbar-nav col-12 justify-content-evenly">
+                        <li class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" href="/">
+                                <i class="bi bi-person"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" href="/">
+                                <i class="bi bi-cart4"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <!-- Login + Carrito -->
@@ -60,6 +139,7 @@
                     <i class="bi bi-house"></i>
                 </a>
             </div>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -78,6 +158,9 @@
                         </a>
                     </li>
                 </ul>
+
+            <div class="offcanvas-body" id="canvasBody">
+
             </div>
         </div>
     </nav>
@@ -151,6 +234,29 @@
                     for (var s of c.subcategorias) {
                         $("#cat-" + c.id).append(
                             '<li><a class="dropdown-item" href="/categoria/' + s.id + '">' + s.name + '</a></li>'
+    <div th:fragment="jquery">
+        <script
+                crossorigin="anonymous"
+                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+                src="https://code.jquery.com/jquery-3.6.2.min.js"
+        >
+        </script>
+        <script>
+            $.ajax({
+                url: "/api/categories",
+                type: "GET",
+                success: function (data) {
+                    for(var c of data){
+                        $("#canvasBody").append(
+                            '<div class="row justify-content-center">'+
+                            '<div class="btn-group col-12 mb-2">'+
+                            '<button type="button" class="btn btn-pc-economic-default text-light dropdown-toggle" data-bs-toggle="dropdown"'+
+                            'aria-expanded="false">'+ c.name +'</button>'+
+                            '<ul class="dropdown-menu " id="cat-'+ c.id +'">'+
+                            '</ul>'+
+                            '</div>'+
+                            '<br>'+
+                            '</div>'
                         );
                     }
                 }
