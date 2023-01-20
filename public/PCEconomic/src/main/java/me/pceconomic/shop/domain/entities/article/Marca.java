@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Set;
 
@@ -28,6 +30,7 @@ public @Data class Marca {
     private String web;
 
     @OneToMany(mappedBy = "marca")
+    @Fetch(FetchMode.JOIN)
     private Set<Article> articles;
 
     public Marca(String cif, String name, Set<Article> articles) {
@@ -35,4 +38,6 @@ public @Data class Marca {
         this.name = name;
         this.articles = articles;
     }
+
+
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Set;
 
@@ -15,6 +17,7 @@ public @Data class Propietats {
     @Column(name = "id_propietats")
     private int id;
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_article")
     private Article article;
 
@@ -28,10 +31,12 @@ public @Data class Propietats {
     private boolean esPrincipal;
 
     @OneToMany
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
 }

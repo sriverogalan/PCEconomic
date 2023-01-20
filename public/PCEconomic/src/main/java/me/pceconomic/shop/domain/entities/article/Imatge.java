@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "imatges")
@@ -16,6 +18,7 @@ public @Data class Imatge {
     private int id;
 
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats")
     private Propietats propietats;
 

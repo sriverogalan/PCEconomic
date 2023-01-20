@@ -69,7 +69,7 @@ public class FrontService {
         sendListsToView(model);
     }
 
-    private void sendListsToView(Model model) {
+    public void sendListsToView(Model model) {
         model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
