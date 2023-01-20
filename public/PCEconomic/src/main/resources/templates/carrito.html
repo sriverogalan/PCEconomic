@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
-<body>
-    <header th:replace="layout/layout :: navbar"></header>
-    <main>
-        <span th:text="${carrito}"></span>
-    </main>
-    <div th:replace="layout/layout.html :: jquery"></div>
-    <script>
-        /*$.ajax({
-            url: "/api/articles",
-            type: "GET",
-            dataType: "json",
-            beforeSend: function () {
-                $("#loading-wheel").show();
-            },
-            complete: function () {
-                $("#loading-wheel").hide();
-            },
-            success: function (resp) {
-                var articles = resp;
-                var idPropietat = $("main").attr("data-id");
-                var idArticle = $("body").attr("data-id-article");
-                console.log(articles);
+    <head th:replace="layout/layout :: head"></head>
+    <body>
+        <header th:replace="layout/layout :: navbar"></header>
+        <p th:text="${carrito}"></p>
+        <main>
+            <section th:each="shoppingcart : ${carrito.ids}" th:attr="data-quantitat=${shoppingcart.quantity}">
+                <div id="articles"  th:attr="data-id=${shoppingcart.idprops}">
+                    <div id="articles-disponibles" class="row mt-1"></div>
+                </div>
+            </section>
+        </main>
+        <div th:replace="layout/layout.html :: jquery"></div>
+        <script>
+            $.ajax({
+                url: "/api/articles",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#loading-wheel").show();
+                },
+                complete: function () {
+                    $("#loading-wheel").hide();
+                },
+                success: function (resp) {
+                    var articles = resp;
+                    var idPropietat = $("#articles").attr("data-id");
+                    var quantitat = $("section").attr("data-quantitat");
+                    console.log(articles);
 
-                for (var a of resp) {
-                    if (a.principal === true && a.propietats.id != idPropietat && a.propietats.article.id == idArticle) {
-                        $('#articles-disponibles').append(
-                            '<a href="http://localhost:8080/article/' + a.propietats.article.id + '/' + a.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                            '<span class="text-end h4 text-pc-economic-default bold ">' + a.propietats.preu + ' € </span>' +
-                            '<img src="/img/productes/' + a.propietats.article.id + '/' + a.propietats.id + '/' + a.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
-                            '<div id="' + a.propietats.id + '" class="row justify-content-around col-12"></div>' +
-                            '</div>' +
-                            '</a>'
-                        );
+                    for (var img of resp) {
 
-                        for (v of a.propietats.valor) {
-                            $('#' + a.propietats.id).append(
-                                '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
-                            )
+                        /*if (img.principal === true && img.propietats.id == idPropietat) {
+                            $('#articles-disponibles').append(
+                                '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
+                                '<span class="text-end h4 text-pc-economic-default bold ">' + img.propietats.preu + ' € </span>' +
+                                '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
+                                '<div id="' + img.propietats.id + '" class="row justify-content-around col-12"></div>' +
+                                '</div>' +
+                                '</a>'
+                            );
 
-                        }
+                            for (v of img.propietats.valor) {
+                                $('#' + img.propietats.id).append(
+                                    '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
+                                )
+                            }
+                        }*/
                     }
-
                 }
-            }
-        });*/
-    </script>
-    <footer th:replace="layout/layout.html :: footer"></footer>
-</body>
+            });
+        </script>
+        <footer th:replace="layout/layout.html :: footer"></footer>
+    </body>
 </html>
