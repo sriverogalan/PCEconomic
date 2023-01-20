@@ -1,5 +1,6 @@
 package me.pceconomic.shop.services;
 
+import jakarta.transaction.Transactional;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
@@ -36,7 +37,7 @@ public class CreationService {
         this.imatgeRepository = imatgeRepository;
     }
 
-
+    @Transactional
     public void create() {
         Marca marca1 = new Marca("12345678A", "Corsair", null);
         Marca marca2 = new Marca("87654321B", "Iphone", null);
