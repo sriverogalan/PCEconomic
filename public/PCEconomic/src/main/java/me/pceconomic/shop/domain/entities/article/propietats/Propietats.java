@@ -1,7 +1,10 @@
 package me.pceconomic.shop.domain.entities.article.propietats;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import org.hibernate.annotations.Fetch;
@@ -11,6 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "propietats")
+@EqualsAndHashCode(exclude = {"valor", "imatges"})
 public @Data class Propietats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +41,7 @@ public @Data class Propietats {
 
     @OneToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
+    @JsonIgnore
     @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
 }
