@@ -1,5 +1,6 @@
 package me.pceconomic.shop.services;
 
+import jakarta.transaction.Transactional;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.Marca;
@@ -36,7 +37,7 @@ public class CreationService {
         this.imatgeRepository = imatgeRepository;
     }
 
-
+    @Transactional
     public void create() {
         Marca marca1 = new Marca("12345678A", "Corsair", null);
         Marca marca2 = new Marca("87654321B", "Iphone", null);
@@ -68,12 +69,12 @@ public class CreationService {
         Article article1 = new Article();
         article1.setPes(10);
         article1.setNom("Iphone 13");
-        article1.setDescripcio("Pantalla Super Retina XDR de 6,1 pulgadas\n" +
-                "El modo Cine añade poca profundidad de campo y cambia el enfoque automáticamente en los vídeos\n" +
-                "Sistema avanzado de cámara dual de 12 Mpx con gran angular y ultra gran angular, Estilos Fotográficos, HDR Inteligente 4, modo Noche y grabación de vídeo en 4K HDR con Dolby Vision\n" +
-                "Cámara delantera TrueDepth de 12 Mpx con modo Noche y grabación de vídeo en 4K HDR con Dolby Vision\n" +
-                "Chip A15 Bionic para un rendimiento ultrarrápido\n" +
-                "Hasta 19 horas de reproducción de vídeo\n" +
+        article1.setDescripcio("Pantalla Super Retina XDR de 6,1 pulgadas" +
+                "El modo Cine añade poca profundidad de campo y cambia el enfoque automáticamente en los vídeos" +
+                "Sistema avanzado de cámara dual de 12 Mpx con gran angular y ultra gran angular, Estilos Fotográficos, HDR Inteligente 4, modo Noche y grabación de vídeo en 4K HDR con Dolby Vision" +
+                "Cámara delantera TrueDepth de 12 Mpx con modo Noche y grabación de vídeo en 4K HDR con Dolby Vision" +
+                "Chip A15 Bionic para un rendimiento ultrarrápido" +
+                "Hasta 19 horas de reproducción de vídeo" +
                 "Diseño robusto con Ceramic Shield");
         article1.setMarca(marca2);
 

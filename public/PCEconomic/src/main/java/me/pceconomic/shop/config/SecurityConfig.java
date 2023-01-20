@@ -25,11 +25,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .sessionManagement()
-                .maximumSessions(1)
-                .sessionRegistry(sessionRegistry)
-                .and()
-                .and()
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/areaclients/**").authenticated()
