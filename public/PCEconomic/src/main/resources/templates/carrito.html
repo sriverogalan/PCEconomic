@@ -5,6 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-    <p th:text="${carrito}"></p>
+    <p>------------------------------</p>
+   <span th:each="ses : ${carrito}">
+       <p th:text="${ses.id}"></p>
+       <p th:text="${ses.article.nom}"></p>
+       <p th:text="${ses.preu}"></p>
+       <p th:text="${ses.stock}"></p>
+       <span th:each="val : ${ses.valor}">
+           <p th:text="${val.propietat.nom}"></p>
+           <p th:text="${val.valor}"></p>
+       </span>
+       <p>------------------------------</p>
+   </span>
 </body>
 </html>

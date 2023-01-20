@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "articles")
-@EqualsAndHashCode(exclude = {"propietats", "subcategories"})
+@EqualsAndHashCode(exclude = {"propietats", "subcategories", "marca"})
 public @Data class Article {
 
     @Id

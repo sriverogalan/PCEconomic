@@ -35,4 +35,6 @@ public @Data class Marca {
         this.name = name;
         this.articles = articles;
     }
+
+
 }
