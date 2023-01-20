@@ -6,6 +6,6 @@ import java.util.List;
 
 public @Data class ShoppingCart {
 
-    private List<Ids> ids;
+    private List<Cart> ids;
 
 }

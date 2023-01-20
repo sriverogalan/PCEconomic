@@ -3,18 +3,15 @@
     <head th:replace="layout/layout :: head"></head>
     <body>
         <header th:replace="layout/layout :: navbar"></header>
-        <p th:text="${carrito}"></p>
         <main>
-            <section th:each="shoppingcart : ${carrito.ids}" th:attr="data-quantitat=${shoppingcart.quantity}">
-                <div id="articles"  th:attr="data-id=${shoppingcart.idprops}">
-                    <div id="articles-disponibles" class="row mt-1"></div>
-                </div>
+            <section id="articles">
+
             </section>
         </main>
         <div th:replace="layout/layout.html :: jquery"></div>
         <script>
             $.ajax({
-                url: "/api/articles",
+                url: "/api/carrito",
                 type: "GET",
                 dataType: "json",
                 beforeSend: function () {
@@ -23,31 +20,30 @@
                 complete: function () {
                     $("#loading-wheel").hide();
                 },
-                success: function (resp) {
-                    var articles = resp;
-                    var idPropietat = $("#articles").attr("data-id");
-                    var quantitat = $("section").attr("data-quantitat");
-                    console.log(articles);
-
-                    for (var img of resp) {
-
-                        /*if (img.principal === true && img.propietats.id == idPropietat) {
-                            $('#articles-disponibles').append(
-                                '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                                '<span class="text-end h4 text-pc-economic-default bold ">' + img.propietats.preu + ' € </span>' +
-                                '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
-                                '<div id="' + img.propietats.id + '" class="row justify-content-around col-12"></div>' +
-                                '</div>' +
-                                '</a>'
-                            );
-
-                            for (v of img.propietats.valor) {
-                                $('#' + img.propietats.id).append(
-                                    '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
-                                )
+                success: function (carrito) {
+                    $.ajax({
+                        url: "/api/articles",
+                        type: "GET",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $("#loading-wheel").show();
+                        },
+                        complete: function () {
+                            $("#loading-wheel").hide();
+                        },
+                        success: function (articles) {
+                            for (var c of carrito.ids) {
+                                for (var a of articles) {
+                                    if (c.idprops === a.propietats.id && a.principal === true) {
+                                        $("#articles").append(
+                                            '<p>' + a.propietats.article.nom +'</p>' +
+                                            '<p>' + c.quantity +'</p>'
+                                        )
+                                    }
+                                }
                             }
-                        }*/
-                    }
+                        }
+                    });
                 }
             });
         </script>
