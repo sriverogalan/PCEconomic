@@ -3,6 +3,8 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "valors")
 public @Data class Valor {

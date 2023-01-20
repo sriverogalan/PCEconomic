@@ -10,6 +10,7 @@ import me.pceconomic.shop.domain.entities.article.Imatge;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
