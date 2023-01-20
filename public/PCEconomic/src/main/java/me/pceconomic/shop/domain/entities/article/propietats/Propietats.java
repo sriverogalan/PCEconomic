@@ -17,6 +17,7 @@ public @Data class Propietats {
     @Column(name = "id_propietats")
     private int id;
     @ManyToOne
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_article")
     private Article article;
 
@@ -35,6 +36,7 @@ public @Data class Propietats {
     private Set<Valor> valor;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
 }
