@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +31,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterAfter(new CustomIpFilter("127.0.0.1"), SecurityContextPersistenceFilter.class)
                 .userDetailsService(userDetailsService)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/areaclients/**").authenticated()
@@ -51,6 +51,16 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public FilterRegistrationBean<CustomIpFilter> customIpFilter() {
+        FilterRegistrationBean<CustomIpFilter> registrationBean = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new CustomIpFilter("127.0.0.1"));
+        registrationBean.addUrlPatterns("/api/*");
+
+        return registrationBean;
     }
 
     @Bean
