@@ -4,47 +4,41 @@
     <body>
         <header th:replace="layout/layout :: navbar"></header>
         <main>
-            <section id="articles"></section>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Preu</th>
+                    <th scope="col">Quantitat</th>
+                    <th scope="col">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="carro : ${carrito.ids}">
+                        <th scope="row">
+                            <img class="width-minicards-carrito object-fit-cover mb-1"
+                                 th:src="@{/img/productes/{article}/{prop}/0.jpg(article=${carro.propietats.article.id},prop=${carro.propietats.id})}">
+                        </th>
+                        <td th:text="${carro.propietats.article.nom}"></td>
+                        <td th:text="${carro.propietats.preu}"></td>
+                        <td>
+                            <div class="d-flex flex-row">
+                                <form th:action="@{/updatecarrito}" method="get">
+                                    <input hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
+                                    <input id="quantitat" name="quantitat" class="form-control border border-secondary" type="number" min="1" th:value="${carro.quantity}" th:max="${carro.propietats.stock}">
+                                    <input type="submit" value="Enviar"/>
+                                </form>
+                            </div>
+                        </td>
+                        <td th:text="${carro.price}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
         </main>
         <div th:replace="layout/layout.html :: jquery"></div>
         <script>
-            $.ajax({
-                url: "/api/carrito",
-                type: "GET",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#loading-wheel").show();
-                },
-                complete: function () {
-                    $("#loading-wheel").hide();
-                },
-                success: function (carrito) {
-                    $.ajax({
-                        url: "/api/articles",
-                        type: "GET",
-                        dataType: "json",
-                        beforeSend: function () {
-                            $("#loading-wheel").show();
-                        },
-                        complete: function () {
-                            $("#loading-wheel").hide();
-                        },
-                        success: function (articles) {
-                            for (var c of carrito.ids) {
-                                for (var a of articles) {
-                                    if (c.idprops === a.propietats.id && a.principal === true) {
-                                        $("#articles").append(
-                                            '<p>' + a.propietats.article.nom +'</p>' +
-                                            '<p>' + c.quantity +'</p>' +
-                                            '<input  />'
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            });
         </script>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
