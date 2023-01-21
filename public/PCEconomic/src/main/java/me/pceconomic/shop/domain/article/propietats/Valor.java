@@ -20,4 +20,3 @@ public @Data class Valor {
     private Propietat propietat;
 
 }
-
