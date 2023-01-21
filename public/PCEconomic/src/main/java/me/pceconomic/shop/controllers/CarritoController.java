@@ -32,7 +32,6 @@ public class CarritoController {
 
     @GetMapping("/addcarrito")
     public RedirectView addArticleToCart(Model model, @RequestParam int idprops, @RequestParam int quantitat) {
-
         Propietats props = propietatsRepository.findById(idprops).orElse(null);
 
         if (props == null) return new RedirectView("/carrito");
