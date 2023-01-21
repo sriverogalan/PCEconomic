@@ -1,6 +1,6 @@
 package me.pceconomic.shop.services;
 
-import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.persona.Persona;
 import me.pceconomic.shop.repositories.AdministradorRepository;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
@@ -50,6 +50,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("SUPERUSUARI"));
         }
 
-        return new User("admin", "admin", AuthorityUtils.createAuthorityList("PERSONA"));
+        return new User(persona.getEmail(), persona.getPassword(), AuthorityUtils.createAuthorityList("PERSONA"));
     }
 }
