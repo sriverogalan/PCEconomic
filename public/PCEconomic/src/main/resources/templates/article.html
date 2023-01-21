@@ -27,7 +27,12 @@
                         </button>
                     </div>
 
-                    <div id="articles-disponibles" class="row mt-1"></div>
+                    <div id="articles-disponibles" class="row mt-4 justify-content-center">
+                        <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
+                        <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6 col-sm-12">
@@ -106,7 +111,6 @@
                                 $('#' + a.propietats.id).append(
                                     '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
                                 )
-
                             }
                         }
 
