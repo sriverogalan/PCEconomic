@@ -3,6 +3,8 @@ package me.pceconomic.shop.controllers;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.Cart;
 import me.pceconomic.shop.domain.ShoppingCart;
+import me.pceconomic.shop.domain.article.propietats.Propietats;
+import me.pceconomic.shop.repositories.PropietatsRepository;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -19,15 +21,26 @@ public class CarritoController {
 
     private final HttpSession session;
     private final FrontService frontService;
+    private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public CarritoController(HttpSession session, FrontService frontService) {
+    public CarritoController(HttpSession session, FrontService frontService, PropietatsRepository propietatsRepository) {
         this.session = session;
         this.frontService = frontService;
+        this.propietatsRepository = propietatsRepository;
     }
 
     @GetMapping("/addcarrito")
     public RedirectView addArticleToCart(Model model, @RequestParam int idprops, @RequestParam int quantitat) {
+
+        Propietats props = propietatsRepository.findById(idprops).orElse(null);
+
+        if (props == null) return new RedirectView("/carrito");
+
+        if (quantitat > props.getStock()) {
+            quantitat = props.getStock();
+        }
+
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
         if (shoppingCart == null) {
             shoppingCart = new ShoppingCart();

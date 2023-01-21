@@ -17,6 +17,9 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -63,6 +66,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.mvysny</groupId>
+            <artifactId>spring-security-ip-filter</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 
