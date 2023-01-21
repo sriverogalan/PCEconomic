@@ -67,13 +67,7 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.mvysny</groupId>
-            <artifactId>spring-security-ip-filter</artifactId>
-            <version>1.1</version>
-        </dependency>
     </dependencies>
-
     <build>
         <finalName>${artifactId}</finalName>
         <plugins>
