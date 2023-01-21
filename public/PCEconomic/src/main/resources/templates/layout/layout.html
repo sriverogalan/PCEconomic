@@ -17,12 +17,6 @@
         />
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-        <!--<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-                integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
-                integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
-                crossorigin="anonymous"></script>-->
     </head>
     <header th:fragment="navbar">
         <nav
@@ -61,7 +55,7 @@
                 <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
                     <ul class="navbar-nav col-12 justify-content-evenly">
                         <li class="nav-item d-flex justify-content-center ">
-                            <a class="nav-link btn btn-pc-economic-dark mt-1" href="/">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}">
                                 <i class="bi bi-person"></i>
                             </a>
                         </li>
