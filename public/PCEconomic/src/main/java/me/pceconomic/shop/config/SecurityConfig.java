@@ -51,6 +51,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+/*
     @Bean
     public FilterRegistrationBean<CustomIpFilter> customIpFilter() {
         FilterRegistrationBean<CustomIpFilter> registrationBean = new FilterRegistrationBean<>();
@@ -60,6 +61,7 @@ public class SecurityConfig {
 
         return registrationBean;
     }
+*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {
