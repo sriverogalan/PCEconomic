@@ -7,15 +7,14 @@ import me.pceconomic.shop.domain.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.PropietatsRepository;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-@RestController
+@Controller
 @SessionAttributes("carrito")
 public class CarritoController {
 
@@ -31,10 +30,10 @@ public class CarritoController {
     }
 
     @GetMapping("/addcarrito")
-    public RedirectView addArticleToCart(Model model, @RequestParam int idprops, @RequestParam int quantitat) {
+    public String addArticleToCart(@RequestParam int idprops, @RequestParam int quantitat) {
         Propietats props = propietatsRepository.findById(idprops).orElse(null);
 
-        if (props == null) return new RedirectView("/carrito");
+        if (props == null) return "/carrito";
 
         if (quantitat > props.getStock()) {
             quantitat = props.getStock();
@@ -52,31 +51,129 @@ public class CarritoController {
 
         Cart cart = null;
         for (Cart c : ids) {
-            if (c.getIdprops() == idprops) {
+            if (c.getPropietats().getId() == idprops) {
+                cart = c;
+                break;
+            }
+        }
+
+        double price = props.getPreu() * quantitat;;
+
+        if (cart != null) {
+            cart.setQuantity(cart.getQuantity() + quantitat);
+            cart.setPrice(cart.getPrice() + price);
+        } else {
+            cart = new Cart();
+            cart.setPropietats(props);
+            cart.setQuantity(quantitat);
+            cart.setPrice(price);
+            ids.add(cart);
+        }
+
+        shoppingCart.setIds(ids);
+
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
+        session.setAttribute("carrito", shoppingCart);
+        return "redirect:/carrito";
+    }
+
+    @GetMapping("/updatecarrito")
+    public String updateArticleToCart(@RequestParam int idprops, @RequestParam int quantitat) {
+        Propietats props = propietatsRepository.findById(idprops).orElse(null);
+
+        if (props == null) return "/carrito";
+
+        if (quantitat > props.getStock()) {
+            quantitat = props.getStock();
+        }
+
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+        }
+        List<Cart> ids = shoppingCart.getIds();
+
+        if (ids == null) {
+            ids = new ArrayList<>();
+        }
+
+        Cart cart = null;
+        for (Cart c : ids) {
+            if (c.getPropietats().getId() == idprops) {
+                cart = c;
+                break;
+            }
+        }
+
+        double price = props.getPreu() * quantitat;;
+
+        if (cart != null) {
+            cart.setQuantity(quantitat);
+            cart.setPrice(price);
+        } else {
+            cart = new Cart();
+            cart.setPropietats(props);
+            cart.setQuantity(quantitat);
+            cart.setPrice(price);
+            ids.add(cart);
+        }
+
+        shoppingCart.setIds(ids);
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
+        session.setAttribute("carrito", shoppingCart);
+        return "redirect:/carrito";
+    }
+
+    @GetMapping("/deletecarrito")
+    public String deleteArticleToCart(@RequestParam int idprops) {
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+        }
+        List<Cart> ids = shoppingCart.getIds();
+
+        if (ids == null) {
+            ids = new ArrayList<>();
+        }
+
+        Cart cart = null;
+        for (Cart c : ids) {
+            if (c.getPropietats().getId() == idprops) {
                 cart = c;
                 break;
             }
         }
 
         if (cart != null) {
-            cart.setQuantity(cart.getQuantity() + quantitat);
-        } else {
-            cart = new Cart();
-            cart.setIdprops(idprops);
-            cart.setQuantity(quantitat);
-            ids.add(cart);
+            ids.remove(cart);
         }
 
         shoppingCart.setIds(ids);
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
-        return new RedirectView("/carrito");
+        return "redirect:/carrito";
     }
 
-    @GetMapping("/api/carrito")
-    public ShoppingCart carrito(Model model) {
+    @GetMapping("/carrito")
+    public String carrito(Model model) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
         model.addAttribute("carrito", shoppingCart);
         frontService.sendListsToView(model);
-        return shoppingCart;
+        return "carrito";
     }
 }
