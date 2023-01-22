@@ -1,7 +1,7 @@
 package me.pceconomic.shop.controllers;
 
-import me.pceconomic.shop.domain.article.Imatge;
-import me.pceconomic.shop.domain.article.categoria.Categoria;
+import me.pceconomic.shop.domain.entities.article.Imatge;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.repositories.CategoriaRepository;
 import me.pceconomic.shop.repositories.ImatgeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
