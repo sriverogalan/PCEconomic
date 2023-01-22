@@ -38,7 +38,7 @@
                     if (img.principal === true && img.propietats.esPrincipal === true) {
                         if (img.propietats.article.subcategories[0].id == mainId){
                             $('#articles').append(
-                                '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
+                                '<a href="/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
                                 '<span class="text-end h2 text-pc-economic-default bold col-12">' + img.propietats.preu + ' € </span>' +
                                 '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-12 object-fit-cover" alt="img">' +
                                 '<div class="col-12 justify-content-center row">' +
@@ -52,7 +52,7 @@
                             for (var i of articles) {
                                 if (i.principal === true && i.propietats.esPrincipal === false && i.propietats.article.id === img.propietats.article.id) {
                                     $('#id' + img.propietats.id).append(
-                                        '<a class="col-4 mt-2 mb-2 row" href="http://localhost:8080/article/' + i.propietats.article.id + '/' + i.propietats.id + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
+                                        '<a class="col-4 mt-2 mb-2 row" href="/article/' + i.propietats.article.id + '/' + i.propietats.id + '"> <img src="/img/productes/' + i.propietats.article.id + '/' + i.propietats.id + '/' + i.path + '" class="col-12" alt="img"> </a>'
                                     );
                                 }
                             }
