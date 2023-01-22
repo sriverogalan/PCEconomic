@@ -71,6 +71,13 @@ public class CarritoController {
         }
 
         shoppingCart.setIds(ids);
+
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }
@@ -117,6 +124,12 @@ public class CarritoController {
         }
 
         shoppingCart.setIds(ids);
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }

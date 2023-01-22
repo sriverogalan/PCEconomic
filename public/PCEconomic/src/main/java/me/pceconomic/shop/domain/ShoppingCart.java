@@ -7,5 +7,6 @@ import java.util.List;
 public @Data class ShoppingCart {
 
     private List<Cart> ids;
+    private double total;
 
 }
