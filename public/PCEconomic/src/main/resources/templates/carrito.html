@@ -12,33 +12,40 @@
                     <th scope="col">Preu</th>
                     <th scope="col">Quantitat</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="carro : ${carrito.ids}">
-                        <th scope="row">
-                            <img class="width-minicards-carrito object-fit-cover mb-1"
-                                 th:src="@{/img/productes/{article}/{prop}/0.jpg(article=${carro.propietats.article.id},prop=${carro.propietats.id})}">
-                        </th>
-                        <td th:text="${carro.propietats.article.nom}"></td>
-                        <td th:text="${carro.propietats.preu}"></td>
-                        <td>
-                            <div class="d-flex flex-row">
-                                <form th:action="@{/updatecarrito}" method="get">
-                                    <input hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
-                                    <input id="quantitat" name="quantitat" class="form-control border border-secondary" type="number" min="1" th:value="${carro.quantity}" th:max="${carro.propietats.stock}">
-                                    <input type="submit" value="Enviar"/>
-                                </form>
-                            </div>
-                        </td>
-                        <td th:text="${carro.price}"></td>
-                    </tr>
+                <tr th:each="carro : ${carrito.ids}">
+                    <th scope="row">
+                        <img class="width-minicards-carrito object-fit-cover mb-1"
+                             th:src="@{/img/productes/{article}/{prop}/0.jpg(article=${carro.propietats.article.id},prop=${carro.propietats.id})}">
+                    </th>
+                    <td th:text="${carro.propietats.article.nom}"></td>
+                    <td th:text="${carro.propietats.preu}"></td>
+                    <td>
+                        <div class="d-flex flex-row">
+                            <form th:action="@{/updatecarrito}" method="get">
+                                <input hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
+                                <input id="quantitat" name="quantitat" class="form-control border border-secondary" type="number" min="1" th:value="${carro.quantity}" th:max="${carro.propietats.stock}">
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                    <td th:text="${carro.price}"></td>
+                    <td>
+                        <form th:action="@{/deletecarrito}" method="get">
+                            <input hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
+                            <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i></button>
+                        </form>
+                </tr>
                 </tbody>
             </table>
             <div class="d-flex flex-row-reverse">
                 <div class="p-2">
                     <h3>Total: <span th:text="${carrito.total}"></span></h3>
-                    <button>Comprar</button>
+                    <button class="btn btn-pc-economic-dark col-5">Comprar</button>
                 </div>
             </div>
 

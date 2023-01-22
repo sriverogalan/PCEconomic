@@ -134,6 +134,41 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
+    @GetMapping("/deletecarrito")
+    public String deleteArticleToCart(@RequestParam int idprops) {
+        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
+        if (shoppingCart == null) {
+            shoppingCart = new ShoppingCart();
+        }
+        List<Cart> ids = shoppingCart.getIds();
+
+        if (ids == null) {
+            ids = new ArrayList<>();
+        }
+
+        Cart cart = null;
+        for (Cart c : ids) {
+            if (c.getPropietats().getId() == idprops) {
+                cart = c;
+                break;
+            }
+        }
+
+        if (cart != null) {
+            ids.remove(cart);
+        }
+
+        shoppingCart.setIds(ids);
+        double total = 0;
+        for (Cart c : ids) {
+            total += c.getPrice();
+        }
+
+        shoppingCart.setTotal(total);
+        session.setAttribute("carrito", shoppingCart);
+        return "redirect:/carrito";
+    }
+
     @GetMapping("/carrito")
     public String carrito(Model model) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
