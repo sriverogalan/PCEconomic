@@ -178,7 +178,11 @@ public class CarritoController {
     @GetMapping("/carrito")
     public String carrito(Model model) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
-        model.addAttribute("carrito", shoppingCart);
+        if (shoppingCart != null) {
+            model.addAttribute("carrito", shoppingCart);
+        } else {
+            model.addAttribute("carrito", new ShoppingCart());
+        }
         frontService.sendListsToView(model);
         return "carrito";
     }
