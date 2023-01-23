@@ -1,7 +1,14 @@
 package me.pceconomic.shop.domain.forms;
 
-public class RegisterForm {
+import lombok.Data;
 
+public @Data class RegisterForm {
+
+    private String name;
+    private String surname1;
+    private String surname2;
+    private String password;
+    private String confirmPassword;
 
 
 }
