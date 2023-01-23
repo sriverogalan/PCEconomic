@@ -30,7 +30,7 @@ public class CarritoController {
     }
 
     @GetMapping("/addcarrito")
-    public String addArticleToCart(@RequestParam int idprops, @RequestParam int quantitat) {
+    public String addArticleToCart(@RequestParam int idprops, @RequestParam int quantitat, @RequestParam(required = false) boolean isMain) {
         Propietats props = propietatsRepository.findById(idprops).orElse(null);
 
         if (props == null) return "/carrito";
@@ -60,8 +60,13 @@ public class CarritoController {
         double price = props.getPreu() * quantitat;;
 
         if (cart != null) {
-            cart.setQuantity(cart.getQuantity() + quantitat);
-            cart.setPrice(cart.getPrice() + price);
+            if (cart.getQuantity() >= props.getStock()) {
+                cart.setQuantity(props.getStock());
+                cart.setPrice(cart.getPrice());
+            } else {
+                cart.setQuantity(cart.getQuantity() + quantitat);
+                cart.setPrice(cart.getPrice() + price);
+            }
         } else {
             cart = new Cart();
             cart.setPropietats(props);
@@ -79,7 +84,8 @@ public class CarritoController {
 
         shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
-        return "redirect:/carrito";
+
+        return isMain ? "redirect:/" : "redirect:/carrito";
     }
 
     @GetMapping("/updatecarrito")
@@ -110,7 +116,7 @@ public class CarritoController {
             }
         }
 
-        double price = props.getPreu() * quantitat;;
+        double price = props.getPreu() * quantitat;
 
         if (cart != null) {
             cart.setQuantity(quantitat);
