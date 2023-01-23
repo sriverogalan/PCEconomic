@@ -1,9 +1,9 @@
 package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpSession;
-import me.pceconomic.shop.domain.Cart;
-import me.pceconomic.shop.domain.ShoppingCart;
-import me.pceconomic.shop.domain.article.propietats.Propietats;
+import me.pceconomic.shop.domain.carrito.Cart;
+import me.pceconomic.shop.domain.carrito.ShoppingCart;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.PropietatsRepository;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,14 +163,6 @@ public class CarritoController {
         if (cart != null) {
             ids.remove(cart);
         }
-
-        shoppingCart.setIds(ids);
-        double total = 0;
-        for (Cart c : ids) {
-            total += c.getPrice();
-        }
-
-        shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }
