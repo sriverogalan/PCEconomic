@@ -23,8 +23,8 @@
                     </td>
                     <td th:text="${carro.propietats.article.nom}"></td>
                     <td th:text="${carro.propietats.preu}"></td>
-                    <td class="row">
-                        <form th:action="@{/updatecarrito}" method="get">
+                    <td>
+                        <form th:action="@{/updatecarrito}" method="get"  class="row">
                             <input type="hidden" hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
                             <input id="quantitat" name="quantitat" class="col" type="number" min="1" th:value="${carro.quantity}" th:max="${carro.propietats.stock}">
                             <button type="submit" class="btn btn-pc-economic-light col"><i class="bi bi-arrow-clockwise"></i></button>

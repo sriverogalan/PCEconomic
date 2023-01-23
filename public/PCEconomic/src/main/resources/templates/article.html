@@ -57,8 +57,9 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-evenly mt-5">
-                        <button class="btn btn-pc-economic-light col-5">Añadir al Carrito</button>
-                        <button class="btn btn-pc-economic-dark col-5">Comprar</button>
+
+                        <div id="addcarrito" class="col-5 row"></div>
+                        <div id="comprar" class="col-5 row"></div>
                     </div>
                 </div>
 
@@ -78,7 +79,14 @@
         <script>
             $(document).ready(function () {
                 $(".carousel-item:first").addClass("active");
+                $("#comprar").append(
+                    "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "'> Comprar </a>"
+                )
+                $("#addcarrito").append(
+                    "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "'> Añadir al carrito </a>"
+                )
             });
+
 
             $.ajax({
                 url: "/api/articles",
