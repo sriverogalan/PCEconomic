@@ -80,11 +80,21 @@
             $(document).ready(function () {
                 $(".carousel-item:first").addClass("active");
                 $("#comprar").append(
-                    "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "'> Comprar </a>"
+                    "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
                 )
                 $("#addcarrito").append(
-                    "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "'> Añadir al carrito </a>"
+                    "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
                 )
+                $('#cantidad').bind('input', function() {
+                    $("#comprar").empty();
+                    $("#addcarrito").empty();
+                    $("#comprar").append(
+                        "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+                    )
+                    $("#addcarrito").append(
+                        "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+                    )
+                });
             });
 
 
