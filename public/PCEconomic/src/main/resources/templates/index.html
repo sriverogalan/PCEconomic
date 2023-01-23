@@ -1,8 +1,12 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout/layout.html :: head"></head>
+    <head>
+        <title th:text="' Index | PCEconomic'"></title>
+    </head>
+
+    <nav th:replace="layout/layout.html :: navbar"/>
     <body class="bgbd">
-        <header th:replace="layout/layout.html :: header"></header>
         <main class="container-lg bg-cont mt-md-5 mt-1">
             <h1 class="mt-3 text-center"> Bienvenido a PCEconomic! </h1>
             <section id="productes" class="row mt-5 justify-content-center">
@@ -41,7 +45,7 @@
                         $('#articles').append(
                             '<a href="http://localhost:8080/article/' + img.propietats.article.id + '/' + img.propietats.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
                             '<span class="text-end h2 text-pc-economic-default bold col-12">' + img.propietats.preu + ' € </span>' +
-                            '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-12 object-fit-cover" alt="img">' +
+                            '<img src="/img/productes/' + img.propietats.article.id + '/' + img.propietats.id + '/' + img.path + '" class="card-img-top col-6" alt="img">' +
                             '<div class="col-12 justify-content-center row">' +
                             '<div id="' + img.propietats.id + '" class="row justify-content-around col-12"></div>' +
                             '<div class="text-start h3 col-12"> <p>' + img.propietats.article.nom + '</p></div>' +
