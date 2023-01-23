@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head"></head>
+    <head th:replace="layout/layout.html :: head">
+    </head>
+    <head>
+        <title th:text="${propietats.article.nom} +' | PCEconomic'"></title>
+    </head>
     <body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
         <header th:replace="layout/layout.html :: header"></header>
         <main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
