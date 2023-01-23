@@ -54,7 +54,7 @@ public class FrontService {
         sendListsToView(model);
     }
 
-    private String formatearComoEuros(double value) {
+    public String formatearComoEuros(double value) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("es", "ES"));
         return formatter.format(value);
     }
