@@ -57,6 +57,20 @@
         </main>
         <div th:replace="layout/layout.html :: jquery"></div>
         <script>
+            $(document).ready(function () {
+                var num = $(".table td:nth-child(3)");
+                var num2 = $(".table td:nth-child(5)");
+                var total = $("h3");
+                total.text(total.text().replace(".0", ",00 €"));
+                for (var i = 0; i < num.length; i++) {
+                    var num3 = num[i].innerHTML;
+                    var num4 = num2[i].innerHTML;
+                    num3 = num3.replace(".0", ",00 €");
+                    num4 = num4.replace(".0", ",00 €");
+                    num[i].innerHTML = num3;
+                    num2[i].innerHTML = num4;
+                }
+            });
         </script>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
