@@ -1,14 +1,14 @@
 package me.pceconomic.shop.services;
 
 import jakarta.transaction.Transactional;
-import me.pceconomic.shop.domain.article.Article;
-import me.pceconomic.shop.domain.article.Imatge;
-import me.pceconomic.shop.domain.article.Marca;
-import me.pceconomic.shop.domain.article.categoria.Categoria;
-import me.pceconomic.shop.domain.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.article.propietats.Propietat;
-import me.pceconomic.shop.domain.article.propietats.Propietats;
-import me.pceconomic.shop.domain.article.propietats.Valor;
+import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Imatge;
+import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
+import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
