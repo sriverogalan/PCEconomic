@@ -62,9 +62,9 @@
                             </a>
                         </li>
                         <li class="nav-item d-flex justify-content-center ">
-                            <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}">
+                            <button type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal" data-bs-target="#modal">
                                 <i class="bi bi-translate"></i>
-                            </a>
+                            </button>
                         </li>
                         <li class="nav-item d-flex justify-content-center ">
                             <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}" >
@@ -75,6 +75,25 @@
                 </div>
             </div>
         </nav>
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Elige tu idioma</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <nav class="navbar navbar-expand-md bg-pc-economic-light">
             <!-- Categories Offcanvas -->
             <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas"
