@@ -1,0 +1,47 @@
+{
+  "index": {
+    "title": "PCEconomic",
+    "bienvenida": "Bienvenido a PCEconomic!",
+    "recomendacion": "Estos son algunos de los productos que te pueden interesar",
+    "cargando": "Cargando..."
+  },
+  "layout": {
+    "buscador": "Buscador",
+    "btn-categorias": "Todas las categorias",
+    "offcanvas-categorias": "Todas las categorias :",
+    "titulo-idiomas": "Elige tu idioma",
+    "idiomas": {
+      "es": "Español",
+      "en": "Inglés",
+      "fr": "Francés",
+      "de": "Alemán",
+      "pt": "Portugués"
+    },
+    "cerrar": "Cerrar",
+    "guardar": "Guardar",
+    "footer": "© 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses\n            Tapereres, 32, 07500 Manacor, Islas Baleares, España"
+  },
+  "carrito": {
+    "titulo": "Carrito",
+    "nombre": "Nombre",
+    "precio": "Precio",
+    "cantidad": "Cantidad",
+    "total": "Total",
+    "acciones": "Acciones",
+    "comprar": "Comprar",
+    "total:": "Total :"
+  },
+  "error": {
+    "titulo": "Error 404",
+    "descripcion": "La página que buscas no existe o ha sido eliminada",
+    "volver": "Volver a la página principal"
+  },
+  "login": {
+    "titulo": "Iniciar sesión",
+    "email": "Email",
+    "password": "Contraseña",
+    "olvido": "¿Olvidaste tu contraseña?",
+    "registrarse": "Registrarse",
+    "entrar": "Entrar"
+  }
+}
