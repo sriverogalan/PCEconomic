@@ -75,4 +75,7 @@ public class FrontService {
         model.addAttribute("imatges", imatgeRepository.findAll());
     }
 
+    public void getDireccion(Model model) {
+        sendListsToView(model);
+    }
 }

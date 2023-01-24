@@ -38,6 +38,12 @@ public class FrontController {
         return "categoria";
     }
 
+    @GetMapping("/carrito/direccion")
+    public String getDireccion(Model model) {
+        frontService.getDireccion(model);
+        return "direccion";
+    }
+
     @GetMapping("/crearproducte")
     public String createProducts() {
         creationService.create();
