@@ -1,8 +1,8 @@
 package me.pceconomic.shop.services;
 
-import me.pceconomic.shop.domain.article.Article;
-import me.pceconomic.shop.domain.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
