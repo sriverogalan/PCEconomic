@@ -191,6 +191,18 @@
                     }
                 },
             });
+            /*
+            $.ajax({
+                url: "/api/idiomes",
+                type: "GET",
+                success: function (data) {
+                    for (var i of data) {
+                        $("#idiomes").append(
+                            '<option value="' + i.id + '">' + i.nom + "</option>"
+                        );
+                    }
+                },
+            });*/
         </script>
     </div>
 </html>

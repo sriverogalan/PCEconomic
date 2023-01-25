@@ -50,10 +50,10 @@ public class FrontController {
         return "redirect:/";
     }
 
-    @GetMapping("/register")
+/*    @GetMapping("/register")
     public String register(Model model) {
         frontService.sendListsToView(model);
         return "register";
-    }
+    }*/
 
 }
