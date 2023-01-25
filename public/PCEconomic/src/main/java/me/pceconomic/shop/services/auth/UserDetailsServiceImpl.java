@@ -1,4 +1,4 @@
-package me.pceconomic.shop.services;
+package me.pceconomic.shop.services.auth;
 
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.repositories.AdministradorRepository;

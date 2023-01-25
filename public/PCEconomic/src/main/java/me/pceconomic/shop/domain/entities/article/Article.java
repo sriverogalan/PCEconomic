@@ -38,7 +38,7 @@ public @Data class Article {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),
