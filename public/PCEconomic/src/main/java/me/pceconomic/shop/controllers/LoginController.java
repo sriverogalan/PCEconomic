@@ -2,9 +2,11 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.RegisterForm;
 import me.pceconomic.shop.repositories.PersonaRepository;
+import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class LoginController {
 
     private final RegisterService registerService;
+    private final FrontService frontService;
     private final PersonaRepository personaRepository;
 
     @Autowired
-    public LoginController(RegisterService registerService, PersonaRepository personaRepository) {
+    public LoginController(FrontService frontService, RegisterService registerService, PersonaRepository personaRepository) {
         this.registerService = registerService;
         this.personaRepository = personaRepository;
+        this.frontService = frontService;
     }
 
     @GetMapping("/logout")
@@ -43,6 +47,7 @@ public class LoginController {
         RegisterForm registerForm = new RegisterForm();
         model.addAttribute("registerForm", registerForm);
 
+        frontService.sendListsToView(model);
         return "register";
     }
 
@@ -53,5 +58,13 @@ public class LoginController {
 
         personaRepository.save(persona);
         return "redirect:/";
+    }
+
+    @GetMapping("/areaclients")
+    public String areaclients(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        model.addAttribute("user", session.getAttribute("user"));
+        frontService.sendListsToView(model);
+        return "areaclients";
     }
 }
