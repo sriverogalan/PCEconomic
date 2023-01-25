@@ -3,7 +3,6 @@ package me.pceconomic.shop.controllers;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,10 +44,15 @@ public class FrontController {
         return "direccion";
     }
 
-    @Secured("ADMINISTRADOR")
     @GetMapping("/crearproducte")
     public String createProducts() {
         creationService.create();
+        return "redirect:/";
+    }
+
+    @GetMapping("/crear1000")
+    public String create1000() {
+        creationService.crear1000();
         return "redirect:/";
     }
 }
