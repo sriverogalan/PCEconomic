@@ -3,8 +3,9 @@
 <head th:replace="layout/layout :: head"></head>
 <body>
     <header th:replace="layout/layout :: navbar"></header>
-    
+
     <a th:href="@{/logout}">Logout</a>
+    <p th:text="${user}"></p>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
