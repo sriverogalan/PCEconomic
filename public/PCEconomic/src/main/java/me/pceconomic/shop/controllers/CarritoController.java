@@ -5,17 +5,19 @@ import me.pceconomic.shop.domain.carrito.Cart;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.repositories.PropietatsRepository;
+import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
-@SessionAttributes("carrito")
 public class CarritoController {
 
     private final HttpSession session;
@@ -23,10 +25,10 @@ public class CarritoController {
     private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public CarritoController(HttpSession session, FrontService frontService, PropietatsRepository propietatsRepository) {
-        this.session = session;
+    public CarritoController(CarritoService carritoService, HttpSession session, FrontService frontService, PropietatsRepository propietatsRepository) {
         this.frontService = frontService;
         this.propietatsRepository = propietatsRepository;
+        this.session = carritoService.getSession();
     }
 
     @GetMapping("/addcarrito")
@@ -57,7 +59,8 @@ public class CarritoController {
             }
         }
 
-        double price = props.getPreu() * quantitat;;
+        double price = props.getPreu() * quantitat;
+        ;
 
         if (cart != null) {
             if (cart.getQuantity() >= props.getStock()) {
@@ -84,7 +87,6 @@ public class CarritoController {
 
         shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
-
         return isMain ? "redirect:/" : "redirect:/carrito";
     }
 
@@ -170,11 +172,7 @@ public class CarritoController {
     @GetMapping("/carrito")
     public String carrito(Model model) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
-        if (shoppingCart != null) {
-            model.addAttribute("carrito", shoppingCart);
-        } else {
-            model.addAttribute("carrito", new ShoppingCart());
-        }
+        model.addAttribute("carrito", Objects.requireNonNullElseGet(shoppingCart, ShoppingCart::new));
         frontService.sendListsToView(model);
         return "carrito";
     }
