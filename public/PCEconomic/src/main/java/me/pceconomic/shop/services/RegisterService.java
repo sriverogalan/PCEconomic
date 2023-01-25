@@ -30,12 +30,13 @@ public class RegisterService {
         persona.setSurname2(registerForm.getSurname2());
 
         String email = registerForm.getEmail();
+        persona.setEmail(email);
 
-        if (!patternMatches(email)) {
+        /*if (!patternMatches(email)) {
             throw new IllegalArgumentException("Email is not valid");
         } else {
             persona.setEmail(email);
-        }
+        }*/
 
         String password = passwordEncoder.encode(registerForm.getPassword());
         persona.setPassword(password);
