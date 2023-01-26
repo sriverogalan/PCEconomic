@@ -2,6 +2,7 @@ package me.pceconomic.shop.services;
 
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.RegisterForm;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
@@ -19,15 +20,9 @@ public class RegisterService {
         persona.setName(registerForm.getName());
         persona.setSurname1(registerForm.getSurname1());
         persona.setSurname2(registerForm.getSurname2());
+        persona.setEmail(registerForm.getEmail());
 
-        String email = registerForm.getEmail();
-
-        if (!patternMatches(email)) {
-            throw new IllegalArgumentException("Email is not valid");
-        } else {
-            persona.setEmail(email);
-        }
-
-        persona.setPassword(registerForm.getPassword());
+        String password = new BCryptPasswordEncoder().encode(registerForm.getPassword());
+        persona.setPassword(password);
     }
 }
