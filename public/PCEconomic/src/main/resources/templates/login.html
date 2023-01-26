@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-  <head th:replace="layout/layout :: head">
-  </head>
-  <body class="container text-center">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head th:replace="layout/layout :: head">
+</head>
+<body class="container text-center">
     <h1>Iniciar sesión</h1>
     <div th:if="${param.error}">
-      Invalid username and password.
+        Invalid username and password.
     </div>
     <div th:if="${param.logout}">
-      You have been logged out.
+        You have been logged out.
     </div>
     <form th:action="@{/login}" method="post">
-      <div><label> Email : <input type="text" name="username"/> </label></div>
-      <div><label> Contraseña : <input type="password" name="password"/> </label></div>
-      <div><input class=" btn btn-pc-economic-light" type="submit" value="Entrar"/></div>
+        <div><label> Email : <input type="text" name="username"/> </label></div>
+        <div><label> Contraseña : <input type="password" name="password"/> </label></div>
+        <div><input class=" btn btn-pc-economic-light" type="submit" value="Entrar"/></div>
     </form>
     <div>
-      <a href="/register">Registrarse</a>
-      <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+        <a href="/register">Registrarse</a>
+        <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
     </div>
 
     <footer th:replace="layout/layout :: footer"></footer>
-  </body>
+</body>
 </html>

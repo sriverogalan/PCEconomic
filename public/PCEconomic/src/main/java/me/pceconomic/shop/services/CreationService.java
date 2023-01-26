@@ -115,12 +115,14 @@ public class CreationService {
         corsair.setArticle(article);
         corsair.setPreu(100);
         corsair.setStock(10);
+        corsair.setEsPrincipal(true);
         corsair.setValor(Set.of(M, negre));
 
         Propietats propietats1 = new Propietats();
         propietats1.setArticle(article1);
         propietats1.setPreu(1000);
         propietats1.setStock(10);
+        propietats1.setEsPrincipal(true);
         propietats1.setValor(Set.of(S, blau));
 
         propietatsRepository.save(corsair);
@@ -154,5 +156,11 @@ public class CreationService {
 
         imatgeRepository.save(iphone13blau);
         imatgeRepository.save(iphone13blau2);
+    }
+
+    public void crear1000() {
+        for (int i = 0; i < 1000; i++) {
+            this.create();
+        }
     }
 }

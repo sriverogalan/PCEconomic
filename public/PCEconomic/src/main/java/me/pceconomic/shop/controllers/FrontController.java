@@ -49,11 +49,10 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
-
-/*    @GetMapping("/register")
-    public String register(Model model) {
-        frontService.sendListsToView(model);
-        return "register";
-    }*/
-
+ 
+    @GetMapping("/crear1000")
+    public String create1000() {
+        creationService.crear1000();
+        return "redirect:/";
+    } 
 }
