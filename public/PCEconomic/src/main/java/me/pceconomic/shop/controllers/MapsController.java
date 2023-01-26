@@ -15,8 +15,8 @@ public class MapsController {
     public String getDistance(HttpServletRequest request) throws Exception {
         String origin = request.getParameter("origin");
         String destination = request.getParameter("destination");
-        String key = "";
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Manacor&destinations=Inca,%20Mallorca,%20Spain&units=imperial&key=";
+        String key = "AIzaSyA7sDeOoFe2KTvrHeePf3zn43NMrGzVzXQ";
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Manacor&destinations=Inca,%20Mallorca,%20Spain&units=imperial&key=" + key;
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("GET");

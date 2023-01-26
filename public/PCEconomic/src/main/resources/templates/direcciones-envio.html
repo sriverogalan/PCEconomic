@@ -13,12 +13,11 @@
     </body>
     <div th:replace="layout/layout.html :: jquery"></div>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"></script>
     <script>
         // Como hacer un input para introducir la direccion de enviq y que te de la distancia
 
         $.ajax({
-            url: "",
+            url: "/maps",
             type: "GET",
             dataType: "json",
             success: function (resp) {
