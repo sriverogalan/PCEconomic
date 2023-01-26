@@ -29,14 +29,6 @@ public class FrontService {
         this.subcategoriaRepository = subcategoriaRepository;
     }
 
-    public void index(Model model) {
-        model.addAttribute("articles", articleRepository.findAll());
-        model.addAttribute("propietats", propietatsRepository.findAll());
-        model.addAttribute("imatges", imatgeRepository.findAll());
-        model.addAttribute("categories", categoriaRepository.findAll());
-        model.addAttribute("subcategories", subcategoriaRepository.findAll());
-    }
-
     public void article(Model model, int idArticle, int idPropietat) {
         Article article = articleRepository.findById(idArticle).orElse(null);
         Propietats propietats = propietatsRepository.findById(idPropietat).orElse(null);
