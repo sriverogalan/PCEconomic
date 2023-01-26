@@ -54,5 +54,6 @@ public class FrontController {
     public String create1000() {
         creationService.crear1000();
         return "redirect:/";
-    } 
+    }
+
 }
