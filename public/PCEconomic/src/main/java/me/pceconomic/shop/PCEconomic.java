@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class EsqueletBotigaInformaticaApplication extends SpringBootServletInitializer {
+public class PCEconomic extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
-        SpringApplication.run(EsqueletBotigaInformaticaApplication.class, args);
+        SpringApplication.run(PCEconomic.class, args);
     }
 
 }
