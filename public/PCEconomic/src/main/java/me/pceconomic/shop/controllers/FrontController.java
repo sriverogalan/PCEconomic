@@ -21,8 +21,7 @@ public class FrontController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        frontService.index(model);
+    public String index() {
         return "index";
     }
 
