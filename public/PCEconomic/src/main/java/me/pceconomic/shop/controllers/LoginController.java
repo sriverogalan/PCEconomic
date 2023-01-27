@@ -1,9 +1,9 @@
 package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
 import me.pceconomic.shop.repositories.PersonaRepository;
 import me.pceconomic.shop.services.FrontService;
@@ -29,14 +29,36 @@ public class LoginController {
         this.frontService = frontService;
     }
 
-/*    @GetMapping("/logout")
-    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
+    @GetMapping("/login")
+    public String preLogin(Model model) {
+
+        LoginForm loginForm = new LoginForm();
+        model.addAttribute("loginForm", loginForm);
+
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
+        Persona persona = personaRepository.findByEmail(loginForm.getEmail());
+
+        if (persona == null) return "redirect:/login";
+
+        if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("persona", persona);
+            return "redirect:/areaclients";
         }
-        return "redirect:/login?logout"; //You can redirect wherever you want, but generally it's a good practice to show login screen again.
-    }*/
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logoutPage(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/login";
+    }
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -60,7 +82,7 @@ public class LoginController {
     @GetMapping("/areaclients")
     public String areaclients(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("user", session.getAttribute("persona"));
         frontService.sendListsToView(model);
         return "areaclients";
     }
