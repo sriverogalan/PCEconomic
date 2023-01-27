@@ -17,8 +17,16 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
+
+        if (session == null) {
+            log.info("Unauthorized access request");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+
         Persona persona = (Persona) session.getAttribute("persona");
+
         if (persona == null) {
             log.info("Unauthorized access request");
             response.sendRedirect(request.getContextPath() + "/login");
