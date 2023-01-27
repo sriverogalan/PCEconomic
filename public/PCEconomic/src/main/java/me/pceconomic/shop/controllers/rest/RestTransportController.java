@@ -1,13 +1,11 @@
-package me.pceconomic.shop.controllers;
+package me.pceconomic.shop.controllers.rest;
 
-import me.pceconomic.shop.services.FrontService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TransportController {
+public class RestTransportController {
 
     @GetMapping ("/api/transport/{pesTotal}/{distanciaTotal}/{numPaquets}")
     // peso kg  distancia km  numero de paquetes

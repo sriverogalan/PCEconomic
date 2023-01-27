@@ -16,19 +16,22 @@
     <script>
 
         $("#destination-input").on("change", function () {
-            var destination = $("#destination-input").val();
-            destination = destination.replaceAll(" ", "%20");
-            console.log(destination);
+            getDistance($("#destination-input").val());
         });
 
-        $.ajax({
-            url: "/maps",
-            type: "GET",
-            dataType: "json",
-            success: function (resp) {
-                console.log(resp);
-            }
-        });
+        function getDistance(destination){
+            $.ajax({
+                url: "/maps",
+                type: "GET",
+                data: {destination: destination},
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
     </script>
 
 </html>
