@@ -35,7 +35,7 @@ public @Data class Persona {
     @Column(name = "telefon")
     private String telefon;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_persona")
     private Set<Direccio> direccions;
 }
