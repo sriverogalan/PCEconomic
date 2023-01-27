@@ -33,7 +33,7 @@ public @Data class Propietats {
     @Column(name = "esPrincipal")
     private boolean esPrincipal;
 
-    @OneToMany
+    @ManyToMany
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
