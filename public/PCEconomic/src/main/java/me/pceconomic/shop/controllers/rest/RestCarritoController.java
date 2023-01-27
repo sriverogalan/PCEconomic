@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class RestCarritoController {
 
@@ -18,12 +20,6 @@ public class RestCarritoController {
 
     @GetMapping("/api/carrito")
     public ShoppingCart getCarrito() {
-        ShoppingCart carrito = (ShoppingCart) carritoService.getSession().getAttribute("carrito");
-
-        if (carrito == null) {
-            carrito = new ShoppingCart();
-        }
-
-        return carrito;
+        return Objects.requireNonNullElseGet((ShoppingCart) carritoService.getSession().getAttribute("carrito"), ShoppingCart::new);
     }
 }
