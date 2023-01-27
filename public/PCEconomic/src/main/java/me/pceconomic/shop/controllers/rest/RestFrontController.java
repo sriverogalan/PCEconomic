@@ -1,4 +1,4 @@
-package me.pceconomic.shop.controllers;
+package me.pceconomic.shop.controllers.rest;
 
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
