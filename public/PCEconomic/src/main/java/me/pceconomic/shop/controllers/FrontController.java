@@ -39,7 +39,6 @@ public class FrontController {
 
     @GetMapping("/carrito/direccion")
     public String getDireccion(Model model) {
-        frontService.getDireccion(model);
         return "direcciones-envio";
     }
 

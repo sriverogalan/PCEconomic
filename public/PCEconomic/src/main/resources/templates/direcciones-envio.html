@@ -19,13 +19,13 @@
             getDistance($("#destination-input").val());
         });
 
-        function getDistance(destination){
+        function getDistance(dest){
             $.ajax({
                 url: "/maps",
-                type: "GET",
-                data: {destination: destination},
+                type: "POST",
+                data: {dest: dest},
                 success: function (response) {
-                    console.log(response);
+                    console.log(JSON.parse(response));
                 },
                 error: function (xhr) {
                     console.log(xhr);
