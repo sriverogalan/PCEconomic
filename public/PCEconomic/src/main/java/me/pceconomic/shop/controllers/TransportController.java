@@ -15,6 +15,7 @@ public class TransportController {
         if (pesTotal < 0 || distanciaTotal < 0 || numPaquets < 0) {
             return "Error: No es pot calcular el transport amb valors negatius";
         }
+        // poner num en properties
         double preuBase = 2;
         double distanciaCada50km = distanciaTotal / 50;
         double pesCada5kg = pesTotal / 5;

@@ -3,6 +3,8 @@ package me.pceconomic.shop.domain.entities.article.propietats;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "valors")
 public @Data class Valor {
@@ -15,8 +17,8 @@ public @Data class Valor {
     @Column(name = "valor")
     private String valor;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "id_propietat")
-    private Propietat propietat;
+    private Set<Propietat> propietat;
 
 }
