@@ -23,8 +23,12 @@ public class RegisterService {
         persona.setSurname2(registerForm.getSurname2());
         persona.setEmail(registerForm.getEmail());
 
-        String password = passwordEncoder().encode(registerForm.getPassword());
-        persona.setPassword(password);
+        if (registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
+            String password = passwordEncoder().encode(registerForm.getPassword());
+            persona.setPassword(password);
+        } else {
+            throw new RuntimeException("Passwords don't match");
+        }
     }
 
     public PasswordEncoder passwordEncoder() {
