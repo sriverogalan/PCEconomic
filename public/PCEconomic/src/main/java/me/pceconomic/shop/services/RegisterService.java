@@ -3,6 +3,7 @@ package me.pceconomic.shop.services;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.RegisterForm;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
@@ -22,7 +23,11 @@ public class RegisterService {
         persona.setSurname2(registerForm.getSurname2());
         persona.setEmail(registerForm.getEmail());
 
-        String password = new BCryptPasswordEncoder().encode(registerForm.getPassword());
+        String password = passwordEncoder().encode(registerForm.getPassword());
         persona.setPassword(password);
+    }
+
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
