@@ -20,12 +20,10 @@ public class LoginController {
 
     private final RegisterService registerService;
     private final FrontService frontService;
-    private final PersonaRepository personaRepository;
 
     @Autowired
-    public LoginController(FrontService frontService, RegisterService registerService, PersonaRepository personaRepository) {
+    public LoginController(FrontService frontService, RegisterService registerService) {
         this.registerService = registerService;
-        this.personaRepository = personaRepository;
         this.frontService = frontService;
     }
 
@@ -40,7 +38,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
-        Persona persona = personaRepository.findByEmail(loginForm.getEmail());
+        Persona persona = registerService.getPersona(loginForm.getEmail());
 
         if (persona == null) return "redirect:/login";
 
@@ -74,8 +72,6 @@ public class LoginController {
     public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
         Persona persona = new Persona();
         registerService.savePersona(persona, registerForm);
-
-        personaRepository.save(persona);
         return "redirect:/";
     }
 
