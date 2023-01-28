@@ -11,8 +11,8 @@ public class MailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${mail.from}")
-    private String from;
+    @Value("${mail.email}")
+    private String email;
 
     @Autowired
     public MailService(JavaMailSender mailSender) {
@@ -21,7 +21,7 @@ public class MailService {
 
     public void sendMail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
+        message.setFrom(email);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
