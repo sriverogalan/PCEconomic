@@ -6,12 +6,14 @@ import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
 import me.pceconomic.shop.services.FrontService;
+import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -19,11 +21,13 @@ public class LoginController {
 
     private final RegisterService registerService;
     private final FrontService frontService;
+    private final MailService mailService;
 
     @Autowired
-    public LoginController(FrontService frontService, RegisterService registerService) {
+    public LoginController(FrontService frontService,MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
+        this.mailService = mailService;
     }
 
     @GetMapping("/login")
@@ -58,7 +62,7 @@ public class LoginController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String preRegister(Model model) {
 
         RegisterForm registerForm = new RegisterForm();
         model.addAttribute("registerForm", registerForm);
@@ -70,7 +74,14 @@ public class LoginController {
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
         Persona persona = new Persona();
-        registerService.savePersona(persona, registerForm);
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "");
+        return "redirect:/confirmregister";
+    }
+
+    @GetMapping("/confirmregister/{token}")
+    public String confirmRegister(Model model, @PathVariable String token) {
+//        registerService.savePersona(persona, registerForm);
+        frontService.sendListsToView(model);
         return "redirect:/";
     }
 
