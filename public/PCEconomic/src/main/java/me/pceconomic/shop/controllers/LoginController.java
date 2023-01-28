@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
-import me.pceconomic.shop.repositories.PersonaRepository;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;

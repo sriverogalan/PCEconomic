@@ -24,12 +24,6 @@ public class RegisterService {
         return personaRepository.findByEmail(email);
     }
 
-    private boolean patternMatches(String email) {
-        return Pattern.compile("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
-                .matcher(email)
-                .matches();
-    }
-
     public void savePersona(Persona persona, RegisterForm registerForm) {
         persona.setName(registerForm.getName());
         persona.setSurname1(registerForm.getSurname1());
