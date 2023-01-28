@@ -22,6 +22,7 @@ public @Data class Propietats {
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_article")
+    @JsonIgnore
     private Article article;
 
     @Column(name = "preu")
@@ -38,9 +39,8 @@ public @Data class Propietats {
     @JoinColumn(name = "id_propietats_valor")
     private Set<Valor> valor;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
-    @JsonIgnore
     @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
 }

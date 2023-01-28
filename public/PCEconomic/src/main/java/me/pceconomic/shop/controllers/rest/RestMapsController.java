@@ -17,10 +17,10 @@ public class RestMapsController {
     private String key;
 
     @PostMapping("/maps")
-    public String getDistance(HttpServletRequest dest) throws Exception {
-        String destination = dest.getParameter("destination");
-        destination = destination.replaceAll(" ", "%20");
-        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Manacor&destinations=" + destination + "&units=imperial&key=" + this.key;
+    public String getDistance(HttpServletRequest destination) throws Exception {
+        String dest = destination.getParameter("destination");
+        dest = dest.replaceAll(" ", "%20");
+        String url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Ies%20Manacor&destinations=" + dest + "&units=imperial&key=" + this.key;
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
