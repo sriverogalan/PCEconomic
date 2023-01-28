@@ -73,15 +73,20 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
-        Persona persona = new Persona();
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "");
-        return "redirect:/confirmregister";
+
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789");
+        return "confirmregister";
     }
 
     @GetMapping("/confirmregister/{token}")
-    public String confirmRegister(Model model, @PathVariable String token) {
-//        registerService.savePersona(persona, registerForm);
+    public String confirmRegister(Model model, @PathVariable String token, @ModelAttribute("registerForm") RegisterForm registerForm) {
+
+        if (!token.equals("123456789")) return "redirect:/";
+
+        Persona persona = new Persona();
+        registerService.savePersona(persona, registerForm);
         frontService.sendListsToView(model);
+
         return "redirect:/";
     }
 
