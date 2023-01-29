@@ -21,8 +21,7 @@ public class FrontController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
-        frontService.index(model);
+    public String index() {
         return "index";
     }
 
@@ -40,8 +39,7 @@ public class FrontController {
 
     @GetMapping("/carrito/direccion")
     public String getDireccion(Model model) {
-        frontService.getDireccion(model);
-        return "direccion";
+        return "direcciones-envio";
     }
 
     @GetMapping("/crearproducte")
@@ -49,10 +47,11 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
-
+ 
     @GetMapping("/crear1000")
     public String create1000() {
         creationService.crear1000();
         return "redirect:/";
     }
+
 }

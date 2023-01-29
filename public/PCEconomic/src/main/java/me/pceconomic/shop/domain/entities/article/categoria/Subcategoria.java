@@ -19,8 +19,8 @@ public @Data class Subcategoria {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "id_categoria")
     @JsonIgnore
+    @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
 }

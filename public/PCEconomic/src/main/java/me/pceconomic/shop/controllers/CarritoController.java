@@ -25,7 +25,7 @@ public class CarritoController {
     private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public CarritoController(CarritoService carritoService, HttpSession session, FrontService frontService, PropietatsRepository propietatsRepository) {
+    public CarritoController(CarritoService carritoService, FrontService frontService, PropietatsRepository propietatsRepository) {
         this.frontService = frontService;
         this.propietatsRepository = propietatsRepository;
         this.session = carritoService.getSession();
@@ -34,40 +34,22 @@ public class CarritoController {
     @GetMapping("/addcarrito")
     public String addArticleToCart(@RequestParam int idprops, @RequestParam int quantitat, @RequestParam(required = false) boolean isMain) {
         Propietats props = propietatsRepository.findById(idprops).orElse(null);
-
         if (props == null) return "/carrito";
 
-        if (quantitat > props.getStock()) {
-            quantitat = props.getStock();
-        }
+        int cant = quantitat > props.getStock() ? props.getStock() : quantitat;
+        ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
 
-        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-        }
-        List<Cart> ids = shoppingCart.getIds();
+        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
 
-        if (ids == null) {
-            ids = new ArrayList<>();
-        }
-
-        Cart cart = null;
-        for (Cart c : ids) {
-            if (c.getPropietats().getId() == idprops) {
-                cart = c;
-                break;
-            }
-        }
-
-        double price = props.getPreu() * quantitat;
-        ;
+        Cart cart = ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().orElse(null);
+        double price = props.getPreu() * cant;
 
         if (cart != null) {
             if (cart.getQuantity() >= props.getStock()) {
                 cart.setQuantity(props.getStock());
                 cart.setPrice(cart.getPrice());
             } else {
-                cart.setQuantity(cart.getQuantity() + quantitat);
+                cart.setQuantity(cart.getQuantity() + cant);
                 cart.setPrice(cart.getPrice() + price);
             }
         } else {
@@ -93,40 +75,23 @@ public class CarritoController {
     @GetMapping("/updatecarrito")
     public String updateArticleToCart(@RequestParam int idprops, @RequestParam int quantitat) {
         Propietats props = propietatsRepository.findById(idprops).orElse(null);
-
         if (props == null) return "/carrito";
 
-        if (quantitat > props.getStock()) {
-            quantitat = props.getStock();
-        }
+        int cant = quantitat > props.getStock() ? props.getStock() : quantitat;
 
-        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-        }
-        List<Cart> ids = shoppingCart.getIds();
+        ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
+        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
 
-        if (ids == null) {
-            ids = new ArrayList<>();
-        }
-
-        Cart cart = null;
-        for (Cart c : ids) {
-            if (c.getPropietats().getId() == idprops) {
-                cart = c;
-                break;
-            }
-        }
-
-        double price = props.getPreu() * quantitat;
+        Cart cart = ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().orElse(null);
+        double price = props.getPreu() * cant;
 
         if (cart != null) {
-            cart.setQuantity(quantitat);
+            cart.setQuantity(cant);
             cart.setPrice(price);
         } else {
             cart = new Cart();
             cart.setPropietats(props);
-            cart.setQuantity(quantitat);
+            cart.setQuantity(cant);
             cart.setPrice(price);
             ids.add(cart);
         }
@@ -144,27 +109,10 @@ public class CarritoController {
 
     @GetMapping("/deletecarrito")
     public String deleteArticleToCart(@RequestParam int idprops) {
-        ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
-        if (shoppingCart == null) {
-            shoppingCart = new ShoppingCart();
-        }
-        List<Cart> ids = shoppingCart.getIds();
+        ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
+        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
+        ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().ifPresent(ids::remove);
 
-        if (ids == null) {
-            ids = new ArrayList<>();
-        }
-
-        Cart cart = null;
-        for (Cart c : ids) {
-            if (c.getPropietats().getId() == idprops) {
-                cart = c;
-                break;
-            }
-        }
-
-        if (cart != null) {
-            ids.remove(cart);
-        }
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }

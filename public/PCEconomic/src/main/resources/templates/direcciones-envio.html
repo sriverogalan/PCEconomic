@@ -7,11 +7,31 @@
     <nav th:replace="layout/layout.html :: navbar"></nav>
     <body class="bgbd">
         <main class="container-lg bg-cont mt-md-5 mt-1">
-            
+            <input type="text" class="form-control" id="destination-input" placeholder="Enter a destination location">
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
     <div th:replace="layout/layout.html :: jquery"></div>
+
     <script>
+
+        $("#destination-input").on("change", function () {
+            getDistance($("#destination-input").val());
+        });
+
+        function getDistance(destination){
+            $.ajax({
+                url: "/maps",
+                type: "POST",
+                data: {destination: destination},
+                success: function (response) {
+                    console.log(JSON.parse(response));
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
     </script>
+
 </html>

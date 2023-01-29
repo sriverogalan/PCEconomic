@@ -138,18 +138,6 @@
                 success: function (data) {
                     var options = [];
 
-                    for (var a of data) {
-                        var propietats = "";
-                        for (var v of a.propietats.valor){
-                            propietats += " " + v.valor ;
-                        }
-                        if (a.principal === true ){
-                            $("#cercador").append(
-                                '<option value="/article/' + a.propietats.article.id + '/' + a.propietats.id + '">' + a.propietats.article.nom + " " + propietats + "</option>"
-                            );
-                        }
-                    }
-
                     console.log(options);
 
                     $("#cercador").select2({
@@ -191,6 +179,18 @@
                     }
                 },
             });
+            /*
+            $.ajax({
+                url: "/api/idiomes",
+                type: "GET",
+                success: function (data) {
+                    for (var i of data) {
+                        $("#idiomes").append(
+                            '<option value="' + i.id + '">' + i.nom + "</option>"
+                        );
+                    }
+                },
+            });*/
         </script>
     </div>
 </html>
