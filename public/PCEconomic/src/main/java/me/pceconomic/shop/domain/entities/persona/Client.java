@@ -35,7 +35,7 @@ public @Data class Client {
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito")
     private Carrito carrito;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Factura> factures;
 
 }

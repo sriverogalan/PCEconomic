@@ -3,7 +3,7 @@ package me.pceconomic.shop.interceptors;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -25,9 +25,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        Persona persona = (Persona) session.getAttribute("persona");
+        Client client = (Client) session.getAttribute("persona");
 
-        if (persona == null) {
+        if (client == null) {
             log.info("Unauthorized access request");
             response.sendRedirect(request.getContextPath() + "/login");
             return false;
