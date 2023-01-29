@@ -24,6 +24,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**");
+                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**")
+                .excludePathPatterns("/carrito");
     }
 }

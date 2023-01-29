@@ -2,17 +2,19 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
-import me.pceconomic.shop.repositories.PersonaRepository;
 import me.pceconomic.shop.services.FrontService;
+import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -20,13 +22,13 @@ public class LoginController {
 
     private final RegisterService registerService;
     private final FrontService frontService;
-    private final PersonaRepository personaRepository;
+    private final MailService mailService;
 
     @Autowired
-    public LoginController(FrontService frontService, RegisterService registerService, PersonaRepository personaRepository) {
+    public LoginController(FrontService frontService,MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
-        this.personaRepository = personaRepository;
         this.frontService = frontService;
+        this.mailService = mailService;
     }
 
     @GetMapping("/login")
@@ -40,13 +42,15 @@ public class LoginController {
 
     @PostMapping("/login")
     public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
-        Persona persona = personaRepository.findByEmail(loginForm.getEmail());
+        Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
+        Client client = registerService.getClientByPersona(persona);
 
-        if (persona == null) return "redirect:/login";
+        if (persona == null || client == null) return "redirect:/login";
+        if (!client.isActive()) return "redirect:/login";
 
         if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
-            session.setAttribute("persona", persona);
+            session.setAttribute("persona", client);
             return "redirect:/areaclients";
         }
 
@@ -61,7 +65,7 @@ public class LoginController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String preRegister(Model model) {
 
         RegisterForm registerForm = new RegisterForm();
         model.addAttribute("registerForm", registerForm);
@@ -74,8 +78,19 @@ public class LoginController {
     public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
         Persona persona = new Persona();
         registerService.savePersona(persona, registerForm);
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789/" + persona.getId());
+        return "confirmregister";
+    }
 
-        personaRepository.save(persona);
+    @GetMapping("/confirmregister/{token}/{clientid}")
+    public String confirmRegister(Model model, @PathVariable String token, @PathVariable int clientid) {
+
+        if (!token.equals("123456789")) return "redirect:/";
+
+        Client client = registerService.getClientById(clientid);
+        client.setActive(true);
+        registerService.updateClient(client);
+
         return "redirect:/";
     }
 
