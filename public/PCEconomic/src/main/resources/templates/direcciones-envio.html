@@ -22,10 +22,10 @@
         function getDistance(destination){
             $.ajax({
                 url: "/maps",
-                type: "GET",
+                type: "POST",
                 data: {destination: destination},
                 success: function (response) {
-                    console.log(response);
+                    console.log(JSON.parse(response));
                 },
                 error: function (xhr) {
                     console.log(xhr);
