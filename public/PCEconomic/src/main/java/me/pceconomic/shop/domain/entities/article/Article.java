@@ -33,12 +33,11 @@ public @Data class Article {
     private double pes;
 
     @ManyToOne
-    @JsonIgnore
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),

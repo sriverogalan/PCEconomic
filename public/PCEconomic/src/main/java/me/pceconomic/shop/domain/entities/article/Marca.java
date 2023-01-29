@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,7 @@ public @Data class Marca {
 
     @OneToMany(mappedBy = "marca")
     @Fetch(FetchMode.JOIN)
+    @JsonIgnore
     private Set<Article> articles;
 
     public Marca(String cif, String name, Set<Article> articles) {

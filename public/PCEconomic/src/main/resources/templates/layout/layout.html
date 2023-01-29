@@ -138,18 +138,6 @@
                 success: function (data) {
                     var options = [];
 
-                    for (var a of data) {
-                        var propietats = "";
-                        for (var v of a.propietats.valor){
-                            propietats += " " + v.valor ;
-                        }
-                        if (a.principal === true ){
-                            $("#cercador").append(
-                                '<option value="/article/' + a.propietats.article.id + '/' + a.propietats.id + '">' + a.propietats.article.nom + " " + propietats + "</option>"
-                            );
-                        }
-                    }
-
                     console.log(options);
 
                     $("#cercador").select2({

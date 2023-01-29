@@ -7,6 +7,8 @@ import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "imatges")
 @NoArgsConstructor
@@ -17,18 +19,10 @@ public @Data class Imatge {
     @Column(name = "id_imatge")
     private int id;
 
-    @ManyToOne
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "id_propietats")
-    private Propietats propietats;
-
     @Column(name = "path")
     private String path;
 
     @Column(name = "principal")
     private boolean principal;
 
-    public Imatge(String path) {
-        this.path = path;
-    }
 }
