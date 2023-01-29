@@ -43,12 +43,14 @@ public class LoginController {
     @PostMapping("/login")
     public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
         Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
+        Client client = registerService.getClientByPersona(persona);
 
-        if (persona == null) return "redirect:/login";
+        if (persona == null || client == null) return "redirect:/login";
+        if (!client.isActive()) return "redirect:/login";
 
         if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
-            session.setAttribute("persona", persona);
+            session.setAttribute("persona", client);
             return "redirect:/areaclients";
         }
 

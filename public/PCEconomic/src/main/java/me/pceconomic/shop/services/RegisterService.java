@@ -28,6 +28,9 @@ public class RegisterService {
     public Client getClientById(int id) {
         return clientRepository.findByPersonaId(id);
     }
+    public Client getClientByPersona(Persona persona) {
+        return clientRepository.findByPersona(persona);
+    }
 
     public void updateClient(Client client) {
         clientRepository.save(client);
