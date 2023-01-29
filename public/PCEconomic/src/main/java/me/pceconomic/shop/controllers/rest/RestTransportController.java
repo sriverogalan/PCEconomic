@@ -19,7 +19,7 @@ public class RestTransportController {
         double pesCada5kg = pesTotal / 5;
         double preuTransport = preuBase + distanciaCada50km + pesCada5kg; // 2€ fixos + 0.02€/km + 0.2€/kg
 
-        return ""+ preuTransport ;
+        return String.valueOf(preuTransport);
     }
 
 }
