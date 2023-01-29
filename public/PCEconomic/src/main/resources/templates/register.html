@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
 </head>
-<body>
+<head>
+    <title>Register | PCEconomic</title>
+</head>
+<body class="container text-center">
+    <header th:replace="layout/layout :: navbar"></header>
     <form th:action="@{/register}" th:object="${registerForm}" method="post">
         <div>
             <label>Nombre: <input type="text" th:field="*{name}"/></label>
@@ -22,5 +24,7 @@
             <input type="submit" value="Registrarse"/>
         </div>
     </form>
+
+    <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
