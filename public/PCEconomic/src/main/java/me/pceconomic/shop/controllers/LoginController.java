@@ -2,6 +2,7 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
@@ -41,7 +42,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
-        Persona persona = registerService.getPersona(loginForm.getEmail());
+        Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
 
         if (persona == null) return "redirect:/login";
 
@@ -73,19 +74,20 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
-
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789");
+        Persona persona = new Persona();
+        registerService.savePersona(persona, registerForm);
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789/" + persona.getId());
         return "confirmregister";
     }
 
-    @GetMapping("/confirmregister/{token}")
-    public String confirmRegister(Model model, @PathVariable String token, @ModelAttribute("registerForm") RegisterForm registerForm) {
+    @GetMapping("/confirmregister/{token}/{clientid}")
+    public String confirmRegister(Model model, @PathVariable String token, @PathVariable int clientid) {
 
         if (!token.equals("123456789")) return "redirect:/";
 
-        Persona persona = new Persona();
-        registerService.savePersona(persona, registerForm);
-        frontService.sendListsToView(model);
+        Client client = registerService.getClientById(clientid);
+        client.setActive(true);
+        registerService.updateClient(client);
 
         return "redirect:/";
     }
