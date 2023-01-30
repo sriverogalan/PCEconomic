@@ -56,11 +56,19 @@
             </button>
             <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
                 <ul class="navbar-nav col-12 justify-content-evenly">
-                    <li class="nav-item d-flex justify-content-center ">
+ 
+                    <li th:if="${client == 'LOGIN'}" class="nav-item d-flex justify-content-center ">
+ 
                         <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}">
                             <i class="bi bi-person"></i>
                         </a>
+                    </li> 
+                    <li th:if="${client == 'LOGOUT'}" class="nav-item d-flex justify-content-center ">
+                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/logout}">
+                            <i class="bi bi-person-check-fill"></i>
+                        </a>
                     </li>
+ 
                     <li class="nav-item d-flex justify-content-center ">
                         <button type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal"
                                 data-bs-target="#modal">
@@ -134,11 +142,13 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $.ajax({
-            url: "/api/propietats",
+ 
+            url: "/api/propietats", 
             type: "GET",
             success: function (data) {
                 var options = [];
 
+ 
                 for (var prop of data) {
                     var propietats = "";
                     for (var v of prop.valor) {
@@ -148,6 +158,7 @@
                         '<option value="/article/' + prop.article.id + '/' + prop.id + '">' + prop.article.nom + " " + propietats + "</option>"
                     );
                 }
+ 
 
                 $("#cercador").select2({
                     data: options,

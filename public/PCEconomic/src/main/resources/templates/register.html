@@ -5,25 +5,29 @@
 <head>
     <title>Register | PCEconomic</title>
 </head>
-<body class="container text-center">
+<body>
     <header th:replace="layout/layout :: navbar"></header>
-    <form th:action="@{/register}" th:object="${registerForm}" method="post">
-        <div>
-            <label>Nombre: <input type="text" th:field="*{name}"/></label>
-        </div>
-        <div>
-            <label>Email: <input type="text" th:field="*{email}"/></label>
-        </div>
-        <div>
-            <label>Contraseña: <input type="password" th:field="*{password}"/></label>
-        </div>
-        <div>
-            <label>Confirmar contraseña: <input type="password" th:field="*{confirmPassword}"/></label>
-        </div>
-        <div>
-            <input type="submit" value="Registrarse"/>
-        </div>
-    </form>
+    <main class="container text-center">
+        <h1>Registrate Aqui!</h1>
+        <form th:action="@{/register}" th:object="${registerForm}" method="post">
+            <div>
+                <label>Nombre: <input type="text" th:field="*{name}"/></label>
+            </div>
+            <div>
+                <label>Email: <input type="text" th:field="*{email}"/></label>
+            </div>
+            <div>
+                <label>Contraseña: <input type="password" th:field="*{password}"/></label>
+            </div>
+            <div>
+                <label>Confirmar contraseña: <input type="password" th:field="*{confirmPassword}"/></label>
+            </div>
+            <div>
+                <input type="submit" value="Registrarse"/>
+            </div>
+        </form>
+    </main>
+
 
     <footer th:replace="layout/layout :: footer"></footer>
 </body>

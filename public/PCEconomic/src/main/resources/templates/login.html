@@ -5,25 +5,26 @@
 <head>
     <title>Login | PCEconomic</title>
 </head>
-<body class="container text-center">
+<body>
     <header th:replace="layout/layout :: navbar"></header>
-    <h1>Iniciar sesión</h1>
-    <div th:if="${param.error}">
-        Invalid username and password.
-    </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
-    </div>
-    <form th:action="@{/login}" th:object="${loginForm}" method="post">
-        <div><label> Email : <input type="text" name="username" th:field="*{email}"/> </label></div>
-        <div><label> Contraseña : <input type="password" name="password" th:field="*{password}"/> </label></div>
-        <div><input class=" btn btn-pc-economic-light" type="submit" value="Entrar"/></div>
-    </form>
-    <div>
-        <a href="/register">Registrarse</a>
-        <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
-    </div>
-
+    <main class="container text-center">
+        <h1>Iniciar sesión</h1>
+        <div th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" th:object="${loginForm}" method="post">
+            <div><label> Email : <input type="text" name="username" th:field="*{email}"/> </label></div>
+            <div><label> Contraseña : <input type="password" name="password" th:field="*{password}"/> </label></div>
+            <div><input class=" btn btn-pc-economic-light" type="submit" value="Entrar"/></div>
+        </form>
+        <div>
+            <a href="/register">Registrarse</a>
+            <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
+        </div>
+    </main>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
