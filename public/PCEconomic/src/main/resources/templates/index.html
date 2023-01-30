@@ -51,7 +51,7 @@
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
                         '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
-                        '<span class="text-end h2 text-pc-economic-default bold col-12">' + prop.preu + ' € </span>' +
+                        '<span class="text-end h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
                         '<img src="/img/productes/' + prop.article.id + '/' + prop.id + '/' + imgAux + '" class="col-5" alt="img">' +
                         '<div class="col-12 justify-content-center row">' +
                         '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
@@ -80,5 +80,9 @@
             }
         },
     });
+
+    function formatCurrency(amount) {
+        return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+    }
 </script>
 </html>
