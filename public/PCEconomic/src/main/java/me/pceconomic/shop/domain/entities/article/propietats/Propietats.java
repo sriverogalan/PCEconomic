@@ -22,7 +22,6 @@ public @Data class Propietats {
     @ManyToOne
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_article")
-    @JsonIgnore
     private Article article;
 
     @Column(name = "preu")
