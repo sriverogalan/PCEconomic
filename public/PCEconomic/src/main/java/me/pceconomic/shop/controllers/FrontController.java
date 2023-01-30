@@ -2,6 +2,8 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
@@ -37,6 +39,21 @@ public class FrontController {
     @GetMapping("/article/{idArticle}/{idPropietat}")
     public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat, HttpServletRequest request) {
         frontService.article(model, idArticle, idPropietat, request);
+        Article article = frontService.getArticleRepository().findById(idArticle).orElse(null);
+        Propietats propietats = frontService.getPropietatsRepository().findById(idPropietat).orElse(null);
+
+        if (article == null || propietats == null) return "redirect:/error";
+
+        article.getPropietats().forEach(prop -> {
+            if (prop.getId() == propietats.getId()) {
+                model.addAttribute("propietats", propietats);
+                model.addAttribute("preuEuros", frontService.formatearComoEuros(prop.getPreu()));
+                model.addAttribute("propietatsArticles", frontService.getPropietatsRepository().findAll());
+            }
+        });
+
+        model.addAttribute("imatges", frontService.getImatgeRepository().findAll());
+
         return "article";
     }
 
