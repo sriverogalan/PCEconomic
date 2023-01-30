@@ -1,8 +1,11 @@
 package me.pceconomic.shop.services;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,7 @@ public class FrontService {
         this.subcategoriaRepository = subcategoriaRepository;
     }
 
-    public void article(Model model, int idArticle, int idPropietat) {
+    public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
         Article article = articleRepository.findById(idArticle).orElse(null);
         Propietats propietats = propietatsRepository.findById(idPropietat).orElse(null);
 
@@ -43,7 +46,7 @@ public class FrontService {
             }
         });
 
-        sendListsToView(model);
+        sendListsToView(model, request);
     }
 
     public String formatearComoEuros(double value) {
@@ -52,22 +55,29 @@ public class FrontService {
     }
 
 
-    public void getCategoria(Model model, int id) {
+    public void getCategoria(Model model, int id, HttpServletRequest request) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
 
         if (subcategoria == null) return;
 
         model.addAttribute("subcategoria", subcategoria);
-        sendListsToView(model);
+        sendListsToView(model, request);
     }
 
-    public void sendListsToView(Model model) {
+    public void sendListsToView(Model model, HttpServletRequest request) {
         model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
+
+        HttpSession session = request.getSession();
+
+        if (session == null) return;
+
+        Client client = (Client) session.getAttribute("persona");
+        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
     }
 
-    public void getDireccion(Model model) {
-        sendListsToView(model);
+    public void getDireccion(Model model, HttpServletRequest request) {
+        sendListsToView(model, request);
     }
 }
