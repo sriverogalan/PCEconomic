@@ -6,8 +6,8 @@
     <title>Login | PCEconomic</title>
 </head>
 <body>
-    <header th:replace="layout/layout :: navbar"></header>
     <main class="container text-center">
+        <a href="/">Index</a>
         <h1>Iniciar sesión</h1>
         <div th:if="${param.error}">
             Invalid username and password.

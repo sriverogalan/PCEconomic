@@ -13,10 +13,10 @@
                 <div id="carouselExampleIndicators" class="carousel slide">
                     <div class="carousel-inner">
                         <div class="carousel-item" th:each="foto : ${propietats.imatges}"
-                             th:if=" ${propietats.id == foto.id}">
+                              >
                             <img class="d-block img-fluid imgSizeArticle"
                                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                 id="propietats.id">
+                                 id="propietats.id" th:alt="${foto.id}">
                         </div>
                     </div>
                     <button class="carousel-control-prev" data-bs-slide="prev"
@@ -105,7 +105,6 @@
             });
         });
 
-        /*
 
             $.ajax({
                 url: "/api/propietats",
@@ -118,33 +117,9 @@
                     $("#loading-wheel").hide();
                 },
                 success: function (resp) {
-                    var articles = resp;
-                    var idPropietat = $("main").attr("data-id");
-                    var idArticle = $("body").attr("data-id-article");
-                    console.log(articles);
 
-                    for (var a of resp) {
-                        if (a.principal === true && a.propietats.id != idPropietat && a.propietats.article.id == idArticle) {
-                            $('#articles-disponibles').append(
-                                '<a href="/article/' + a.propietats.article.id + '/' + a.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                                '<span class="text-end h4 text-pc-economic-default bold ">' + a.propietats.preu + ' € </span>' +
-                                '<img src="/img/productes/' + a.propietats.article.id + '/' + a.propietats.id + '/' + a.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
-                                '<div id="' + a.propietats.id + '" class="row justify-content-around col-12"></div>' +
-                                '</div>' +
-                                '</a>'
-                            );
-
-                            for (v of a.propietats.valor) {
-                                $('#' + a.propietats.id).append(
-                                    '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
-                                )
-                            }
-                        }
-
-                    }
                 }
             });
-        */
 
 
     </script>

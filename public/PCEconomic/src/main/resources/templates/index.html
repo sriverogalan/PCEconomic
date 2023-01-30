@@ -22,12 +22,6 @@
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
 <script>
-    (function ($) {
-        $('#foo').bind('click', function () {
-            alert('User clicked on "foo."');
-        });
-    })(jQuery);
-
     $.ajax({
         url: "api/propietats",
         type: "GET",
@@ -52,7 +46,7 @@
                     $('#articles').append(
                         '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
                         '<span class="text-end h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
-                        '<img src="/img/productes/' + prop.article.id + '/' + prop.id + '/' + imgAux + '" class="col-5" alt="img">' +
+                        '<img src="/img/productes/' + prop.article.id + '/' + prop.id + '/' + imgAux + '" class="col-4" alt="img">' +
                         '<div class="col-12 justify-content-center row">' +
                         '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
                         '<div class="text-start h4 col-12"> <p>' + prop.article.nom + '</p></div>' +
@@ -70,7 +64,7 @@
                     }
                     if (props.esPrincipal === false && props.article.id === prop.article.id) {
                         $('#' + prop.id).append(
-                            '<a class="col-4 mt-2 mb-2 row"' +
+                            '<a class="col-3 mt-2 mb-2 row"' +
                             ' href="/article/' + prop.article.id + '/' + props.id
                             + '"> <img src="/img/productes/' + prop.article.id + '/' + props.id + '/' + imgAux + '" class="col-12" alt="img"> </a>'
                         );
@@ -80,7 +74,44 @@
             }
         },
     });
+    /*
+    *
+    * var start = 0;
+    var limit = 10;
+    var reachedEnd = false;
 
+    function fetchData() {
+      if (reachedEnd) {
+        return;
+      }
+
+      $.ajax({
+        url: 'url_de_la_api',
+        data: {
+          start: start,
+          limit: limit
+        },
+        success: function(data) {
+          if (data.length == 0) {
+            reachedEnd = true;
+          }
+
+          // Procesar los datos aquí
+          // y agregarlos a la página
+
+          start += limit;
+        }
+      });
+    }
+
+    $(window).scroll(function() {
+      if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        fetchData();
+      }
+    });
+
+    *
+    * */
     function formatCurrency(amount) {
         return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
     }
