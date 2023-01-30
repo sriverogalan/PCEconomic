@@ -1,5 +1,6 @@
 package me.pceconomic.shop.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.carrito.Cart;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
@@ -23,11 +24,13 @@ public class CarritoController {
     private final HttpSession session;
     private final FrontService frontService;
     private final PropietatsRepository propietatsRepository;
+    private final CarritoService carritoService;
 
     @Autowired
     public CarritoController(CarritoService carritoService, FrontService frontService, PropietatsRepository propietatsRepository) {
         this.frontService = frontService;
         this.propietatsRepository = propietatsRepository;
+        this.carritoService = carritoService;
         this.session = carritoService.getSession();
     }
 
@@ -55,19 +58,14 @@ public class CarritoController {
         } else {
             cart = new Cart();
             cart.setPropietats(props);
-            cart.setQuantity(quantitat);
+            cart.setQuantity(cant);
             cart.setPrice(price);
             ids.add(cart);
         }
 
         shoppingCart.setIds(ids);
 
-        double total = 0;
-        for (Cart c : ids) {
-            total += c.getPrice();
-        }
-
-        shoppingCart.setTotal(total);
+        carritoService.setTotal(shoppingCart);
         session.setAttribute("carrito", shoppingCart);
         return isMain ? "redirect:/" : "redirect:/carrito";
     }
@@ -97,12 +95,8 @@ public class CarritoController {
         }
 
         shoppingCart.setIds(ids);
-        double total = 0;
-        for (Cart c : ids) {
-            total += c.getPrice();
-        }
+        carritoService.setTotal(shoppingCart);
 
-        shoppingCart.setTotal(total);
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }
@@ -112,16 +106,17 @@ public class CarritoController {
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
         List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
         ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().ifPresent(ids::remove);
+        carritoService.setTotal(shoppingCart);
 
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }
 
     @GetMapping("/carrito")
-    public String carrito(Model model) {
+    public String carrito(Model model, HttpServletRequest request) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");
         model.addAttribute("carrito", Objects.requireNonNullElseGet(shoppingCart, ShoppingCart::new));
-        frontService.sendListsToView(model);
+        frontService.sendListsToView(model, request);
         return "carrito";
     }
 }
