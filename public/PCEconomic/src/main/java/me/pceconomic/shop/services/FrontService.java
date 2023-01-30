@@ -2,9 +2,8 @@ package me.pceconomic.shop.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import me.pceconomic.shop.domain.entities.article.Article;
+import lombok.Getter;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 @Service
+@Getter
 public class FrontService {
 
     private final CategoriaRepository categoriaRepository;
@@ -33,18 +33,7 @@ public class FrontService {
     }
 
     public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
-        Article article = articleRepository.findById(idArticle).orElse(null);
-        Propietats propietats = propietatsRepository.findById(idPropietat).orElse(null);
 
-        if (article == null || propietats == null) return;
-
-        article.getPropietats().forEach(prop -> {
-            if (prop.getId() == propietats.getId()) {
-                model.addAttribute("propietats", propietats);
-                model.addAttribute("preuEuros", formatearComoEuros(prop.getPreu()));
-                model.addAttribute("propietatsArticles", propietatsRepository.findAll());
-            }
-        });
 
         sendListsToView(model, request);
     }

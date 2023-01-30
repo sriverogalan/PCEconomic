@@ -6,145 +6,149 @@
     <title th:text="${propietats.article.nom} +' | PCEconomic'"></title>
 </head>
 <body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
-<header th:replace="layout/layout.html :: header"></header>
-<main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
-    <div class="col-12 row m-2 justify-content-center">
-        <div class="col-md-6 col-sm-12">
-            <div id="carouselExampleIndicators" class="carousel slide">
-                <div class="carousel-inner">
-                    <div class="carousel-item" th:each="foto : ${imatges}"
-                         th:if=" ${propietats.id == foto.propietats.id}">
-                        <img class="d-block img-fluid imgSizeArticle"
-                             th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                             id="propietats.id">
+    <header th:replace="layout/layout.html :: header"></header>
+    <main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
+        <div class="col-12 row m-2 justify-content-center">
+            <div class="col-md-6 col-sm-12">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item" th:each="foto : ${propietats.imatges}"
+                             th:if=" ${propietats.id == foto.id}">
+                            <img class="d-block img-fluid imgSizeArticle"
+                                 th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
+                                 id="propietats.id">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" data-bs-slide="prev"
+                            data-bs-target="#carouselExampleIndicators"
+                            type="button">
+                        <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                    </button>
+                    <button class="carousel-control-next" data-bs-slide="next"
+                            data-bs-target="#carouselExampleIndicators"
+                            type="button">
+                        <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                    </button>
+                </div>
+
+                <div id="articles-disponibles" class="row mt-4 justify-content-center">
+                    <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
+                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-                <button class="carousel-control-prev" data-bs-slide="prev"
-                        data-bs-target="#carouselExampleIndicators"
-                        type="button">
-                    <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                </button>
-                <button class="carousel-control-next" data-bs-slide="next"
-                        data-bs-target="#carouselExampleIndicators"
-                        type="button">
-                    <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                </button>
             </div>
 
-            <div id="articles-disponibles" class="row mt-4 justify-content-center">
-                <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
-                <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        </div>
+            <div class="col-md-6 col-sm-12">
+                <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
+                <h5 class="text-body mt-2"
+                    th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
-        <div class="col-md-6 col-sm-12">
-            <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
-            <h5 class="text-body mt-2"
-                th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
-
-            <div class="row justify-content-center align-items-center">
-                <div th:if="!${preuOferta}" class="col-6 d-flex">
-                    <span class="text-center mt-3 col h1" th:text="${preuEuros}"></span>
-                </div>
-                <div th:if="${preuOferta}" class="col-6 d-flex">
+                <div class="row justify-content-center align-items-center">
+                    <div th:if="!${preuOferta}" class="col-6 d-flex">
+                        <span class="text-center mt-3 col h1" th:text="${preuEuros}"></span>
+                    </div>
+                    <div th:if="${preuOferta}" class="col-6 d-flex">
                             <span class="text-center mt-3 col h1 text-decoration-line-through"
                                   th:text="${preuEuros}"></span>
-                    <span class="text-center mt-3 col h1 text-danger" th:if="${preuOferta}"
-                          th:text="${preuOferta}"></span>
+                        <span class="text-center mt-3 col h1 text-danger" th:if="${preuOferta}"
+                              th:text="${preuOferta}"></span>
+                    </div>
+                    <div class="col-12 mt-3 ">
+                        <label for="cantidad" class="form-label">Cantidad : </label>
+                        <input id="cantidad" class="form-control border border-secondary" type="number" min="1"
+                               value="1"
+                               th:max="${propietats.stock}">
+                    </div>
                 </div>
-                <div class="col-12 mt-3 ">
-                    <label for="cantidad" class="form-label">Cantidad : </label>
-                    <input id="cantidad" class="form-control border border-secondary" type="number" min="1" value="1"
-                           th:max="${propietats.stock}">
+                <div class="d-flex justify-content-evenly mt-5">
+
+                    <div id="addcarrito" class="col-5 row"></div>
+                    <div id="comprar" class="col-5 row"></div>
                 </div>
             </div>
-            <div class="d-flex justify-content-evenly mt-5">
 
-                <div id="addcarrito" class="col-5 row"></div>
-                <div id="comprar" class="col-5 row"></div>
+            <div class="col-12 mt-5 row justify-content-center">
+                <div class="col-12">
+                    <h3>Propietades del producto</h3>
+                    <span th:each="val : ${propietats.valor}">
+                        <span th:each="prop : ${val.propietat}">
+                            <p th:text="' - ' + ${prop.nom} + ': ' + ${val.valor}"></p>
+                        </span>
+                    </span>
+                    <h3>Descripción</h3>
+                    <p th:text="${propietats.article.descripcio}"></p>
+                </div>
             </div>
         </div>
+    </main>
+    <div th:replace="layout/layout.html :: jquery"></div>
 
-        <div class="col-12 mt-5 row justify-content-center">
-            <div class="col-12">
-                <h3>Propietades del producto</h3>
-                <p th:each="prop : ${propietats.valor}"
-                   th:text="' - ' + ${prop.propietat.nom} + ': ' + ${prop.valor}"></p>
-                <h3>Descripción</h3>
-                <p th:text="${propietats.article.descripcio}"></p>
-            </div>
-        </div>
-    </div>
-</main>
-<div th:replace="layout/layout.html :: jquery"></div>
-
-<script>
-    $(document).ready(function () {
-        $(".carousel-item:first").addClass("active");
-        $("#comprar").append(
-            "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
-        )
-        $("#addcarrito").append(
-            "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
-        )
-        $('#cantidad').bind('input', function() {
-            $("#comprar").empty();
-            $("#addcarrito").empty();
+    <script>
+        $(document).ready(function () {
+            $(".carousel-item:first").addClass("active");
             $("#comprar").append(
                 "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
             )
             $("#addcarrito").append(
                 "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
             )
+            $('#cantidad').bind('input', function () {
+                $("#comprar").empty();
+                $("#addcarrito").empty();
+                $("#comprar").append(
+                    "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+                )
+                $("#addcarrito").append(
+                    "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+                )
+            });
         });
-    });
 
-/*
+        /*
 
-    $.ajax({
-        url: "/api/propietats",
-        type: "GET",
-        dataType: "json",
-        beforeSend: function () {
-            $("#loading-wheel").show();
-        },
-        complete: function () {
-            $("#loading-wheel").hide();
-        },
-        success: function (resp) {
-            var articles = resp;
-            var idPropietat = $("main").attr("data-id");
-            var idArticle = $("body").attr("data-id-article");
-            console.log(articles);
+            $.ajax({
+                url: "/api/propietats",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#loading-wheel").show();
+                },
+                complete: function () {
+                    $("#loading-wheel").hide();
+                },
+                success: function (resp) {
+                    var articles = resp;
+                    var idPropietat = $("main").attr("data-id");
+                    var idArticle = $("body").attr("data-id-article");
+                    console.log(articles);
 
-            for (var a of resp) {
-                if (a.principal === true && a.propietats.id != idPropietat && a.propietats.article.id == idArticle) {
-                    $('#articles-disponibles').append(
-                        '<a href="/article/' + a.propietats.article.id + '/' + a.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                        '<span class="text-end h4 text-pc-economic-default bold ">' + a.propietats.preu + ' € </span>' +
-                        '<img src="/img/productes/' + a.propietats.article.id + '/' + a.propietats.id + '/' + a.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
-                        '<div id="' + a.propietats.id + '" class="row justify-content-around col-12"></div>' +
-                        '</div>' +
-                        '</a>'
-                    );
+                    for (var a of resp) {
+                        if (a.principal === true && a.propietats.id != idPropietat && a.propietats.article.id == idArticle) {
+                            $('#articles-disponibles').append(
+                                '<a href="/article/' + a.propietats.article.id + '/' + a.propietats.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
+                                '<span class="text-end h4 text-pc-economic-default bold ">' + a.propietats.preu + ' € </span>' +
+                                '<img src="/img/productes/' + a.propietats.article.id + '/' + a.propietats.id + '/' + a.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
+                                '<div id="' + a.propietats.id + '" class="row justify-content-around col-12"></div>' +
+                                '</div>' +
+                                '</a>'
+                            );
 
-                    for (v of a.propietats.valor) {
-                        $('#' + a.propietats.id).append(
-                            '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
-                        )
+                            for (v of a.propietats.valor) {
+                                $('#' + a.propietats.id).append(
+                                    '<span class="text-center">' + v.propietat.nom + ': ' + v.valor + '</span> <br>'
+                                )
+                            }
+                        }
+
                     }
                 }
-
-            }
-        }
-    });
-*/
+            });
+        */
 
 
-</script>
+    </script>
 
-<footer th:replace="layout/layout :: footer"></footer>
+    <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
