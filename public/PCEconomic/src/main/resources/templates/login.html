@@ -7,24 +7,38 @@
 </head>
 <body>
     <header th:replace="layout/layout :: navbar"></header>
-    <main class="container text-center">
-        <h1>Iniciar sesión</h1>
+    <main class="container">
+        <h1 class="text-center">Iniciar sesión</h1>
         <div th:if="${param.error}">
             Invalid username and password.
         </div>
         <div th:if="${param.logout}">
             You have been logged out.
         </div>
-        <form th:action="@{/login}" th:object="${loginForm}" method="post">
-            <div><label> Email : <input type="text" name="username" th:field="*{email}"/> </label></div>
-            <div><label> Contraseña : <input type="password" name="password" th:field="*{password}"/> </label></div>
-            <div><input class=" btn btn-pc-economic-light" type="submit" value="Entrar"/></div>
-        </form>
-        <div>
+        <div class="d-flex justify-content-center">
+            <form class="needs-validation w-25" th:action="@{/login}"
+                  th:object="${loginForm}" method="post">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input th:field="*{email}" type="email" class="form-control" id="exampleInputEmail1"
+                           aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input th:field="*{password}" type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="text-center">
             <a href="/register">Registrarse</a>
             <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
         </div>
     </main>
+    <script th:src="@{/js/formvalidator.js}"></script>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
