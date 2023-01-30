@@ -25,7 +25,7 @@ public class LoginController {
     private final MailService mailService;
 
     @Autowired
-    public LoginController(FrontService frontService,MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
@@ -65,12 +65,12 @@ public class LoginController {
     }
 
     @GetMapping("/register")
-    public String preRegister(Model model) {
+    public String preRegister(Model model, HttpServletRequest request) {
 
         RegisterForm registerForm = new RegisterForm();
         model.addAttribute("registerForm", registerForm);
 
-        frontService.sendListsToView(model);
+        frontService.sendListsToView(model, request);
         return "register";
     }
 
@@ -83,9 +83,9 @@ public class LoginController {
     }
 
     @GetMapping("/confirmregister/{token}/{clientid}")
-    public String confirmRegister(Model model, @PathVariable String token, @PathVariable int clientid) {
+    public String confirmRegister(@PathVariable String token, @PathVariable int clientid) {
 
-        if (!token.equals("123456789")) return "redirect:/";
+        if (!token.equals("123456789")) return "redirect:/error";
 
         Client client = registerService.getClientById(clientid);
         client.setActive(true);
@@ -98,7 +98,7 @@ public class LoginController {
     public String areaclients(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         model.addAttribute("user", session.getAttribute("persona"));
-        frontService.sendListsToView(model);
+        frontService.sendListsToView(model, request);
         return "areaclients";
     }
 }

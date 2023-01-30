@@ -1,5 +1,8 @@
 package me.pceconomic.shop.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +24,35 @@ public class FrontController {
     }
 
     @GetMapping("/")
-    public String index() {
+    public String index(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if (session == null) return "index";
+
+        Client client = (Client) session.getAttribute("persona");
+        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
+
         return "index";
     }
 
     @GetMapping("/article/{idArticle}/{idPropietat}")
-    public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat) {
-        frontService.article(model, idArticle, idPropietat);
+    public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat, HttpServletRequest request) {
+        frontService.article(model, idArticle, idPropietat, request);
         return "article";
     }
 
     @GetMapping("/categoria/{id}")
-    public String getCategories(Model model, @PathVariable int id) {
-        frontService.getCategoria(model, id);
+    public String getCategories(Model model, @PathVariable int id, HttpServletRequest request) {
+        frontService.getCategoria(model, id, request);
         return "categoria";
     }
 
     @GetMapping("/carrito/direccion")
-    public String getDireccion(Model model) {
+    public String getDireccion(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if (session == null) return "index";
+
+        Client client = (Client) session.getAttribute("persona");
+        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         return "direcciones-envio";
     }
 
@@ -47,7 +61,7 @@ public class FrontController {
         creationService.create();
         return "redirect:/";
     }
- 
+
     @GetMapping("/crear1000")
     public String create1000() {
         creationService.crear1000();

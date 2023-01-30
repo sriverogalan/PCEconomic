@@ -1,49 +1,49 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head"></head>
-    <head>
-        <title th:text="' Index | PCEconomic'"></title>
-    </head>
+<head th:replace="layout/layout.html :: head"></head>
+<head>
+    <title th:text="' Index | PCEconomic'"></title>
+</head>
 
-    <nav th:replace="layout/layout.html :: navbar"></nav>
-    <body class="bgbd">
-        <main class="container-lg bg-cont mt-md-5 mt-1">
-            <h1 class="mt-3 text-center"> Bienvenido a PCEconomic! </h1>
-            <section id="productes" class="row mt-5 justify-content-center">
-                <h2 class="text-center">Estos son algunos de los productos que te pueden interesar</h2>
-                <div id="articles" class="row mt-2 justify-content-center mb-2">
-                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                        <span class="visually-hidden">Cargando...</span>
-                    </div>
+<nav th:replace="layout/layout.html :: navbar"></nav>
+<body class="bgbd">
+    <main class="container-lg bg-cont mt-md-5 mt-1">
+        <h1 class="mt-3 text-center"> Bienvenido a PCEconomic! </h1>
+        <section id="productes" class="row mt-5 justify-content-center">
+            <h2 class="text-center">Estos son algunos de los productos que te pueden interesar</h2>
+            <div id="articles" class="row mt-2 justify-content-center mb-2">
+                <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                    <span class="visually-hidden">Cargando...</span>
                 </div>
-            </section>
-        </main>
-        <footer th:replace="layout/layout.html :: footer"></footer>
-    </body>
-    <div th:replace="layout/layout.html :: jquery"></div>
-    <script>
-        (function($) {
-            $('#foo').bind('click', function() {
-                alert('User clicked on "foo."');
-            });
-        })(jQuery);
-
-        $.ajax({
-            url: "api/articles",
-            type: "GET",
-            dataType: "json",
-            beforeSend: function() {
-                $("#loading-wheel").show();
-            },
-            complete: function() {
-                $("#loading-wheel").hide();
-            },
-            success: function (articles) {
-                for (var art in articles) {
-                    console.log(articles[art]);
-                }
-
-            },
+            </div>
+        </section>
+    </main>
+    <footer th:replace="layout/layout.html :: footer"></footer>
+</body>
+<div th:replace="layout/layout.html :: jquery"></div>
+<script>
+    (function ($) {
+        $('#foo').bind('click', function () {
+            alert('User clicked on "foo."');
         });
-    </script>
+    })(jQuery);
+
+    $.ajax({
+        url: "api/articles",
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () {
+            $("#loading-wheel").show();
+        },
+        complete: function () {
+            $("#loading-wheel").hide();
+        },
+        success: function (articles) {
+            for (var art in articles) {
+                console.log(articles[art]);
+            }
+
+        },
+    });
+</script>
 </html>
