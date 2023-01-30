@@ -46,8 +46,8 @@ public @Data class Article {
     private Set<Subcategoria> subcategories;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
     @JoinColumn(name = "id_article")
+    @JsonIgnore
     private Set<Propietats> propietats;
 
 }
