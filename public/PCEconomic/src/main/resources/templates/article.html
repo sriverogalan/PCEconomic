@@ -30,13 +30,6 @@
                         <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
                     </button>
                 </div>
-
-                <div id="articles-disponibles" class="row mt-4 justify-content-center">
-                    <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
-                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
             </div>
 
             <div class="col-md-6 col-sm-12">
@@ -65,6 +58,13 @@
 
                     <div id="addcarrito" class="col-5 row"></div>
                     <div id="comprar" class="col-5 row"></div>
+                </div>
+
+                <div id="articles-disponibles" class="row mt-4 justify-content-center">
+                    <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
+                    <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
 
@@ -116,12 +116,34 @@
                 complete: function () {
                     $("#loading-wheel").hide();
                 },
-                success: function (resp) {
+                success: function (propietats) {
+                    var idPropietat = $("main").attr("data-id");
+                    var idArticle = $("body").attr("data-id-article");
+                    console.log(" Id article: " + idArticle + " Id propietat: " + idPropietat);
+                    for (var p of propietats) {
+                        for (img of p.imatges) {
+                            if (p.article.id === idArticle && p.id !== idPropietat && img.principal === true) {
+                                $('#articles-disponibles').append(
+                                    '<a href="/article/' + p.article.id + '/' + p.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
+                                    '<span class="text-end h4 text-pc-economic-default bold ">' + p.preu + ' € </span>' +
+                                    '<img src="/img/productes/' + p.article.id + '/' + p.id + '/' + img.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
+                                    '<div id="' + p.id + '" class="row justify-content-around col-12"></div>' +
+                                    '</div>' +
+                                    '</a>'
+                                )
 
+                                for (var v of p.valor) {
+                                    for (var prop of v.propietat)
+                                        $('#' + p.id).append(
+                                            '<span class="col-12 text-center text-pc-economic-default">' + prop.nom + ': ' + v.valor + '</span>'
+                                        )
+
+                                }
+                            }
+                        }
+                    }
                 }
             });
-
-
     </script>
 
     <footer th:replace="layout/layout :: footer"></footer>
