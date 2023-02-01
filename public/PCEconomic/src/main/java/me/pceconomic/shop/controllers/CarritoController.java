@@ -14,9 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Controller
 public class CarritoController {
@@ -42,7 +42,7 @@ public class CarritoController {
         int cant = quantitat > props.getStock() ? props.getStock() : quantitat;
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
 
-        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
+        Set<Cart> ids = shoppingCart.getIds() == null ? new HashSet<>() : shoppingCart.getIds();
 
         Cart cart = ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().orElse(null);
         double price = props.getPreu() * cant;
@@ -78,7 +78,7 @@ public class CarritoController {
         int cant = quantitat > props.getStock() ? props.getStock() : quantitat;
 
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
-        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
+        Set<Cart> ids = shoppingCart.getIds() == null ? new HashSet<>() : shoppingCart.getIds();
 
         Cart cart = ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().orElse(null);
         double price = props.getPreu() * cant;
@@ -104,7 +104,7 @@ public class CarritoController {
     @GetMapping("/deletecarrito")
     public String deleteArticleToCart(@RequestParam int idprops) {
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
-        List<Cart> ids = shoppingCart.getIds() == null ? new ArrayList<>() : shoppingCart.getIds();
+        Set<Cart> ids = shoppingCart.getIds() == null ? new HashSet<>() : shoppingCart.getIds();
         ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().ifPresent(ids::remove);
         carritoService.setTotal(shoppingCart);
 

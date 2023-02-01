@@ -2,6 +2,7 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
@@ -12,6 +13,7 @@ import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +43,9 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") LoginForm loginForm) {
+    public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "login";
+
         Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
         Client client = registerService.getClientByPersona(persona);
 
@@ -75,7 +79,9 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String postRegister(@ModelAttribute("registerForm") RegisterForm registerForm) {
+    public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) return "register";
+
         Persona persona = new Persona();
         registerService.savePersona(persona, registerForm);
         mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789/" + persona.getId());

@@ -2,10 +2,9 @@ package me.pceconomic.shop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class PCEconomic extends SpringBootServletInitializer {
+public class PCEconomic {
 
     public static void main(String[] args) {
         SpringApplication.run(PCEconomic.class, args);
