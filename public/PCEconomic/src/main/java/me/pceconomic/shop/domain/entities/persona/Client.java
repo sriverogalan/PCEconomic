@@ -28,11 +28,11 @@ public @Data class Client {
     private boolean isActive;
 
     @OneToOne
-    @JoinColumn(name = "id_persona")
+    @JoinColumn(name = "id_persona", unique = true, nullable = false)
     private Persona persona;
 
     @OneToOne
-    @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito")
+    @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

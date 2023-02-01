@@ -1,11 +1,145 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head"></head>
-<body>
+<body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
+    <main class="container bg-cont mt-5 p-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>Area de Clientes</h1>
+                <p th:text="'Bienvenido de nuevo ' + ${user.persona.name}"></p>
+            </div>
+            <div class="col-3">
+                <div>
+                    <h5>MI CUENTA</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#mi-perfil">Mi Perfil</a></li>
+                        <li class="list-group-item"><a href="#mis-pedidos">Mis Pedidos</a></li>
+                        <li class="list-group-item"><a href="#mis-direcciones">Mis Direcciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9">
+                <div id="mi-perfil">
+                    <h2 style="font-weight: bold" class="text-center">MI PERFIL</h2>
+                    <div>
+                        <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="old-name">Antiguo Nombre</label>
+                                    <input class="form-control" type="text" name="name" id="old-name" placeholder="Antiguo Nombre" />
+                                </div>
 
-    <a th:href="@{/logout}">Logout</a>
-    <p th:text="${user}"></p>
+                                <div class="col-md-4">
+                                    <label for="name">Nuevo Nombre</label>
+                                    <input class="form-control" type="text" name="name" id="name" placeholder="Nuevo Nombre" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="repeat-name">Repetir Nombre</label>
+                                    <input class="form-control" type="text" name="surname" id="repeat-name" placeholder="Nuevo Apellido" />
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h5  style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="old-password">Antigua Contraseña</label>
+                                    <input class="form-control" type="password" name="password" id="old-password" placeholder="Antigua Contraseña" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="password">Nueva Contraseña</label>
+                                    <input class="form-control" type="password" name="password" id="password" placeholder="Nueva Contraseña" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="confirm-password">Repetir Nueva Contraseña</label>
+                                    <input class="form-control" type="password" name="password" id="confirm-password" placeholder="Repetir Nueva Contraseña" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Contraseña</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h5 style="font-weight: bold">CAMBIAR EMAIL</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="old-email">Antiguo Email</label>
+                                    <input class="form-control" type="email" name="email" id="old-email" placeholder="Antiguo Email" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="email">Nuevo Email</label>
+                                    <input class="form-control" type="email" name="email" id="email" placeholder="Nuevo Email" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="confirm-email">Repetir Nuevo Email</label>
+                                    <input class="form-control" type="email" name="email" id="confirm-email" placeholder="Repetir Nuevo Email" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Email</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="old-phone">Antiguo Telefono</label>
+                                    <input class="form-control" type="tel" name="phone" id="old-phone" placeholder="Antiguo Telefono" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="phone">Nuevo Telefono</label>
+                                    <input class="form-control" type="tel" name="phone" id="phone" placeholder="Nuevo Telefono" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="confirm-phone">Repetir Nuevo Telefono</label>
+                                    <input class="form-control" type="tel" name="phone" id="confirm-phone" placeholder="Repetir Nuevo Telefono" />
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Telefono</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-center">Mis Pedidos</h3>
+                    <div>
+
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-center">Mis Direcciones</h3>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
