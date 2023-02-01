@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FrontController;
+use App\Models\Persones;
+use App\Models\Clients;
+use App\Models\Admins;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +18,24 @@ use App\Http\Controllers\FrontController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/persones', function () {
+    $persones = Persones::all();
+    return $persones->toJson();
+});
+
+Route::get('/persones/{id}', function ($id) {
+    $persones = Persones::find($id);
+    return $persones->toJson();
+});
+
+Route::get('/clients', function () {
+    $clientes = Clients::with('persones')->get();
+    return $clientes->toJson();
+});
+
+Route::get('/admins', function () {
+    $admins = Admins::all();
+    return $admins->toJson();
 });
