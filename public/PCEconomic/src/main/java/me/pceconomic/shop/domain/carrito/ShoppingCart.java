@@ -2,11 +2,11 @@ package me.pceconomic.shop.domain.carrito;
 
 import lombok.Data;
 
-import java.util.List;
+import java.util.Set;
 
 public @Data class ShoppingCart {
 
-    private List<Cart> ids;
+    private Set<Cart> ids;
     private double total;
 
 }
