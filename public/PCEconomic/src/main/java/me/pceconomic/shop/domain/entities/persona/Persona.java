@@ -26,13 +26,13 @@ public @Data class Persona {
     @Column(name = "cognom2")
     private String surname2;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "contrasenya")
+    @Column(name = "contrasenya", unique = true, nullable = false)
     private String password;
 
-    @Column(name = "telefon")
+    @Column(name = "telefon", unique = true, nullable = false)
     private String telefon;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

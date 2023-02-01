@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head"></head>
-<body>
+<body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
+    <main class="bg-pc-economic-default">
+        <aside>
 
-    <a th:href="@{/logout}">Logout</a>
-    <p th:text="${user}"></p>
+        </aside>
+    </main>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
