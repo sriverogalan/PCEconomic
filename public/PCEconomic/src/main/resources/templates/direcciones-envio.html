@@ -4,16 +4,24 @@
     <head>
         <title th:text="' Direcciones i envio | PCEconomic'"></title>
     </head>
-    <nav th:replace="layout/layout.html :: navbar"></nav>
     <body class="bgbd">
-        <main class="container-lg bg-cont mt-md-5 mt-1">
+        <main class="container-lg bg-cont mt-md-5 mt-1 row">
 
-            <h1 class="text-center mt-5">Direcciones de envio</h1>
+            <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
+            <div class="col-6">
+                <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
+                <div class="form-group mt-1 mb-3">
 
-            <div >
-                <input type="text" class="form-control" id="destination-input" placeholder="Enter a destination location">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" class="form-control" id="direccion"
+                           placeholder="Introduce la direccion donde la quieres enviar">
+                </div>
             </div>
-
+            <div class="col-6" id="info-carrito">
+                <h2 class="text-pc-economic-dark h4"> Resumen del pedido </h2>
+                <p>Productos:</p>
+                <span id="prod-carrito" class="text-center"> - </span>
+            </div>
         </main>
         <footer th:replace="layout/layout.html :: footer"></footer>
     </body>
@@ -22,22 +30,45 @@
     <script>
 
         $("#destination-input").on("change", function () {
-            getDistance($("#destination-input").val());
+            getDistance($("#destination-input").val())
         });
 
         function getDistance(destination){
+            var metersToKm = 1000;
             $.ajax({
                 url: "/maps",
                 type: "POST",
                 data: {destination: destination},
                 success: function (response) {
-                    console.log(JSON.parse(response));
+                    var json = JSON.parse(response);
+                    var meters = json.rows[0].elements[0].distance.value;
+                    var km = meters / metersToKm;
+                    $("#km").text("La distancia es de " + km + " km");
                 },
                 error: function (xhr) {
                     console.log(xhr);
                 }
             });
         }
+
+        $.ajax({
+            url: "/api/carrito",
+            type: "GET",
+            success: function (resp) {
+                $("#prod-carrito").empty();
+                var precio = 0;
+                for (var ids in resp.ids){
+                    console.log(resp.ids[ids])
+                    precio += resp.ids[ids].price;
+                }
+
+                $("#prod-carrito").append("<p> Precio: " + formatCurrency(precio) + "</p>");
+            },
+            error: function (xhr) {
+                console.log(xhr);
+            }
+        });
+
     </script>
 
 </html>

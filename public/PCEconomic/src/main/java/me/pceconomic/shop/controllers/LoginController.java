@@ -80,7 +80,10 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "register";
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(System.out::println);
+            return "register";
+        }
 
         Persona persona = new Persona();
         registerService.savePersona(persona, registerForm);
