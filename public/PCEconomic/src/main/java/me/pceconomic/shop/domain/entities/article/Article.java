@@ -2,8 +2,9 @@ package me.pceconomic.shop.domain.entities.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import org.hibernate.annotations.Fetch;
@@ -14,7 +15,9 @@ import java.util.Set;
 @Entity
 @Table(name = "articles")
 @EqualsAndHashCode(exclude = {"propietats", "subcategories", "marca"})
-public @Data class Article {
+@Getter
+@Setter
+public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +40,7 @@ public @Data class Article {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "articles_subcategories",
             joinColumns = @JoinColumn(name = "id_article"),

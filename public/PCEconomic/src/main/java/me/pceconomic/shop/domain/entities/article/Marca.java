@@ -2,9 +2,10 @@ package me.pceconomic.shop.domain.entities.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -14,7 +15,9 @@ import java.util.Set;
 @Table(name = "marques")
 @EqualsAndHashCode(exclude = "articles")
 @NoArgsConstructor
-public @Data class Marca {
+@Getter
+@Setter
+public class Marca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
