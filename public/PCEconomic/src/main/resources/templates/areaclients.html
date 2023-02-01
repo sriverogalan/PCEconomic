@@ -3,10 +3,42 @@
 <head th:replace="layout/layout :: head"></head>
 <body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
-    <main class="bg-pc-economic-default">
-        <aside>
+    <main class="container bg-cont mt-5 p-3">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center">Area de Clientes</h1>
+            </div>
+            <div class="col-3">
+                <div>
+                    <h5>MI CUENTA</h5>
+                    <ul>
+                        <li><a href="/areaclients">Mi Perfil</a></li>
+                        <li><a href="/areaclients/orders">Mis Pedidos</a></li>
+                        <li><a href="/areaclients/addresses">Mis Direcciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9">
+                <div>
+                    <h3 class="text-center">Mi Perfil</h3>
+                    <div>
 
-        </aside>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-center">Mis Pedidos</h3>
+                    <div>
+
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-center">Mis Direcciones</h3>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
