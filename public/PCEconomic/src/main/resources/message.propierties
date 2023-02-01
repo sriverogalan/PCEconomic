@@ -1,0 +1,7 @@
+incorrect.mail="Introduce un email valido"
+incorrect.password.confirm="Porfavor confirma tu contraseña"
+incorrect.password.confirm.match="Tus contraseñas no coinciden"
+incorrect.name="Tu nombre no puede estar vacio i/o en blanco"
+incorrect.phone="Introduce un numero de telefono valido"
+incorrect.surnames="Tus apellidos no pueden estar vacios i/o en blanco"
+blank.password="Tu contraseña no puede estar vacia i/o en blanco"
