@@ -119,16 +119,14 @@
         success: function (propietats) {
             var idPropietat = $("main").attr("data-id");
             var idArticle = $("body").attr("data-id-article");
-            console.log("Id propietat: " + idPropietat);
-            console.log("Id article: " + idArticle);
             for (var p of propietats) {
                 for (img of p.imatges) {
                     if (img.principal == true && p.article.id == idArticle && p.id != idPropietat){
+
                         $('#articles-disponibles').append(
                             '<a href="/article/' + p.article.id + '/' + p.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                            '<span class="text-end h4 text-pc-economic-default bold ">' + p.preu + ' € </span>' +
-                            '<img src="/img/productes/' + p.article.id + '/' + p.id + '/' + img.path + '" class="width-minicards object-fit-cover mb-1" alt="img">' +
-                            '<div id="' + p.id + '" class="row justify-content-around col-12"></div>' +
+                            '<img src="/img/productes/' + p.article.id + '/' + p.id + '/' + img.path + '" class="mt-2 width-minicards object-fit-cover mb-1" alt="img">' +
+                            '<div id="' + p.id + '" class="row justify-content-around col-12"><span class="h4 text-center" > ' + p.article.nom + ' </span> ' + '<span class="text-center h4 text-pc-economic-default bold ">' + p.preu + ' € </span>' + ' </div>' +
                             '</div>' +
                             '</a>'
                         )
