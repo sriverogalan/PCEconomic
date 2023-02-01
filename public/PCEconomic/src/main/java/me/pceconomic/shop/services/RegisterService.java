@@ -25,9 +25,11 @@ public class RegisterService {
     public Persona getPersonaByEmail(String email) {
         return personaRepository.findByEmail(email);
     }
+
     public Client getClientById(int id) {
         return clientRepository.findByPersonaId(id);
     }
+
     public Client getClientByPersona(Persona persona) {
         return clientRepository.findByPersona(persona);
     }
@@ -41,6 +43,7 @@ public class RegisterService {
         persona.setSurname1(registerForm.getSurname1());
         persona.setSurname2(registerForm.getSurname2());
         persona.setEmail(registerForm.getEmail());
+        persona.setTelefon(registerForm.getTelefon());
 
         if (registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
             String password = passwordEncoder().encode(registerForm.getPassword());
@@ -53,6 +56,7 @@ public class RegisterService {
 
         Client client = new Client();
         client.setPersona(persona);
+        client.setDni(registerForm.getDni());
         client.setActive(false);
         client.setSubscribed(false);
 
