@@ -9,5 +9,4 @@ public class PCEconomic {
     public static void main(String[] args) {
         SpringApplication.run(PCEconomic.class, args);
     }
-
 }
