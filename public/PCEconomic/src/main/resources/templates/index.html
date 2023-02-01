@@ -22,12 +22,6 @@
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
 <script>
-    (function ($) {
-        $('#foo').bind('click', function () {
-            alert('User clicked on "foo."');
-        });
-    })(jQuery);
-
     $.ajax({
         url: "api/propietats",
         type: "GET",
@@ -50,13 +44,13 @@
                 }
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center">' +
-                        '<span class="text-end h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
-                        '<img src="/img/productes/' + prop.article.id + '/' + prop.id + '/' + imgAux + '" class="col-5" alt="img">' +
+                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
+                        '<img src="/img/productes/' + prop.article.id + '/' + prop.id + '/' + imgAux + '" style="width:300px; height:300px; object-fit: contain;" alt="img" class="mt-2">' +
                         '<div class="col-12 justify-content-center row">' +
                         '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
-                        '<div class="text-start h4 col-12"> <p>' + prop.article.nom + '</p></div>' +
-                        '<span class="text-success col-12 text-start mb-2"> Recíbelo mañana </span>' +
+                        '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
+                        '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
+                        '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
                         '</div>' +
                         '</div>' +
                         '</a>'
@@ -70,9 +64,9 @@
                     }
                     if (props.esPrincipal === false && props.article.id === prop.article.id) {
                         $('#' + prop.id).append(
-                            '<a class="col-4 mt-2 mb-2 row"' +
+                            '<a class="col-3 mt-2 mb-2 row"' +
                             ' href="/article/' + prop.article.id + '/' + props.id
-                            + '"> <img src="/img/productes/' + prop.article.id + '/' + props.id + '/' + imgAux + '" class="col-12" alt="img"> </a>'
+                            + '"> <img src="/img/productes/' + prop.article.id + '/' + props.id + '/' + imgAux + '" style="width:100px; height:100px; object-fit: contain;" alt="img"> </a>'
                         );
                     }
                 }
@@ -80,9 +74,9 @@
             }
         },
     });
-
     function formatCurrency(amount) {
         return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
     }
+
 </script>
 </html>
