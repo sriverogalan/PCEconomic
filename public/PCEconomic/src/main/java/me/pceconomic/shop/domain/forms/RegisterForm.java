@@ -33,7 +33,7 @@ public @Data class RegisterForm {
 
     @NotNull(message = "{incorrect.dni}")
     @NotEmpty(message = "{incorrect.dni}")
-    @Pattern(regexp = "^[0-9]{8}[A-Z]$", message = "{incorrect.dni}")
+    @Pattern(regexp = "^[0-9]{8}[a-zA-Z]$", message = "{incorrect.dni}")
     private String dni;
 
     @NotNull(message = "{incorrect.phone}")

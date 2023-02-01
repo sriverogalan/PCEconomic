@@ -32,6 +32,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.sendRedirect(request.getContextPath() + "/login");
             return false;
         }
+
+        if (!client.isActive()) {
+            log.info("Unauthorized access request");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
         return true;
     }
 }
