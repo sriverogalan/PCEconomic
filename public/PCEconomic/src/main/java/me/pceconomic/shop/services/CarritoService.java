@@ -21,4 +21,7 @@ public @Data class CarritoService {
         shoppingCart.setTotal(total);
     }
 
+    public ShoppingCart getCarrito() {
+        return session.getAttribute("carrito") == null ? new ShoppingCart() : (ShoppingCart) session.getAttribute("carrito");
+    }
 }

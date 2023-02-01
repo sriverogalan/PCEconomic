@@ -11,51 +11,76 @@
         <h1 class="text-center">Registrate Aqui!</h1>
 
         <div class="d-flex justify-content-center">
-            <form class="w-50" th:action="@{/register}" th:object="${registerForm}" method="post">
+
+            <div class="w-50" th:if="${#fields.hasErrors('registerForm')}" th:errors="*{registerForm}">
+                <p>Hay errores en el formulario. Por favor, revisa los datos y vuelve a intentarlo.</p>
+            </div>
+
+            <form class="needs-validation w-50" th:action="@{/register}" th:object="${registerForm}" method="post"
+                  novalidate>
                 <div class="row">
                     <div class="col-12">
-                        <label class="form-label">Name</label>
-                        <input th:field="*{name}" type="text" class="form-control" placeholder="Name"
-                               aria-label="Name">
+                        <label class="form-label">Nombre</label>
+                        <input th:field="*{name}" type="text" class="form-control" placeholder="Nombre"
+                               aria-label="Name" required>
+                        <div class="invalid-feedback">Porfavor, introduce un nombre.</div>
                     </div>
-                    <label class="form-label">Surnames</label>
+                    <label class="form-label">Apellidos</label>
                     <div class="col-6">
-                        <input th:field="*{surname1}" type="text" class="form-control" placeholder="First surname"
-                               aria-label="First name">
+                        <input th:field="*{surname1}" type="text" class="form-control" placeholder="Primer Apellido"
+                               aria-label="First name" required>
+                        <div class="invalid-feedback">
+                            Inserte su primer apellido.
+                        </div>
                     </div>
                     <div class="col-6">
-                        <input th:field="*{surname2}" type="text" class="form-control" placeholder="Second surname"
+                        <input th:field="*{surname2}" type="text" class="form-control" placeholder="Segundo Apellido"
                                aria-label="Last name">
                     </div>
                     <div class="col-6">
                         <label class="form-label">DNI</label>
                         <input th:field="*{dni}" type="text" class="form-control" placeholder="DNI"
-                               aria-label="DNI">
+                               aria-label="DNI" required>
+                        <div class="invalid-feedback">
+                            Inserte su DNI.
+                        </div>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Telefon</label>
-                        <input th:field="*{telefon}" type="text" class="form-control" placeholder="Telefon"
-                               aria-label="Telefon">
+                        <label class="form-label">Telefono</label>
+                        <input th:field="*{telefon}" type="text" class="form-control" placeholder="Telefono"
+                               aria-label="Telefon" required>
+                        <div class="invalid-feedback">
+                            Inserte su telefono.
+                        </div>
                     </div>
                     <div class="col-12">
-                        <label class="form-label">Email Address</label>
-                        <input th:field="*{email}" type="text" class="form-control" placeholder="Email Address"
-                               aria-label="Email Address">
+                        <label class="form-label">Correo Electronico</label>
+                        <input th:field="*{email}" type="text" class="form-control" placeholder="Correo Electronico"
+                               aria-label="Email Address" required>
+                        <div class="invalid-feedback">
+                            Inserte su correo electronico.
+                        </div>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Password</label>
-                        <input th:field="*{password}" type="text" class="form-control" placeholder="Password"
-                               aria-label="Password">
+                        <label class="form-label">Contraseña</label>
+                        <input th:field="*{password}" type="password" class="form-control" placeholder="Contraseña"
+                               aria-label="Contraseña" required>
+                        <div class="invalid-feedback">
+                            Inserte su contraseña.
+                        </div>
                     </div>
                     <div class="col-6">
-                        <label class="form-label">Confirm Password</label>
-                        <input th:field="*{confirmPassword}" type="text" class="form-control"
-                               placeholder="Confirm Password"
-                               aria-label="Confirm Password">
+                        <label class="form-label">Confirmar Contraseña</label>
+                        <input th:field="*{confirmPassword}" type="password" class="form-control"
+                               placeholder="Confirmar Contraseña"
+                               aria-label="Confirmar Contraseña" required>
+                        <div class="invalid-feedback">
+                            Confirme su contraseña.
+                        </div>
                     </div>
                 </div>
                 <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-pc-economic-dark">Registrar</button>
                 </div>
             </form>
         </div>
@@ -68,7 +93,8 @@
 
     </main>
 
-
+    <div th:replace="layout/layout.html :: jquery"></div>
+    <script th:src="@{/js/formvalidator.js}"></script>
     <footer th:replace="layout/layout :: footer"></footer>
 </body>
 </html>
