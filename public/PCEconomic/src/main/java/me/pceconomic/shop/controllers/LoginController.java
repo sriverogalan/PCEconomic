@@ -81,7 +81,6 @@ public class LoginController {
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(System.out::println);
             return "register";
         }
 

@@ -5,9 +5,15 @@
 <head>
     <title>Login | PCEconomic</title>
 </head>
-<body>
-    <header th:replace="layout/layout :: navbar"></header>
-    <main class="container">
+<body class="bgbd">
+    <header class="bg-pc-economic-light">
+        <div class="container">
+            <a class="col-12 d-flex justify-content-center text-center" href="/">
+                <img style="width:200px; height: 100px;object-fit: contain;" class="col-9" src="/img/static/logo-no-background.png" alt="logo"/>
+            </a>
+        </div>
+    </header>
+    <main class="container bg-cont mt-5 p-3">
         <h1 class="text-center">Iniciar sesión</h1>
         <div class="d-flex justify-content-center">
             <form class="needs-validation w-25" th:action="@{/login}"
