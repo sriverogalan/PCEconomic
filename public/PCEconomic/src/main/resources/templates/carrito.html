@@ -53,7 +53,7 @@
             <div class="d-flex flex-row-reverse">
                 <div class="p-2">
                     <h3>Total: <span th:text="${carrito.total}"></span></h3>
-                    <button class="btn btn-pc-economic-dark">Comprar</button>
+                    <a class="btn btn-pc-economic-dark" th:href="@{/carrito/direccion}">Comprar</a>
                 </div>
             </div>
 
