@@ -12,17 +12,80 @@
                 <div>
                     <h5>MI CUENTA</h5>
                     <ul>
-                        <li><a href="/areaclients">Mi Perfil</a></li>
-                        <li><a href="/areaclients/orders">Mis Pedidos</a></li>
-                        <li><a href="/areaclients/addresses">Mis Direcciones</a></li>
+                        <li><a href="#mi-perfil">Mi Perfil</a></li>
+                        <li><a href="#mis-pedidos">Mis Pedidos</a></li>
+                        <li><a href="#mis-direcciones">Mis Direcciones</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-9">
-                <div>
+                <div id="mi-perfil">
                     <h3 class="text-center">Mi Perfil</h3>
                     <div>
+                        <h5>Cambiar Nombre</h5>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="old-name">Antiguo Nombre</label>
+                                    <input class="form-control" type="text" name="name" id="old-name" placeholder="Antiguo Nombre" />
+                                </div>
 
+                                <div class="col-md-4">
+                                    <label for="name">Nuevo Nombre</label>
+                                    <input class="form-control" type="text" name="name" id="name" placeholder="Nuevo Nombre" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label for="repeat-name">Repetir Nombre</label>
+                                    <input class="form-control" type="text" name="surname" id="repeat-name" placeholder="Nuevo Apellido" />
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h6>Cambiar Contraseña</h6>
+                        <form>
+                            <label for="old-password">Antigua Contraseña</label>
+                            <input type="password" name="password" id="old-password" placeholder="Antigua Contraseña" />
+
+                            <label for="password">Nueva Contraseña</label>
+                            <input type="password" name="password" id="password" placeholder="Nueva Contraseña" />
+
+                            <label for="confirm-password">Repetir Nueva Contraseña</label>
+                            <input type="password" name="password" id="confirm-password" placeholder="Repetir Nueva Contraseña" />
+
+                            <button type="submit">Cambiar Contraseña</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h6>Cambiar Email</h6>
+                        <form>
+                            <label for="old-email">Antiguo Email</label>
+                            <input type="email" name="email" id="old-email" placeholder="Antiguo Email" />
+
+                            <label for="email">Nuevo Email</label>
+                            <input type="email" name="email" id="email" placeholder="Nuevo Email" />
+
+                            <button type="submit">Cambiar Email</button>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h6>Cambiar Telefono</h6>
+                        <form>
+                            <label for="old-phone">Antiguo Telefono</label>
+                            <input type="tel" name="phone" id="old-phone" placeholder="Antiguo Telefono" />
+
+                            <label for="phone">Nuevo Telefono</label>
+                            <input type="tel" name="phone" id="phone" placeholder="Nuevo Telefono" />
+
+                            <button type="submit">Cambiar Telefono</button>
+                        </form>
                     </div>
                 </div>
                 <div>
