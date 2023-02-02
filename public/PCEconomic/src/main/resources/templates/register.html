@@ -12,9 +12,6 @@
 
         <div class="d-flex justify-content-center">
 
-            <div class="w-50" th:if="${#fields.hasErrors('registerForm')}" th:errors="*{registerForm}">
-                <p>Hay errores en el formulario. Por favor, revisa los datos y vuelve a intentarlo.</p>
-            </div>
 
             <form class="needs-validation w-50" th:action="@{/register}" th:object="${registerForm}" method="post"
                   novalidate>
@@ -81,6 +78,39 @@
                 </div>
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-pc-economic-dark">Registrar</button>
+                </div>
+
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('name')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{name}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('surname1')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{surname1}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('dni')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{dni}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('telefon')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{telefon}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('email')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{email}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('password')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{password}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${#fields.hasErrors('confirmPassword')}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:errors="*{confirmPassword}"></span>
+                </div>
+                <div class="m-1 alert alert-danger" th:if="${passwordmatch != null}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:text="${passwordmatch}"></span>
                 </div>
             </form>
         </div>
