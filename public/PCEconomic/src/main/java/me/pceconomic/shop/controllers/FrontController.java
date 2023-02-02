@@ -2,9 +2,11 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,13 @@ public class FrontController {
 
     private final CreationService creationService;
     private final FrontService frontService;
+    private final CarritoService carritoService;
 
     @Autowired
-    public FrontController(FrontService frontService, CreationService creationService) {
+    public FrontController(FrontService frontService, CarritoService carritoService, CreationService creationService) {
         this.creationService = creationService;
         this.frontService = frontService;
+        this.carritoService = carritoService;
     }
 
     @GetMapping("/")
@@ -67,6 +71,9 @@ public class FrontController {
     public String getDireccion(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         if (session == null) return "index";
+
+        ShoppingCart shoppingCart = carritoService.getCarrito();
+        System.out.println(shoppingCart);
 
         Client client = (Client) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");

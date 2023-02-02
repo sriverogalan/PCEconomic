@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1eabeb03-6bc8-4cd3-8ae5-c2c23bc48b3b" name="Changes" comment="feat(entities): added the relations between article and marca">
+      <change afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Preu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Propietat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Stock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Valor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/Marca.java" beforeDir="false" afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/Marca.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Propietats.java" beforeDir="false" afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/java/me/pceconomic/shop/domain/entities/propietats/Propietats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/esquelet-BotigaInformatica/src/test/java/me/pceconomic/shop/EsqueletBotigaInformaticaApplicationTests.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2JSBpV0cw4q0bFJEw3vVmkh1gG8" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Miquel Angel/IdeaProjects/PCEconomic/public/esquelet-BotigaInformatica",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "5dccc3bc698138673be6adecb8722434",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Miquel Angel\IdeaProjects\PCEconomic\public\esquelet-BotigaInformatica\src\main\java\me\pceconomic\shop" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Miquel Angel\IdeaProjects\PCEconomic\public\esquelet-BotigaInformatica\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="EsqueletBotigaInformaticaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="esquelet-BotigaInformatica" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="me.pceconomic.shop.EsqueletBotigaInformaticaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1eabeb03-6bc8-4cd3-8ae5-c2c23bc48b3b" name="Changes" comment="" />
+      <created>1672061787028</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1672061787028</updated>
+      <workItem from="1672061788218" duration="1825000" />
+      <workItem from="1673112661448" duration="34000" />
+      <workItem from="1673112731416" duration="95000" />
+    </task>
+    <task id="LOCAL-00001" summary="fix(ids): Fixed some isses with ids being identical">
+      <created>1672062498461</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062498461</updated>
+    </task>
+    <task id="LOCAL-00002" summary="refactor(project): Removed back folder and moved all files to public folder">
+      <created>1672062539480</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062539480</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat(readme): Updated readme with instruction on how to install the public part of the project">
+      <created>1672062589504</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062589504</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat(entities): Added marca entity">
+      <created>1672062613659</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062613659</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix(gitignore): i think i fixed it">
+      <created>1672062789662</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062789662</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat(entities): added the relations between article and marca">
+      <created>1672062956020</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1672062956020</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix(ids): Fixed some isses with ids being identical" />
+    <MESSAGE value="refactor(project): Removed back folder and moved all files to public folder" />
+    <MESSAGE value="feat(readme): Updated readme with instruction on how to install the public part of the project" />
+    <MESSAGE value="feat(entities): Added marca entity" />
+    <MESSAGE value="fix(gitignore): i think i fixed it" />
+    <MESSAGE value="feat(entities): added the relations between article and marca" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(entities): added the relations between article and marca" />
+  </component>
+</project>
