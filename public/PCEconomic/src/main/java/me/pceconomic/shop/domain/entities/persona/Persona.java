@@ -34,7 +34,7 @@ public @Data class Persona {
     @Column(name = "telefon", unique = true, nullable = false)
     private String telefon;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "persones_direccions",
             joinColumns = @JoinColumn(name = "id_persona"),
