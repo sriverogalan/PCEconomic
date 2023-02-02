@@ -5,8 +5,8 @@
     <title th:text="' Direcciones i envio | PCEconomic'"></title>
 </head>
 <body class="bgbd">
+    <header th:replace="layout/layout :: header2"></header>
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
-
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
     <div class="col-6">
         <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
@@ -67,8 +67,6 @@
                           placeholder="Introduce notas adicionales"></textarea>
             </div>
 
-            <p class="d-none" id="km"></p>
-
             <div class="col-12" id="enviar">
                 <button type="submit" class="btn btn-pc-economic-dark mt-3">Guardar dirección</button>
             </div>
@@ -76,17 +74,19 @@
     </div>
     <div class="col-6 justify-content-around" id="info-carrito">
         <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
-        <div id="prod-carrito" class="col-12 row mt-3 text-center"></div>
+        <div id="prod-carrito" class="col-12 row mt-3 mb-3 text-center">
+            <div id="loading"></div>
+        </div>
         <div class="col-12 row justify-content-around">
-            <span class="h5 col-6 mb-2">Subtotal artículos</span>
-            <span class="text-bg-economic-dark col-6 mb-2 text-center" id="subtotal"> - </span>
-            <span class="h5 col-6">Envío estimado PcEconomic</span>
-            <span class="text-pc-economic-dark col-6 text-center" id="envio"> - </span>
-
+            <span class="h5 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
+            <span class="col-6 mb-4 text-center text-pc-economic-light" id="subtotal"> - </span>
+            <span class="h5 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
+            <span class="col-6 text-center text-pc-economic-light" id="envio"> - </span>
+            <div id="error" class="mt-2 mb-2"></div>
             <hr class="border border-2 opacity-50 mt-2 col-10">
 
-            <span class="h4 mt-2 col-6">Total (impuestos incluidos) </span>
-            <span class="text-pc-economic-dark mt-2 h4 col-6" id="total"> - </span>
+            <span class="h3 mt-2 col-6">Total (impuestos incluidos) </span>
+            <span class="text-pc-economic-dark mt-2 h3 col-6" id="total"> - </span>
         </div>
     </div>
 </main>
@@ -95,69 +95,105 @@
 <div th:replace="layout/layout.html :: jquery"></div>
 
 <script>
+    $.ajax({
+        url: "/api/carrito",
+        type: "GET",
+        success: function (resp) {
+            $("#total").empty();
+            $("#total").append(formatCurrency(resp.total));
+        }
+    })
 
     $("#provincia").on("change", function () {
         var destination = $("#direccion1").val() + " " + $("#direccion2").val() + " " + $("#ciudad").val() + " " + $("#codigo-postal").val();
         getDistance(destination)
     });
 
-    $("#km").on("DOMSubtreeModified", function () { //DOMSubtreeModified
-            var km = $("#km").text();
-            console.log(km);
-        }
-    )
 
     function getDistance(destination) {
         var metersToKm = 1000;
         var km = 0;
+
         $("#km").empty();
+        if ($("#error").text() !== "") $("#error").empty();
+
         $.ajax({
-            url: "/maps",
-            type: "POST",
-            data: {destination: destination},
-            success: function (response) {
-                var json = JSON.parse(response);
-                var meters = json.rows[0].elements[0].distance.value;
-                km = meters / metersToKm;
-                $("#km").append(km);
+            url: "/api/carrito",
+            type: "GET",
+            beforeSend: function () {
+                $("#loading").append("<div class='spinner-border' role='status' id='loading'> <span class='visually-hidden'>Loading...</span> </div>");
             },
-            error: function (xhr) {
+            complete: function () {
+                $("#loading").hide();
+            },
+            success: function (resp) {
+                $("#prod-carrito").empty();
+                var precio = 0;
+                var cantidad = 0;
+                var pesoTotal = 0;
 
-                console.log(xhr);
+                for (var id in resp.ids) {
+                    $("#prod-carrito").append(
+                        "<div class='col-12 row '>" +
+                        "<div class='col-6'>" +
+                        "<span class='h4 text-pc-economic-default' data-idprop='" + resp.ids[id].propietats.id + "'>" + resp.ids[id].quantity + " x " + resp.ids[id].propietats.article.nom + " ( " + formatCurrency(resp.ids[id].propietats.preu) + " ) </span>" +
+                        "</div>" +
+                        "<div class='col-6'>" +
+                        "<span class='h4 text-pc-economic-light'> " + formatCurrency(resp.ids[id].price) + "</span>" +
+                        "</div>" +
+                        "</div>"
+                    );
+                    precio += resp.ids[id].price;
+                    cantidad += resp.ids[id].quantity;
+                    pesoTotal += resp.ids[id].propietats.article.pes * resp.ids[id].quantity;
+                }
+
+                $.ajax({
+                    url: "/maps",
+                    type: "POST",
+                    data: {destination: destination},
+                    success: function (response) {
+                        var json = JSON.parse(response);
+                        if (json.rows[0].elements[0].status === "NOT_FOUND") {
+                            $("#error").append("<div class=\"alert alert-danger d-flex align-items-center\" role=\"alert\">\n" +
+                                "  <svg class=\"bi flex-shrink-0 me-2\" role=\"img\" aria-label=\"Danger:\"><use xlink:href=\"#exclamation-triangle-fill\"/></svg>" +
+                                "  <div>" +
+                                "No se han podido calcular el envío introduce bien los datos" +
+                                "  </div>" +
+                                "</div>");
+                        } else if (json.rows[0].elements[0].status === "ZERO_RESULTS"){
+                            $("#error").append("<div class=\"alert alert-danger d-flex align-items-center\" role=\"alert\">\n" +
+                                "  <svg class=\"bi flex-shrink-0 me-2\" role=\"img\" aria-label=\"Danger:\"><use xlink:href=\"#exclamation-triangle-fill\"/></svg>" +
+                                "  <div>" +
+                                "No se han podido calcular el envío introduce bien los datos" +
+                                "  </div>" +
+                                "</div>");
+                        } else {
+
+                            var meters = json.rows[0].elements[0].distance.value;
+                            km = meters / metersToKm;
+
+                            $.ajax({
+                                url: "/api/transport",
+                                type: "GET",
+                                data: {
+                                    pesTotal: pesoTotal,
+                                    distanciaTotal: km,
+                                    numPaquets: cantidad
+                                },
+                                success: function (response) {
+                                    var envio = JSON.parse(response);
+                                    $("#subtotal").text(formatCurrency(resp.total));
+                                    $("#envio").text(formatCurrency(envio));
+                                    $("#total").text(formatCurrency(resp.total + envio));
+                                }
+                            })
+                        }
+                    }
+                })
             }
-        })
+        });
     }
-
-    $.ajax({
-        url: "/api/carrito",
-        type: "GET",
-        success: function (resp) {
-            $("#prod-carrito").empty();
-            var precio = 0;
-            var cantidad = 0;
-
-            for (var id in resp.ids) {
-                $("#prod-carrito").append(
-                    "<div class='col-12 row'>" +
-                    "<div class='col-6'>" +
-                    "<p>" + resp.ids[id].propietats.article.nom + "</p>" +
-                    "</div>" +
-                    "<div class='col-6'>" +
-                    "<p>" + resp.ids[id].quantity + " x " + formatCurrency(resp.ids[id].price) + "</p>" +
-                    "</div>" +
-                    "</div>"
-                );
-                precio += resp.ids[id].price;
-                cantidad += resp.ids[id].quantity;
-
-
-            }
-        },
-        error: function (xhr) {
-            console.log(xhr);
-        }
-    });
-
     function formatCurrency(amount) {
         return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
     }
