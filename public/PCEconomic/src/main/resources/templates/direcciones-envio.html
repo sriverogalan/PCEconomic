@@ -1,43 +1,166 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head"></head>
-    <head>
-        <title th:text="' Direcciones i envio | PCEconomic'"></title>
-    </head>
-    <nav th:replace="layout/layout.html :: navbar"></nav>
-    <body class="bgbd">
-        <main class="container-lg bg-cont mt-md-5 mt-1">
+<head th:replace="layout/layout.html :: head"></head>
+<head>
+    <title th:text="' Direcciones i envio | PCEconomic'"></title>
+</head>
+<body class="bgbd">
+<main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
 
-            <h1 class="text-center mt-5">Direcciones de envio</h1>
-
-            <div >
-                <input type="text" class="form-control" id="destination-input" placeholder="Enter a destination location">
+    <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
+    <div class="col-6">
+        <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
+        <div class="form-group mt-1 mb-3 row">
+            <div class="col-12">
+                <label for="nombre-completo">Nombre completo</label>
+                <input type="text" class="form-control" id="nombre-completo"
+                       placeholder="Introduce el nombre completo">
             </div>
 
-        </main>
-        <footer th:replace="layout/layout.html :: footer"></footer>
-    </body>
-    <div th:replace="layout/layout.html :: jquery"></div>
+            <div class="col-12">
+                <label for="telefono">Teléfono</label>
+                <input type="text" class="form-control" id="telefono"
+                       placeholder="Introduce el teléfono de contacto">
+            </div>
 
-    <script>
+            <div class="col-12">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email"
+                       placeholder="Introduce el email de contacto">
+            </div>
 
-        $("#destination-input").on("change", function () {
-            getDistance($("#destination-input").val());
-        });
+            <div class="col-12">
+                <label for="direccion1">Línea de dirección 1</label>
+                <input type="text" class="form-control" id="direccion1"
+                       placeholder="Nombre y número de la calle">
+                <input type="text" class="form-control" id="direccion2"
+                       placeholder="Apartamento, suite, unidad, edificio o piso">
+            </div>
 
-        function getDistance(destination){
-            $.ajax({
-                url: "/maps",
-                type: "POST",
-                data: {destination: destination},
-                success: function (response) {
-                    console.log(JSON.parse(response));
-                },
-                error: function (xhr) {
-                    console.log(xhr);
-                }
-            });
+            <div class="col-4">
+                <label for="codigo-postal">Código postal</label>
+                <input type="text" class="form-control" id="codigo-postal"
+                       placeholder="Introduce el código postal">
+            </div>
+
+            <div class="col-8">
+                <label for="ciudad">Ciudad</label>
+                <input type="text" class="form-control" id="ciudad"
+                       placeholder="Introduce la ciudad">
+            </div>
+
+            <div class="col-12">
+                <label for="pais">País</label>
+                <input type="text" class="form-control" id="pais"
+                       placeholder="Introduce el país">
+            </div>
+
+            <div class="col-12">
+                <label for="provincia">Provincia</label>
+                <input type="text" class="form-control" id="provincia"
+                       placeholder="Introduce la provincia">
+            </div>
+
+            <div class="col-12">
+                <label for="notas">Notas</label>
+                <textarea class="form-control" id="notas" rows="3"
+                          placeholder="Introduce notas adicionales"></textarea>
+            </div>
+
+            <p class="d-none" id="km"></p>
+
+            <div class="col-12" id="enviar">
+                <button type="submit" class="btn btn-pc-economic-dark mt-3">Guardar dirección</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 justify-content-around" id="info-carrito">
+        <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
+        <div id="prod-carrito" class="col-12 row mt-3 text-center"></div>
+        <div class="col-12 row justify-content-around">
+            <span class="h5 col-6 mb-2">Subtotal artículos</span>
+            <span class="text-bg-economic-dark col-6 mb-2 text-center" id="subtotal"> - </span>
+            <span class="h5 col-6">Envío estimado PcEconomic</span>
+            <span class="text-pc-economic-dark col-6 text-center" id="envio"> - </span>
+
+            <hr class="border border-2 opacity-50 mt-2 col-10">
+
+            <span class="h4 mt-2 col-6">Total (impuestos incluidos) </span>
+            <span class="text-pc-economic-dark mt-2 h4 col-6" id="total"> - </span>
+        </div>
+    </div>
+</main>
+<footer th:replace="layout/layout.html :: footer"></footer>
+</body>
+<div th:replace="layout/layout.html :: jquery"></div>
+
+<script>
+
+    $("#provincia").on("change", function () {
+        var destination = $("#direccion1").val() + " " + $("#direccion2").val() + " " + $("#ciudad").val() + " " + $("#codigo-postal").val();
+        getDistance(destination)
+    });
+
+    $("#km").on("DOMSubtreeModified", function () { //DOMSubtreeModified
+            var km = $("#km").text();
+            console.log(km);
         }
-    </script>
+    )
+
+    function getDistance(destination) {
+        var metersToKm = 1000;
+        var km = 0;
+        $("#km").empty();
+        $.ajax({
+            url: "/maps",
+            type: "POST",
+            data: {destination: destination},
+            success: function (response) {
+                var json = JSON.parse(response);
+                var meters = json.rows[0].elements[0].distance.value;
+                km = meters / metersToKm;
+                $("#km").append(km);
+            },
+            error: function (xhr) {
+
+                console.log(xhr);
+            }
+        })
+    }
+
+    $.ajax({
+        url: "/api/carrito",
+        type: "GET",
+        success: function (resp) {
+            $("#prod-carrito").empty();
+            var precio = 0;
+            var cantidad = 0;
+
+            for (var id in resp.ids) {
+                $("#prod-carrito").append(
+                    "<div class='col-12 row'>" +
+                    "<div class='col-6'>" +
+                    "<p>" + resp.ids[id].propietats.article.nom + "</p>" +
+                    "</div>" +
+                    "<div class='col-6'>" +
+                    "<p>" + resp.ids[id].quantity + " x " + formatCurrency(resp.ids[id].price) + "</p>" +
+                    "</div>" +
+                    "</div>"
+                );
+                precio += resp.ids[id].price;
+                cantidad += resp.ids[id].quantity;
+
+
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr);
+        }
+    });
+
+    function formatCurrency(amount) {
+        return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+    }
+</script>
 
 </html>
