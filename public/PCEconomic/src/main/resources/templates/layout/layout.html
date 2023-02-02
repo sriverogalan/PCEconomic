@@ -173,7 +173,6 @@
             }
         });
 
-
         $.ajax({
             url: "/api/categories",
             type: "GET",
@@ -198,18 +197,10 @@
                 }
             },
         });
-        /*
-        $.ajax({
-            url: "/api/idiomes",
-            type: "GET",
-            success: function (data) {
-                for (var i of data) {
-                    $("#idiomes").append(
-                        '<option value="' + i.id + '">' + i.nom + "</option>"
-                    );
-                }
-            },
-        });*/
+
+        function formatCurrency(amount) {
+            return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+        }
     </script>
 </div>
 </html>
