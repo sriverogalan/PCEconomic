@@ -8,138 +8,285 @@
             <div class="col-12 text-center">
                 <h1>Area de Clientes</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.persona.name}"></p>
-            </div>
-            <div class="col-3">
-                <div>
-                    <h5>MI CUENTA</h5>
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="#mi-perfil">Mi Perfil</a></li>
-                        <li class="list-group-item"><a href="#mis-pedidos">Mis Pedidos</a></li>
-                        <li class="list-group-item"><a href="#mis-direcciones">Mis Direcciones</a></li>
-                    </ul>
+                <div class="d-flex flex-row-reverse mt-2 mb-2">
+                    <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
                 </div>
             </div>
-            <div class="col-9">
-                <div id="mi-perfil">
-                    <h2 style="font-weight: bold" class="text-center">MI PERFIL</h2>
-                    <div>
-                        <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="old-name">Antiguo Nombre</label>
-                                    <input class="form-control" type="text" name="name" id="old-name" placeholder="Antiguo Nombre" />
-                                </div>
 
-                                <div class="col-md-4">
-                                    <label for="name">Nuevo Nombre</label>
-                                    <input class="form-control" type="text" name="name" id="name" placeholder="Nuevo Nombre" />
-                                </div>
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="miperfil">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            MI PERFIL
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
+                         data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div>
+                                <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="old-name">Antiguo Nombre</label>
+                                            <input class="form-control" type="text" name="name" id="old-name"
+                                                   placeholder="Antiguo Nombre"/>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <label for="repeat-name">Repetir Nombre</label>
-                                    <input class="form-control" type="text" name="surname" id="repeat-name" placeholder="Nuevo Apellido" />
-                                </div>
-                            </div>
-                            <div class="d-flex flex-row-reverse mt-2">
-                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre</button>
-                            </div>
-                        </form>
-                    </div>
+                                        <div class="col-md-4">
+                                            <label for="name">Nuevo Nombre</label>
+                                            <input class="form-control" type="text" name="name" id="name"
+                                                   placeholder="Nuevo Nombre"/>
+                                        </div>
 
-                    <div>
-                        <h5  style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="old-password">Antigua Contraseña</label>
-                                    <input class="form-control" type="password" name="password" id="old-password" placeholder="Antigua Contraseña" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="password">Nueva Contraseña</label>
-                                    <input class="form-control" type="password" name="password" id="password" placeholder="Nueva Contraseña" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="confirm-password">Repetir Nueva Contraseña</label>
-                                    <input class="form-control" type="password" name="password" id="confirm-password" placeholder="Repetir Nueva Contraseña" />
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="repeat-name">Repetir Nombre</label>
+                                            <input class="form-control" type="text" name="surname" id="repeat-name"
+                                                   placeholder="Nuevo Apellido"/>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row-reverse mt-2">
+                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre</button>
+                                    </div>
+                                </form>
                             </div>
 
-                            <div class="d-flex flex-row-reverse mt-2">
-                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Contraseña</button>
-                            </div>
-                        </form>
-                    </div>
+                            <div>
+                                <h5 style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="old-password">Antigua Contraseña</label>
+                                            <input class="form-control" type="password" name="password"
+                                                   id="old-password" placeholder="Antigua Contraseña"/>
+                                        </div>
 
-                    <div>
-                        <h5 style="font-weight: bold">CAMBIAR EMAIL</h5>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="old-email">Antiguo Email</label>
-                                    <input class="form-control" type="email" name="email" id="old-email" placeholder="Antiguo Email" />
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="password">Nueva Contraseña</label>
+                                            <input class="form-control" type="password" name="password" id="password"
+                                                   placeholder="Nueva Contraseña"/>
+                                        </div>
 
-                                <div class="col-md-4">
-                                    <label for="email">Nuevo Email</label>
-                                    <input class="form-control" type="email" name="email" id="email" placeholder="Nuevo Email" />
-                                </div>
+                                        <div class="col-md-4">
+                                            <label for="confirm-password">Repetir Nueva Contraseña</label>
+                                            <input class="form-control" type="password" name="password"
+                                                   id="confirm-password" placeholder="Repetir Nueva Contraseña"/>
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-4">
-                                    <label for="confirm-email">Repetir Nuevo Email</label>
-                                    <input class="form-control" type="email" name="email" id="confirm-email" placeholder="Repetir Nuevo Email" />
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-row-reverse mt-2">
-                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Email</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div>
-                        <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="old-phone">Antiguo Telefono</label>
-                                    <input class="form-control" type="tel" name="phone" id="old-phone" placeholder="Antiguo Telefono" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="phone">Nuevo Telefono</label>
-                                    <input class="form-control" type="tel" name="phone" id="phone" placeholder="Nuevo Telefono" />
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="confirm-phone">Repetir Nuevo Telefono</label>
-                                    <input class="form-control" type="tel" name="phone" id="confirm-phone" placeholder="Repetir Nuevo Telefono" />
-                                </div>
+                                    <div class="d-flex flex-row-reverse mt-2">
+                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Contraseña
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
 
-                            <div class="d-flex flex-row-reverse mt-2">
-                                <button class="btn btn-pc-economic-dark" type="submit">Cambiar Telefono</button>
+                            <div>
+                                <h5 style="font-weight: bold">CAMBIAR EMAIL</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="old-email">Antiguo Email</label>
+                                            <input class="form-control" type="email" name="email" id="old-email"
+                                                   placeholder="Antiguo Email"/>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="email">Nuevo Email</label>
+                                            <input class="form-control" type="email" name="email" id="email"
+                                                   placeholder="Nuevo Email"/>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="confirm-email">Repetir Nuevo Email</label>
+                                            <input class="form-control" type="email" name="email" id="confirm-email"
+                                                   placeholder="Repetir Nuevo Email"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row-reverse mt-2">
+                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Email</button>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+
+                            <div>
+                                <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="old-phone">Antiguo Telefono</label>
+                                            <input class="form-control" type="tel" name="phone" id="old-phone"
+                                                   placeholder="Antiguo Telefono"/>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="phone">Nuevo Telefono</label>
+                                            <input class="form-control" type="tel" name="phone" id="phone"
+                                                   placeholder="Nuevo Telefono"/>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="confirm-phone">Repetir Nuevo Telefono</label>
+                                            <input class="form-control" type="tel" name="phone" id="confirm-phone"
+                                                   placeholder="Repetir Nuevo Telefono"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-row-reverse mt-2">
+                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Telefono</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-center">Mis Pedidos</h3>
-                    <div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="direcciones">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            MIS DIRECCIONES
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="direcciones"
+                         data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="row" th:if="${user.persona.direccions.isEmpty()}">
 
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <p>Actualmente no tienes ninguna direccion de envio creada</p>
+                                    <p>Pulse aqui si le interesa añadir alguna!</p>
+
+                                    <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                        Añadir direccion
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row" th:if="${!user.persona.direccions.isEmpty()}">
+
+
+                                <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Añadir direccion
+                                </button>
+                            </div>
+
+                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir Direccion</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form>
+                                                <div class="row">
+
+                                                    <div class="col-12">
+                                                        <label for="direccion">Direccion</label>
+                                                        <input class="form-control" type="text" name="direccion"
+                                                               id="direccion"
+                                                               placeholder="Direccion"/>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label for="carrer">Carrer</label>
+                                                        <input class="form-control" type="text" name="carrer"
+                                                               id="carrer"
+                                                               placeholder="Carrer"/>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <label for="ciudad">Ciudad</label>
+                                                        <input class="form-control" type="text" name="ciudad"
+                                                               id="ciudad"
+                                                               placeholder="Ciudad"/>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <label for="numero">Numero</label>
+                                                        <input class="form-control" type="text" name="numero"
+                                                               id="numero"
+                                                               placeholder="Numero"/>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <label for="cp">Codigo Postal</label>
+                                                        <input class="form-control" type="text" name="cp" id="cp"
+                                                               placeholder="Codigo Postal"/>
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <label for="comunitat">Comunidad Autonoma</label>
+                                                        <input class="form-control" type="text" name="comunitat"
+                                                               id="comunitat"
+                                                               placeholder="Comunitat Autonoma"/>
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <label for="pais">Pais</label>
+                                                        <input class="form-control" type="text" name="pais" id="pais"
+                                                               placeholder="Pais"/>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="d-flex flex-row-reverse mt-2">
+                                                    <button class="btn btn-pc-economic-dark" type="submit">Añadir
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="text-center">Mis Direcciones</h3>
-                    <div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="pedidos">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            MIS PEDIDOS
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="pedidos"
+                         data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="row" th:if="${user.factures.isEmpty()}">
 
+                                <div class="d-flex flex-column justify-content-center align-items-center">
+                                    <p>Actualmente no tienes ningun pedido disponible</p>
+                                    <p>Puede encargar un pedido haciendo una compra en nuestra pagina web</p>
+
+                                    <a class="w-25 btn btn-pc-economic-dark" th:href="@{/}">
+                                        Pagina principal
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row" th:if="${!user.factures.isEmpty()}">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <footer th:replace="layout/layout :: footer"></footer>
+    <div th:replace="layout/layout.html :: jquery"></div>
 </body>
 </html>

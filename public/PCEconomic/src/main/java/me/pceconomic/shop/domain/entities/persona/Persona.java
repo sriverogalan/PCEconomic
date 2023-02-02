@@ -3,7 +3,6 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.persona.direction.Direccio;
 
 import java.util.Set;
 
@@ -35,8 +34,12 @@ public @Data class Persona {
     @Column(name = "telefon", unique = true, nullable = false)
     private String telefon;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_persona")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "persones_direccions",
+            joinColumns = @JoinColumn(name = "id_persona"),
+            inverseJoinColumns = @JoinColumn(name = "id_direccio")
+    )
     private Set<Direccio> direccions;
 }
 

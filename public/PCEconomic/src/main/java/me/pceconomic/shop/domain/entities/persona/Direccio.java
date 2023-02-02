@@ -1,15 +1,10 @@
-package me.pceconomic.shop.domain.entities.persona.direction;
+package me.pceconomic.shop.domain.entities.persona;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.persona.Persona;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "direccions")
-@EqualsAndHashCode(exclude = "countries")
 public @Data class Direccio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,9 +20,23 @@ public @Data class Direccio {
     @Column(name = "estaActiva")
     private boolean isActive;
 
-    @OneToMany
-    @JoinColumn(name = "id_direccio")
-    private Set<Pais> countries;
+    @Column(name = "ciutat")
+    private String city;
+
+    @Column(name = "provincia")
+    private String province;
+
+    @Column(name = "codi_postal")
+    private String postalCode;
+
+    @Column(name = "pais")
+    private String country;
+
+    @Column(name = "comunitat_autonoma")
+    private String autonomousCommunity;
+
+    @Column(name = "notes")
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "id_persona")
