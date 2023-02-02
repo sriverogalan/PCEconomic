@@ -43,14 +43,23 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") @Valid LoginForm loginForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return "login";
-
+    public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") @Valid LoginForm loginForm, Model model) {
         Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
         Client client = registerService.getClientByPersona(persona);
 
-        if (persona == null || client == null) return "redirect:/login";
-        if (!client.isActive()) return "redirect:/login";
+        if (persona == null || client == null) {
+            model.addAttribute("error", "Tu correo electronico o tu contraseña no son validos");
+            return "login";
+        }
+        if (!client.isActive()) {
+            model.addAttribute("error", "Tienes que activar tu cuenta antes de iniciar sesión");
+            return "redirect:/login";
+        }
+
+        if (!registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
+            model.addAttribute("error", "Tu correo electronico o tu contraseña no son validos");
+            return "login";
+        }
 
         if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
@@ -81,6 +90,7 @@ public class LoginController {
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getAllErrors());
             return "register";
         }
 
