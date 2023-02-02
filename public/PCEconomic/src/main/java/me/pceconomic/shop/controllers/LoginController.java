@@ -88,9 +88,17 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult) {
+    public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
+            if (!registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
+                model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
+                return "register";
+            }
+            return "register";
+        }
+
+        if (!registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
+            model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
             return "register";
         }
 
