@@ -15,7 +15,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-@Service @Getter
+import java.util.List;
+import java.util.Set;
+
+@Service
+@Getter
 public class AreaClientsService {
 
     private final ClientRepository clientRepository;
@@ -43,6 +47,7 @@ public class AreaClientsService {
         Direccio direccio = new Direccio(directionForm);
         Persona persona = client.getPersona();
 
+        setDireccioPrincipal(direccio, persona.getDireccions());
         direccioRepository.save(direccio);
 
         persona.getDireccions().add(direccio);
@@ -86,6 +91,15 @@ public class AreaClientsService {
 
         persona.setTelefon(changeTelephoneForm.getNewTelephone());
         personaRepository.save(persona);
+    }
+
+    public void setDireccioPrincipal(Direccio direccio, Set<Direccio> direccions) {
+        for (Direccio d : direccions) {
+            d.setPrincipal(false);
+            direccioRepository.save(d);
+        }
+
+        direccio.setPrincipal(true);
     }
 
 }
