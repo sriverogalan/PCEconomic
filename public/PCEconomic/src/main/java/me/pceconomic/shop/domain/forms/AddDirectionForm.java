@@ -1,8 +1,9 @@
 package me.pceconomic.shop.domain.forms;
 
-import lombok.Data;
+import lombok.Getter;
 
-public @Data class AddDirectionForm {
+@Getter
+public class AddDirectionForm {
 
     private String direccion;
     private String calle;

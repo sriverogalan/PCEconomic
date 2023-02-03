@@ -112,6 +112,10 @@
                     <i class='bi bi-exclamation-triangle'></i>
                     <span th:text="${passwordmatch}"></span>
                 </div>
+                <div class="m-1 alert alert-danger" th:if="${error != null}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:text="${error}"></span>
+                </div>
             </form>
         </div>
 

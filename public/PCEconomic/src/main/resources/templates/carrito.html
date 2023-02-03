@@ -25,8 +25,10 @@
                 <tbody>
                 <tr th:each="carro : ${carrito.ids}">
                     <td>
-                        <img class="width-minicards-carrito col-3 mb-1"
-                             th:src="@{/img/productes/{article}/{prop}/0.jpg(article=${carro.propietats.article.id},prop=${carro.propietats.id})}">
+                        <a th:href="@{/article/carro.propietats.article.id/carro.propietats.id}">
+                            <img class="object-fit-contain width-minicards-carrito col-3 mb-1"
+                                th:src="@{/img/productes/{article}/{prop}/0.jpg(article=${carro.propietats.article.id},prop=${carro.propietats.id})}">
+                        </a>
                     </td>
                     <td>
                         <div th:text="${carro.propietats.article.nom}"></div>

@@ -52,6 +52,10 @@ public class RegisterService {
             throw new RuntimeException("Passwords don't match");
         }
 
+        if (personaRepository.existsByEmail(persona.getEmail())) {
+            throw new IllegalArgumentException("Persona already exists");
+        }
+
         personaRepository.save(persona);
 
         Client client = new Client();

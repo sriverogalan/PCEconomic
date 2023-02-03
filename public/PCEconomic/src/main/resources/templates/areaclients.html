@@ -6,7 +6,7 @@
     <main class="container bg-cont mt-5 p-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h1>Area de Clientes</h1>
+                <h1>MI CUENTA</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.persona.name}"></p>
                 <div class="d-flex flex-row-reverse mt-2 mb-2">
                     <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
@@ -24,25 +24,32 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
                          data-bs-parent="#accordionExample">
                         <div class="accordion-body">
+
+                            <div class="row">
+                                <div class="col-12 mb-2 d-flex justify-content-center align-items-center">
+                                    <h2>MIS DATOS</h2>
+                                </div>
+                            </div>
+
                             <div>
                                 <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
-                                <form>
+                                <form method="post" th:action="@{/areaclients/changeName}" class="needs-validation" novalidate
+                                th:object="${changeName}">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="old-name">Antiguo Nombre</label>
-                                            <input class="form-control" type="text" name="name" id="old-name"
-                                                   placeholder="Antiguo Nombre"/>
+                                            <label>Antiguo Nombre</label>
+                                            <p class="m-2" th:text="${user.persona.name}"></p>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="name">Nuevo Nombre</label>
-                                            <input class="form-control" type="text" name="name" id="name"
+                                            <input th:field="*{newName}" class="form-control" type="text" name="name" id="name"
                                                    placeholder="Nuevo Nombre"/>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="repeat-name">Repetir Nombre</label>
-                                            <input class="form-control" type="text" name="surname" id="repeat-name"
+                                            <input th:field="*{confirmNewName}" class="form-control" type="text" name="surname" id="repeat-name"
                                                    placeholder="Nuevo Apellido"/>
                                         </div>
                                     </div>
@@ -301,6 +308,7 @@
         </div>
     </main>
     <footer th:replace="layout/layout :: footer"></footer>
+    <script th:src="@{/js/formvalidator.js}"></script>
     <div th:replace="layout/layout.html :: jquery"></div>
 </body>
 </html>
