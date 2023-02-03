@@ -1,9 +1,8 @@
 package me.pceconomic.shop.domain.forms.areaclients;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-public class AddDirectionForm {
+public @Data class AddDirectionForm {
 
     private String direccion;
     private String calle;
@@ -13,6 +12,6 @@ public class AddDirectionForm {
     private String comunidadAutonoma;
     private String pais;
     private String provincia;
-    private boolean isPrincipal;
+    private String principal;
 
 }
