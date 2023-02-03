@@ -108,6 +108,11 @@ public class CarritoController {
         ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().ifPresent(ids::remove);
         carritoService.setTotal(shoppingCart);
 
+        if (ids.isEmpty()) {
+            session.removeAttribute("carrito");
+            return "redirect:/carrito";
+        }
+
         session.setAttribute("carrito", shoppingCart);
         return "redirect:/carrito";
     }

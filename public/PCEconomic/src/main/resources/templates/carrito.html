@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/layout :: head"></head>
+
 <body class="bgbd">
+    <header th:replace="layout/layout :: header2"></header>
     <main th:if="${carrito.ids != null}" class="container bg-cont mt-md-5 mt-5">
         <h1 class="mt-3 text-center">Carrito</h1>
         <div th:if="${error != null}" class="m-1 alert alert-danger">

@@ -64,7 +64,7 @@ public class LoginController {
         if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
             session.setAttribute("persona", client);
-            return "redirect:/areaclients";
+            return "redirect:/";
         }
 
         return "redirect:/login";
