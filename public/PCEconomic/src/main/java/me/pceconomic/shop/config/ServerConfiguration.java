@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
-@EnableWebMvc
 public class ServerConfiguration implements WebMvcConfigurer {
 
     private final LoginInterceptor loginInterceptor;
@@ -32,6 +31,6 @@ public class ServerConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**")
-                .excludePathPatterns("/carrito");
+                .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
     }
 }
