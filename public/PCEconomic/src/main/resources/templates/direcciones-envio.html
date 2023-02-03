@@ -5,76 +5,82 @@
     <title th:text="' Direcciones i envio | PCEconomic'"></title>
 </head>
 <body class="bgbd">
-    <header th:replace="layout/layout :: header2"></header>
+<header th:replace="layout/layout :: header2"></header>
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
-    <div class="col-6">
+    <div class="col-6" id="form">
         <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
-            <div class="col-12">
-                <label for="nombre-completo">Nombre completo</label>
-                <input type="text" class="form-control" id="nombre-completo"
-                       placeholder="Introduce el nombre completo">
-            </div>
+            <form class="needs-validation" onsubmit="return false" novalidate>
+                <div class="col-12">
+                    <label for="nombre-completo">Nombre completo *</label>
+                    <input type="text" class="form-control" id="nombre-completo"
+                           placeholder="Introduce el nombre completo" required>
+                </div>
 
-            <div class="col-12">
-                <label for="telefono">Teléfono</label>
-                <input type="text" class="form-control" id="telefono"
-                       placeholder="Introduce el teléfono de contacto">
-            </div>
+                <div class="col-12">
+                    <label for="telefono">Teléfono *</label>
+                    <input type="text" class="form-control" id="telefono"
+                           placeholder="Introduce el teléfono de contacto" required>
+                </div>
 
-            <div class="col-12">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email"
-                       placeholder="Introduce el email de contacto">
-            </div>
+                <div class="col-12">
+                    <label for="email">Email *</label>
+                    <input type="text" class="form-control" id="email"
+                           placeholder="Introduce el email de contacto" required>
+                </div>
 
-            <div class="col-12">
-                <label for="direccion1">Línea de dirección 1</label>
-                <input type="text" class="form-control" id="direccion1"
-                       placeholder="Nombre y número de la calle">
-                <input type="text" class="form-control" id="direccion2"
-                       placeholder="Apartamento, suite, unidad, edificio o piso">
-            </div>
+                <div class="col-12">
+                    <label for="direccion1">Línea de dirección *</label>
+                    <input type="text" class="form-control" id="direccion1"
+                           placeholder="Nombre y número de la calle" required>
+                    <input type="text" class="form-control" id="direccion2"
+                           placeholder="Apartamento, suite, unidad, edificio o piso" required>
+                </div>
 
-            <div class="col-4">
-                <label for="codigo-postal">Código postal</label>
-                <input type="text" class="form-control" id="codigo-postal"
-                       placeholder="Introduce el código postal">
-            </div>
+                <div class="col-4">
+                    <label for="codigo-postal">Código postal *</label>
+                    <input type="text" class="form-control" id="codigo-postal"
+                           placeholder="Introduce el código postal" required>
+                </div>
 
-            <div class="col-8">
-                <label for="ciudad">Ciudad</label>
-                <input type="text" class="form-control" id="ciudad"
-                       placeholder="Introduce la ciudad">
-            </div>
+                <div class="col-8">
+                    <label for="ciudad">Ciudad *</label>
+                    <input type="text" class="form-control" id="ciudad"
+                           placeholder="Introduce la ciudad" required>
+                </div>
 
-            <div class="col-12">
-                <label for="pais">País</label>
-                <input type="text" class="form-control" id="pais"
-                       placeholder="Introduce el país">
-            </div>
+                <div class="col-12">
+                    <label for="pais">País *</label>
+                    <input type="text" class="form-control" id="pais"
+                           placeholder="Introduce el país" required>
+                </div>
 
-            <div class="col-12">
-                <label for="provincia">Provincia</label>
-                <input type="text" class="form-control" id="provincia"
-                       placeholder="Introduce la provincia">
-            </div>
+                <div class="col-12">
+                    <label for="provincia">Provincia *</label>
+                    <input type="text" class="form-control" id="provincia"
+                           placeholder="Introduce la provincia" required>
+                </div>
 
-            <div class="col-12">
-                <label for="notas">Notas</label>
-                <textarea class="form-control" id="notas" rows="3"
-                          placeholder="Introduce notas adicionales"></textarea>
-            </div>
+                <div class="col-12">
+                    <label for="notas">Notas</label>
+                    <textarea class="form-control" id="notas" rows="3"
+                              placeholder="Introduce notas adicionales"></textarea>
+                </div>
 
-            <div class="col-12" id="enviar">
-                <button type="submit" class="btn btn-pc-economic-dark mt-3">Guardar dirección</button>
-            </div>
+                <div class="mt-2 mb-2 col-12">
+                    <span class="text-pc-economic-default "> * (son los campos que tenemos que introducir obligatoriamente)</span>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-pc-economic-dark mt-3" id="enviar">Guardar dirección</button>
+                </div>
+
+            </form>
         </div>
     </div>
     <div class="col-6 justify-content-around" id="info-carrito">
         <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
-        <div id="prod-carrito" class="col-12 row mt-3 mb-3 text-center">
+        <div id="prod-carrito" class="col-12 row mt-3 mb-3 text-center justify-content-center">
             <div id="loading"></div>
         </div>
         <div class="col-12 row justify-content-around">
@@ -93,7 +99,7 @@
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
-
+<script th:src="@{/js/formValidator.js}"></script>
 <script>
     $.ajax({
         url: "/api/carrito",
@@ -104,7 +110,12 @@
         }
     })
 
-    $("#provincia").on("change", function () {
+    function validateForm(){
+        return !($("#nombre-completo").val() === "" || $("#telefono").val() === "" || $("#email").val() === "" || $("#direccion1").val() === "" || $("#direccion2").val() === "" || $("#codigo-postal").val() === "" || $("#ciudad").val() === "" || $("#pais").val() === "" || $("#provincia").val() === "");
+    }
+
+    $("#enviar").on("click", function () {
+        if (!validateForm()) return;
         var destination = $("#direccion1").val() + " " + $("#direccion2").val() + " " + $("#ciudad").val() + " " + $("#codigo-postal").val();
         getDistance(destination)
     });
@@ -154,18 +165,19 @@
                     data: {destination: destination},
                     success: function (response) {
                         var json = JSON.parse(response);
+                        console.log(json);
                         if (json.rows[0].elements[0].status === "NOT_FOUND") {
-                            $("#error").append("<div class=\"alert alert-danger d-flex align-items-center\" role=\"alert\">\n" +
-                                "  <svg class=\"bi flex-shrink-0 me-2\" role=\"img\" aria-label=\"Danger:\"><use xlink:href=\"#exclamation-triangle-fill\"/></svg>" +
-                                "  <div>" +
-                                "No se han podido calcular el envío introduce bien los datos" +
-                                "  </div>" +
+                            $("#error").append("<div class=\"alert alert-danger d-flex justify-content-center align-items-center\" role=\"alert\">\n" +
+                                " <i class='bi bi-exclamation-triangle' style='font-size: 2rem'></i>" +
+                                "  <div> <span class='h5 mx-3'>" +
+                                "No se han podido calcular el envío introduce bien los datos." +
+                                "</span></div>" +
                                 "</div>");
-                        } else if (json.rows[0].elements[0].status === "ZERO_RESULTS"){
-                            $("#error").append("<div class=\"alert alert-danger d-flex align-items-center\" role=\"alert\">\n" +
-                                "  <svg class=\"bi flex-shrink-0 me-2\" role=\"img\" aria-label=\"Danger:\"><use xlink:href=\"#exclamation-triangle-fill\"/></svg>" +
-                                "  <div>" +
-                                "No se han podido calcular el envío introduce bien los datos" +
+                        } else if (json.rows[0].elements[0].status === "ZERO_RESULTS") {
+                            $("#error").append("<div class=\"alert alert-danger d-flex justify-content-evenly align-items-center\" role=\"alert\">\n" +
+                                " <i class='bi bi-exclamation-triangle' style='font-size: 2rem'></i>" +
+                                "  <div class='ml-1'>" +
+                                "No se ha encontrado tu direccion, prueba a poner otra." +
                                 "  </div>" +
                                 "</div>");
                         } else {
@@ -194,6 +206,7 @@
             }
         });
     }
+
     function formatCurrency(amount) {
         return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
     }
