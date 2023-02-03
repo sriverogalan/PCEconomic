@@ -6,7 +6,7 @@
     <main class="container bg-cont mt-5 p-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h1>Area de Clientes</h1>
+                <h1>MI CUENTA</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.persona.name}"></p>
                 <div class="d-flex flex-row-reverse mt-2 mb-2">
                     <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
@@ -24,6 +24,13 @@
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
                          data-bs-parent="#accordionExample">
                         <div class="accordion-body">
+
+                            <div class="row">
+                                <div class="col-12 mb-2 d-flex justify-content-center align-items-center">
+                                    <h2>MIS DATOS</h2>
+                                </div>
+                            </div>
+
                             <div>
                                 <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
                                 <form>
