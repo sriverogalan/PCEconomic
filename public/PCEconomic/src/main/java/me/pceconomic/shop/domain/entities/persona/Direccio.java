@@ -49,6 +49,6 @@ public @Data class Direccio {
         this.postalCode = directionForm.getCodigoPostal();
         this.country = directionForm.getPais();
         this.autonomousCommunity = directionForm.getComunidadAutonoma();
-        this.setActive(true);
+        this.isActive = directionForm.isPrincipal();
     }
 }

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.LoginForm;
 import me.pceconomic.shop.domain.forms.RegisterForm;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class LoginController {
@@ -63,7 +67,10 @@ public class LoginController {
 
         if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
+            Set<Direccio> direccions = client.getPersona().getDireccions();
+
             session.setAttribute("persona", client);
+            session.setAttribute("direccions", direccions);
             return "redirect:/";
         }
 

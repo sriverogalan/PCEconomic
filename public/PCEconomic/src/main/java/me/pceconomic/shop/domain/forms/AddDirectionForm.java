@@ -12,5 +12,6 @@ public @Data class AddDirectionForm {
     private String comunidadAutonoma;
     private String pais;
     private String provincia;
+    private boolean isPrincipal;
 
 }
