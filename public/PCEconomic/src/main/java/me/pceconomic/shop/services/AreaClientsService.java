@@ -5,6 +5,7 @@ import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.ChangeNameForm;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.DireccioRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
@@ -34,6 +35,12 @@ public class AreaClientsService {
         persona.getDireccions().add(direccio);
 
         clientRepository.save(client);
+        personaRepository.save(persona);
+    }
+
+    public void changeName(Client client, ChangeNameForm changeNameForm) {
+        Persona persona = client.getPersona();
+        persona.setName(changeNameForm.getNewName());
         personaRepository.save(persona);
     }
 

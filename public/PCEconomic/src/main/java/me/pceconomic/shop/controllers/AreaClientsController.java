@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.ChangeNameForm;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class AreaClientsController {
         model.addAttribute("user", session.getAttribute("persona"));
         frontService.sendListsToView(model, request);
 
+        model.addAttribute("changeName", new ChangeNameForm());
+
         model.addAttribute("directionForm", new AddDirectionForm());
 
         return "areaclients";
@@ -46,6 +49,24 @@ public class AreaClientsController {
         if (client == null) return "redirect:/login";
 
         areaClientsService.saveDirection(client, directionForm);
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changeName")
+    public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeNameForm, Model model) {
+        HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (!changeNameForm.getNewName().equals(changeNameForm.getConfirmNewName())) {
+            model.addAttribute("error", "Los nombres no coinciden");
+            return "areaclients";
+        }
+
+        areaClientsService.changeName(client, changeNameForm);
         return "redirect:/areaclients";
     }
 
