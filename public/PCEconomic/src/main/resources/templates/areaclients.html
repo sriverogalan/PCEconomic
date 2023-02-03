@@ -33,23 +33,24 @@
 
                             <div>
                                 <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
-                                <form>
+                                <form method="post" class="needs-validation" novalidate
+                                th:object="${changeName}">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="old-name">Antiguo Nombre</label>
-                                            <input class="form-control" type="text" name="name" id="old-name"
+                                            <input th:field="*{oldName}" class="form-control" type="text" name="name" id="old-name"
                                                    placeholder="Antiguo Nombre"/>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="name">Nuevo Nombre</label>
-                                            <input class="form-control" type="text" name="name" id="name"
+                                            <input th:field="*{newName}" class="form-control" type="text" name="name" id="name"
                                                    placeholder="Nuevo Nombre"/>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="repeat-name">Repetir Nombre</label>
-                                            <input class="form-control" type="text" name="surname" id="repeat-name"
+                                            <input th:field="*{confirmNewName}" class="form-control" type="text" name="surname" id="repeat-name"
                                                    placeholder="Nuevo Apellido"/>
                                         </div>
                                     </div>
@@ -308,6 +309,7 @@
         </div>
     </main>
     <footer th:replace="layout/layout :: footer"></footer>
+    <script th:src="@{/js/formvalidator.js}"></script>
     <div th:replace="layout/layout.html :: jquery"></div>
 </body>
 </html>
