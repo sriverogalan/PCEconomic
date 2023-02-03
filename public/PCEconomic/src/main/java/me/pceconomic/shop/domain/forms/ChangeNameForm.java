@@ -1,9 +1,8 @@
 package me.pceconomic.shop.domain.forms;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
-public class ChangeNameForm {
+public @Data class ChangeNameForm {
 
     private String oldName;
     private String newName;

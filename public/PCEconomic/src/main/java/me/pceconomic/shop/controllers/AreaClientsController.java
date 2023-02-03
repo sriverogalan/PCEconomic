@@ -33,7 +33,6 @@ public class AreaClientsController {
         frontService.sendListsToView(model, request);
 
         model.addAttribute("changeName", new ChangeNameForm());
-
         model.addAttribute("directionForm", new AddDirectionForm());
 
         return "areaclients";
@@ -53,20 +52,22 @@ public class AreaClientsController {
     }
 
     @PostMapping("/areaclients/changeName")
-    public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeNameForm, Model model) {
+    public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeName, Model model) {
         HttpSession session = request.getSession();
         if (session == null) return "redirect:/";
 
         Client client = (Client) session.getAttribute("persona");
 
         if (client == null) return "redirect:/login";
+        System.out.println(changeName);
 
-        if (!changeNameForm.getNewName().equals(changeNameForm.getConfirmNewName())) {
+        if (!changeName.getNewName().equals(changeName.getConfirmNewName())) {
             model.addAttribute("error", "Los nombres no coinciden");
             return "areaclients";
         }
 
-        areaClientsService.changeName(client, changeNameForm);
+
+        areaClientsService.changeName(client, changeName);
         return "redirect:/areaclients";
     }
 
