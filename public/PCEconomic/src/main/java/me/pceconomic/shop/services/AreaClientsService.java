@@ -39,6 +39,7 @@ public class AreaClientsService {
         model.addAttribute("changeName", new ChangeNameForm());
         model.addAttribute("directionForm", new AddDirectionForm());
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
+        model.addAttribute("changeEmailForm", new ChangeEmailForm());
     }
 
     public void saveDirection(Client client, AddDirectionForm directionForm) {
@@ -69,7 +70,12 @@ public class AreaClientsService {
     }
 
     public void changeEmail(Client client, ChangeEmailForm changeEmailForm) {
+        if (personaRepository.existsByEmail(changeEmailForm.getNewEmail())) {
+            throw new IllegalArgumentException();
+        }
+
         Persona persona = client.getPersona();
+
         persona.setEmail(changeEmailForm.getNewEmail());
         personaRepository.save(persona);
     }

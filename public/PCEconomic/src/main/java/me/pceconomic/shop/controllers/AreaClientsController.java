@@ -2,6 +2,7 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.domain.forms.areaclients.ChangeEmailForm;
@@ -12,6 +13,7 @@ import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,7 @@ public class AreaClientsController {
         model.addAttribute("changeName", new ChangeNameForm());
         model.addAttribute("directionForm", new AddDirectionForm());
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
+        model.addAttribute("changeEmailForm", new ChangeEmailForm());
 
         return "areaclients";
     }
@@ -103,7 +106,7 @@ public class AreaClientsController {
     }
 
     @PostMapping("/areaclients/changeemail")
-    public String changeEmail(HttpServletRequest request, @ModelAttribute ChangeEmailForm changeEmailForm, Model model) {
+    public String changeEmail(HttpServletRequest request, @ModelAttribute @Valid ChangeEmailForm changeEmailForm, Model model, BindingResult bindingResult) {
         HttpSession session = request.getSession();
 
         if (session == null) return "redirect:/";
@@ -112,13 +115,25 @@ public class AreaClientsController {
 
         if (client == null) return "redirect:/login";
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("changeEmailError", "El email no es válido");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
         if (!changeEmailForm.getNewEmail().equals(changeEmailForm.getConfirmNewEmail())) {
             model.addAttribute("changeEmailError", "Los emails no coinciden");
             areaClientsService.sendToModel(model, session);
             return "areaclients";
         }
 
-        areaClientsService.changeEmail(client, changeEmailForm);
+        try {
+            areaClientsService.changeEmail(client, changeEmailForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("changeEmailError", "El email ya está en uso");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
         return "redirect:/areaclients";
     }
 
