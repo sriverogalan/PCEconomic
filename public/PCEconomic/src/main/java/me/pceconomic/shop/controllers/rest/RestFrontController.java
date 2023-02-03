@@ -1,9 +1,12 @@
 package me.pceconomic.shop.controllers.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.repositories.ArticleRepository;
 import me.pceconomic.shop.repositories.CategoriaRepository;
 import me.pceconomic.shop.repositories.ImatgeRepository;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class RestFrontController {
@@ -48,5 +52,12 @@ public class RestFrontController {
     @GetMapping("/api/categories")
     public List<Categoria> categoriaRepository() {
         return categoriaRepository.findAll();
+    }
+
+    @GetMapping("/api/direccions")
+    public Set<Direccio> test3(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session == null) return null;
+        return (Set<Direccio>) session.getAttribute("direccions");
     }
 }
