@@ -110,7 +110,13 @@ public class LoginController {
         }
 
         Persona persona = new Persona();
-        registerService.savePersona(persona, registerForm);
+        try {
+            registerService.savePersona(persona, registerForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", "El correo electronico introducido ya esta registrado");
+            return "register";
+        }
+
         mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789/" + persona.getId());
         return "confirmregister";
     }
