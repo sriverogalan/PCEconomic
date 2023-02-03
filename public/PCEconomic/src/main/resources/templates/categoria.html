@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="layout/layout.html :: head"></head>
+    <header th:replace="layout/layout.html :: navbar"></header>
     <body class="bgbd">
-        <header th:replace="layout/layout.html :: header"></header>
         <main class="container-lg bg-cont mt-md-5 mt-1" th:attr="data-id-subcat=${subcategoria.id}">
             <h1 th:text="${subcategoria.categoria.name} + ' -> ' + ${subcategoria.name}" class="mt-4 text-center"></h1>
             <section id="productes" class="row mt-5 justify-content-center">
