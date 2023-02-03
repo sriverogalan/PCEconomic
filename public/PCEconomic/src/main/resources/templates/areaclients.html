@@ -137,23 +137,31 @@
 
                                 <div>
                                     <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
-                                    <form>
+                                    <div class="mt-2 m-1 alert alert-danger" th:if="${changePhoneError != null}">
+                                        <i class='bi bi-exclamation-triangle'></i>
+                                        <span th:text="${changePhoneError}"></span>
+                                    </div>
+                                    <form th:object="${changeTelephoneForm}" th:action="@{/areaclients/changetelephone}"
+                                        method="post" class="needs-validation" novalidate>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label for="old-phone">Antiguo Telefono</label>
                                                 <input class="form-control" type="tel" name="phone" id="old-phone"
+                                                       th:field="*{oldTelephone}"
                                                        placeholder="Antiguo Telefono"/>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <label for="phone">Nuevo Telefono</label>
                                                 <input class="form-control" type="tel" name="phone" id="phone"
+                                                         th:field="*{newTelephone}"
                                                        placeholder="Nuevo Telefono"/>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <label for="confirm-phone">Repetir Nuevo Telefono</label>
                                                 <input class="form-control" type="tel" name="phone" id="confirm-phone"
+                                                       th:field="*{confirmNewTelephone}"
                                                        placeholder="Repetir Nuevo Telefono"/>
                                             </div>
                                         </div>

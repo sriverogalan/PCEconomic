@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
-import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangeEmailForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangeNameForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
+import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,7 @@ public class AreaClientsController {
         model.addAttribute("directionForm", new AddDirectionForm());
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
+        model.addAttribute("changeTelephoneForm", new ChangeTelephoneForm());
 
         return "areaclients";
     }
@@ -134,6 +132,39 @@ public class AreaClientsController {
             areaClientsService.sendToModel(model, session);
             return "areaclients";
         }
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changetelephone")
+    public String changeTelephone(HttpServletRequest request, @ModelAttribute ChangeTelephoneForm changeTelephoneForm, Model model) {
+        HttpSession session = request.getSession();
+
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (!client.getPersona().getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
+            model.addAttribute("changePhoneError", "El teléfono no es correcto");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        if (!changeTelephoneForm.getNewTelephone().equals(changeTelephoneForm.getConfirmNewTelephone())) {
+            model.addAttribute("changePhoneError", "Los teléfonos no coinciden");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        try {
+            areaClientsService.changeTelephone(client, changeTelephoneForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("changePhoneError", "El teléfono ya está en uso");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
         return "redirect:/areaclients";
     }
 

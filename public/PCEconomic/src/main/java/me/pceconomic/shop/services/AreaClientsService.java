@@ -6,10 +6,7 @@ import lombok.Getter;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
-import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangeEmailForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangeNameForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
+import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.DireccioRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
@@ -77,6 +74,17 @@ public class AreaClientsService {
         Persona persona = client.getPersona();
 
         persona.setEmail(changeEmailForm.getNewEmail());
+        personaRepository.save(persona);
+    }
+
+    public void changeTelephone(Client client, ChangeTelephoneForm changeTelephoneForm) {
+        if (personaRepository.existsByTelefon(changeTelephoneForm.getNewTelephone())) {
+            throw new IllegalArgumentException();
+        }
+
+        Persona persona = client.getPersona();
+
+        persona.setTelefon(changeTelephoneForm.getNewTelephone());
         personaRepository.save(persona);
     }
 
