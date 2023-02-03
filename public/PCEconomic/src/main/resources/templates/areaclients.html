@@ -205,7 +205,7 @@
                                         <p>Pulse aqui si le interesa añadir alguna!</p>
 
                                         <ul class="list-group list-group-flush">
-                                            <li th:each="direccio : ${user.persona.direccions}" class="list-group-item" th:text="${direccio}"></li>
+                                            <li th:each="direccio : ${user.persona.direccions}" class="list-group-item" th:text="${direccio.street} + ', ' + ${direccio.number} + '. ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.autonomousCommunity} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></li>
                                         </ul>
 
                                         <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
