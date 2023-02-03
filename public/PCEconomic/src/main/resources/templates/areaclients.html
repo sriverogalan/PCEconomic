@@ -33,6 +33,10 @@
 
                             <div>
                                 <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
+                                <div class="mt-2 m-1 alert alert-danger" th:if="${changeNameError != null}">
+                                    <i class='bi bi-exclamation-triangle'></i>
+                                    <span th:text="${changeNameError}"></span>
+                                </div>
                                 <form method="post" th:action="@{/areaclients/changeName}" class="needs-validation" novalidate
                                 th:object="${changeName}">
                                     <div class="row">
@@ -61,23 +65,28 @@
 
                             <div>
                                 <h5 style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
-                                <form>
+                                <div class="mt-2 m-1 alert alert-danger" th:if="${changePasswordError != null}">
+                                    <i class='bi bi-exclamation-triangle'></i>
+                                    <span th:text="${changePasswordError}"></span>
+                                </div>
+                                <form method="post" th:action="@{/areaclients/changepassword}" class="needs-validation" novalidate
+                                      th:object="${changePasswordForm}">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <label for="old-password">Antigua Contraseña</label>
-                                            <input class="form-control" type="password" name="password"
+                                            <input class="form-control" type="password" name="password" th:field="*{oldPassword}"
                                                    id="old-password" placeholder="Antigua Contraseña"/>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="password">Nueva Contraseña</label>
-                                            <input class="form-control" type="password" name="password" id="password"
+                                            <input class="form-control" type="password" name="password" id="password" th:field="*{newPassword}"
                                                    placeholder="Nueva Contraseña"/>
                                         </div>
 
                                         <div class="col-md-4">
                                             <label for="confirm-password">Repetir Nueva Contraseña</label>
-                                            <input class="form-control" type="password" name="password"
+                                            <input class="form-control" type="password" name="password" th:field="*{confirmPassword}"
                                                    id="confirm-password" placeholder="Repetir Nueva Contraseña"/>
                                         </div>
                                     </div>
