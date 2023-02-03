@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.forms;
+package me.pceconomic.shop.domain.forms.areaclients;
 
 import lombok.Data;
 

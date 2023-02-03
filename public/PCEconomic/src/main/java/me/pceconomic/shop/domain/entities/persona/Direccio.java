@@ -3,7 +3,7 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.pceconomic.shop.domain.forms.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 
 @Entity
 @Table(name = "direccions")
