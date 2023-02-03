@@ -131,13 +131,13 @@
                             '</div>' +
                             '</a>'
                         )
-                    }
-                    for (var v of p.valor) {
-                        for (var prop of v.propietat)
-                            $('#' + p.id).append(
-                                '<span class="col-12 text-center text-pc-economic-default">' + prop.nom + ': ' + v.valor + '</span>'
-                            )
+                        for (var v of p.valor) {
+                            for (var prop of v.propietat)
+                                $('#' + p.id).append(
+                                    '<span class="col-12 text-center text-pc-economic-default">' + prop.nom + ': ' + v.valor + '</span>'
+                                )
 
+                        }
                     }
                 }
             }
