@@ -1,24 +1,35 @@
 package me.pceconomic.shop.controllers;
 
-import me.pceconomic.shop.services.MailService;
+import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.repositories.ClientRepository;
+import me.pceconomic.shop.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class TestController {
 
-    private final MailService mailService;
+    private final PersonaRepository personaRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public TestController(MailService mailService) {
-        this.mailService = mailService;
+    public TestController(PersonaRepository personaRepository, ClientRepository clientRepository) {
+        this.personaRepository = personaRepository;
+        this.clientRepository = clientRepository;
     }
 
-    @GetMapping("/sendMail")
-    public String sendMail() {
-        mailService.sendMail("hulkrojo2@gmail.com", "Test", "Test");
-        return "Mail sent";
+    @GetMapping("/api/persones")
+    public List<Persona> test() {
+        return personaRepository.findAll();
+    }
+
+    @GetMapping("/api/clients")
+    public List<Client> test2() {
+        return clientRepository.findAll();
     }
 
 }

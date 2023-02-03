@@ -75,9 +75,16 @@
                         </a>
                     </li>
                     <li th:if="${client == 'LOGOUT'}" class="nav-item d-flex justify-content-center ">
-                        <a class="nav-link btn btn-danger mt-1" th:href="@{/logout}">
-                            <i class="bi bi-door-open-fill"></i>
-                        </a>
+                        <div class="dropdown">
+                            <button class="nav-link btn btn-danger mt-1 dropdown-toggle" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-door-open-fill"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
+                                <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
+                            </ul>
+                        </div>
                     </li>
 
                     <li class="nav-item d-flex justify-content-center ">
@@ -134,8 +141,6 @@
         </div>
     </div>
 </header>
-
-
 
 <footer
         class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container bg-cont"
