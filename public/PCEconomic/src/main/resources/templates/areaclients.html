@@ -103,9 +103,8 @@
                                 <form>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="old-email">Antiguo Email</label>
-                                            <input class="form-control" type="email" name="email" id="old-email"
-                                                   placeholder="Antiguo Email"/>
+                                            <label>Antiguo Email</label>
+                                            <p class="m-2" th:text="${user.persona.email}"></p>
                                         </div>
 
                                         <div class="col-md-4">
