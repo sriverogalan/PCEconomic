@@ -119,12 +119,4 @@ public class LoginController {
 
         return "redirect:/";
     }
-
-    @GetMapping("/areaclients")
-    public String areaclients(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        model.addAttribute("user", session.getAttribute("persona"));
-        frontService.sendListsToView(model, request);
-        return "areaclients";
-    }
 }
