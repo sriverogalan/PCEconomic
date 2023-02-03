@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.areaclients.ChangeEmailForm;
 import me.pceconomic.shop.domain.forms.areaclients.ChangeNameForm;
 import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.services.AreaClientsService;
@@ -98,6 +99,26 @@ public class AreaClientsController {
         }
 
         areaClientsService.changePassword(client, changePasswordForm);
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changeemail")
+    public String changeEmail(HttpServletRequest request, @ModelAttribute ChangeEmailForm changeEmailForm, Model model) {
+        HttpSession session = request.getSession();
+
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (!changeEmailForm.getNewEmail().equals(changeEmailForm.getConfirmNewEmail())) {
+            model.addAttribute("changeEmailError", "Los emails no coinciden");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        areaClientsService.changeEmail(client, changeEmailForm);
         return "redirect:/areaclients";
     }
 

@@ -7,6 +7,7 @@ import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.areaclients.ChangeEmailForm;
 import me.pceconomic.shop.domain.forms.areaclients.ChangeNameForm;
 import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.repositories.ClientRepository;
@@ -67,6 +68,10 @@ public class AreaClientsService {
         personaRepository.save(persona);
     }
 
-
+    public void changeEmail(Client client, ChangeEmailForm changeEmailForm) {
+        Persona persona = client.getPersona();
+        persona.setEmail(changeEmailForm.getNewEmail());
+        personaRepository.save(persona);
+    }
 
 }
