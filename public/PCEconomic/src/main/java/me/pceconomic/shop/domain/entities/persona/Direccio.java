@@ -21,7 +21,7 @@ public @Data class Direccio {
     private String number;
 
     @Column(name = "estaActiva")
-    private boolean isActive;
+    private boolean isPrincipal;
 
     @Column(name = "ciutat")
     private String city;
@@ -49,6 +49,6 @@ public @Data class Direccio {
         this.postalCode = directionForm.getCodigoPostal();
         this.country = directionForm.getPais();
         this.autonomousCommunity = directionForm.getComunidadAutonoma();
-        this.isActive = Boolean.valueOf(directionForm.getPrincipal());
+        this.isPrincipal = Boolean.parseBoolean(directionForm.getPrincipal());
     }
 }
