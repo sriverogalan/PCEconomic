@@ -3,7 +3,7 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.pceconomic.shop.domain.forms.AddDirectionForm;
+import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 
 @Entity
 @Table(name = "direccions")
@@ -21,7 +21,7 @@ public @Data class Direccio {
     private String number;
 
     @Column(name = "estaActiva")
-    private boolean isActive;
+    private boolean isPrincipal;
 
     @Column(name = "ciutat")
     private String city;
@@ -49,6 +49,6 @@ public @Data class Direccio {
         this.postalCode = directionForm.getCodigoPostal();
         this.country = directionForm.getPais();
         this.autonomousCommunity = directionForm.getComunidadAutonoma();
-        this.isActive = directionForm.isPrincipal();
+        this.isPrincipal = Boolean.parseBoolean(directionForm.getPrincipal());
     }
 }

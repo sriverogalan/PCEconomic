@@ -2,14 +2,15 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
-import me.pceconomic.shop.domain.forms.AddDirectionForm;
-import me.pceconomic.shop.domain.forms.ChangeNameForm;
+import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,9 @@ public class AreaClientsController {
 
         model.addAttribute("changeName", new ChangeNameForm());
         model.addAttribute("directionForm", new AddDirectionForm());
+        model.addAttribute("changePasswordForm", new ChangePasswordForm());
+        model.addAttribute("changeEmailForm", new ChangeEmailForm());
+        model.addAttribute("changeTelephoneForm", new ChangeTelephoneForm());
 
         return "areaclients";
     }
@@ -54,6 +58,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changeName")
     public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeName, Model model) {
         HttpSession session = request.getSession();
+
         if (session == null) return "redirect:/";
 
         Client client = (Client) session.getAttribute("persona");
@@ -62,12 +67,104 @@ public class AreaClientsController {
         System.out.println(changeName);
 
         if (!changeName.getNewName().equals(changeName.getConfirmNewName())) {
-            model.addAttribute("error", "Los nombres no coinciden");
+            model.addAttribute("changeNameError", "Los nombres no coinciden");
+            areaClientsService.sendToModel(model, session);
             return "areaclients";
         }
 
 
         areaClientsService.changeName(client, changeName);
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changepassword")
+    public String changePassword(HttpServletRequest request, @ModelAttribute ChangePasswordForm changePasswordForm, Model model) {
+        HttpSession session = request.getSession();
+
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {
+            model.addAttribute("changePasswordError", "Las contraseñas no coinciden");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        if (!areaClientsService.getPasswordEncoder().matches(changePasswordForm.getOldPassword(), client.getPersona().getPassword())) {
+            model.addAttribute("changePasswordError", "La contraseña no es correcta");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        areaClientsService.changePassword(client, changePasswordForm);
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changeemail")
+    public String changeEmail(HttpServletRequest request, @ModelAttribute @Valid ChangeEmailForm changeEmailForm, Model model, BindingResult bindingResult) {
+        HttpSession session = request.getSession();
+
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("changeEmailError", "El email no es válido");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        if (!changeEmailForm.getNewEmail().equals(changeEmailForm.getConfirmNewEmail())) {
+            model.addAttribute("changeEmailError", "Los emails no coinciden");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        try {
+            areaClientsService.changeEmail(client, changeEmailForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("changeEmailError", "El email ya está en uso");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+        return "redirect:/areaclients";
+    }
+
+    @PostMapping("/areaclients/changetelephone")
+    public String changeTelephone(HttpServletRequest request, @ModelAttribute ChangeTelephoneForm changeTelephoneForm, Model model) {
+        HttpSession session = request.getSession();
+
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+
+        if (client == null) return "redirect:/login";
+
+        if (!client.getPersona().getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
+            model.addAttribute("changePhoneError", "El teléfono no es correcto");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        if (!changeTelephoneForm.getNewTelephone().equals(changeTelephoneForm.getConfirmNewTelephone())) {
+            model.addAttribute("changePhoneError", "Los teléfonos no coinciden");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
+        try {
+            areaClientsService.changeTelephone(client, changeTelephoneForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("changePhoneError", "El teléfono ya está en uso");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+
         return "redirect:/areaclients";
     }
 
