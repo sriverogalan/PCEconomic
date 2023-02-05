@@ -8,8 +8,8 @@
 <header th:replace="layout/layout :: header2"></header>
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
-    <div class="col-md-6 col-sm-12" id="form">
-        <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
+    <div class="col-md-6 col-sm-12 mb-3" id="form">
+        <h2 class="text-pc-economic-dark h3 text-center"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
             <form class="needs-validation" onsubmit="return false" novalidate>
                 <div class="col-12">
@@ -78,21 +78,22 @@
             </form>
         </div>
     </div>
-    <div class="col-md-6 col-sm-12 justify-content-around" id="info-carrito">
+    <div class="col-md-6 col-sm-12 justify-content-around mb-3" id="info-carrito">
         <div class="row justify-content-center">
-            <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
+            <span class="text-pc-economic-dark h3 text-center mb-4"> Resumen del pedido </span>
 
-            <div class="col-12 row justify-content-around">
-                <div id="prod-carrito" class="col-12 mb-4 text-center text-pc-economic-light row justify-content-around"></div>
+            <div class="col-12 row justify-content-around ">
+                <div id="prod-carrito"
+                     class="col-12 mb-4 text-center text-pc-economic-light row justify-content-around"></div>
                 <hr class="border border-2 opacity-50 mt-2 col-11">
-                <span class="h5 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
-                <span class="col-6 mb-4 text-center text-pc-economic-light" id="subtotal"> - </span>
-                <span class="h5 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
-                <span class="col-6 text-center text-pc-economic-light" id="envio"> - </span>
+                <span class="h4 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
+                <span class="col-6 mb-4 text-center text-pc-economic-light h4" id="subtotal"> - </span>
+                <span class="h4 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
+                <span class="col-6 text-center text-pc-economic-light h4" id="envio"> - </span>
                 <div id="error" class="mt-2 mb-2"></div>
                 <hr class="border border-2 opacity-50 mt-2 col-11">
                 <span class="h3 mt-2 col-6">Total (impuestos incluidos) </span>
-                <span class="text-pc-economic-dark mt-2 h3 col-6" id="total"> - </span>
+                <span class="text-pc-economic-dark mt-2 h3 col-6 text-center" id="total"> - </span>
             </div>
 
         </div>
@@ -113,7 +114,54 @@
         }
     })
 
-    function validateForm(){
+    $.ajax({
+        url: "/api/direccions",
+        type: "GET",
+        success: function (resp) {
+            if (resp.length !== 0) {
+                $("#form").empty();
+                $("#form").append(
+                    "<div class='form-group mt-1 mb-3 row'> <form class='needs-validation' onsubmit='return false' novalidate>" +
+                    "<div class='col-12'>" +
+                    "<label for='direccion'>Dirección</label>" +
+                    "<select class='form-select' id='direccion' required></select>" +
+                    "</div>" +
+                    "<div class='col-12'>" +
+                    "<label for='notas'>Notas</label>" +
+                    "<textarea class='form-control' id='notas' rows='3' placeholder='Introduce notas adicionales'></textarea>" +
+                    "</div>" +
+                    "<div class='mt-2 mb-2 col-12'>" +
+                    "<span class='text-pc-economic-default '> * (son los campos que tenemos que introducir obligatoriamente)</span>" +
+                    "</div>" +
+                    "<div class='col-12 justify-content-around d-flex'>" +
+                    "<a href='/areaclients' class='btn btn-pc-economic-light text-white mt-3'>Añadir direccion</a>" +
+                    "<button type='submit' class='btn btn-pc-economic-dark mt-3' id='enviar'>Seleccionar dirección</button>" +
+                    "</div>" +
+                    "</form>" +
+                    "</div>"
+                );
+
+                for (var i = 0; i < resp.length; i++) {
+                    if (resp[i].default) {
+                        $("#direccion").append(
+                            "<option value='" + resp[i].id + "' selected>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                        )
+                    } else {
+                        $("#direccion").append(
+                            "<option value='" + resp[i].id + "'>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                        )
+                    }
+                }
+
+                $("#enviar").on("click", function () {
+                    getDistance($("#direccion").text() + $("#notas").val());
+                });
+
+            }
+        }
+    })
+
+    function validateForm() {
         return !($("#nombre-completo").val() === "" || $("#telefono").val() === "" || $("#email").val() === "" || $("#direccion1").val() === "" || $("#direccion2").val() === "" || $("#codigo-postal").val() === "" || $("#ciudad").val() === "" || $("#pais").val() === "" || $("#provincia").val() === "");
     }
 
@@ -148,12 +196,8 @@
 
                 for (var id in resp.ids) {
                     $("#prod-carrito").append(
-                        "<div class='col-md-6 col-sm-12'>" +
-                        "<span class='h4 text-pc-economic-default' data-idprop='" + resp.ids[id].propietats.id + "'>" + resp.ids[id].quantity + " x " + resp.ids[id].propietats.article.nom + " ( " + formatCurrency(resp.ids[id].propietats.preu) + " ) </span>" +
-                        "</div>" +
-                        "<div class='col-md-6 col-sm-12'>" +
-                        "<span class='h4 text-pc-economic-light'> " + formatCurrency(resp.ids[id].price) + "</span>" +
-                        "</div>"
+                        "<span class='h4 text-pc-economic-default col-6 text-start' data-idprop='" + resp.ids[id].propietats.id + "'>" + resp.ids[id].quantity + " x " + resp.ids[id].propietats.article.nom + " ( " + formatCurrency(resp.ids[id].propietats.preu) + "/ud ) </span>" +
+                        "<span class='h4 text-pc-economic-light col-6'> " + formatCurrency(resp.ids[id].price) + "</span>"
                     );
                     precio += resp.ids[id].price;
                     cantidad += resp.ids[id].quantity;
@@ -208,10 +252,10 @@
                                             preuTotal: resp.total + envio,
                                             direccio: destination
                                         },
-                                        success: function (response) {
-
+                                        success: function () {
+                                            if ($("#finalizar")) $("#finalizar").empty();
                                             $("#info-carrito").append(
-                                                "<a href='/compra' class='btn btn-pc-economic-dark btn-lg btn-block'>Finalizar compra</a>"
+                                                "<a href='/compra' class='btn btn-success btn-lg btn-block col-12 mt-5 mb-5' id='finalizar'>Finalizar compra</a>"
                                             )
                                         }
                                     })
