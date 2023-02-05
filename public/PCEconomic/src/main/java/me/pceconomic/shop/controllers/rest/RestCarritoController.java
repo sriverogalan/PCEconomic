@@ -20,7 +20,6 @@ public class RestCarritoController {
 
     @GetMapping("/api/carrito")
     public ShoppingCart getCarrito() {
-        System.out.println(Collections.singletonList(carritoService.getCarrito()));
         return carritoService.getCarrito();
     }
 }

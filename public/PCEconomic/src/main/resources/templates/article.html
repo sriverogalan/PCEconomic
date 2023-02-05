@@ -89,19 +89,19 @@
     $(document).ready(function () {
         $(".carousel-item:first").addClass("active");
         $("#comprar").append(
-            "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+            "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
         )
         $("#addcarrito").append(
-            "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+            "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
         )
         $('#cantidad').bind('input', function () {
             $("#comprar").empty();
             $("#addcarrito").empty();
             $("#comprar").append(
-                "<a  class=\"btn btn-pc-economic-light col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+                "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
             )
             $("#addcarrito").append(
-                "<a  class=\"btn btn-pc-economic-dark col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+                "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
             )
         });
     });
@@ -120,27 +120,11 @@
         success: function (propietats) {
             var idPropietat = $("main").attr("data-id");
             var idArticle = $("body").attr("data-id-article");
-            for (var p of propietats) {
-                for (img of p.imatges) {
-                    if (img.principal == true && p.article.id == idArticle && p.id != idPropietat){
 
-                        $('#articles-disponibles').append(
-                            '<a href="/article/' + p.article.id + '/' + p.id + '" class="col-sm-3 col-6 text-end text-decoration-none card align-items-center">' +
-                            '<img src="/img/productes/' + p.article.id + '/' + p.id + '/' + img.path + '" class="mt-2 width-minicards object-fit-cover mb-1" alt="img">' +
-                            '<div id="' + p.id + '" class="row justify-content-around col-12"><span class="h4 text-center" > ' + p.article.nom + ' </span> ' + '<span class="text-center h4 text-pc-economic-default bold ">' + p.preu + ' € </span>' + ' </div>' +
-                            '</div>' +
-                            '</a>'
-                        )
-                        for (var v of p.valor) {
-                            for (var prop of v.propietat)
-                                $('#' + p.id).append(
-                                    '<span class="col-12 text-center text-pc-economic-default">' + prop.nom + ': ' + v.valor + '</span>'
-                                )
+            for(var i = 0 ; i < propietats.length ; i++) {
 
-                        }
-                    }
-                }
             }
+
         }
     });
 </script>
