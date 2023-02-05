@@ -117,6 +117,16 @@ public class CarritoController {
         return "redirect:/carrito";
     }
 
+    @GetMapping("/setpreutransport")
+    public String setPreuTransport(@RequestParam double preuTransport, @RequestParam double preuTotal, @RequestParam String direccio) {
+        ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
+        shoppingCart.setPreuTransport(preuTransport);
+        shoppingCart.setPreuTotal(preuTotal);
+        shoppingCart.setDireccio(direccio);
+        session.setAttribute("carrito", shoppingCart);
+        return "redirect:/carrito";
+    }
+
     @GetMapping("/carrito")
     public String carrito(Model model, HttpServletRequest request) {
         ShoppingCart shoppingCart = (ShoppingCart) session.getAttribute("carrito");

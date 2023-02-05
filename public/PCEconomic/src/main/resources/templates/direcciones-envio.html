@@ -8,7 +8,7 @@
 <header th:replace="layout/layout :: header2"></header>
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
-    <div class="col-6" id="form">
+    <div class="col-md-6 col-sm-12" id="form">
         <h2 class="text-pc-economic-dark h4"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
             <form class="needs-validation" onsubmit="return false" novalidate>
@@ -78,22 +78,25 @@
             </form>
         </div>
     </div>
-    <div class="col-6 justify-content-around" id="info-carrito">
-        <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
-        <div id="prod-carrito" class="col-12 row mt-3 mb-3 text-center justify-content-center">
-            <div id="loading"></div>
-        </div>
-        <div class="col-12 row justify-content-around">
-            <span class="h5 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
-            <span class="col-6 mb-4 text-center text-pc-economic-light" id="subtotal"> - </span>
-            <span class="h5 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
-            <span class="col-6 text-center text-pc-economic-light" id="envio"> - </span>
-            <div id="error" class="mt-2 mb-2"></div>
-            <hr class="border border-2 opacity-50 mt-2 col-10">
+    <div class="col-md-6 col-sm-12 justify-content-around" id="info-carrito">
+        <div class="row justify-content-center">
+            <span class="text-pc-economic-dark h4"> Resumen del pedido </span>
 
-            <span class="h3 mt-2 col-6">Total (impuestos incluidos) </span>
-            <span class="text-pc-economic-dark mt-2 h3 col-6" id="total"> - </span>
+            <div class="col-12 row justify-content-around">
+                <div id="prod-carrito" class="col-12 mb-4 text-center text-pc-economic-light row justify-content-around"></div>
+                <hr class="border border-2 opacity-50 mt-2 col-11">
+                <span class="h5 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
+                <span class="col-6 mb-4 text-center text-pc-economic-light" id="subtotal"> - </span>
+                <span class="h5 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
+                <span class="col-6 text-center text-pc-economic-light" id="envio"> - </span>
+                <div id="error" class="mt-2 mb-2"></div>
+                <hr class="border border-2 opacity-50 mt-2 col-11">
+                <span class="h3 mt-2 col-6">Total (impuestos incluidos) </span>
+                <span class="text-pc-economic-dark mt-2 h3 col-6" id="total"> - </span>
+            </div>
+
         </div>
+
     </div>
 </main>
 <footer th:replace="layout/layout.html :: footer"></footer>
@@ -145,13 +148,11 @@
 
                 for (var id in resp.ids) {
                     $("#prod-carrito").append(
-                        "<div class='col-12 row '>" +
-                        "<div class='col-6'>" +
+                        "<div class='col-md-6 col-sm-12'>" +
                         "<span class='h4 text-pc-economic-default' data-idprop='" + resp.ids[id].propietats.id + "'>" + resp.ids[id].quantity + " x " + resp.ids[id].propietats.article.nom + " ( " + formatCurrency(resp.ids[id].propietats.preu) + " ) </span>" +
                         "</div>" +
-                        "<div class='col-6'>" +
+                        "<div class='col-md-6 col-sm-12'>" +
                         "<span class='h4 text-pc-economic-light'> " + formatCurrency(resp.ids[id].price) + "</span>" +
-                        "</div>" +
                         "</div>"
                     );
                     precio += resp.ids[id].price;
@@ -198,6 +199,22 @@
                                     $("#subtotal").text(formatCurrency(resp.total));
                                     $("#envio").text(formatCurrency(envio));
                                     $("#total").text(formatCurrency(resp.total + envio));
+
+                                    $.ajax({
+                                        url: "/setpreutransport",
+                                        type: "GET",
+                                        data: {
+                                            preuTransport: envio,
+                                            preuTotal: resp.total + envio,
+                                            direccio: destination
+                                        },
+                                        success: function (response) {
+
+                                            $("#info-carrito").append(
+                                                "<a href='/compra' class='btn btn-pc-economic-dark btn-lg btn-block'>Finalizar compra</a>"
+                                            )
+                                        }
+                                    })
                                 }
                             })
                         }
