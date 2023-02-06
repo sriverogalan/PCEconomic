@@ -96,16 +96,12 @@ public class LoginController {
 
     @PostMapping("/register")
     public String postRegister(@ModelAttribute("registerForm") @Valid RegisterForm registerForm, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            if (!registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
-                model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
-                return "register";
-            }
+        if (!registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
+            model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
             return "register";
         }
 
-        if (!registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
-            model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
+        if (bindingResult.hasErrors()) {
             return "register";
         }
 
@@ -117,7 +113,7 @@ public class LoginController {
             return "register";
         }
 
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://localhost:8080/confirmregister/123456789/" + persona.getId());
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/123456789/" + persona.getId());
         return "confirmregister";
     }
 

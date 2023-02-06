@@ -21,20 +21,14 @@ public class CreationService {
     private final ArticleRepository articleRepository;
     private final MarcaRepository marcaRepository;
     private final CategoriaRepository categoriaRepository;
-    private final PropietatsRepository propietatsRepository;
-    private final ValorRepository valorRepository;
     private final PropietatRepository propietatRepository;
-    private final ImatgeRepository imatgeRepository;
 
     @Autowired
-    public CreationService(ImatgeRepository imatgeRepository, ArticleRepository articleRepository, MarcaRepository marcaRepository, CategoriaRepository categoriaRepository, PropietatsRepository propietatsRepository, ValorRepository valorRepository, PropietatRepository propietatRepository) {
+    public CreationService(ArticleRepository articleRepository, MarcaRepository marcaRepository, CategoriaRepository categoriaRepository, PropietatRepository propietatRepository) {
         this.articleRepository = articleRepository;
         this.marcaRepository = marcaRepository;
         this.categoriaRepository = categoriaRepository;
-        this.propietatsRepository = propietatsRepository;
-        this.valorRepository = valorRepository;
         this.propietatRepository = propietatRepository;
-        this.imatgeRepository = imatgeRepository;
     }
 
     @Transactional
