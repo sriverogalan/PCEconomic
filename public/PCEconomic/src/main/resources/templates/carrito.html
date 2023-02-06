@@ -60,17 +60,16 @@
         <div class="d-flex flex-row-reverse">
             <div class="p-2">
                 <h3>Total: <span th:text="${carrito.total}"></span></h3>
-                <a class="btn btn-pc-economic-dark" th:href="@{/carrito/direccion}">Comprar</a>
+                <a class="btn btn-success" th:href="@{/carrito/direccion}">Comprar</a>
             </div>
         </div>
 
     </main>
-    <main class="bg-cont" th:if="${carrito.ids == null}">
-
+    <main class="container bg-cont mt-md-5 mt-5" th:if="${carrito.ids == null}">
         <div class="d-flex flex-column justify-content-center align-items-center">
-            Tu cesta está vacía
-            Explora multitud de artículos a buen precio desde nuestra página principal
-            <a class="btn btn-pc-economic-dark" th:href="@{/}">Explorar articulos</a>
+            <h2 class="mt-4">Tu cesta está vacía</h2>
+            <h3 class="mt-3">Explora multitud de artículos a buen precio desde nuestra página principal</h3>
+            <a class="btn btn-pc-economic-dark mt-3 mb-5" th:href="@{/}">Explorar articulos</a>
         </div>
     </main>
     <div th:replace="layout/layout.html :: jquery"></div>
