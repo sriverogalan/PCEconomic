@@ -11,7 +11,7 @@
     <div class="col-md-6 col-sm-12 mb-3" id="form">
         <h2 class="text-pc-economic-dark h3 text-center"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
-            <form class="needs-validation" onsubmit="return false" novalidate>
+            <form class="needs-validation row" onsubmit="return false" novalidate>
                 <div class="col-12">
                     <label for="nombre-completo">Nombre completo *</label>
                     <input type="text" class="form-control" id="nombre-completo"
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="mt-2 mb-2 col-12">
-                    <span class="text-pc-economic-default "> * (son los campos que tenemos que introducir obligatoriamente)</span>
+                    <span class="text-pc-economic-default "> * (campos obligatorios)</span>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-pc-economic-dark mt-3" id="enviar">Guardar dirección</button>
@@ -131,7 +131,6 @@
                     "<textarea class='form-control' id='notas' rows='3' placeholder='Introduce notas adicionales'></textarea>" +
                     "</div>" +
                     "<div class='mt-2 mb-2 col-12'>" +
-                    "<span class='text-pc-economic-default '> * (son los campos que tenemos que introducir obligatoriamente)</span>" +
                     "</div>" +
                     "<div class='col-12 justify-content-around d-flex'>" +
                     "<a href='/areaclients' class='btn btn-pc-economic-light text-white mt-3'>Añadir direccion</a>" +
@@ -144,17 +143,17 @@
                 for (var i = 0; i < resp.length; i++) {
                     if (resp[i].default) {
                         $("#direccion").append(
-                            "<option value='" + resp[i].id + "' selected>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "' selected>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
                     } else {
                         $("#direccion").append(
-                            "<option value='" + resp[i].id + "'>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "'>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
                     }
                 }
 
                 $("#enviar").on("click", function () {
-                    getDistance($("#direccion").text() + $("#notas").val());
+                    getDistance($("#direccion").val() + $("#notas").val());
                 });
 
             }
