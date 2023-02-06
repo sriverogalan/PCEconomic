@@ -14,11 +14,14 @@ public @Data class Direccio {
     @Column(name = "id_direccio")
     private int id;
 
-    @Column(name = "carrer")
-    private String street;
+    @Column(name = "nom_complet")
+    private String fullName;
 
-    @Column(name = "numero")
-    private String number;
+    @Column(name = "telefon")
+    private String phone;
+
+    @Column(name = "carrer")
+    private String streetandnumber;
 
     @Column(name = "estaActiva")
     private boolean isPrincipal;
@@ -35,20 +38,17 @@ public @Data class Direccio {
     @Column(name = "pais")
     private String country;
 
-    @Column(name = "comunitat_autonoma")
-    private String autonomousCommunity;
-
     @Column(name = "notes")
     private String notes;
 
     public Direccio(AddDirectionForm directionForm) {
-        this.street = directionForm.getCalle();
-        this.number = directionForm.getNumero();
+        this.fullName = directionForm.getNombre();
+        this.phone = directionForm.getTelefono();
+        this.streetandnumber = directionForm.getCalle();
         this.city = directionForm.getCiudad();
         this.province = directionForm.getProvincia();
         this.postalCode = directionForm.getCodigoPostal();
         this.country = directionForm.getPais();
-        this.autonomousCommunity = directionForm.getComunidadAutonoma();
         this.isPrincipal = Boolean.parseBoolean(directionForm.getPrincipal());
     }
 }

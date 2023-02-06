@@ -45,33 +45,31 @@ public class AreaClientsController {
     @PostMapping("/areaclients/addDirection")
     public String addDirection(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm) {
         HttpSession session = request.getSession();
-        if (session == null) return "redirect:/";
-
         Client client = (Client) session.getAttribute("persona");
-
-        if (client == null) return "redirect:/login";
 
         areaClientsService.saveDirection(client, directionForm);
         return "redirect:/areaclients";
     }
 
+    @PostMapping("/areaclients/addDirection/buying")
+    public String addDirectionWhenBuying(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm) {
+        HttpSession session = request.getSession();
+        Client client = (Client) session.getAttribute("persona");
+
+        areaClientsService.saveDirection(client, directionForm);
+        return "redirect:/carrito/direccion";
+    }
+
     @PostMapping("/areaclients/changeName")
     public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeName, Model model) {
         HttpSession session = request.getSession();
-
-        if (session == null) return "redirect:/";
-
         Client client = (Client) session.getAttribute("persona");
-
-        if (client == null) return "redirect:/login";
-        System.out.println(changeName);
 
         if (!changeName.getNewName().equals(changeName.getConfirmNewName())) {
             model.addAttribute("changeNameError", "Los nombres no coinciden");
             areaClientsService.sendToModel(model, session);
             return "areaclients";
         }
-
 
         areaClientsService.changeName(client, changeName);
         return "redirect:/areaclients";
@@ -80,12 +78,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changepassword")
     public String changePassword(HttpServletRequest request, @ModelAttribute ChangePasswordForm changePasswordForm, Model model) {
         HttpSession session = request.getSession();
-
-        if (session == null) return "redirect:/";
-
         Client client = (Client) session.getAttribute("persona");
-
-        if (client == null) return "redirect:/login";
 
         if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {
             model.addAttribute("changePasswordError", "Las contraseñas no coinciden");
@@ -106,12 +99,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changeemail")
     public String changeEmail(HttpServletRequest request, @ModelAttribute @Valid ChangeEmailForm changeEmailForm, Model model, BindingResult bindingResult) {
         HttpSession session = request.getSession();
-
-        if (session == null) return "redirect:/";
-
         Client client = (Client) session.getAttribute("persona");
-
-        if (client == null) return "redirect:/login";
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("changeEmailError", "El email no es válido");
@@ -138,12 +126,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changetelephone")
     public String changeTelephone(HttpServletRequest request, @ModelAttribute ChangeTelephoneForm changeTelephoneForm, Model model) {
         HttpSession session = request.getSession();
-
-        if (session == null) return "redirect:/";
-
         Client client = (Client) session.getAttribute("persona");
-
-        if (client == null) return "redirect:/login";
 
         if (!client.getPersona().getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
             model.addAttribute("changePhoneError", "El teléfono no es correcto");

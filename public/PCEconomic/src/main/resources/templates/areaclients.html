@@ -142,7 +142,7 @@
                                         <span th:text="${changePhoneError}"></span>
                                     </div>
                                     <form th:object="${changeTelephoneForm}" th:action="@{/areaclients/changetelephone}"
-                                        method="post" class="needs-validation" novalidate>
+                                          method="post" class="needs-validation" novalidate>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <label for="old-phone">Antiguo Telefono</label>
@@ -154,7 +154,7 @@
                                             <div class="col-md-4">
                                                 <label for="phone">Nuevo Telefono</label>
                                                 <input class="form-control" type="tel" name="phone" id="phone"
-                                                         th:field="*{newTelephone}"
+                                                       th:field="*{newTelephone}"
                                                        placeholder="Nuevo Telefono"/>
                                             </div>
 
@@ -205,7 +205,7 @@
                                         <p>Pulse aqui si le interesa añadir alguna!</p>
 
                                         <ul class="list-group list-group-flush">
-                                            <li th:each="direccio : ${user.persona.direccions}" class="list-group-item" th:text="${direccio.street} + ', ' + ${direccio.number} + '. ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.autonomousCommunity} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></li>
+                                            <li th:each="direccio : ${user.persona.direccions}" class="list-group-item" th:text="${direccio.streetandnumber} + ', ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></li>
                                         </ul>
 
                                         <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
@@ -231,20 +231,31 @@
                                                     <div class="row">
 
                                                         <div class="col-12">
-                                                            <label for="direccion">Direccion</label>
-                                                            <input th:field="*{direccion}" class="form-control" type="text" name="direccion"
-                                                                   id="direccion" required
-                                                                   placeholder="Direccion"/>
+                                                            <label for="fullname">Nombre completo</label>
+                                                            <input th:field="*{nombre}" class="form-control" type="text" name="direccion"
+                                                                   id="fullname" required
+                                                                   placeholder="Nombre completo"/>
                                                         </div>
 
                                                         <div class="col-12">
-                                                            <label for="carrer">Calle</label>
-                                                            <input th:field="*{calle}" class="form-control" type="text" name="carrer"
-                                                                   id="carrer" required
-                                                                   placeholder="Calle"/>
+                                                            <label for="telefono">Telefono</label>
+                                                            <input th:field="*{telefono}" class="form-control" type="text" name="direccion"
+                                                                   id="telefono" required
+                                                                   placeholder="Telefono"/>
                                                         </div>
 
-                                                        <div class="col-4">
+                                                        <div class="col-12">
+                                                            <label for="direccion">Linea de direccion 1</label>
+                                                            <input th:field="*{calle}" class="form-control" type="text" name="direccion2"
+                                                                   id="direccion2" required
+                                                                   placeholder="Nombre y numero de la calle"/>
+                                                            <input th:field="*{direccion}" class="form-control" type="text" name="direccion"
+                                                                   id="direccion" required
+                                                                   placeholder="Apartamento, suite, unidad, edificio o piso"/>
+
+                                                        </div>
+
+                                                        <div class="col-6">
                                                             <label for="ciudad">Ciudad</label>
                                                             <input th:field="*{ciudad}"
                                                                    class="form-control" type="text" name="ciudad"
@@ -252,15 +263,7 @@
                                                                    placeholder="Ciudad"/>
                                                         </div>
 
-                                                        <div class="col-4">
-                                                            <label for="numero">Numero</label>
-                                                            <input th:field="*{numero}"
-                                                                   class="form-control" type="text" name="numero"
-                                                                   id="numero" required
-                                                                   placeholder="Numero"/>
-                                                        </div>
-
-                                                        <div class="col-4">
+                                                        <div class="col-6">
                                                             <label for="cp">Codigo Postal</label>
                                                             <input th:field="*{codigoPostal}"
                                                                    class="form-control" type="text" name="cp" id="cp"
@@ -268,21 +271,13 @@
                                                                    placeholder="Codigo Postal"/>
                                                         </div>
 
-                                                        <div class="col-6">
-                                                            <label for="comunitat">Comunidad Autonoma</label>
-                                                            <input th:field="*{comunidadAutonoma}"
-                                                                   class="form-control" type="text" name="comunitat"
-                                                                   id="comunitat" required
-                                                                   placeholder="Comunitat Autonoma"/>
-                                                        </div>
-
-                                                        <div class="col-6">
+                                                        <div class="col-4">
                                                             <label for="pais">Pais</label>
                                                             <input th:field="*{pais}"
                                                                    class="form-control" type="text" name="pais" id="pais" required
                                                                    placeholder="Pais"/>
                                                         </div>
-                                                        <div class="col-12">
+                                                        <div class="col-8">
                                                             <label for="provincia">Provincia</label>
                                                             <input th:field="*{provincia}"
                                                                    class="form-control" type="text" name="provincia" id="provincia" required
@@ -298,7 +293,8 @@
                                                     </div>
 
                                                     <div class="d-flex flex-row-reverse mt-2">
-                                                        <button class="btn btn-pc-economic-dark" type="submit">Añadir</button>
+                                                        <button class="btn btn-pc-economic-dark" type="submit">Añadir
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
