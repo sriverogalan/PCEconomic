@@ -5,12 +5,10 @@ import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
 import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
-import me.pceconomic.shop.repositories.ArticleRepository;
-import me.pceconomic.shop.repositories.CategoriaRepository;
-import me.pceconomic.shop.repositories.ImatgeRepository;
-import me.pceconomic.shop.repositories.PropietatsRepository;
+import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,15 +21,16 @@ public class RestFrontController {
     private final ImatgeRepository imatgeRepository;
     private final CategoriaRepository categoriaRepository;
     private final ArticleRepository articleRepository;
-
+    private final PropietatRepository propietatRepository;
     private final PropietatsRepository propietatsRepository;
 
     @Autowired
-    public RestFrontController(PropietatsRepository propietatsRepository, ArticleRepository articleRepository, ImatgeRepository imatgeRepository, CategoriaRepository categoriaRepository) {
+    public RestFrontController(PropietatsRepository propietatsRepository, PropietatRepository propietatRepository, ArticleRepository articleRepository, ImatgeRepository imatgeRepository, CategoriaRepository categoriaRepository) {
         this.imatgeRepository = imatgeRepository;
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.propietatsRepository = propietatsRepository;
+        this.propietatRepository = propietatRepository;
     }
 
     @GetMapping("/api/articles")
@@ -55,9 +54,14 @@ public class RestFrontController {
     }
 
     @GetMapping("/api/direccions")
-    public Set<Direccio> test3(HttpServletRequest request) {
+    public Set<Direccio> direccions(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session == null) return null;
         return (Set<Direccio>) session.getAttribute("direccions");
+    }
+
+    @GetMapping("/api/propietat")
+    public List<Propietat> propietat() {
+        return propietatRepository.findAll();
     }
 }
