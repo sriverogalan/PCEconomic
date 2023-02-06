@@ -101,5 +101,4 @@ public class AreaClientsService {
 
         direccio.setPrincipal(true);
     }
-
 }
