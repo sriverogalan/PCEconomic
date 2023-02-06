@@ -96,6 +96,10 @@
                 <span class="text-pc-economic-dark mt-2 h3 col-6 text-center" id="total"> - </span>
             </div>
 
+            <div id="buy">
+
+            </div>
+
         </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1"
@@ -220,10 +224,7 @@
                     "<div class='mt-2 mb-2 col-12'>" +
                     "</div>" +
                     "<div class='col-12 justify-content-around d-flex'>" +
-                    "<button type=\"button\" class=\"w-25 btn btn-pc-economic-dark\" data-bs-toggle=\"modal\"\n" +
-                    "                                                data-bs-target=\"#exampleModal\">\n" +
-                    "                                            Añadir direccion\n" +
-                    "                                        </button>" +
+                    "<button type='button' class='btn btn-pc-economic-dark mt-3' data-bs-toggle='modal' data-bs-target='#exampleModal'>Añadir direccion</button>" +
                     "<button type='submit' class='btn btn-pc-economic-dark mt-3' id='enviar'>Seleccionar dirección</button>" +
                     "</div>" +
                     "</form>" +
@@ -231,13 +232,13 @@
                 );
 
                 for (var i = 0; i < resp.length; i++) {
-                    if (resp[i].default) {
+                    if (resp[i].principal === true) {
                         $("#direccion").append(
-                            "<option value='" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "' selected>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "' selected>" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
                     } else {
                         $("#direccion").append(
-                            "<option value='" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "'>" + resp[i].street + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "'>" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
                     }
                 }
@@ -343,7 +344,8 @@
                                         },
                                         success: function () {
                                             if ($("#finalizar")) $("#finalizar").empty();
-                                            $("#info-carrito").append(
+                                            $("#buy").empty();
+                                            $("#buy").append(
                                                 "<a href='/compra' class='btn btn-success btn-lg btn-block col-12 mt-5 mb-5' id='finalizar'>Finalizar compra</a>"
                                             )
                                         }
