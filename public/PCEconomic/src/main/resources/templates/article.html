@@ -120,10 +120,34 @@
         success: function (propietats) {
             var idPropietat = $("main").attr("data-id");
             var idArticle = $("body").attr("data-id-article");
+            var auxArr = [];
 
-            for(var i = 0 ; i < propietats.length ; i++) {
-                if (propietats[i]){
+            for (var prop of propietats) {
+                for (var v of prop.valor) {
+                    if (prop.article.id == idArticle && prop.id == idPropietat) {
+                        $("#articles-disponibles").append(
+                            "<div class='col-12'> <h3 class='mb-3 mt-2'>" + v.propietat[0].nom + "</h3> <div id='" + v.propietat[0].nom + "' class='d-flex justify-content-evenly'> </div></div>"
+                        )
+                        $("#" + v.propietat[0].nom).append(
+                            "<button class='btn btn-pc-economic-dark text-white col-2'>" + v.valor + "</button>"
+                        )
 
+                        for (var prop2 of propietats) {
+                            for (var v2 of prop2.valor) {
+                                if (prop2.article.id == idArticle && prop2.id != idPropietat && v2.propietat[0].nom == v.propietat[0].nom && v2.valor != v.valor) {
+
+                                    var auxArrIndex = auxArr.indexOf(v2.valor);
+                                    if (auxArrIndex == -1) {
+                                        auxArr.push(v2.valor);
+                                        $("#" + v.propietat[0].nom).append(
+                                            "<a href='/article/" + prop2.article.id + "/" + prop2.id  + "' class='btn btn-pc-economic-light text-white col-2'>" + v2.valor + "</a>"
+                                        );
+                                    }
+
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
