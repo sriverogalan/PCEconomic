@@ -6,6 +6,7 @@ import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
@@ -74,6 +75,8 @@ public class FrontController {
 
         ShoppingCart shoppingCart = carritoService.getCarrito();
         System.out.println(shoppingCart);
+
+        model.addAttribute("directionForm", new AddDirectionForm());
 
         Client client = (Client) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");

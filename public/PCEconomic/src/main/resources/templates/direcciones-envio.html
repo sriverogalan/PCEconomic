@@ -98,6 +98,93 @@
 
         </div>
 
+        <div class="modal fade" id="exampleModal" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir
+                            Direccion</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form method="post" th:object="${directionForm}" th:action="@{/areaclients/addDirection/buying}" class="needs-validation" novalidate>
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <label for="fullname">Nombre completo</label>
+                                    <input th:field="*{nombre}" class="form-control" type="text" name="direccion"
+                                           id="fullname" required
+                                           placeholder="Nombre completo"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="telefon">Telefono</label>
+                                    <input th:field="*{telefono}" class="form-control" type="text" name="direccion"
+                                           id="telefon" required
+                                           placeholder="Telefono"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="direccion">Linea de direccion 1</label>
+                                    <input th:field="*{calle}" class="form-control" type="text" name="direccion2"
+                                           required
+                                           placeholder="Nombre y numero de la calle"/>
+                                    <input th:field="*{direccion}" class="form-control" type="text" name="direccion"
+                                           id="direccion" required
+                                           placeholder="Apartamento, suite, unidad, edificio o piso"/>
+
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="city">Ciudad</label>
+                                    <input th:field="*{ciudad}"
+                                           class="form-control" type="text" name="ciudad"
+                                           id="city" required
+                                           placeholder="Ciudad"/>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="cp">Codigo Postal</label>
+                                    <input th:field="*{codigoPostal}"
+                                           class="form-control" type="text" name="cp" id="cp"
+                                           required
+                                           placeholder="Codigo Postal"/>
+                                </div>
+
+                                <div class="col-4">
+                                    <label for="country">Pais</label>
+                                    <input th:field="*{pais}"
+                                           class="form-control" type="text" name="pais" id="country" required
+                                           placeholder="Pais"/>
+                                </div>
+                                <div class="col-8">
+                                    <label for="province">Provincia</label>
+                                    <input th:field="*{provincia}"
+                                           class="form-control" type="text" name="provincia" id="province" required
+                                           placeholder="Provincia"/>
+                                </div>
+
+                                <div class="col-12">
+                                    <input th:field="*{principal}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Es esta tu direccion principal?
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-row-reverse mt-2">
+                                <button class="btn btn-pc-economic-dark" type="submit">Añadir
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </main>
 <footer th:replace="layout/layout.html :: footer"></footer>
@@ -134,7 +221,10 @@
                     "<span class='text-pc-economic-default '> * (son los campos que tenemos que introducir obligatoriamente)</span>" +
                     "</div>" +
                     "<div class='col-12 justify-content-around d-flex'>" +
-                    "<a href='/areaclients' class='btn btn-pc-economic-light text-white mt-3'>Añadir direccion</a>" +
+                    "<button type=\"button\" class=\"w-25 btn btn-pc-economic-dark\" data-bs-toggle=\"modal\"\n" +
+                    "                                                data-bs-target=\"#exampleModal\">\n" +
+                    "                                            Añadir direccion\n" +
+                    "                                        </button>" +
                     "<button type='submit' class='btn btn-pc-economic-dark mt-3' id='enviar'>Seleccionar dirección</button>" +
                     "</div>" +
                     "</form>" +
