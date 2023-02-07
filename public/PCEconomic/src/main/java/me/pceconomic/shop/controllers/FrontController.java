@@ -8,7 +8,6 @@ import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.services.CarritoService;
-import me.pceconomic.shop.services.CreationService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class FrontController {
 
-    private final CreationService creationService;
     private final FrontService frontService;
     private final CarritoService carritoService;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService, CreationService creationService) {
-        this.creationService = creationService;
+    public FrontController(FrontService frontService, CarritoService carritoService) {
         this.frontService = frontService;
         this.carritoService = carritoService;
     }
@@ -70,8 +67,19 @@ public class FrontController {
 
     @GetMapping("/carrito/direccion")
     public String getDireccion(HttpServletRequest request, Model model) {
+        if (servicePay(request, model)) return "index";
+        return "direcciones-envio";
+    }
+
+    @GetMapping("/carrito/compra")
+    public String getCompra(HttpServletRequest request, Model model) {
+        if (servicePay(request, model)) return "index";
+        return "compra";
+    }
+
+    private boolean servicePay(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        if (session == null) return "index";
+        if (session == null) return true;
 
         ShoppingCart shoppingCart = carritoService.getCarrito();
         System.out.println(shoppingCart);
@@ -80,19 +88,7 @@ public class FrontController {
 
         Client client = (Client) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
-        return "direcciones-envio";
-    }
-
-    @GetMapping("/crearproducte")
-    public String createProducts() {
-        creationService.create();
-        return "redirect:/";
-    }
-
-    @GetMapping("/crear1000")
-    public String create1000() {
-        creationService.crear1000();
-        return "redirect:/";
+        return false;
     }
 
 }
