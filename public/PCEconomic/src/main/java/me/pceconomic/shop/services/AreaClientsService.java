@@ -56,6 +56,19 @@ public class AreaClientsService {
         personaRepository.save(persona);
     }
 
+    public void deleteDirection(Client client, int id) {
+        Persona persona = client.getPersona();
+        Direccio direccio = direccioRepository.findById(id).orElse(null);
+
+        if (direccio == null) {
+            throw new IllegalArgumentException();
+        }
+
+        persona.getDireccions().remove(direccio);
+        personaRepository.save(persona);
+        direccioRepository.delete(direccio);
+    }
+
     public void changeName(Client client, ChangeNameForm changeNameForm) {
         Persona persona = client.getPersona();
         persona.setName(changeNameForm.getNewName());
