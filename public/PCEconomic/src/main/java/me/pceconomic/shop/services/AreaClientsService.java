@@ -77,6 +77,27 @@ public class AreaClientsService {
         personaRepository.save(persona);
     }
 
+    public void updateDirection(Client client, AddDirectionForm directionForm) {
+        Persona persona = client.getPersona();
+        Direccio direccio = direccioRepository.findById(directionForm.getId()).orElse(null);
+
+        if (direccio == null) {
+            throw new IllegalArgumentException();
+        }
+
+        direccio.setFullName(directionForm.getNombre());
+        direccio.setPhone(directionForm.getTelefono());
+        direccio.setStreetandnumber(directionForm.getCalle());
+        direccio.setCity(directionForm.getCiudad());
+        direccio.setProvince(directionForm.getProvincia());
+        direccio.setPostalCode(directionForm.getCodigoPostal());
+        direccio.setCountry(directionForm.getPais());
+        direccio.setPrincipal(Boolean.parseBoolean(directionForm.getPrincipal()));
+
+        setDireccioPrincipal(direccio, persona.getDireccions());
+        direccioRepository.save(direccio);
+    }
+
     public void changeName(Client client, ChangeNameForm changeNameForm) {
         Persona persona = client.getPersona();
         persona.setName(changeNameForm.getNewName());

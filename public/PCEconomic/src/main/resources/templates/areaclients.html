@@ -200,7 +200,7 @@
                                     <p>Pulse aqui si le interesa añadir alguna!</p>
 
                                     <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            data-bs-target="#add">
                                         Añadir direccion
                                     </button>
                                 </div>
@@ -217,10 +217,11 @@
                                             <div class="d-flex justify-content-between">
                                                 <span th:text="${direccio.streetandnumber} + ', ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></span>
                                                 <div>
-                                                    <a class="btn btn-pc-economic-light text-white"
-                                                       th:href="@{/areaclients/edit}">
+                                                    <button type="button" class="btn btn-pc-economic-light text-white"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal">
                                                         <i class="bi bi-pencil"></i>
-                                                    </a>
+                                                    </button>
                                                     <button type="button" class="btn btn-danger"
                                                             data-bs-toggle="modal"
                                                             th:attr="data-bs-target='#deletedirection-' + ${direccio.id}">
@@ -259,22 +260,137 @@
                                                 </div>
                                             </div>
 
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir
+                                                                Direccion</h1>
+                                                            <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+
+                                                            <form method="post" th:object="${directionForm}"
+                                                                  th:action="@{/areaclients/addDirection}"
+                                                                  class="needs-validation"
+                                                                  novalidate>
+                                                                <div class="row">
+
+                                                                    <input hidden th:value="*{id}"/>
+                                                                    <div class="col-12">
+                                                                        <label for="fname">Nombre completo</label>
+                                                                        <input th:field="*{nombre}" class="form-control"
+                                                                               type="text"
+                                                                               th:value="${direccio.fullName}"
+                                                                               name="direccion"
+                                                                               id="fname" required
+                                                                               placeholder="Nombre completo"/>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <label for="telephone">Telefono</label>
+                                                                        <input th:field="*{telefono}"
+                                                                               class="form-control" type="text"
+                                                                               name="direccion"
+                                                                               th:value="${direccio.phone}"
+                                                                               id="telephone" required
+                                                                               placeholder="Telefono"/>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <label for="street">Linea de direccion 1</label>
+                                                                        <input th:field="*{calle}" class="form-control"
+                                                                               type="text"
+                                                                               name="direccion2"
+                                                                               id="street" required
+                                                                               th:value="${direccio.streetandnumber}"
+                                                                               placeholder="Nombre y numero de la calle"/>
+                                                                        <input th:field="*{direccion}"
+                                                                               class="form-control" type="text"
+                                                                               name="direccion"
+                                                                               th:value="${direccio.address}"
+                                                                               id="direction" required
+                                                                               placeholder="Apartamento, suite, unidad, edificio o piso"/>
+
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        <label for="city">Ciudad</label>
+                                                                        <input th:field="*{ciudad}"
+                                                                               class="form-control" type="text"
+                                                                               name="ciudad" th:value="${direccio.city}"
+                                                                               id="city" required
+                                                                               placeholder="Ciudad"/>
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        <label for="postalcode">Codigo Postal</label>
+                                                                        <input th:field="*{codigoPostal}"
+                                                                               class="form-control" type="text"
+                                                                               name="cp" id="postalcode"
+                                                                               required
+                                                                               th:value="${direccio.postalCode}"
+                                                                               placeholder="Codigo Postal"/>
+                                                                    </div>
+
+                                                                    <div class="col-4">
+                                                                        <label for="country">Pais</label>
+                                                                        <input th:field="*{pais}"
+                                                                               class="form-control" type="text"
+                                                                               name="pais" id="country"
+                                                                               required th:value="${direccio.country}"
+                                                                               placeholder="Pais"/>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        <label for="province">Provincia</label>
+                                                                        <input th:field="*{provincia}"
+                                                                               class="form-control" type="text"
+                                                                               name="provincia"
+                                                                               th:value="${direccio.province}"
+                                                                               id="province" required
+                                                                               placeholder="Provincia"/>
+                                                                    </div>
+
+                                                                    <div class="col-12">
+                                                                        <input th:field="*{principal}"
+                                                                               class="form-check-input"
+                                                                               th:value="${direccio.isPrincipal}"
+                                                                               type="checkbox" value="" id="principal">
+                                                                        <label class="form-check-label" for="principal">
+                                                                            Es esta tu direccion principal?
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex flex-row-reverse mt-2">
+                                                                    <button class="btn btn-pc-economic-dark"
+                                                                            type="submit">Añadir
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </li>
                                     </ul>
 
                                     <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            data-bs-target="#add">
                                         Añadir direccion
                                     </button>
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="exampleModal" tabindex="-1"
-                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="add" tabindex="-1"
+                                 aria-labelledby="addLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir
+                                            <h1 class="modal-title fs-5" id="addLabel">Añadir
                                                 Direccion</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -286,6 +402,7 @@
                                                   novalidate>
                                                 <div class="row">
 
+                                                    <input hidden th:value="*{id}"/>
                                                     <div class="col-12">
                                                         <label for="fullname">Nombre completo</label>
                                                         <input th:field="*{nombre}" class="form-control" type="text"
