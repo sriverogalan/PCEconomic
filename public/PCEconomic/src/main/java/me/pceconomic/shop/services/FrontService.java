@@ -3,10 +3,12 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,15 +28,17 @@ public class FrontService {
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
     private final ValoracionsRepository valoracionsRepository;
+    private final ClientRepository clientRepository;
 
     @Autowired
-    public FrontService(ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(ValoracionsRepository valoracionsRepository,ClientRepository clientRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.subcategoriaRepository = subcategoriaRepository;
         this.valoracionsRepository = valoracionsRepository;
+        this.clientRepository = clientRepository;
     }
 
     public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
@@ -70,9 +74,24 @@ public class FrontService {
 
         Client client = (Client) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
+        model.addAttribute("user", client);
     }
 
-    public void getDireccion(Model model, HttpServletRequest request) {
-        sendListsToView(model, request);
+    public void addValoracio(int idClient, int idArticle, AddValorationForm valorationForm) {
+        Valoracions valoracions = new Valoracions();
+        Article article = articleRepository.findById(idArticle).orElse(null);
+        Client client = clientRepository.findById(idClient).orElse(null);
+
+        valoracions.setValoracio(valorationForm.getValoracio());
+        valoracions.setComentari(valorationForm.getComentari());
+        valoracions.setArticle(article);
+        valoracions.setClient(client);
+
+        valoracionsRepository.save(valoracions);
     }
+
+    public void deleteValoracio(int idValoracio) {
+        valoracionsRepository.deleteById(idValoracio);
+    }
+
 }
