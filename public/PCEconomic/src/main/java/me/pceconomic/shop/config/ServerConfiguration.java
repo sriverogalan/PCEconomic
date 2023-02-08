@@ -3,7 +3,10 @@ package me.pceconomic.shop.config;
 import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
@@ -47,5 +50,10 @@ public class ServerConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(compraInterceptor)
                 .addPathPatterns("/compra", "/carrito/**")
                 .excludePathPatterns("/carrito");
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

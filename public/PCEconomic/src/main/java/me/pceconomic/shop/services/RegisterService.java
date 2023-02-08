@@ -6,8 +6,6 @@ import me.pceconomic.shop.domain.forms.RegisterForm;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +14,13 @@ public class RegisterService {
 
     private final PersonaRepository personaRepository;
     private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegisterService(ClientRepository clientRepository, PersonaRepository personaRepository) {
+    public RegisterService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, PersonaRepository personaRepository) {
         this.personaRepository = personaRepository;
         this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Persona getPersonaByEmail(String email) {
@@ -47,7 +47,7 @@ public class RegisterService {
         persona.setTelefon(registerForm.getTelefon());
 
         if (registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
-            String password = passwordEncoder().encode(registerForm.getPassword());
+            String password = passwordEncoder.encode(registerForm.getPassword());
             persona.setPassword(password);
         } else {
             throw new RuntimeException("Passwords don't match");
@@ -66,10 +66,5 @@ public class RegisterService {
         client.setSubscribed(false);
 
         clientRepository.save(client);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
