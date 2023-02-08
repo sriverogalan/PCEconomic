@@ -10,7 +10,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",
-            "classpath:/static/", "classpath:/public/" };
+            "classpath:/static/", "classpath:/public/"};
     private final LoginInterceptor loginInterceptor;
 
     @Autowired
@@ -39,7 +39,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**")
+                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra")
                 .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
     }
 }
