@@ -9,16 +9,21 @@
 
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
 
+    <!-- Como puedo hacer un formulario con redsys? -->
 
-    <form name="from" action="https://sis-t.redsys.es:25443/sis/realizarPago" method="POST">
-        <input type="hidden" name="Ds_SignatureVersion" value="HMAC_SHA256_V1"/>
-        <input type="hidden" name="Ds_MerchantParameters" value="eyJEU19NRVJDSEFOVF9BTU9VTlQiOiAiMTQ1IiwiRFNfTUVSQ0hBTlRfQ1VSUkVOQ1kiOiAiOTc4IiwiRFNfTUVSQ0hBTlRfTUVSQ0hBTlRDT0RFIjogIjk5OTAwODg4MSIsIkRTX01FUkNIQU5UX01FUkNIQU5UVVJMIjogImh0dHA6Ly93d3cucHJ1ZWJhLmNvbS91cmxOb3RpZmljYWNpb24ucGhwIiwiRFNfTUVSQ0hBTlRfT1JERVIiOiAiMTQ0NjA2ODU4MSIsIkRTX01FUkNIQU5UX1RFUk1JTkFMIjogIjEiLCJEU19NRVJDSEFOVF9UUkFOU0FDVElPTlRZUEUiOiAiMCIsIkRTX01FUkNIQU5UX1VSTEtPIjogImh0dHA6Ly93d3cucHJ1ZWJhLmNvbS91cmxLTy5waHAiLCJEU19NRVJDSEFOVF9VUkxPSyI6ICJodHRwOi8vd3d3LnBydWViYS5jb20vdXJsT0sucGhwIn0="/>
-        <input type="hidden" name="Ds_Signature" value="PqV2+SF6asdasMjXasKJRTh3UIYya1hmU/igHkzhC+R="/>
-        <input type="submit" value="Enviar" />
+
+    <form id="payment-form">
+        <input type="hidden" name="Ds_Merchant_MerchantCode" value="999008881">
+        <input type="hidden" name="Ds_Merchant_Terminal" value="001">
+        <input type="hidden" name="Ds_Merchant_Order" value="123456">
+        <input type="hidden" name="Ds_Merchant_Amount" value="1000">
+        <input type="hidden" name="Ds_Merchant_Currency" value="978">
+        <input type="hidden" name="Ds_Merchant_TransactionType" value="0">
+        <input type="hidden" name="Ds_Merchant_MerchantURL" value="http://your-merchant-url.com/payment-response">
+        <input type="hidden" name="Ds_Merchant_UrlOK" value="http://your-merchant-url.com/payment-success">
+        <input type="hidden" name="Ds_Merchant_UrlKO" value="http://your-merchant-url.com/payment-failure">
+        <input type="hidden" name="Ds_Merchant_Signature" value="your-transaction-signature">
     </form>
-
-
-
 
 </main>
 
@@ -26,8 +31,27 @@
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
 
-<script>
 
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#payment-form').submit(function(event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://your-spring-endpoint.com/payment',
+                    data: formData,
+                    success: function(data) {
+                        window.location.href = data.redirectUrl;
+                    },
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
 
 </html>

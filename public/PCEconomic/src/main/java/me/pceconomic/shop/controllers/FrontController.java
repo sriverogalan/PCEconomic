@@ -4,9 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Visita;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
+import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +17,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+import java.util.Set;
+
 @Controller
 public class FrontController {
 
     private final FrontService frontService;
     private final CarritoService carritoService;
+    private final VisitaRepository visitaRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService) {
+    public FrontController(FrontService frontService, CarritoService carritoService,
+                           VisitaRepository visitaRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
+        this.visitaRepository = visitaRepository;
     }
 
     @GetMapping("/")
@@ -43,8 +51,12 @@ public class FrontController {
         frontService.article(model, idArticle, idPropietat, request);
         Article article = frontService.getArticleRepository().findById(idArticle).orElse(null);
         Propietats propietats = frontService.getPropietatsRepository().findById(idPropietat).orElse(null);
+        List<Visita> visites = visitaRepository.findAll();
 
         if (article == null || propietats == null) return "redirect:/error";
+
+
+
 
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
