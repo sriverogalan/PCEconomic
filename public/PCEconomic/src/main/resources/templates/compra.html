@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout.html :: head"></head>
+    <head>
+        <title th:text="' Pasarela de pago | PCEconomic '"></title>
+    </head>
+    <body class="bgbd">
+        <header th:replace="layout/layout :: header2"></header>
+        <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
+        <button type="button" class="btn btn-primary" > Redsys </button>
+        </main>
+        <footer th:replace="layout/layout.html :: footer"></footer>
+    </body>
+    <div th:replace="layout/layout.html :: jquery"></div>
+    <script>
+
+
+
+
+
+        function formatCurrency(amount) {
+            return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+        }
+    </script>
+
+</html>

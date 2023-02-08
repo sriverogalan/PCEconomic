@@ -11,71 +11,10 @@
     <div class="col-md-6 col-sm-12 mb-3" id="form">
         <h2 class="text-pc-economic-dark h3 text-center"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
-            <form class="needs-validation row" onsubmit="return false" novalidate>
-                <div class="col-12">
-                    <label for="nombre-completo">Nombre completo *</label>
-                    <input type="text" class="form-control" id="nombre-completo"
-                           placeholder="Introduce el nombre completo" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="telefono">Teléfono *</label>
-                    <input type="text" class="form-control" id="telefono"
-                           placeholder="Introduce el teléfono de contacto" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="email">Email *</label>
-                    <input type="text" class="form-control" id="email"
-                           placeholder="Introduce el email de contacto" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="direccion1">Línea de dirección *</label>
-                    <input type="text" class="form-control" id="direccion1"
-                           placeholder="Nombre y número de la calle" required>
-                    <input type="text" class="form-control" id="direccion2"
-                           placeholder="Apartamento, suite, unidad, edificio o piso" required>
-                </div>
-
-                <div class="col-4">
-                    <label for="codigo-postal">Código postal *</label>
-                    <input type="text" class="form-control" id="codigo-postal"
-                           placeholder="Introduce el código postal" required>
-                </div>
-
-                <div class="col-8">
-                    <label for="ciudad">Ciudad *</label>
-                    <input type="text" class="form-control" id="ciudad"
-                           placeholder="Introduce la ciudad" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="pais">País *</label>
-                    <input type="text" class="form-control" id="pais"
-                           placeholder="Introduce el país" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="provincia">Provincia *</label>
-                    <input type="text" class="form-control" id="provincia"
-                           placeholder="Introduce la provincia" required>
-                </div>
-
-                <div class="col-12">
-                    <label for="notas">Notas</label>
-                    <textarea class="form-control" id="notas" rows="3"
-                              placeholder="Introduce notas adicionales"></textarea>
-                </div>
-
-                <div class="mt-2 mb-2 col-12">
-                    <span class="text-pc-economic-default "> * (campos obligatorios)</span>
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-pc-economic-dark mt-3" id="enviar">Guardar dirección</button>
-                </div>
-
-            </form>
+            <div class="col-12 row justify-content-center">
+                <h5 class="col-12 text-center mt-4">Actualmente no tienes direcciones prueba a añadir una a tu perfil</h5>
+                <button type="button" class="btn btn-pc-economic-default mt-3 col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir direccion</button>
+            </div>
         </div>
     </div>
     <div class="col-md-6 col-sm-12 justify-content-around mb-3" id="info-carrito">
@@ -200,6 +139,7 @@
         url: "/api/carrito",
         type: "GET",
         success: function (resp) {
+            if (resp.ids === null) window.open("/error", "_self");
             $("#total").empty();
             $("#total").append(formatCurrency(resp.total));
         }
@@ -224,7 +164,7 @@
                     "<div class='mt-2 mb-2 col-12'>" +
                     "</div>" +
                     "<div class='col-12 justify-content-around d-flex'>" +
-                    "<button type='button' class='btn btn-pc-economic-dark mt-3' data-bs-toggle='modal' data-bs-target='#exampleModal'>Añadir direccion</button>" +
+                    "<button type='button' class='btn btn-pc-economic-default mt-3' data-bs-toggle='modal' data-bs-target='#exampleModal'>Añadir direccion</button>" +
                     "<button type='submit' class='btn btn-pc-economic-dark mt-3' id='enviar'>Seleccionar dirección</button>" +
                     "</div>" +
                     "</form>" +
@@ -232,13 +172,16 @@
                 );
 
                 for (var i = 0; i < resp.length; i++) {
+                    var name = resp[i].fullName.toUpperCase();
+
                     if (resp[i].principal === true) {
                         $("#direccion").append(
-                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "' selected>" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "' selected>" + name + " - " + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
-                    } else {
+                    }
+                    else {
                         $("#direccion").append(
-                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "'>" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
+                            "<option value='" + resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "'>" + name + " - " +  resp[i].streetandnumber + " " + resp[i].city + " " + resp[i].postalCode + " " + resp[i].country + "</option>"
                         )
                     }
                 }
@@ -346,7 +289,7 @@
                                             if ($("#finalizar")) $("#finalizar").empty();
                                             $("#buy").empty();
                                             $("#buy").append(
-                                                "<a href='/compra' class='btn btn-success btn-lg btn-block col-12 mt-5 mb-5' id='finalizar'>Finalizar compra</a>"
+                                                "<a href='/carrito/compra' class='btn btn-success btn-lg btn-block col-12 mt-5 mb-5' id='finalizar'>Finalizar compra</a>"
                                             )
                                         }
                                     })
