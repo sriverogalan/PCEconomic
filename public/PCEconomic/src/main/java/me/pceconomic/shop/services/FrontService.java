@@ -3,7 +3,9 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
+import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.text.NumberFormat;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -35,8 +38,6 @@ public class FrontService {
     }
 
     public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
-
-
         sendListsToView(model, request);
     }
 
@@ -45,6 +46,9 @@ public class FrontService {
         return formatter.format(value);
     }
 
+    public List<Valoracions> getValoracionsPerArticle(int idArticle) {
+        return valoracionsRepository.findAllByArticleId(idArticle);
+    }
 
     public void getCategoria(Model model, int id, HttpServletRequest request) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
