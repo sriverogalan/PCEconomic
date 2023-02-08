@@ -43,23 +43,40 @@ public class AreaClientsController {
         return "areaclients";
     }
 
-    @PostMapping("/areaclients/addDirection")
-    public String addDirection(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
+    @PostMapping("/areaclients/addDirection/{id}")
+    public String addDirection(@PathVariable(value = "id", required = false) int id, HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
         HttpSession session = request.getSession();
         Client client = (Client) session.getAttribute("persona");
 
-        if (directionForm.getId() == 0) {
-            try {
-                areaClientsService.saveDirection(client, directionForm);
-                return "redirect:/areaclients";
-            } catch (Exception e) {
-                model.addAttribute("updateDirectionError", "Ya tienes una dirección con ese nombre");
-                areaClientsService.sendToModel(model, session);
-                return "areaclients";
-            }
+        if (id == 0) {
+            System.out.println("Añadiendo dirección");
+            areaClientsService.saveDirection(client, directionForm, session);
+            return "redirect:/areaclients";
         }
 
-        areaClientsService.saveDirection(client, directionForm);
+        try {
+            System.out.println("Actualizando dirección");
+            areaClientsService.updateDirection(client, directionForm, id, session);
+            return "redirect:/areaclients";
+        } catch (Exception e) {
+            model.addAttribute("updateDirectionError", "Ya tienes una dirección con ese nombre");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
+    }
+
+    @GetMapping("/areaclients/deleteDirection/{id}")
+    public String deleteDirection(HttpServletRequest request, @PathVariable int id, Model model) {
+        HttpSession session = request.getSession();
+        Client client = (Client) session.getAttribute("persona");
+
+        try {
+            areaClientsService.deleteDirection(client, id, session);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("deleteDirection", "Esta dirección no existe o no le pertenece");
+            areaClientsService.sendToModel(model, session);
+            return "areaclients";
+        }
         return "redirect:/areaclients";
     }
 
@@ -68,7 +85,7 @@ public class AreaClientsController {
         HttpSession session = request.getSession();
         Client client = (Client) session.getAttribute("persona");
 
-        areaClientsService.saveDirection(client, directionForm);
+        areaClientsService.saveDirection(client, directionForm, session);
         return "redirect:/carrito/direccion";
     }
 
@@ -77,7 +94,7 @@ public class AreaClientsController {
         HttpSession session = request.getSession();
         Client client = (Client) session.getAttribute("persona");
 
-        areaClientsService.deleteDirection(client, id);
+        areaClientsService.deleteDirection(client, id, session);
         return "redirect:/areaclients";
     }
 

@@ -80,6 +80,24 @@
                 <h3>Descripción</h3>
                 <p th:text="${propietats.article.descripcio}"></p>
             </div>
+            <div class="col-12">
+                <h3>Valoraciones</h3>
+
+                <div th:if="${valoracions == null || valoracions.isEmpty()}">
+                    Actualmente no hay valoraciones para este producto
+                </div>
+
+                <button th:if="${client == 'LOGOUT'}" type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Añadir Valoracion
+                </button>
+
+                <div th:each="valoracio : ${valoracions}" th:if="${propietats.article.id == valoracio.article.id}">
+                    <p th:text="${valoracio.client.persona.name}"></p>
+                    <p th:text="${valoracio.comentari}"></p>
+                    <p th:text="${valoracio.valoracio}"></p>
+                </div>
+
+            </div>
         </div>
     </div>
 </main>

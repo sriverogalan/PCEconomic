@@ -4,7 +4,6 @@ import lombok.Data;
 
 public @Data class AddDirectionForm {
 
-    private int id;
     private String nombre;
     private String telefono;
     private String direccion;
