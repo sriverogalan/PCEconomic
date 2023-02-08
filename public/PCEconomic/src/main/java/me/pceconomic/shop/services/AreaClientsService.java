@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -53,6 +52,28 @@ public class AreaClientsService {
         persona.getDireccions().add(direccio);
 
         clientRepository.save(client);
+        personaRepository.save(persona);
+    }
+
+    public void deleteDirection(Client client, int id) {
+        Persona persona = client.getPersona();
+        Set<Direccio> direccions = persona.getDireccions();
+
+        Direccio direccio = direccioRepository.findById(id).orElse(null);
+
+        persona.getDireccions().remove(direccio);
+        personaRepository.save(persona);
+
+        for (int i = 0; i < direccions.size(); i++) {
+            Direccio d = (Direccio) direccions.toArray()[i];
+            if (d.getId() == id) {
+                direccions.remove(d);
+                direccioRepository.delete(d);
+                break;
+            }
+        }
+
+        persona.setDireccions(direccions);
         personaRepository.save(persona);
     }
 

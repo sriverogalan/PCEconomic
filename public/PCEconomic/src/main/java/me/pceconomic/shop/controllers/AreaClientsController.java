@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -58,6 +59,15 @@ public class AreaClientsController {
 
         areaClientsService.saveDirection(client, directionForm);
         return "redirect:/carrito/direccion";
+    }
+
+    @GetMapping("/areaclients/deletedirection/{id}")
+    public String deleteDirection(HttpServletRequest request, @PathVariable int id) {
+        HttpSession session = request.getSession();
+        Client client = (Client) session.getAttribute("persona");
+
+        areaClientsService.deleteDirection(client, id);
+        return "redirect:/areaclients";
     }
 
     @PostMapping("/areaclients/changeName")
