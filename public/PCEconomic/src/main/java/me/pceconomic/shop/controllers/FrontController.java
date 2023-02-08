@@ -55,6 +55,7 @@ public class FrontController {
         });
 
         model.addAttribute("imatges", frontService.getImatgeRepository().findAll());
+        model.addAttribute("valoracions", frontService.getValoracionsRepository().findAll());
 
         return "article";
     }

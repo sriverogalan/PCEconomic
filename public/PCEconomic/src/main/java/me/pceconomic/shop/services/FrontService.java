@@ -22,14 +22,16 @@ public class FrontService {
     private final ArticleRepository articleRepository;
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
+    private final ValoracionsRepository valoracionsRepository;
 
     @Autowired
-    public FrontService(SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.subcategoriaRepository = subcategoriaRepository;
+        this.valoracionsRepository = valoracionsRepository;
     }
 
     public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
