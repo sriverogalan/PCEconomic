@@ -12,6 +12,7 @@ import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -29,12 +29,14 @@ public class LoginController {
     private final RegisterService registerService;
     private final FrontService frontService;
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public LoginController(FrontService frontService, MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/login")
@@ -60,12 +62,12 @@ public class LoginController {
             return "redirect:/login";
         }
 
-        if (!registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
+        if (!passwordEncoder.matches(loginForm.getPassword(), persona.getPassword())) {
             model.addAttribute("error", "Tu correo electronico o tu contraseña no son validos");
             return "login";
         }
 
-        if (registerService.passwordEncoder().matches(loginForm.getPassword(), persona.getPassword())) {
+        if (passwordEncoder.matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
             Set<Direccio> direccions = client.getPersona().getDireccions();
 

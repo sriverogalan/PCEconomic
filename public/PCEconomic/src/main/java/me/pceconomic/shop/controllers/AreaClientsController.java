@@ -44,9 +44,20 @@ public class AreaClientsController {
     }
 
     @PostMapping("/areaclients/addDirection")
-    public String addDirection(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm) {
+    public String addDirection(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
         HttpSession session = request.getSession();
         Client client = (Client) session.getAttribute("persona");
+
+        if (directionForm.getId() == 0) {
+            try {
+                areaClientsService.saveDirection(client, directionForm);
+                return "redirect:/areaclients";
+            } catch (Exception e) {
+                model.addAttribute("updateDirectionError", "Ya tienes una dirección con ese nombre");
+                areaClientsService.sendToModel(model, session);
+                return "areaclients";
+            }
+        }
 
         areaClientsService.saveDirection(client, directionForm);
         return "redirect:/areaclients";
@@ -74,6 +85,15 @@ public class AreaClientsController {
 
         areaClientsService.saveDirection(client, directionForm);
         return "redirect:/carrito/direccion";
+    }
+
+    @GetMapping("/areaclients/deletedirection/{id}")
+    public String deleteDirection(HttpServletRequest request, @PathVariable int id) {
+        HttpSession session = request.getSession();
+        Client client = (Client) session.getAttribute("persona");
+
+        areaClientsService.deleteDirection(client, id);
+        return "redirect:/areaclients";
     }
 
     @PostMapping("/areaclients/changeName")

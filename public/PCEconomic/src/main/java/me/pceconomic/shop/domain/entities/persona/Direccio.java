@@ -41,6 +41,9 @@ public @Data class Direccio {
     @Column(name = "notes")
     private String notes;
 
+    @Column(name = "direccio")
+    private String address;
+
     public Direccio(AddDirectionForm directionForm) {
         this.fullName = directionForm.getNombre();
         this.phone = directionForm.getTelefono();
@@ -50,5 +53,6 @@ public @Data class Direccio {
         this.postalCode = directionForm.getCodigoPostal();
         this.country = directionForm.getPais();
         this.isPrincipal = Boolean.parseBoolean(directionForm.getPrincipal());
+        this.address = directionForm.getDireccion();
     }
 }
