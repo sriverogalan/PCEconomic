@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,14 +72,17 @@ public class FrontController {
         for (ContadorArticle contador : contadors) {
             if (contador.getIdArticle() == idArticle) {
                 contador.setContador(contador.getContador() + 1);
+                contador.setIdPropietat(idPropietat);
+                contador.setData(LocalDateTime.now());
                 existeix = true;
             }
         }
-
         if (!existeix) {
             ContadorArticle contador = new ContadorArticle();
             contador.setIdArticle(idArticle);
+            contador.setIdPropietat(idPropietat);
             contador.setContador(1);
+            contador.setData(LocalDateTime.now());
             contadors.add(contador);
         }
 
