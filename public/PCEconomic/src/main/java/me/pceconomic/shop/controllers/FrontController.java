@@ -67,7 +67,7 @@ public class FrontController {
 
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
     public String addValoracio(Model model, @PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, HttpServletRequest request, @PathVariable int idPropietat) {
-        frontService.addValoracio(idArticle, idClient, valorationForm);
+        frontService.addValoracio(idClient, idArticle, valorationForm);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
