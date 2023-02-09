@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 
@@ -55,6 +56,21 @@ public class FrontService {
         return valoracionsRepository.findAllByArticleId(idArticle);
     }
 
+    public String getFechaValoracion(int idArticle) {
+        List<Valoracions> valoracions = this.getValoracionsPerArticle(idArticle);
+
+        if (valoracions.isEmpty()) return "";
+
+        String fecha = "";
+
+        for (Valoracions valoracion : valoracions)
+            fecha = valoracion.getData().toString();
+
+
+        System.out.println(fecha);
+        return fecha;
+    }
+
     public void getCategoria(Model model, int id, HttpServletRequest request) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
 
@@ -87,6 +103,19 @@ public class FrontService {
         valoracions.setComentari(valorationForm.getComentari());
         valoracions.setArticle(article);
         valoracions.setClient(client);
+        valoracions.setData(LocalDate.now());
+
+        valoracionsRepository.save(valoracions);
+    }
+
+    public void updateValoracio(int idValoracio, AddValorationForm valorationForm) {
+        Valoracions valoracions = valoracionsRepository.findById(idValoracio).orElse(null);
+
+        if (valoracions == null) return;
+
+        valoracions.setValoracio(valorationForm.getValoracio());
+        valoracions.setComentari(valorationForm.getComentari());
+        valoracions.setData(LocalDate.now());
 
         valoracionsRepository.save(valoracions);
     }
@@ -94,5 +123,6 @@ public class FrontService {
     public void deleteValoracio(int idValoracio) {
         valoracionsRepository.deleteById(idValoracio);
     }
+
 
 }
