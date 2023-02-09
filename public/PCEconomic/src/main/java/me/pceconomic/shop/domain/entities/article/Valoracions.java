@@ -16,7 +16,7 @@ public @Data class Valoracions {
     private int id;
 
     @Column(name = "valoracio")
-    private int valoracio;
+    private double valoracio;
 
     @Column(name = "comentari")
     private String comentari;
