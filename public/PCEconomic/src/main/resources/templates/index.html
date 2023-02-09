@@ -30,6 +30,82 @@
 <div th:replace="layout/layout.html :: jquery"></div>
 <script>
     <!-- Recomendats -->
+    $.ajax({
+        url: "api/propietats",
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () {
+            $("#loading-wheel").show();
+        },
+        complete: function () {
+            $("#loading-wheel").hide();
+        },
+        success: function (resp) {
+            $.ajax({
+                url: "api/propietats",
+                type: "GET",
+                dataType: "json",
+                beforeSend: function () {
+                    $("#loading-wheel").show();
+                },
+                complete: function () {
+                    $("#loading-wheel").hide();
+                },
+                success: function (resp) {
+                    console.log(resp)
+                    var imgAux = "";
+                    for (var prop of resp) {
+                        imgAux = "";
+                        // recorremos las imagenes de cada propietat para buscar la principal
+                        for (var img of prop.imatges) {
+                            if (img.principal === true) {
+                                imgAux = '/img/productes/' + prop.article.id + '/' + prop.id + '/' + img.path;
+                            }
+                        }
+                        if (imgAux === "") {
+                            imgAux = '/img/static/no-photo.png';
+                        }
+
+                        if (prop.esPrincipal === true) {
+                            $('#articles').append(
+                                '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
+                                '<img src="' + imgAux + '" style="width:300px; height:300px; object-fit: contain;" alt="img" class="mt-2">' +
+                                '<div class="col-12 justify-content-center row">' +
+                                '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
+                                '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
+                                '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
+                                '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                                '</div>' +
+                                '</div>' +
+                                '</a>'
+                            );
+                        }
+                        for (props of resp) {
+                            if (props.esPrincipal === false && props.article.id === prop.article.id) {
+                                imgAux = "";
+                                for (var i of props.imatges) {
+                                    if (i.principal === true) {
+                                        imgAux = '/img/productes/' + prop.article.id + '/' + props.id + '/' + i.path;
+                                    }
+                                }
+
+                                if (imgAux === "") {
+                                    imgAux = '/img/static/no-photo.png';
+                                }
+
+                                $('#' + prop.id).append(
+                                    '<a class="col-4 mt-2 mb-2 row"' +
+                                    ' href="/article/' + prop.article.id + '/' + props.id
+                                    + '"> <img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img"> </a>'
+                                ); // CAMBIAR POR UNA CLASE !! EL STYLE
+                            }
+                        }
+                    }
+                },
+            });
+
+        },
+    });
 
 
     <!-- Print -->

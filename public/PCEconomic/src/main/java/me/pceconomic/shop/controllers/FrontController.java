@@ -2,6 +2,7 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Visita;
@@ -17,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Controller
@@ -51,10 +54,34 @@ public class FrontController {
         frontService.article(model, idArticle, idPropietat, request);
         Article article = frontService.getArticleRepository().findById(idArticle).orElse(null);
         Propietats propietats = frontService.getPropietatsRepository().findById(idPropietat).orElse(null);
-        List<Visita> visites = visitaRepository.findAll();
 
         if (article == null || propietats == null) return "redirect:/error";
 
+        HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
+
+        List<ContadorArticle> contadors = (List<ContadorArticle>) session.getAttribute("contadors");
+
+        if (contadors == null) {
+            contadors = new ArrayList<>();
+        }
+
+        boolean existeix = false;
+        for (ContadorArticle contador : contadors) {
+            if (contador.getIdArticle() == idArticle) {
+                contador.setContador(contador.getContador() + 1);
+                existeix = true;
+            }
+        }
+
+        if (!existeix) {
+            ContadorArticle contador = new ContadorArticle();
+            contador.setIdArticle(idArticle);
+            contador.setContador(1);
+            contadors.add(contador);
+        }
+
+        session.setAttribute("contadors", contadors);
 
 
 
@@ -63,6 +90,8 @@ public class FrontController {
                 model.addAttribute("propietats", propietats);
                 model.addAttribute("preuEuros", frontService.formatearComoEuros(prop.getPreu()));
                 model.addAttribute("propietatsArticles", frontService.getPropietatsRepository().findAll());
+                model.addAttribute("contadors", session.getAttribute("contadors"));
+
             }
         });
 

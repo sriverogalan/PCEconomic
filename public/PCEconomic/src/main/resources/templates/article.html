@@ -9,6 +9,8 @@
 <nav th:replace="layout/layout.html :: navbar"></nav>
 <body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
 <main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
+
+
     <div class="col-12 row m-2 justify-content-center">
         <div class="col-md-6 col-sm-12">
             <div id="carouselExampleIndicators" class="carousel slide">
@@ -49,15 +51,13 @@
             <h5 class="text-body mt-2"
                 th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
-            <div class="row justify-content-start align-items-center">
-                <div class="col-12 row">
-                    <label for="cantidad" class="form-label h3">Cantidad</label>
-                    <div class="row justify-content-center col-6">
-                        <div>
-                            <input id="cantidad" class="form-control border border-secondary col-3" type="number" min="1"
-                                   value="1"
-                                   th:max="${propietats.stock}">
-                        </div>
+            <div class="row justify-content-start align-items-center mt-4">
+                <div class="col-12 d-flex">
+                    <label for="cantidad" class="form-label h3 col-2">Cantidad</label>
+                    <div class="d-flex">
+                        <input id="cantidad" class="form-control border border-secondary" type="number" min="1"
+                               value="1"
+                               th:max="${propietats.stock}">
                     </div>
                 </div>
             </div>

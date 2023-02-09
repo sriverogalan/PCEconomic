@@ -3,6 +3,7 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.repositories.*;
@@ -12,6 +13,8 @@ import org.springframework.ui.Model;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Service
 @Getter
@@ -22,14 +25,16 @@ public class FrontService {
     private final ArticleRepository articleRepository;
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
+    private final VisitaRepository visitaRepository;
 
     @Autowired
-    public FrontService(SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(VisitaRepository visitaRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, VisitaRepository visitaRepository1) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.subcategoriaRepository = subcategoriaRepository;
+        this.visitaRepository = visitaRepository;
     }
 
     public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
@@ -69,4 +74,5 @@ public class FrontService {
     public void getDireccion(Model model, HttpServletRequest request) {
         sendListsToView(model, request);
     }
+
 }
