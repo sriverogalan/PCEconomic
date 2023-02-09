@@ -9,7 +9,7 @@
 <body class="bgbd">
 <main class="container-lg bg-cont mt-md-5 mt-1">
     <section id="productos-recomendados" class="row mt-3 justify-content-center">
-        <h2 class="text-center">Continúa desde donde lo dejaste</h2>
+        <div id="text-recomendados"></div>
         <div id="articles-recomenats" class="row mt-2 justify-content-center mb-2">
             <div class="spinner-border text-secondary" role="status" id="loading-wheel2">
                 <span class="visually-hidden">Cargando...</span>
@@ -18,7 +18,7 @@
     </section>
     <section id="productes" class="row mt-5 justify-content-center">
         <h2 class="text-center">Estos son algunos de los productos que te pueden interesar</h2>
-        <div id="articles" class="row mt-2 justify-content-center mb-2">
+        <div id="articles" class="row mt-4 justify-content-center mb-2">
             <div class="spinner-border text-secondary" role="status" id="loading-wheel">
                 <span class="visually-hidden">Cargando...</span>
             </div>
@@ -30,76 +30,71 @@
 <div th:replace="layout/layout.html :: jquery"></div>
 <script>
     <!-- Recomendats -->
+
+    $("#productos-recomendados").hide();
     $.ajax({
-        url: "api/propietats",
+        url: "/api/propietats",
         type: "GET",
         dataType: "json",
-        beforeSend: function () {
-            $("#loading-wheel").show();
-        },
-        complete: function () {
-            $("#loading-wheel").hide();
-        },
-        success: function (resp) {
+        success: function (props) {
             $.ajax({
-                url: "api/propietats",
+                url: "/api/recomanacio",
                 type: "GET",
                 dataType: "json",
                 beforeSend: function () {
-                    $("#loading-wheel").show();
+                    $("#loading-wheel2").show();
                 },
                 complete: function () {
-                    $("#loading-wheel").hide();
+                    $("#loading-wheel2").hide();
                 },
-                success: function (resp) {
-                    console.log(resp)
+                success: function (recomanacions) {
+                    $("#productos-recomendados").show();
+                    $("#text-recomendados").append(
+                        "<h2 class='text-center'>Continúa desde donde lo dejaste</h2>"
+                    )
+                    var articulosRecomendados = [];
+
+                    for (var prop of props) {
+                        for (var rec of recomanacions) {
+                            if (prop.article.id == rec.idArticle && prop.id == rec.idPropietat) {
+                                articulosRecomendados.push([prop, rec])
+                            }
+                        }
+                    }
+
+                    articulosRecomendados.sort(function (a, b) {
+                        return b[1].contador - a[1].contador;
+                    });
+
+                    // mostrar solo 4 articulos recomendados
+                    if (articulosRecomendados.length > 3) {
+                        articulosRecomendados = articulosRecomendados.slice(0, 3);
+                    }
+
                     var imgAux = "";
-                    for (var prop of resp) {
+
+                    for (var prop of articulosRecomendados) {
                         imgAux = "";
-                        // recorremos las imagenes de cada propietat para buscar la principal
-                        for (var img of prop.imatges) {
+                        for (var img of prop[0].imatges) {
                             if (img.principal === true) {
-                                imgAux = '/img/productes/' + prop.article.id + '/' + prop.id + '/' + img.path;
+                                imgAux = '/img/productes/' + prop[0].article.id + '/' + prop[0].id + '/' + img.path;
                             }
                         }
                         if (imgAux === "") {
                             imgAux = '/img/static/no-photo.png';
                         }
-
-                        if (prop.esPrincipal === true) {
-                            $('#articles').append(
-                                '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
-                                '<img src="' + imgAux + '" style="width:300px; height:300px; object-fit: contain;" alt="img" class="mt-2">' +
-                                '<div class="col-12 justify-content-center row">' +
-                                '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
-                                '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
-                                '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
-                                '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
-                                '</div>' +
-                                '</div>' +
-                                '</a>'
-                            );
-                        }
-                        for (props of resp) {
-                            if (props.esPrincipal === false && props.article.id === prop.article.id) {
-                                imgAux = "";
-                                for (var i of props.imatges) {
-                                    if (i.principal === true) {
-                                        imgAux = '/img/productes/' + prop.article.id + '/' + props.id + '/' + i.path;
-                                    }
-                                }
-
-                                if (imgAux === "") {
-                                    imgAux = '/img/static/no-photo.png';
-                                }
-
-                                $('#' + prop.id).append(
-                                    '<a class="col-4 mt-2 mb-2 row"' +
-                                    ' href="/article/' + prop.article.id + '/' + props.id
-                                    + '"> <img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img"> </a>'
-                                ); // CAMBIAR POR UNA CLASE !! EL STYLE
-                            }
-                        }
+                        $('#articles-recomenats').append(
+                            '<a href="/article/' + prop[0].article.id + '/' + prop[0].id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
+                            '<img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img" class="mt-2">' +
+                            '<div class="col-12 justify-content-center row">' +
+                            '<div id="recomendado' + prop[0].id + '" class="row justify-content-evenly col-12"></div>' +
+                            '<div><p class="text-start h4 col-12">' + prop[0].article.nom + '</p></div>' +
+                            '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop[0].preu) + '</span>' +
+                            '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</a>'
+                        );
                     }
                 },
             });
@@ -110,7 +105,7 @@
 
     <!-- Print -->
     $.ajax({
-        url: "api/propietats",
+        url: "/api/propietats",
         type: "GET",
         dataType: "json",
         beforeSend: function () {
@@ -120,7 +115,6 @@
             $("#loading-wheel").hide();
         },
         success: function (resp) {
-            console.log(resp)
             var imgAux = "";
             for (var prop of resp) {
                 imgAux = "";
