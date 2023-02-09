@@ -78,12 +78,12 @@
             var num = $(".table td:nth-child(3)");
             var num2 = $(".table td:nth-child(5)");
             var total = $("h3");
-            total.text(total.text().replace(".0", ",00 €"));
+            total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
             for (var i = 0; i < num.length; i++) {
                 var num3 = num[i].innerHTML;
                 var num4 = num2[i].innerHTML;
-                num3 = num3.replace(".0", ",00 €");
-                num4 = num4.replace(".0", ",00 €");
+                num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+                num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
                 num[i].innerHTML = num3;
                 num2[i].innerHTML = num4;
             }
