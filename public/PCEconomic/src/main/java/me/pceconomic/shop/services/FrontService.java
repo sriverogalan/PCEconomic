@@ -3,11 +3,9 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
-import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
@@ -18,8 +16,6 @@ import org.springframework.ui.Model;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 @Service
 @Getter
@@ -46,7 +42,7 @@ public class FrontService {
         this.clientRepository = clientRepository;
     }
 
-    public void article(Model model, int idArticle, int idPropietat, HttpServletRequest request) {
+    public void article(Model model, HttpServletRequest request) {
         sendListsToView(model, request);
     }
 
