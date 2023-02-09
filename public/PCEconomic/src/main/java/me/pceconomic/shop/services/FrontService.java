@@ -3,6 +3,7 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
@@ -17,6 +18,8 @@ import org.springframework.ui.Model;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 @Service
 @Getter
@@ -27,6 +30,10 @@ public class FrontService {
     private final ArticleRepository articleRepository;
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
+    private final VisitaRepository visitaRepository;
+
+    @Autowired
+    public FrontService(VisitaRepository visitaRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, VisitaRepository visitaRepository1) {
     private final ValoracionsRepository valoracionsRepository;
     private final ClientRepository clientRepository;
 
@@ -37,6 +44,7 @@ public class FrontService {
         this.imatgeRepository = imatgeRepository;
         this.propietatsRepository = propietatsRepository;
         this.subcategoriaRepository = subcategoriaRepository;
+        this.visitaRepository = visitaRepository;
         this.valoracionsRepository = valoracionsRepository;
         this.clientRepository = clientRepository;
     }
