@@ -49,6 +49,7 @@ public class FrontController {
         return "index";
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping("/article/{idArticle}/{idPropietat}")
     public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat, HttpServletRequest request) {
         frontService.article(model, request);
@@ -102,12 +103,14 @@ public class FrontController {
         return "article";
     }
 
+    @SuppressWarnings("all")
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
     public String addValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, @PathVariable int idPropietat) {
         frontService.addValoracio(idClient, idArticle, valorationForm);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
+    @SuppressWarnings("all")
     @GetMapping("/areaclients/deletevaloracio/{id}/{idArticle}/{idPropietat}")
     public String deleteValoracio(@PathVariable int id, @PathVariable int idArticle, @PathVariable int idPropietat) {
         frontService.deleteValoracio(id);
