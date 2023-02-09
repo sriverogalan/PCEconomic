@@ -88,8 +88,6 @@ public class FrontController {
 
         session.setAttribute("contadors", contadors);
 
-
-
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
                 model.addAttribute("propietats", propietats);
@@ -109,8 +107,15 @@ public class FrontController {
 
     @SuppressWarnings("all")
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
-    public String addValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, @PathVariable int idPropietat) {
-        frontService.addValoracio(idClient, idArticle, valorationForm);
+    public String addValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idClient, @PathVariable int idPropietat) {
+        frontService.addValoracio(idClient, idArticle, addvaloracio);
+        return "redirect:/article/" + idArticle + "/" + idPropietat;
+    }
+
+    @PostMapping("/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idValoracio}")
+    public String updateValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idClient, @PathVariable int idPropietat, @PathVariable int idValoracio) {
+        System.out.println(addvaloracio);
+        frontService.updateValoracio(idValoracio, addvaloracio);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
