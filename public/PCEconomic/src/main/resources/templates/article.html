@@ -213,7 +213,7 @@
                                        value="2.5"
                                        disabled
                                 />
-                                <span style="margin-left: 10px;" th:text="${valoracio.data}"></span>
+                                <span class="valoracion-fecha" style="margin-left: 10px;" th:text="${valoracio.data}"></span>
                             </div>
                             <div class="card-body">
                                 <div class="col-12">
@@ -222,12 +222,54 @@
 
                                 <div th:if="${user != null && user.id == valoracio.client.id}"
                                      class="d-flex flex-row-reverse mt-2">
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    <button style="margin-left: 10px;" type="button" class="btn btn-danger" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal">
                                         <i class="bi bi-trash"></i>
                                     </button>
+                                    <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                            data-bs-target="#editModal">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
                                 </div>
                             </div>
+
+                            <div th:if="${user != null}" class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editValorationLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
+                                                  th:object="${addvaloracio}" method="post">
+                                                <div class="mb-3">
+                                                    <label for="editvaloracio" class="form-label">Valoracion</label>
+                                                    <input id="editvaloracio"
+                                                           th:field="*{valoracio}"
+                                                           class="rating"
+                                                           max="5"
+                                                           oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                           step="0.5"
+                                                           th:style="'--value: ' + ${valoracio.valoracio}"
+                                                           type="range"
+                                                           th:value="${valoracio.valoracio}"
+                                                           th:placeholder="${valoracio.valoracio}"
+                                                    />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="editComentari" class="form-label">Comentario</label>
+                                                    <input type="text" id="editComentari" th:field="*{comentari}" th:placeholder="${valoracio.comentari}">
+                                                </div>
+                                                <button type="submit" class="btn btn-pc-economic-dark">Añadir</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
                                  aria-hidden="true">
@@ -262,7 +304,16 @@
         <div th:replace="layout/layout.html :: jquery"></div>
 
         <script>
+
             $(document).ready(function () {
+
+                $(".valoracion-fecha").each(function() {
+                    var fecha = $(this).text();
+                    var fechaSplit = fecha.split("-");
+                    var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
+                    $(this).text(fechaFinal);
+                });
+
                 $(".carousel-item:first").addClass("active");
                 $("#comprar").append(
                     "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
