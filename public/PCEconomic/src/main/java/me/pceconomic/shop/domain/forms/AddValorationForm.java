@@ -4,7 +4,7 @@ import lombok.Data;
 
 public @Data class AddValorationForm {
 
-    private int valoracio;
+    private double valoracio;
     private String comentari;
 
 }
