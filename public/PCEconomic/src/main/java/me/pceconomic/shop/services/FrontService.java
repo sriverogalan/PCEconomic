@@ -112,6 +112,10 @@ public class FrontService {
         Valoracions valoracions = valoracionsRepository.findById(idValoracio).orElse(null);
 
         if (valoracions == null) return;
+        if (valorationForm.getValoracio() == 0.0 && valorationForm.getComentari() == null) return;
+        if (valorationForm.getValoracio() == 0.0) return;
+        if (valorationForm.getComentari() == null) return;
+        if (valorationForm.getComentari().equals("")) return;
 
         valoracions.setValoracio(valorationForm.getValoracio());
         valoracions.setComentari(valorationForm.getComentari());
