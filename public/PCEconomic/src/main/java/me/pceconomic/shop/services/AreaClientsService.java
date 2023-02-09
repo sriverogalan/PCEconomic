@@ -1,6 +1,7 @@
 package me.pceconomic.shop.services;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import me.pceconomic.shop.domain.entities.persona.Client;
@@ -42,7 +43,7 @@ public class AreaClientsService {
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
     }
 
-    public void saveDirection(Client client, AddDirectionForm directionForm) {
+    public void saveDirection(Client client, AddDirectionForm directionForm, HttpSession session) {
         Direccio direccio = new Direccio(directionForm);
         Persona persona = client.getPersona();
 
@@ -53,9 +54,10 @@ public class AreaClientsService {
 
         clientRepository.save(client);
         personaRepository.save(persona);
+        this.resetSession(client.getId(), session);
     }
 
-    public void deleteDirection(Client client, int id) {
+    public void deleteDirection(Client client, int id, HttpSession session) {
         Persona persona = client.getPersona();
         Set<Direccio> direccions = persona.getDireccions();
 
@@ -75,12 +77,14 @@ public class AreaClientsService {
 
         persona.setDireccions(direccions);
         personaRepository.save(persona);
+        this.resetSession(client.getId(), session);
     }
 
-    public void updateDirection(Client client, AddDirectionForm directionForm) {
+    public void updateDirection(Client client, AddDirectionForm directionForm, int id, HttpSession session) {
         Persona persona = client.getPersona();
-        Direccio direccio = direccioRepository.findById(directionForm.getId()).orElse(null);
-
+        Direccio direccio = direccioRepository.findById(id).orElse(null);
+        System.out.println("Form: " + directionForm);
+        System.out.println("Direccio: " + direccio);
         if (direccio == null) {
             throw new IllegalArgumentException();
         }
@@ -94,8 +98,9 @@ public class AreaClientsService {
         direccio.setCountry(directionForm.getPais());
         direccio.setPrincipal(Boolean.parseBoolean(directionForm.getPrincipal()));
 
-        setDireccioPrincipal(direccio, persona.getDireccions());
         direccioRepository.save(direccio);
+        System.out.println("Direccio Editada: " + direccio);
+        this.resetSession(client.getId(), session);
     }
 
     public void changeName(Client client, ChangeNameForm changeNameForm) {
@@ -142,5 +147,18 @@ public class AreaClientsService {
         }
 
         direccio.setPrincipal(true);
+    }
+
+    public void resetSession(int id, HttpSession session) {
+        Client client = clientRepository.findById(id).orElse(null);
+
+        if (client == null) {
+            throw new IllegalArgumentException();
+        }
+
+        Set<Direccio> direccions = client.getPersona().getDireccions();
+
+        session.setAttribute("persona", client);
+        session.setAttribute("direccions", direccions);
     }
 }

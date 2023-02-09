@@ -219,7 +219,7 @@
                                                 <div>
                                                     <button type="button" class="btn btn-pc-economic-light text-white"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal">
+                                                            th:attr="data-bs-target='#exampleModal-' + ${direccio.id}">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-danger"
@@ -260,7 +260,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            <div class="modal fade" th:id="'exampleModal-' + ${direccio.id}" tabindex="-1"
                                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -274,17 +274,16 @@
                                                         <div class="modal-body">
 
                                                             <form method="post" th:object="${directionForm}"
-                                                                  th:action="@{/areaclients/addDirection}"
+                                                                  th:action="@{/areaclients/addDirection/{id}(id=${direccio.id})}"
                                                                   class="needs-validation"
                                                                   novalidate>
                                                                 <div class="row">
 
-                                                                    <input hidden th:value="*{id}"/>
                                                                     <div class="col-12">
                                                                         <label for="fname">Nombre completo</label>
                                                                         <input th:field="*{nombre}" class="form-control"
                                                                                type="text"
-                                                                               th:value="${direccio.fullName}"
+                                                                               th:placeholder="${direccio.fullName}"
                                                                                name="direccion"
                                                                                id="fname" required
                                                                                placeholder="Nombre completo"/>
@@ -295,7 +294,7 @@
                                                                         <input th:field="*{telefono}"
                                                                                class="form-control" type="text"
                                                                                name="direccion"
-                                                                               th:value="${direccio.phone}"
+                                                                               th:placeholder="${direccio.phone}"
                                                                                id="telephone" required
                                                                                placeholder="Telefono"/>
                                                                     </div>
@@ -306,12 +305,12 @@
                                                                                type="text"
                                                                                name="direccion2"
                                                                                id="street" required
-                                                                               th:value="${direccio.streetandnumber}"
+                                                                               th:placeholder="${direccio.streetandnumber}"
                                                                                placeholder="Nombre y numero de la calle"/>
                                                                         <input th:field="*{direccion}"
                                                                                class="form-control" type="text"
                                                                                name="direccion"
-                                                                               th:value="${direccio.address}"
+                                                                               th:placeholder="${direccio.address}"
                                                                                id="direction" required
                                                                                placeholder="Apartamento, suite, unidad, edificio o piso"/>
 
@@ -321,7 +320,7 @@
                                                                         <label for="city">Ciudad</label>
                                                                         <input th:field="*{ciudad}"
                                                                                class="form-control" type="text"
-                                                                               name="ciudad" th:value="${direccio.city}"
+                                                                               name="ciudad" th:placeholder="${direccio.city}"
                                                                                id="city" required
                                                                                placeholder="Ciudad"/>
                                                                     </div>
@@ -332,7 +331,7 @@
                                                                                class="form-control" type="text"
                                                                                name="cp" id="postalcode"
                                                                                required
-                                                                               th:value="${direccio.postalCode}"
+                                                                               th:placeholder="${direccio.postalCode}"
                                                                                placeholder="Codigo Postal"/>
                                                                     </div>
 
@@ -341,7 +340,7 @@
                                                                         <input th:field="*{pais}"
                                                                                class="form-control" type="text"
                                                                                name="pais" id="country"
-                                                                               required th:value="${direccio.country}"
+                                                                               required th:placeholder="${direccio.country}"
                                                                                placeholder="Pais"/>
                                                                     </div>
                                                                     <div class="col-8">
@@ -349,7 +348,7 @@
                                                                         <input th:field="*{provincia}"
                                                                                class="form-control" type="text"
                                                                                name="provincia"
-                                                                               th:value="${direccio.province}"
+                                                                               th:placeholder="${direccio.province}"
                                                                                id="province" required
                                                                                placeholder="Provincia"/>
                                                                     </div>
@@ -357,7 +356,7 @@
                                                                     <div class="col-12">
                                                                         <input th:field="*{principal}"
                                                                                class="form-check-input"
-                                                                               th:value="${direccio.isPrincipal}"
+                                                                               th:placeholder="${direccio.isPrincipal}"
                                                                                type="checkbox" value="" id="principal">
                                                                         <label class="form-check-label" for="principal">
                                                                             Es esta tu direccion principal?
@@ -402,7 +401,6 @@
                                                   novalidate>
                                                 <div class="row">
 
-                                                    <input hidden th:value="*{id}"/>
                                                     <div class="col-12">
                                                         <label for="fullname">Nombre completo</label>
                                                         <input th:field="*{nombre}" class="form-control" type="text"

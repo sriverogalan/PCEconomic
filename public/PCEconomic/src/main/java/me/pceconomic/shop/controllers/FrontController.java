@@ -8,6 +8,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Visita;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +48,7 @@ public class FrontController {
 
         Client client = (Client) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
+        model.addAttribute("user", client);
 
         return "index";
     }
@@ -96,8 +100,22 @@ public class FrontController {
         });
 
         model.addAttribute("imatges", frontService.getImatgeRepository().findAll());
+        model.addAttribute("valoracions", frontService.getValoracionsPerArticle(idArticle));
+        model.addAttribute("addvaloracio", new AddValorationForm());
 
         return "article";
+    }
+
+    @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
+    public String addValoracio(Model model, @PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, HttpServletRequest request, @PathVariable int idPropietat) {
+        frontService.addValoracio(idArticle, idClient, valorationForm);
+        return "redirect:/article/" + idArticle + "/" + idPropietat;
+    }
+
+    @GetMapping("/areaclients/deletevaloracio/{id}/{idArticle}/{idPropietat}")
+    public String deleteValoracio(@PathVariable int id, @PathVariable int idArticle, @PathVariable int idPropietat) {
+        frontService.deleteValoracio(id);
+        return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
     @GetMapping("/categoria/{id}")
