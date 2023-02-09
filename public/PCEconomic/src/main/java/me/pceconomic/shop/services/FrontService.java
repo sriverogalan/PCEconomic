@@ -31,14 +31,11 @@ public class FrontService {
     private final ImatgeRepository imatgeRepository;
     private final PropietatsRepository propietatsRepository;
     private final VisitaRepository visitaRepository;
-
-    @Autowired
-    public FrontService(VisitaRepository visitaRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, VisitaRepository visitaRepository1) {
     private final ValoracionsRepository valoracionsRepository;
     private final ClientRepository clientRepository;
 
     @Autowired
-    public FrontService(ValoracionsRepository valoracionsRepository,ClientRepository clientRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(VisitaRepository visitaRepository, ValoracionsRepository valoracionsRepository,ClientRepository clientRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
