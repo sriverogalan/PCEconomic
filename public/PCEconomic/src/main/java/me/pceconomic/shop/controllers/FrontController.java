@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Visita;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 @Controller
 public class FrontController {
@@ -34,8 +31,7 @@ public class FrontController {
     private final VisitaRepository visitaRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService,
-                           VisitaRepository visitaRepository) {
+    public FrontController(FrontService frontService, CarritoService carritoService, VisitaRepository visitaRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
         this.visitaRepository = visitaRepository;
@@ -53,9 +49,10 @@ public class FrontController {
         return "index";
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping("/article/{idArticle}/{idPropietat}")
     public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat, HttpServletRequest request) {
-        frontService.article(model, idArticle, idPropietat, request);
+        frontService.article(model, request);
         Article article = frontService.getArticleRepository().findById(idArticle).orElse(null);
         Propietats propietats = frontService.getPropietatsRepository().findById(idPropietat).orElse(null);
 
@@ -106,12 +103,14 @@ public class FrontController {
         return "article";
     }
 
+    @SuppressWarnings("all")
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
-    public String addValoracio(Model model, @PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, HttpServletRequest request, @PathVariable int idPropietat) {
+    public String addValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm valorationForm, @PathVariable int idClient, @PathVariable int idPropietat) {
         frontService.addValoracio(idClient, idArticle, valorationForm);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
+    @SuppressWarnings("all")
     @GetMapping("/areaclients/deletevaloracio/{id}/{idArticle}/{idPropietat}")
     public String deleteValoracio(@PathVariable int id, @PathVariable int idArticle, @PathVariable int idPropietat) {
         frontService.deleteValoracio(id);
