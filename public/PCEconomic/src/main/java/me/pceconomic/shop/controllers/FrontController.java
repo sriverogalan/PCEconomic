@@ -2,12 +2,15 @@ package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Visita;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
+import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +21,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
 @Controller
 public class FrontController {
 
     private final FrontService frontService;
     private final CarritoService carritoService;
+    private final VisitaRepository visitaRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService) {
+    public FrontController(FrontService frontService, CarritoService carritoService,
+                           VisitaRepository visitaRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
+        this.visitaRepository = visitaRepository;
     }
 
     @GetMapping("/")
@@ -50,11 +61,41 @@ public class FrontController {
 
         if (article == null || propietats == null) return "redirect:/error";
 
+        HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
+
+        List<ContadorArticle> contadors = (List<ContadorArticle>) session.getAttribute("contadors");
+
+        if (contadors == null) {
+            contadors = new ArrayList<>();
+        }
+
+        boolean existeix = false;
+        for (ContadorArticle contador : contadors) {
+            if (contador.getIdArticle() == idArticle) {
+                contador.setContador(contador.getContador() + 1);
+                existeix = true;
+            }
+        }
+
+        if (!existeix) {
+            ContadorArticle contador = new ContadorArticle();
+            contador.setIdArticle(idArticle);
+            contador.setContador(1);
+            contadors.add(contador);
+        }
+
+        session.setAttribute("contadors", contadors);
+
+
+
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
                 model.addAttribute("propietats", propietats);
                 model.addAttribute("preuEuros", frontService.formatearComoEuros(prop.getPreu()));
                 model.addAttribute("propietatsArticles", frontService.getPropietatsRepository().findAll());
+                model.addAttribute("contadors", session.getAttribute("contadors"));
+
             }
         });
 

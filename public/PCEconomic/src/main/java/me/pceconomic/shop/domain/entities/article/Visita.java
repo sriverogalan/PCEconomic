@@ -2,10 +2,9 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public @Data class Visita {
@@ -22,11 +21,15 @@ public @Data class Visita {
     @JoinColumn(name = "id_client")
     private Client client;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "data_visita")
-    private LocalDate data;
+    private LocalDateTime data;
 
     @OneToOne
     @JoinColumn(name = "id_article")
     private Article article;
+
+    @OneToOne
+    @JoinColumn(name = "id_propietats")
+    private Propietats propietats;
+
 }
