@@ -154,12 +154,20 @@
                 </div>
 
                 <div th:if="${client == 'LOGOUT'}">
-                    <p>Si desea añadir una valoracion, pulse aqui debajo!</p>
+                    <div th:each="valoracio : ${valoracions}" th:if="${valoracioStat.index == 0}">
+                        <div th:if="${valoracio.client.id != user.id}">
+                            <p>Si desea añadir una valoracion, pulse aqui debajo!</p>
+                            <button type="button" class="btn btn-pc-economic-dark"
+                                    data-bs-toggle="modal" data-bs-target="#addValoration">
+                                Añadir Valoracion
+                            </button>
+                        </div>
 
-                    <button type="button" class="btn btn-pc-economic-dark"
-                            data-bs-toggle="modal" data-bs-target="#addValoration">
-                        Añadir Valoracion
-                    </button>
+                        <div th:if="${valoracio.client.id == user.id}">
+                            <p>Ya has valorado este producto</p>
+                        </div>
+                    </div>
+
 
                     <div class="modal fade" id="addValoration" tabindex="-1" aria-labelledby="addValorationLabel"
                          aria-hidden="true">
