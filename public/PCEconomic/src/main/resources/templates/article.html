@@ -62,10 +62,6 @@
             width: var(--starsize);
             -webkit-appearance: none;
         }
-
-        .input-small {
-            width: 50px;
-        }
     </style>
 </head>
 
@@ -80,7 +76,7 @@
                         >
                             <img class="d-block img-fluid imgSizeArticle"
                                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                 id="propietats.id" th:alt="${foto.id}">
+                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
                         </div>
                     </div>
                     <button class="carousel-control-prev" data-bs-slide="prev"

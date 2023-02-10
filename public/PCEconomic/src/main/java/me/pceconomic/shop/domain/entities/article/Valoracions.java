@@ -29,7 +29,7 @@ public @Data class Valoracions {
     @JoinColumn(name = "id_article")
     private Article article;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_client")
     private Client client;
 
