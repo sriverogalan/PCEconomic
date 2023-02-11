@@ -6,24 +6,28 @@
 </head>
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
+<script src="https://www.paypal.com/sdk/js?client-id=test&currency=EUR"></script>
 
-<main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
+<main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around p-4">
 
-    <!-- Como puedo hacer un formulario con redsys? -->
+    <h1 class="text-center mt-5 mb-5">Metodos de pago</h1>
 
+    <div class="col-6">
+        <div class="row">
+            <span class="h4 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
+            <span class="col-6 mb-4 text-center text-pc-economic-light h4" id="subtotal"> - </span>
+            <span class="h4 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
+            <span class="col-6 text-center text-pc-economic-light h4" id="envio"> - </span>
+            <div id="error" class="mt-2 mb-2"></div>
+            <hr class="border border-2 opacity-50 mt-2 col-11">
+            <span class="h3 mt-2 col-6">Total (impuestos incluidos) </span>
+            <span class="text-pc-economic-dark mt-2 h3 col-6 text-center" id="total"> - </span>
+        </div>
+    </div>
 
-    <form id="payment-form">
-        <input type="hidden" name="Ds_Merchant_MerchantCode" value="999008881">
-        <input type="hidden" name="Ds_Merchant_Terminal" value="001">
-        <input type="hidden" name="Ds_Merchant_Order" value="123456">
-        <input type="hidden" name="Ds_Merchant_Amount" value="1000">
-        <input type="hidden" name="Ds_Merchant_Currency" value="978">
-        <input type="hidden" name="Ds_Merchant_TransactionType" value="0">
-        <input type="hidden" name="Ds_Merchant_MerchantURL" value="http://your-merchant-url.com/payment-response">
-        <input type="hidden" name="Ds_Merchant_UrlOK" value="http://your-merchant-url.com/payment-success">
-        <input type="hidden" name="Ds_Merchant_UrlKO" value="http://your-merchant-url.com/payment-failure">
-        <input type="hidden" name="Ds_Merchant_Signature" value="your-transaction-signature">
-    </form>
+    <div class="col-6">
+        <div id="paypal-button-container"></div>
+    </div>
 
 </main>
 
@@ -31,27 +35,109 @@
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
 
+<script>
 
-    <script>
-        $(document).ready(function() {
-            $('#payment-form').submit(function(event) {
-                event.preventDefault();
 
-                var formData = $(this).serialize();
+    $.ajax({
+        url: "/api/carrito",
+        type: "GET",
+        success: function (props) {
+            console.log(props);
+            $("#subtotal").text(formatDoubleToEuros(props.total));
+            $("#envio").text(formatDoubleToEuros(props.preuTransport));
+            $("#total").text(formatDoubleToEuros(props.preuTotal));
 
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://your-spring-endpoint.com/payment',
-                    data: formData,
-                    success: function(data) {
-                        window.location.href = data.redirectUrl;
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+            paypal.Buttons({
+                // Sets up the transaction when a payment button is clicked
+                createOrder: (data, actions) => {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: formatDouble(props.preuTotal) // Can also reference a variable or function
+                            }
+                        }]
+                    });
+                },
+                // Finalize the transaction after payer approval
+                onApprove: (data, actions) => {
+                    return actions.order.capture().then(function (orderData) {
+                        // Successful capture! For dev/demo purposes:
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        const transaction = orderData.purchase_units[0].payments.captures[0];
+                        alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                        // When ready to go live, remove the alert and show a success message within this page. For example:
+                        // const element = document.getElementById('paypal-button-container');
+                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+                        if (transaction.status === "COMPLETED") {
+
+                        }
+                    });
+                }
+            }).render('#paypal-button-container');
+        }
+    });
+
+    function formatDouble(value) {
+        return value.toFixed(2);
+    }
+
+    function formatDoubleToEuros(value) {
+        return value.toFixed(2).replace(".", ",") + " €";
+    }
+
+
+    $(document).ready(function () {
+        $('#payment-form').submit(function (event) {
+            event.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://your-spring-endpoint.com/payment',
+                data: formData,
+                success: function (data) {
+                    window.location.href = data.redirectUrl;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
             });
         });
-    </script>
+    });
+
+    var json = {
+        "DS_MERCHANT_AMOUNT": "145",
+        "DS_MERCHANT_CURRENCY": "978",
+        "DS_MERCHANT_MERCHANTCODE": "999008881",
+        "DS_MERCHANT_MERCHANTURL": "http://www.prueba.com/urlNotificacion.php",
+        "DS_MERCHANT_ORDER": "1446068581",
+        "DS_MERCHANT_TERMINAL": "1",
+        "DS_MERCHANT_TRANSACTIONTYPE": "0",
+        "DS_MERCHANT_URLKO": "http://www.prueba.com/urlKO.php",
+        "DS_MERCHANT_URLOK": "http://www.prueba.com/urlOK.php"
+    }
+    var claveComercio = "sq7HjrUOBfKmC576ILgskD5srU870gJ7";
+    var encodeClaveComercio = btoa(claveComercio);
+    console.log(encodeClaveComercio)
+    var encoded = btoa(JSON.stringify(json))
+    console.log(encoded);
+
+    $("#pay-redsys").click(function () {
+        $.ajax({
+            url: "https://sis-t.redsys.es:25443/sis/realizarPago",
+            type: "POST",
+            data: {
+                Ds_MerchantParameters: encoded,
+                Ds_SignatureVersion: "HMAC_SHA256_V1"
+            },
+            success: function (props) {
+                console.log(props);
+            }
+        });
+    });
+
+</script>
 
 </html>
