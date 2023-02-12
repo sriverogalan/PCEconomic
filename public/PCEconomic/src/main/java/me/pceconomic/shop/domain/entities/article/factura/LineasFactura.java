@@ -14,4 +14,20 @@ public @Data class LineasFactura {
     @JoinColumn(name = "id_factura")
     private Factura factura;
 
+    @Column(name = "numero_factura")
+    private int numeroFactura;
+
+    @Column(name = "nom_article")
+    private String nomArticle;
+
+    @Column(name = "nom_propietats")
+    private String nomPropietats;
+
+    @Column(name = "preu")
+    private double price;
+
+    @Column(name = "quantitat")
+    private int quantity;
+
+
 }

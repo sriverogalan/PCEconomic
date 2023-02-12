@@ -24,17 +24,21 @@ public @Data class Factura {
     @Column(name = "quantitat")
     private int quantity;
 
-
     @Column(name = "data")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
+
+    @Column(name = "paymentMethod")
+    private String paymentMethod;
+
+    @Column(name = "paymentStatus")
+    private String paymentStatus;
 
     @Column(name = "preuTransport")
     private double preuTransport;
 
     @Column(name = "estat")
-    @Enumerated(EnumType.STRING)
-    private EstatFactura estatFactura;
+    private String estat;
 
     @ManyToOne
     private Client client;

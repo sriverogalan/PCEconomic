@@ -3,8 +3,12 @@ package me.pceconomic.shop.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.ContadorArticle;
+import me.pceconomic.shop.domain.carrito.Cart;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Carrito;
+import me.pceconomic.shop.domain.entities.article.factura.Factura;
+import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
@@ -15,10 +19,7 @@ import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -50,7 +51,6 @@ public class FrontController {
         return "index";
     }
 
-    @SuppressWarnings("unchecked")
     @GetMapping("/article/{idArticle}/{idPropietat}")
     public String article(Model model, @PathVariable int idArticle, @PathVariable int idPropietat, HttpServletRequest request) {
         frontService.article(model, request);
@@ -103,6 +103,56 @@ public class FrontController {
         model.addAttribute("addvaloracio", new AddValorationForm());
 
         return "article";
+    }
+
+
+
+    @PostMapping("/api/pagament")
+    public String pagament(HttpServletRequest request, @RequestParam String resp, @RequestParam String status, @RequestParam String paymentMethod ) {
+        HttpSession session = request.getSession();  
+
+        if (session == null) return "redirect:/error";
+
+        if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
+            Client client = (Client) session.getAttribute("persona");
+            Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
+            if (clientDB == null) return "redirect:/error";
+            /*ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
+
+            for (Cart c : carrito.getIds()) {c.getPropietats()}
+
+            Factura factura = new Factura();
+            factura.setClient(clientDB);
+            factura.setPrice(shoppingCart.getTotal());
+            factura.setPaymentMethod(paymentMethod);
+            factura.setPaymentStatus(status);
+
+            LineasFactura lineasFactura = new LineasFactura();
+            lineasFactura.setFactura(factura);
+            lineasFactura.setNumeroFactura(factura.getId());
+            lineasFactura.setPrice(shoppingCart.getTotal());
+
+            factura.line().add(lineasFactura);*/
+
+
+
+
+            return "redirect:/carrito/finalitzat";
+        } else {
+            return "redirect:/carrito/error";
+        }
+    }
+
+    @GetMapping("/carrito/finalitzat")
+    public String finalitzat(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
+
+        Client client = (Client) session.getAttribute("persona");
+        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
+        model.addAttribute("user", client);
+
+        return "finalitzat";
     }
 
     @SuppressWarnings("all")
