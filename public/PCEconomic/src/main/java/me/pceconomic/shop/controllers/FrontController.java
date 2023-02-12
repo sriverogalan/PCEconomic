@@ -6,13 +6,13 @@ import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.carrito.Cart;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
-import me.pceconomic.shop.domain.entities.article.Carrito;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
+import me.pceconomic.shop.repositories.FacturaRepository;
 import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class FrontController {
@@ -31,12 +32,14 @@ public class FrontController {
     private final FrontService frontService;
     private final CarritoService carritoService;
     private final VisitaRepository visitaRepository;
+    private final FacturaRepository facturaRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService, VisitaRepository visitaRepository) {
+    public FrontController(FrontService frontService, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
         this.visitaRepository = visitaRepository;
+        this.facturaRepository = facturaRepository;
     }
 
     @GetMapping("/")
@@ -107,40 +110,56 @@ public class FrontController {
 
 
 
-    @PostMapping("/api/pagament")
+    @GetMapping("/api/pagament")
     public String pagament(HttpServletRequest request, @RequestParam String resp, @RequestParam String status, @RequestParam String paymentMethod ) {
         HttpSession session = request.getSession();  
 
+
         if (session == null) return "redirect:/error";
 
-        if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
+       // if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
             Client client = (Client) session.getAttribute("persona");
             Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
             if (clientDB == null) return "redirect:/error";
-            /*ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
+            ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
 
-            for (Cart c : carrito.getIds()) {c.getPropietats()}
+            Set<Cart> carts = carrito.getIds();
+
+            for (Cart cart : carts) {
+                Factura factura = new Factura();
+                factura.setClient(clientDB);
+                factura.setPrice(cart.getPrice());
+                factura.setPaymentMethod(paymentMethod);
+                factura.setPaymentStatus(status);
+
+                LineasFactura lineasFactura = new LineasFactura();
+                lineasFactura.setFactura(factura);
+                lineasFactura.setNumeroFactura(factura.getId());
+                lineasFactura.setPrice(cart.getPrice());
+
+                facturaRepository.save(factura);
+            }
+
+
 
             Factura factura = new Factura();
             factura.setClient(clientDB);
-            factura.setPrice(shoppingCart.getTotal());
+            factura.setPrice(carrito.getTotal());
             factura.setPaymentMethod(paymentMethod);
             factura.setPaymentStatus(status);
 
             LineasFactura lineasFactura = new LineasFactura();
             lineasFactura.setFactura(factura);
             lineasFactura.setNumeroFactura(factura.getId());
-            lineasFactura.setPrice(shoppingCart.getTotal());
+            lineasFactura.setPrice(carrito.getTotal());
 
-            factura.line().add(lineasFactura);*/
-
-
+            facturaRepository.save(factura);
 
 
             return "redirect:/carrito/finalitzat";
-        } else {
-            return "redirect:/carrito/error";
-        }
+        //} else {
+         //   return "redirect:/carrito/error";
+        //}
     }
 
     @GetMapping("/carrito/finalitzat")
