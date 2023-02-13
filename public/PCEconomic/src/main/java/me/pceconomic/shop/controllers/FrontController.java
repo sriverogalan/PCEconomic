@@ -13,6 +13,7 @@ import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.repositories.FacturaRepository;
+import me.pceconomic.shop.repositories.LineaFacturaRepository;
 import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
@@ -33,13 +34,15 @@ public class FrontController {
     private final CarritoService carritoService;
     private final VisitaRepository visitaRepository;
     private final FacturaRepository facturaRepository;
+    private final LineaFacturaRepository lineaFacturaRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository) {
+    public FrontController(FrontService frontService, LineaFacturaRepository lineaFacturaRepository, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
         this.visitaRepository = visitaRepository;
         this.facturaRepository = facturaRepository;
+        this.lineaFacturaRepository = lineaFacturaRepository;
     }
 
     @GetMapping("/")
@@ -109,56 +112,56 @@ public class FrontController {
     }
 
 
-
     @GetMapping("/api/pagament")
-    public String pagament(HttpServletRequest request, @RequestParam String resp, @RequestParam String status, @RequestParam String paymentMethod ) {
-        HttpSession session = request.getSession();  
+    public String pagament(HttpServletRequest request, @RequestParam String resp, @RequestParam String status, @RequestParam String paymentMethod) {
+        HttpSession session = request.getSession();
 
 
         if (session == null) return "redirect:/error";
 
-       // if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
-            Client client = (Client) session.getAttribute("persona");
-            Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
-            if (clientDB == null) return "redirect:/error";
-            ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
+        // if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
+        Client client = (Client) session.getAttribute("persona");
+        Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
+        if (clientDB == null) return "redirect:/error";
+        ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
 
-            Set<Cart> carts = carrito.getIds();
+        Set<Cart> carts = carrito.getIds();
 
-            for (Cart cart : carts) {
-                Factura factura = new Factura();
-                factura.setClient(clientDB);
-                factura.setPrice(cart.getPrice());
-                factura.setPaymentMethod(paymentMethod);
-                factura.setPaymentStatus(status);
-
-                LineasFactura lineasFactura = new LineasFactura();
-                lineasFactura.setFactura(factura);
-                lineasFactura.setNumeroFactura(factura.getId());
-                lineasFactura.setPrice(cart.getPrice());
-
-                facturaRepository.save(factura);
-            }
-
-
-
+        for (Cart cart : carts) {
             Factura factura = new Factura();
             factura.setClient(clientDB);
-            factura.setPrice(carrito.getTotal());
+            factura.setPrice(cart.getPrice());
             factura.setPaymentMethod(paymentMethod);
             factura.setPaymentStatus(status);
 
             LineasFactura lineasFactura = new LineasFactura();
             lineasFactura.setFactura(factura);
             lineasFactura.setNumeroFactura(factura.getId());
-            lineasFactura.setPrice(carrito.getTotal());
-
+            lineasFactura.setPrice(cart.getPrice());
+            lineasFactura.setNomArticle(cart.getPropietats().getArticle().getNom());
+            
             facturaRepository.save(factura);
+            lineaFacturaRepository.save(lineasFactura);
+        }
 
 
-            return "redirect:/carrito/finalitzat";
+        /*Factura factura = new Factura();
+        factura.setClient(clientDB);
+        factura.setPrice(carrito.getTotal());
+        factura.setPaymentMethod(paymentMethod);
+        factura.setPaymentStatus(status);
+
+        LineasFactura lineasFactura = new LineasFactura();
+        lineasFactura.setFactura(factura);
+        lineasFactura.setNumeroFactura(factura.getId());
+        lineasFactura.setPrice(carrito.getTotal());
+
+        facturaRepository.save(factura);*/
+
+
+        return "redirect:/carrito/finalitzat";
         //} else {
-         //   return "redirect:/carrito/error";
+        //   return "redirect:/carrito/error";
         //}
     }
 
