@@ -73,6 +73,7 @@ public class LoginController {
 
             session.setAttribute("persona", client);
             session.setAttribute("direccions", direccions);
+            session.setAttribute("pedidos", client.getFactures());
             return "redirect:/";
         }
 

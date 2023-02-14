@@ -33,4 +33,5 @@ public @Data class Valoracions {
     @JoinColumn(name = "id_client")
     private Client client;
 
+
 }
