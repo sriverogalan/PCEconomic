@@ -1,12 +1,10 @@
 package me.pceconomic.shop.domain.entities.article.factura;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Marca;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-
-import java.util.Set;
 
 @Entity
 public @Data class LineasFactura {
@@ -16,6 +14,7 @@ public @Data class LineasFactura {
     private int id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "id_factura")
     private Factura factura;
 

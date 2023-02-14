@@ -139,6 +139,9 @@ public class FrontController {
             factura.setDireccio(carrito.getDireccio());
             facturaRepository.save(factura);
 
+            clientDB.getFactures().add(factura);
+            frontService.getClientRepository().save(clientDB);
+
             for (Cart cart : carts) {
                 LineasFactura lineasFactura = new LineasFactura();
                 lineasFactura.setFactura(factura);
@@ -147,9 +150,12 @@ public class FrontController {
                 lineasFactura.setPrice(cart.getPrice());
                 lineasFactura.setQuantity(cart.getQuantity());
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
+                factura.addLineasFactura(lineasFactura);
                 lineaFacturaRepository.save(lineasFactura);
             }
             session.removeAttribute("carrito");
+            session.removeAttribute("pedidos");
+            session.setAttribute("pedidos", client.getFactures());
 
             return "redirect:/carrito/finalitzat";
         } else {
