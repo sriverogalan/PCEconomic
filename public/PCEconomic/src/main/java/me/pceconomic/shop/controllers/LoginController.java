@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
-import me.pceconomic.shop.domain.forms.LoginForm;
-import me.pceconomic.shop.domain.forms.RegisterForm;
+import me.pceconomic.shop.domain.forms.login.LoginForm;
+import me.pceconomic.shop.domain.forms.login.RegisterForm;
+import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
+import me.pceconomic.shop.domain.forms.login.SendEmailForm;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
@@ -144,5 +146,12 @@ public class LoginController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/forgotpassword")
+    public String preForgotPassword(Model model) {
+        SendEmailForm sendEmailForm = new SendEmailForm();
+        model.addAttribute("sendEmailForm", sendEmailForm);
+        return "lostpassword";
     }
 }
