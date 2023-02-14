@@ -1,16 +1,20 @@
 package me.pceconomic.shop.controllers;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
-import me.pceconomic.shop.domain.forms.LoginForm;
-import me.pceconomic.shop.domain.forms.RegisterForm;
+import me.pceconomic.shop.domain.forms.login.LoginForm;
+import me.pceconomic.shop.domain.forms.login.RegisterForm;
+import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
+import me.pceconomic.shop.domain.forms.login.SendEmailForm;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
+import me.pceconomic.shop.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 @Controller
@@ -30,13 +35,15 @@ public class LoginController {
     private final FrontService frontService;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     @Autowired
-    public LoginController(FrontService frontService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService,TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
         this.passwordEncoder = passwordEncoder;
+        this.tokenService = tokenService;
     }
 
     @GetMapping("/login")
@@ -116,19 +123,35 @@ public class LoginController {
             return "register";
         }
 
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/123456789/" + persona.getId());
+        String token = tokenService.createToken1Hour(persona.getEmail(), new ArrayList<>());
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token + " \n\n" +
+                "You have 1 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
-    @GetMapping("/confirmregister/{token}/{clientid}")
-    public String confirmRegister(@PathVariable String token, @PathVariable int clientid) {
+    @GetMapping("/confirmregister/{token}")
+    public String confirmRegister(@PathVariable String token) {
+        Claims claims = tokenService.getClaims(token);
+        String email = claims.get("email", String.class);
 
-        if (!token.equals("123456789")) return "redirect:/error";
+        int valid = tokenService.validateToken(token);
 
-        Client client = registerService.getClientById(clientid);
-        client.setActive(true);
-        registerService.updateClient(client);
+        if (valid == 0) return "redirect:/";
+        if (valid == 2) return "redirect:/";
+
+        if (valid == 1) {
+            Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(email));
+            client.setActive(true);
+            registerService.updateClient(client);
+        }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/forgotpassword")
+    public String preForgotPassword(Model model) {
+        SendEmailForm sendEmailForm = new SendEmailForm();
+        model.addAttribute("sendEmailForm", sendEmailForm);
+        return "lostpassword";
     }
 }

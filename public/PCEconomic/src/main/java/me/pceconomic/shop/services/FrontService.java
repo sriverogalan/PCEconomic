@@ -127,6 +127,4 @@ public class FrontService {
     public void deleteValoracio(int idValoracio) {
         valoracionsRepository.deleteById(idValoracio);
     }
-
-
 }
