@@ -7,8 +7,10 @@ import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
-import me.pceconomic.shop.domain.forms.LoginForm;
-import me.pceconomic.shop.domain.forms.RegisterForm;
+import me.pceconomic.shop.domain.forms.login.LoginForm;
+import me.pceconomic.shop.domain.forms.login.RegisterForm;
+import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
+import me.pceconomic.shop.domain.forms.login.SendEmailForm;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
 import me.pceconomic.shop.services.RegisterService;
@@ -121,8 +123,9 @@ public class LoginController {
             return "register";
         }
 
-        String token = tokenService.createToken(persona.getEmail(), new ArrayList<>());
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token);
+        String token = tokenService.createToken1Hour(persona.getEmail(), new ArrayList<>());
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token + " \n\n" +
+                "You have 1 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
@@ -143,5 +146,12 @@ public class LoginController {
         }
 
         return "redirect:/";
+    }
+
+    @GetMapping("/forgotpassword")
+    public String preForgotPassword(Model model) {
+        SendEmailForm sendEmailForm = new SendEmailForm();
+        model.addAttribute("sendEmailForm", sendEmailForm);
+        return "lostpassword";
     }
 }

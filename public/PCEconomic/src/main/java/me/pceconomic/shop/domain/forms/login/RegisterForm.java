@@ -1,4 +1,4 @@
-package me.pceconomic.shop.domain.forms;
+package me.pceconomic.shop.domain.forms.login;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
