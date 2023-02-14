@@ -130,8 +130,8 @@
 
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
-                        '<img src="' + imgAux + '" style="width:300px; height:300px; object-fit: contain;" alt="img" class="mt-2">' +
+                        '<div data-id="'+ prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
+                        '<img src="' + imgAux + '" class="object-fit-cover" style="max-height:300px" alt="img" class="mt-2">' +
                         '<div class="col-12 justify-content-center row">' +
                         '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
                         '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
@@ -139,8 +139,12 @@
                         '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
                         '</div>' +
                         '</div>' +
-                        '</a>'
+                        '</div>'
                     );
+
+                    $('[data-id="'+ prop.id + '"]').on("click", function () {
+                        window.location.href = "/article/" + prop.article.id + "/" + $(this).data("id");
+                    });
                 }
                 for (props of resp) {
                     if (props.esPrincipal === false && props.article.id === prop.article.id) {
@@ -156,10 +160,14 @@
                         }
 
                         $('#' + prop.id).append(
-                            '<a class="col-4 mt-2 mb-2 row"' +
-                            ' href="/article/' + prop.article.id + '/' + props.id
-                            + '"> <img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img"> </a>'
-                        ); // CAMBIAR POR UNA CLASE !! EL STYLE
+                            '<div class="col-4 mt-2 mb-2"' +
+                            ' data-id-suba="'+ props.id + '"> <img src="' + imgAux + '" class="object-fit-cover" style="max-height:300px" alt="img"> </div>'
+                        );
+
+                        $('[data-id-suba="'+ props.id + '"]').on("click", function () {
+                            window.location.href = "/article/" + prop.article.id + "/" + $(this).data("id-suba");
+                        })
+
                     }
                 }
             }

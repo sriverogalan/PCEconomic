@@ -53,7 +53,6 @@ public class AuthController {
         if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         session.setAttribute("persona", client);
 
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
