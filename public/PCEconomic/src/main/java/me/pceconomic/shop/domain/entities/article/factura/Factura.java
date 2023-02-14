@@ -3,13 +3,16 @@ package me.pceconomic.shop.domain.entities.article.factura;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@EqualsAndHashCode(exclude = "lineasFacturas")
 public @Data class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +45,12 @@ public @Data class Factura {
     @JsonIgnore
     private Client client;
 
-    @OneToMany
-    private Set<LineasFactura> lineasFacturas;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<LineasFactura> lineasFacturas = new HashSet<>();
+
+    public void addLineasFactura(LineasFactura lineasFactura) {
+        lineasFactura.setFactura(this);
+        this.lineasFacturas.add(lineasFactura);
+    }
 
 }
