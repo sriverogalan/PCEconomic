@@ -19,8 +19,6 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    private Key key;
-
     public String createToken(String email, List<String> rols) {
         return Jwts.builder()
                 .claim("email", email)
