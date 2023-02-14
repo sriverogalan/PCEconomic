@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,8 @@ public class TokenService {
 
     @Value("${jwt.secret}")
     private String jwtSecret;
+
+    private Key key;
 
     public String createToken(String email, List<String> rols) {
         return Jwts.builder()
@@ -30,10 +33,10 @@ public class TokenService {
 
     public int validateToken(String token) {
         try {
-            Jwts.parser()
+            Jwts.parserBuilder()
                     .setSigningKey(this.jwtSecret.getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .build()
+                    .parseClaimsJws(token).getBody();
             return 0;
         } catch (ExpiredJwtException e) {
             return 1;
@@ -51,10 +54,10 @@ public class TokenService {
     public Claims getClaims(String token) {
         Claims claims = null;
         try {
-            claims = Jwts.parser()
+            claims = Jwts.parserBuilder()
                     .setSigningKey(this.jwtSecret.getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
+                    .build()
+                    .parseClaimsJws(token).getBody();
         } catch (Exception e) {
             e.printStackTrace();
         }
