@@ -26,6 +26,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/confirm").setViewName("confirmregister");
     }
 
     @Override

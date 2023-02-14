@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
 
 @Controller
@@ -133,9 +131,16 @@ public class LoginController {
         Claims claims = tokenService.getClaims(token);
         String email = claims.get("email", String.class);
 
-        Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(email));
-        client.setActive(true);
-        registerService.updateClient(client);
+        int valid = tokenService.validateToken(token);
+
+        if (valid == 0) return "redirect:/";
+        if (valid == 2) return "redirect:/";
+
+        if (valid == 1) {
+            Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(email));
+            client.setActive(true);
+            registerService.updateClient(client);
+        }
 
         return "redirect:/";
     }
