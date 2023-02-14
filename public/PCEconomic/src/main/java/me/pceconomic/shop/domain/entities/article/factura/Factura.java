@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article.factura;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.persona.Administrador;
@@ -15,24 +16,18 @@ public @Data class Factura {
     @Column(name = "id_factura")
     private int id;
 
-    @Column(name = "numero_factura")
-    private int numeroFactura;
-
     @Column(name = "preu")
-    private double price;
+    private double preu;
 
     @Column(name = "quantitat")
-    private int quantity;
+    private int quantitat;
 
     @Column(name = "data")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate data;
 
-    @Column(name = "paymentMethod")
-    private String paymentMethod;
-
-    @Column(name = "paymentStatus")
-    private String paymentStatus;
+    @Column(name = "metodoPagament")
+    private String metodePagament;
 
     @Column(name = "preuTransport")
     private double preuTransport;
@@ -40,10 +35,13 @@ public @Data class Factura {
     @Column(name = "estat")
     private String estat;
 
-    @ManyToOne
-    private Client client;
+    @Column(name = "direccio")
+    private String direccio;
 
     @ManyToOne
-    private Administrador administrador;
+    @JsonIgnore
+    private Client client;
+
+
 
 }

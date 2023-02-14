@@ -26,7 +26,5 @@ public @Data class Administrador {
     @JoinTable(name = "article-administrador", joinColumns = @JoinColumn(name = "id_administrador"), inverseJoinColumns = @JoinColumn(name = "id_article"))
     private Set<Article> articles;
 
-    @OneToMany
-    private Set<Factura> factures;
 
 }
