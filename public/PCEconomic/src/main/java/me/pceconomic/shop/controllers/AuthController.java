@@ -6,6 +6,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.services.RegisterService;
@@ -36,7 +37,6 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<String> loginGoogle(@RequestBody String token, HttpServletRequest request) throws GeneralSecurityException, IOException {
-        System.out.println("Token: " + token);
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 HTTP_TRANSPORT,
@@ -47,16 +47,14 @@ public class AuthController {
         GoogleIdToken idToken = verifier.verify(token);
         GoogleIdToken.Payload payload = idToken.getPayload();
 
-        System.out.println("Email: " + payload.getEmail());
-
-        /* TODO: A PARTIR DEL MAIL DE GOOGLE VALIDAR SI EXISTEIX A BASE DE DADES Y CREAR TOKEN LOCAL */
         Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(payload.getEmail()));
         if (client == null) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         HttpSession session = request.getSession();
         if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         session.setAttribute("persona", client);
 
-        return new ResponseEntity<>("Hola", HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
