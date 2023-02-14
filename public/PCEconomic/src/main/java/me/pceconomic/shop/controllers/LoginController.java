@@ -38,7 +38,7 @@ public class LoginController {
     private final TokenService tokenService;
 
     @Autowired
-    public LoginController(FrontService frontService,TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService, TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
@@ -153,5 +153,62 @@ public class LoginController {
         SendEmailForm sendEmailForm = new SendEmailForm();
         model.addAttribute("sendEmailForm", sendEmailForm);
         return "lostpassword";
+    }
+
+    @PostMapping("/forgotpassword")
+    public String postForgotPassword(@ModelAttribute("sendEmailForm") @Valid SendEmailForm sendEmailForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "lostpassword";
+        }
+
+        Persona persona = registerService.getPersonaByEmail(sendEmailForm.getEmail());
+        if (persona == null) {
+            model.addAttribute("error", "El correo electronico introducido no esta registrado");
+            return "lostpassword";
+        }
+
+        String token = tokenService.createToken10Minute(persona.getEmail(), new ArrayList<>());
+        mailService.sendMail(sendEmailForm.getEmail(), "PC Economic - Password recovery", "Use the link below to recover your password: http://pceconomic.live:8080/changepassword/" + token + " \n\n" +
+                "You have 1 hour to recover your password. After that, you will have to request a new password recovery.");
+        return "redirect:/";
+    }
+
+    @GetMapping("/changepassword/{token}")
+    public String preChangePassword(@PathVariable String token, Model model) {
+        int valid = tokenService.validateToken(token);
+
+        if (valid == 0) return "redirect:/";
+        if (valid == 2) return "redirect:/";
+
+        ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+        model.addAttribute("changePasswordForm", changePasswordForm);
+        model.addAttribute("token", token);
+        return "changepassword";
+    }
+
+    @PostMapping("/changepassword/{token}")
+    public String postChangePassword(@PathVariable String token, @ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Model model) {
+        int valid = tokenService.validateToken(token);
+
+        if (valid == 0) return "redirect:/";
+        if (valid == 2) return "redirect:/";
+
+        if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {
+            model.addAttribute("passwordmatch", "Las contraseñas introducidas no coinciden");
+            return "changepassword/" + token;
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "changepassword/" + token;
+        }
+
+        Claims claims = tokenService.getClaims(token);
+        String email = claims.get("email", String.class);
+
+        Persona persona = registerService.getPersonaByEmail(email);
+        persona.setPassword(passwordEncoder.encode(changePasswordForm.getNewPassword()));
+        registerService.updatePersona(persona);
+
+        return "redirect:/login";
     }
 }

@@ -39,6 +39,10 @@ public class RegisterService {
         clientRepository.save(client);
     }
 
+    public void updatePersona(Persona persona) {
+        personaRepository.save(persona);
+    }
+
     public void savePersona(Persona persona, RegisterForm registerForm) {
         persona.setName(registerForm.getName());
         persona.setSurname1(registerForm.getSurname1());
