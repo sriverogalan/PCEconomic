@@ -113,67 +113,52 @@ public class FrontController {
     }
 
 
-    @GetMapping("/api/pagament")
+    @PostMapping("/api/pagament")
     public String pagament(HttpServletRequest request, @RequestParam String status, @RequestParam String paymentMethod) {
         HttpSession session = request.getSession();
 
-        status = "COMPLETED";
-        paymentMethod = "PAYPAL".toLowerCase();
         if (session == null) return "redirect:/error";
 
-        // if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")){
-        Client client = (Client) session.getAttribute("persona");
-        ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
+        if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")) {
+            Client client = (Client) session.getAttribute("persona");
+            ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
 
-        Set<Cart> carts = carrito.getIds();
+            Set<Cart> carts = carrito.getIds();
 
-        Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
-        if (clientDB == null) return "redirect:/error";
+            Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
+            if (clientDB == null) return "redirect:/error";
 
-        Factura factura = new Factura();
-        factura.setClient(clientDB);
-        factura.setPreu(carrito.getPreuTotal());
-        factura.setMetodePagament(paymentMethod);
-        factura.setEstat(status);
-        factura.setData(LocalDate.now());
-        factura.setQuantitat(carts.size());
-        factura.setPreuTransport(carrito.getPreuTransport());
-        factura.setDireccio(carrito.getDireccio());
-        facturaRepository.save(factura);
+            Factura factura = new Factura();
+            factura.setClient(clientDB);
+            factura.setPreu(carrito.getPreuTotal());
+            factura.setMetodePagament(paymentMethod);
+            factura.setEstat(status);
+            factura.setData(LocalDate.now());
+            factura.setQuantitat(carts.size());
+            factura.setPreuTransport(carrito.getPreuTransport());
+            factura.setDireccio(carrito.getDireccio());
+            facturaRepository.save(factura);
 
-        for (Cart cart : carts) {
-            LineasFactura lineasFactura = new LineasFactura();
-            lineasFactura.setFactura(factura);
-            lineasFactura.setNomArticle(cart.getPropietats().getArticle().getNom());
-            lineasFactura.setPropietats(cart.getPropietats());
-            lineasFactura.setPrice(cart.getPrice());
-            lineasFactura.setQuantity(cart.getQuantity());
-            lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
-            lineaFacturaRepository.save(lineasFactura);
+            client.getFactures().add(factura);
+            frontService.getClientRepository().save(client);
+
+            for (Cart cart : carts) {
+                LineasFactura lineasFactura = new LineasFactura();
+                lineasFactura.setFactura(factura);
+                lineasFactura.setNomArticle(cart.getPropietats().getArticle().getNom());
+                lineasFactura.setPropietats(cart.getPropietats());
+                lineasFactura.setPrice(cart.getPrice());
+                lineasFactura.setQuantity(cart.getQuantity());
+                lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
+                lineaFacturaRepository.save(lineasFactura);
+            }
+            session.removeAttribute("carrito");
+
+
+            return "redirect:/carrito/finalitzat";
+        } else {
+            return "redirect:/carrito/error";
         }
-        session.removeAttribute("carrito");
-
-
-
-
-        /*Factura factura = new Factura();
-        factura.setClient(clientDB);
-        factura.setPrice(carrito.getTotal());
-        factura.setPaymentMethod(paymentMethod);
-        factura.setPaymentStatus(status);
-
-        LineasFactura lineasFactura = new LineasFactura();
-        lineasFactura.setFactura(factura);
-        lineasFactura.setNumeroFactura(factura.getId());
-        lineasFactura.setPrice(carrito.getTotal());
-
-        facturaRepository.save(factura);*/
-
-
-        return "redirect:/";
-        //} else {
-        //   return "redirect:/carrito/error";
-        //}
     }
 
     @GetMapping("/carrito/finalitzat")

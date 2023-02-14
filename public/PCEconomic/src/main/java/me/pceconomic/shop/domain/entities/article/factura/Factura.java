@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article.factura;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.persona.Administrador;
@@ -38,6 +39,7 @@ public @Data class Factura {
     private String direccio;
 
     @ManyToOne
+    @JsonIgnore
     private Client client;
 
 
