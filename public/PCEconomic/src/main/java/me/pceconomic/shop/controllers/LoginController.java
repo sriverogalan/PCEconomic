@@ -9,7 +9,6 @@ import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.login.LoginForm;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.domain.forms.login.SendEmailForm;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
@@ -38,7 +37,7 @@ public class LoginController {
     private final TokenService tokenService;
 
     @Autowired
-    public LoginController(FrontService frontService,TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService, TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
