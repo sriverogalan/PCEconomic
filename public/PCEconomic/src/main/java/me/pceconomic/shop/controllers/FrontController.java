@@ -113,7 +113,7 @@ public class FrontController {
     }
 
 
-    @PostMapping("/api/pagament")
+    @GetMapping("/api/pagament")
     public String pagament(HttpServletRequest request, @RequestParam String status, @RequestParam String paymentMethod) {
         HttpSession session = request.getSession();
 
@@ -139,9 +139,6 @@ public class FrontController {
             factura.setDireccio(carrito.getDireccio());
             facturaRepository.save(factura);
 
-            client.getFactures().add(factura);
-            frontService.getClientRepository().save(client);
-
             for (Cart cart : carts) {
                 LineasFactura lineasFactura = new LineasFactura();
                 lineasFactura.setFactura(factura);
@@ -153,7 +150,6 @@ public class FrontController {
                 lineaFacturaRepository.save(lineasFactura);
             }
             session.removeAttribute("carrito");
-
 
             return "redirect:/carrito/finalitzat";
         } else {

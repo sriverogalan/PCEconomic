@@ -3,11 +3,11 @@ package me.pceconomic.shop.domain.entities.article.factura;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.persona.Administrador;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public @Data class Factura {
@@ -42,6 +42,7 @@ public @Data class Factura {
     @JsonIgnore
     private Client client;
 
-
+    @OneToMany
+    private Set<LineasFactura> lineasFacturas;
 
 }
