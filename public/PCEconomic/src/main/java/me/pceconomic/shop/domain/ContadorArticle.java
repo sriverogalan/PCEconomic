@@ -1,7 +1,6 @@
 package me.pceconomic.shop.domain;
 
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.article.Article;
 
 import java.time.LocalDateTime;
 

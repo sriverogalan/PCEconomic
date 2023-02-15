@@ -6,7 +6,6 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.services.RegisterService;
@@ -42,7 +41,7 @@ public class AuthController {
                 HTTP_TRANSPORT,
                 GsonFactory.getDefaultInstance()
         ).setAudience(Collections.singletonList(CLIENT_ID))
-         .build();
+                .build();
 
         GoogleIdToken idToken = verifier.verify(token);
         GoogleIdToken.Payload payload = idToken.getPayload();
@@ -51,7 +50,7 @@ public class AuthController {
         if (client == null) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         HttpSession session = request.getSession();
         if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
-        session.setAttribute("persona", client);
+        registerService.setSession(session, client);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

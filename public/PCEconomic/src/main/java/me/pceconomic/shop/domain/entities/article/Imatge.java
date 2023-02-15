@@ -3,11 +3,6 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "imatges")

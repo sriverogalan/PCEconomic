@@ -5,11 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Client;
-import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.login.LoginForm;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
-import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.domain.forms.login.SendEmailForm;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.MailService;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 @Controller
 public class LoginController {
@@ -38,7 +35,7 @@ public class LoginController {
     private final TokenService tokenService;
 
     @Autowired
-    public LoginController(FrontService frontService,TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
+    public LoginController(FrontService frontService, TokenService tokenService, PasswordEncoder passwordEncoder, MailService mailService, RegisterService registerService) {
         this.registerService = registerService;
         this.frontService = frontService;
         this.mailService = mailService;
@@ -76,11 +73,7 @@ public class LoginController {
 
         if (passwordEncoder.matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
-            Set<Direccio> direccions = client.getPersona().getDireccions();
-
-            session.setAttribute("persona", client);
-            session.setAttribute("direccions", direccions);
-            session.setAttribute("pedidos", client.getFactures());
+            registerService.setSession(session, client);
             return "redirect:/";
         }
 
