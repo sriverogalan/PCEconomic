@@ -48,10 +48,6 @@ public @Data class Persona {
     private boolean isActive;
 
     @OneToOne
-    @JoinColumn(name = "id_persona", unique = true, nullable = false)
-    private Persona persona;
-
-    @OneToOne
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
