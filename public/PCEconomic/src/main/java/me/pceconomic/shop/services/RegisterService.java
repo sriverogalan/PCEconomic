@@ -3,7 +3,6 @@ package me.pceconomic.shop.services;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
-import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,30 +12,16 @@ import org.springframework.stereotype.Service;
 public class RegisterService {
 
     private final PersonaRepository personaRepository;
-    private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegisterService(ClientRepository clientRepository, PasswordEncoder passwordEncoder, PersonaRepository personaRepository) {
+    public RegisterService(PasswordEncoder passwordEncoder, PersonaRepository personaRepository) {
         this.personaRepository = personaRepository;
-        this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     public Persona getPersonaByEmail(String email) {
         return personaRepository.findByEmail(email);
-    }
-
-    public Client getClientById(int id) {
-        return clientRepository.findByPersonaId(id);
-    }
-
-    public Client getClientByPersona(Persona persona) {
-        return clientRepository.findByPersona(persona);
-    }
-
-    public void updateClient(Client client) {
-        clientRepository.save(client);
     }
 
     public void updatePersona(Persona persona) {
@@ -61,20 +46,16 @@ public class RegisterService {
             throw new IllegalArgumentException("Persona already exists");
         }
 
+        persona.setDni(registerForm.getDni());
+        persona.setActive(false);
+        persona.setSubscribed(false);
+
         personaRepository.save(persona);
-
-        Client client = new Client();
-        client.setPersona(persona);
-        client.setDni(registerForm.getDni());
-        client.setActive(false);
-        client.setSubscribed(false);
-
-        clientRepository.save(client);
     }
 
-    public void setSession(HttpSession session, Client client) {
-        session.setAttribute("persona", client);
-        session.setAttribute("direccions", client.getPersona().getDireccions());
-        session.setAttribute("pedidos", client.getFactures());
+    public void setSession(HttpSession session, Persona persona) {
+        session.setAttribute("persona", persona);
+        session.setAttribute("direccions", persona.getDireccions());
+        session.setAttribute("pedidos", persona.getFactures());
     }
 }
