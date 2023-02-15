@@ -33,21 +33,17 @@ public class RestLoginController {
     }
 
     @PostMapping("/restlogin")
-    public ResponseEntity<?> validacioLogin(
+    public ResponseEntity<String> validacioLogin(
             @ModelAttribute("email") String email,
             @ModelAttribute("password") String password,
             HttpSession session) {
         if (registerService.getPersonaByEmail(email) != null) {
             Persona usuari = registerService.getPersonaByEmail(email);
-            if (passwordEncoder.matches(password, usuari.getPassword())) {
-                Set<String> rols = new HashSet<>();
-                return new ResponseEntity<>(
-                        tokenService.createToken(email, new ArrayList<>(), TimeUnit.DAYS.toMillis(7)), HttpStatus.OK);
-            }
-            String notificacio = "Usuari no autoritzat!";
-            return new ResponseEntity<>(notificacio, HttpStatus.UNAUTHORIZED);
+            if (passwordEncoder.matches(password, usuari.getPassword())) return new ResponseEntity<>(
+                    tokenService.createToken(email, new ArrayList<>(), TimeUnit.DAYS.toMillis(7)),
+                    HttpStatus.OK);
+            return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);
         }
-        String notificacio = "Usuari no autoritzat!";
-        return new ResponseEntity<>(notificacio, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);
     }
 }
