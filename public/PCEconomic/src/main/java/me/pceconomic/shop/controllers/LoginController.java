@@ -56,13 +56,12 @@ public class LoginController {
     @PostMapping("/login")
     public String postLogin(HttpServletRequest request, @ModelAttribute("loginForm") @Valid LoginForm loginForm, Model model) {
         Persona persona = registerService.getPersonaByEmail(loginForm.getEmail());
-        Client client = registerService.getClientByPersona(persona);
 
-        if (persona == null || client == null) {
+        if (persona == null) {
             model.addAttribute("error", "Tu correo electronico o tu contraseña no son validos");
             return "login";
         }
-        if (!client.isActive()) {
+        if (!persona.isActive()) {
             model.addAttribute("error", "Tienes que activar tu cuenta antes de iniciar sesión");
             return "redirect:/login";
         }
@@ -74,7 +73,7 @@ public class LoginController {
 
         if (passwordEncoder.matches(loginForm.getPassword(), persona.getPassword())) {
             HttpSession session = request.getSession();
-            registerService.setSession(session, client);
+            registerService.setSession(session, persona);
             return "redirect:/";
         }
 
@@ -134,9 +133,9 @@ public class LoginController {
         if (valid == 2) return "redirect:/";
 
         if (valid == 1) {
-            Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(email));
-            client.setActive(true);
-            registerService.updateClient(client);
+            Persona persona = registerService.getPersonaByEmail(email);
+            persona.setActive(true);
+            registerService.updatePersona(persona);
         }
 
         return "redirect:/";
