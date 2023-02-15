@@ -6,7 +6,6 @@ import lombok.Getter;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;

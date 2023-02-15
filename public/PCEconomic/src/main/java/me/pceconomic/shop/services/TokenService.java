@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TokenService {
@@ -18,7 +19,7 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public String createToken(String email, List<String> rols, long time) {
+    public String createToken(String email, Set<String> rols, long time) {
         return Jwts.builder()
                 .claim("email", email)
                 .claim("rols",rols)

@@ -3,7 +3,6 @@ package me.pceconomic.shop.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;

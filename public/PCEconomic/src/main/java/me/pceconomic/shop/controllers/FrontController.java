@@ -9,7 +9,6 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.repositories.FacturaRepository;

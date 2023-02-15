@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.domain.forms.login.LoginForm;
@@ -24,7 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -118,7 +117,7 @@ public class LoginController {
             return "register";
         }
 
-        String token = tokenService.createToken(persona.getEmail(), new ArrayList<>(), TimeUnit.HOURS.toMillis(1));
+        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(1));
         mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token + " \n\n" +
                 "You have 1 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
@@ -162,7 +161,7 @@ public class LoginController {
             return "lostpassword";
         }
 
-        String token = tokenService.createToken(persona.getEmail(), new ArrayList<>(), TimeUnit.MINUTES.toMillis(10));
+        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.MINUTES.toMillis(10));
         mailService.sendMail(sendEmailForm.getEmail(), "PC Economic - Password recovery", "Use the link below to recover your password: http://pceconomic.live:8080/changepassword/" + token + " \n\n" +
                 "You have 1 hour to recover your password. After that, you will have to request a new password recovery.");
         return "redirect:/";

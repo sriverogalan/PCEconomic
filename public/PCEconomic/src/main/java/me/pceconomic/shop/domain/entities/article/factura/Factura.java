@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

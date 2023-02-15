@@ -3,7 +3,6 @@ package me.pceconomic.shop.services;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.*;

@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @RestController
 public class RestLoginController {
@@ -39,9 +37,15 @@ public class RestLoginController {
             HttpSession session) {
         if (registerService.getPersonaByEmail(email) != null) {
             Persona usuari = registerService.getPersonaByEmail(email);
-            if (passwordEncoder.matches(password, usuari.getPassword())) return new ResponseEntity<>(
-                    tokenService.createToken(email, new ArrayList<>(), TimeUnit.DAYS.toMillis(7)),
-                    HttpStatus.OK);
+            if (passwordEncoder.matches(password, usuari.getPassword())) {
+                Client client = registerService.getClientByPersona(usuari);
+                registerService.setSession(session, client);
+                Set<String> rols = new HashSet<>();
+                rols.add("CLIENT");
+                return new ResponseEntity<>(
+                        tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7)),
+                        HttpStatus.OK);
+            }
             return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);

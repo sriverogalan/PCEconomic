@@ -1,7 +1,6 @@
 package me.pceconomic.shop.services;
 
 import jakarta.servlet.http.HttpSession;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
 import me.pceconomic.shop.repositories.ClientRepository;
@@ -9,8 +8,6 @@ import me.pceconomic.shop.repositories.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class RegisterService {

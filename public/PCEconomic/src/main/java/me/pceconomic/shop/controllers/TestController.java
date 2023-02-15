@@ -1,6 +1,5 @@
 package me.pceconomic.shop.controllers;
 
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;

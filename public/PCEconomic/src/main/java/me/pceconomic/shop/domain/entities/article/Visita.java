@@ -3,7 +3,6 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.persona.Client;
 
 import java.time.LocalDateTime;
 
