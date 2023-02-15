@@ -10,17 +10,21 @@
 <main class="container-lg bg-cont mt-md-5 mt-1">
     <section id="productos-recomendados" class="row mt-3 justify-content-center">
         <div id="text-recomendados"></div>
-        <div id="articles-recomenats" class="row mt-2 justify-content-center mb-2">
-            <div class="spinner-border text-secondary" role="status" id="loading-wheel2">
-                <span class="visually-hidden">Cargando...</span>
+        <div id="articles-recomenats" class="row mt-2 justify-content-evenly mb-2">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="spinner-border text-secondary" role="status" id="loading-wheel2">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
             </div>
         </div>
     </section>
     <section id="productes" class="row mt-5 justify-content-center">
         <h2 class="text-center">Estos son algunos de los productos que te pueden interesar</h2>
-        <div id="articles" class="row mt-4 justify-content-center mb-2">
-            <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                <span class="visually-hidden">Cargando...</span>
+        <div id="articles" class="row mt-4 mb-2 p-1">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
             </div>
         </div>
     </section>
@@ -84,10 +88,9 @@
                             imgAux = '/img/static/no-photo.png';
                         }
                         $('#articles-recomenats').append(
-                            '<a href="/article/' + prop[0].article.id + '/' + prop[0].id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card d-flex align-items-center align-self-center">' +
+                            '<a href="/article/' + prop[0].article.id + '/' + prop[0].id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end border border-0 text-decoration-none card d-flex align-items-center align-self-center">' +
                             '<img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img" class="mt-2">' +
                             '<div class="col-12 justify-content-center row">' +
-                            '<div id="recomendado' + prop[0].id + '" class="row justify-content-evenly col-12"></div>' +
                             '<div><p class="text-start h4 col-12">' + prop[0].article.nom + '</p></div>' +
                             '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop[0].preu) + '</span>' +
                             '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
@@ -129,10 +132,10 @@
 
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 col-sm-6 col-lg-4 text-end text-decoration-none card-deck card d-flex align-items-center align-self-center">' +
-                        '<img src="' + imgAux + '" style="width:300px; height:300px; object-fit: contain;" alt="img" class="mt-2">' +
+                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border border-0 align-items-center text-decoration-none card-deck card align-items-start">' +
+                        '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
                         '<div class="col-12 justify-content-center row">' +
-                        '<div id="' + prop.id + '" class="row justify-content-evenly col-12"></div>' +
+                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12"></div>' +
                         '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
                         '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
                         '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
@@ -155,10 +158,10 @@
                         }
 
                         $('#' + prop.id).append(
-                            '<a class="col-4 mt-2 mb-2 row"' +
+                            '<a class="col-lg-3 col-md-4 mt-3 mb-3 col-3"' +
                             ' href="/article/' + prop.article.id + '/' + props.id
-                            + '"> <img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img"> </a>'
-                        ); // CAMBIAR POR UNA CLASE !! EL STYLE
+                            + '"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </a>'
+                        );
                     }
                 }
             }
