@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.entities.persona.Rols;
 import me.pceconomic.shop.domain.forms.areaclients.ChangePasswordForm;
 import me.pceconomic.shop.domain.forms.login.LoginForm;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
@@ -134,8 +135,11 @@ public class LoginController {
 
         if (valid == 1) {
             Persona persona = registerService.getPersonaByEmail(email);
+            Rols rol = registerService.getRolsByName("CLIENT");
+
             persona.setActive(true);
             registerService.updatePersona(persona);
+            persona.getRols().add(rol);
         }
 
         return "redirect:/";
