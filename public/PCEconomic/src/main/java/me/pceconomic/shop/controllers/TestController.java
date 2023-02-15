@@ -1,9 +1,6 @@
 package me.pceconomic.shop.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
-import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.repositories.ClientRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class TestController {

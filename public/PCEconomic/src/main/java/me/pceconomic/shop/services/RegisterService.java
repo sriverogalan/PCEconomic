@@ -1,5 +1,6 @@
 package me.pceconomic.shop.services;
 
+import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.login.RegisterForm;
@@ -70,5 +71,11 @@ public class RegisterService {
         client.setSubscribed(false);
 
         clientRepository.save(client);
+    }
+
+    public void setSession(HttpSession session, Client client) {
+        session.setAttribute("persona", client);
+        session.setAttribute("direccions", client.getPersona().getDireccions());
+        session.setAttribute("pedidos", client.getFactures());
     }
 }
