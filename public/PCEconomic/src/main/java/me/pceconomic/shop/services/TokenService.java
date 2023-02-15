@@ -38,6 +38,16 @@ public class TokenService {
                 .compact();
     }
 
+    public String createToken(String email, List<String> rols) {
+        return Jwts.builder()
+                .claim("email", email)
+                .claim("rols",rols)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000 * 24 * 7)) //1 setmana (7*24*3600*1000)
+                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(this.jwtSecret.getBytes()))
+                .compact();
+    }
+
     public int validateToken(String token) {
         try {
             Jwts.parserBuilder()
