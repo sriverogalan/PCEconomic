@@ -1,7 +1,6 @@
 package me.pceconomic.shop.services;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import me.pceconomic.shop.domain.entities.persona.Client;
