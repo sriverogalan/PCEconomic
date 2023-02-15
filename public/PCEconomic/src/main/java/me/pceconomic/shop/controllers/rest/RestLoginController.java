@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,7 +42,7 @@ public class RestLoginController {
             if (passwordEncoder.matches(password, usuari.getPassword())) {
                 Set<String> rols = new HashSet<>();
                 return new ResponseEntity<>(
-                        tokenService.createToken(email, new ArrayList<>()), HttpStatus.OK);
+                        tokenService.createToken(email, new ArrayList<>(), TimeUnit.DAYS.toMillis(7)), HttpStatus.OK);
             }
             String notificacio = "Usuari no autoritzat!";
             return new ResponseEntity<>(notificacio, HttpStatus.UNAUTHORIZED);
