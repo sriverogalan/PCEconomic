@@ -95,6 +95,8 @@ public class FrontController {
 
         session.setAttribute("contadors", contadors);
 
+
+
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
                 model.addAttribute("propietats", propietats);
