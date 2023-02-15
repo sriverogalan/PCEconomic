@@ -50,8 +50,7 @@ public class AuthController {
         if (client == null) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         HttpSession session = request.getSession();
         if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
-        session.setAttribute("persona", client);
-
+        registerService.setSession(session, client);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
