@@ -65,18 +65,13 @@
                         console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                         const transaction = orderData.purchase_units[0].payments.captures[0];
 
-                        $.ajax({
-                            url: "/api/pagament",
-                            type: "POST",
-                            data: {
-                                "resp": transaction,
-                                "status": transaction.status,
-                                "paymentMethod": "PAYPAL"
-                            },
-                            success: function (props) {
-                                window.location.href = "/";
-                            }
-                        });
+                        // redirect with post
+                            var form = $('<form action="/api/pagament" method="post">' +
+                            '<input type="hidden" name="status" value="' + transaction.status + '" />' +
+                            '<input type="hidden" name="paymentMethod" value="PAYPAL" />' +
+                            '</form>');
+                        $('body').append(form);
+                        form.submit();
                     });
                 }
             }).render('#paypal-button-container');
