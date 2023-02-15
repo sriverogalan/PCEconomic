@@ -37,10 +37,8 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<String> loginGoogle(@RequestBody String token, HttpServletRequest request) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                HTTP_TRANSPORT,
-                GsonFactory.getDefaultInstance()
-        ).setAudience(Collections.singletonList(CLIENT_ID))
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, GsonFactory.getDefaultInstance())
+                .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
