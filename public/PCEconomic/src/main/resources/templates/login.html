@@ -66,11 +66,8 @@
                                 body: credential,
                             }
                         );
-                        if (await responseFetch.ok) {
-                            window.location.href = "http://localhost:8080/";
-                        } else {
-                            window.location.href = "http://localhost:8080/error";
-                        }
+                        if (responseFetch.ok) window.location.href = "http://localhost:8080/";
+                        else window.location.href = "http://localhost:8080/error";
                     },
                 });
                 google.accounts.id.prompt();
