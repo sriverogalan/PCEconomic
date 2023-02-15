@@ -13,6 +13,11 @@
                 </div>
             </div>
 
+            <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
+                <i class='bi bi-exclamation-triangle'></i>
+                <span th:text="${updateDirectionError}"></span>
+            </div>
+
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="miperfil">
