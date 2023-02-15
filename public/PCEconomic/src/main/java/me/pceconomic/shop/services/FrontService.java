@@ -56,21 +56,6 @@ public class FrontService {
         return valoracionsRepository.findAllByArticleId(idArticle);
     }
 
-    public String getFechaValoracion(int idArticle) {
-        List<Valoracions> valoracions = this.getValoracionsPerArticle(idArticle);
-
-        if (valoracions.isEmpty()) return "";
-
-        String fecha = "";
-
-        for (Valoracions valoracion : valoracions)
-            fecha = valoracion.getData().toString();
-
-
-        System.out.println(fecha);
-        return fecha;
-    }
-
     public void getCategoria(Model model, int id, HttpServletRequest request) {
         Subcategoria subcategoria = subcategoriaRepository.findById(id).orElse(null);
 
