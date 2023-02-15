@@ -3,7 +3,7 @@ package me.pceconomic.shop.domain.entities.article;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ public @Data class Visita {
 
     @ManyToOne
     @JoinColumn(name = "id_client")
-    private Client client;
+    private Persona client;
 
     @Column(name = "data_visita")
     private LocalDateTime data;

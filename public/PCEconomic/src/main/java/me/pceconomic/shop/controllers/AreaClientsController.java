@@ -3,7 +3,7 @@ package me.pceconomic.shop.controllers;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
@@ -46,16 +46,14 @@ public class AreaClientsController {
     @PostMapping("/areaclients/addDirection/{id}")
     public String addDirection(@PathVariable(value = "id", required = false) int id, HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         if (id == 0) {
-            System.out.println("Añadiendo dirección");
             areaClientsService.saveDirection(client, directionForm, session);
             return "redirect:/areaclients";
         }
 
         try {
-            System.out.println("Actualizando dirección");
             areaClientsService.updateDirection(client, directionForm, id, session);
             return "redirect:/areaclients";
         } catch (Exception e) {
@@ -68,7 +66,7 @@ public class AreaClientsController {
     @GetMapping("/areaclients/deleteDirection/{id}")
     public String deleteDirection(HttpServletRequest request, @PathVariable int id, Model model) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         try {
             areaClientsService.deleteDirection(client, id, session);
@@ -83,7 +81,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/addDirection/buying")
     public String addDirectionWhenBuying(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         areaClientsService.saveDirection(client, directionForm, session);
         return "redirect:/carrito/direccion";
@@ -92,7 +90,7 @@ public class AreaClientsController {
     @GetMapping("/areaclients/deletedirection/{id}")
     public String deleteDirection(HttpServletRequest request, @PathVariable int id) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         areaClientsService.deleteDirection(client, id, session);
         return "redirect:/areaclients";
@@ -101,7 +99,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changeName")
     public String changeName(HttpServletRequest request, @ModelAttribute ChangeNameForm changeName, Model model) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         if (!changeName.getNewName().equals(changeName.getConfirmNewName())) {
             model.addAttribute("changeNameError", "Los nombres no coinciden");
@@ -116,7 +114,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changepassword")
     public String changePassword(HttpServletRequest request, @ModelAttribute ChangePasswordForm changePasswordForm, Model model) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {
             model.addAttribute("changePasswordError", "Las contraseñas no coinciden");
@@ -124,7 +122,7 @@ public class AreaClientsController {
             return "areaclients";
         }
 
-        if (!areaClientsService.getPasswordEncoder().matches(changePasswordForm.getOldPassword(), client.getPersona().getPassword())) {
+        if (!areaClientsService.getPasswordEncoder().matches(changePasswordForm.getOldPassword(), client.getPassword())) {
             model.addAttribute("changePasswordError", "La contraseña no es correcta");
             areaClientsService.sendToModel(model, session);
             return "areaclients";
@@ -137,7 +135,7 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changeemail")
     public String changeEmail(HttpServletRequest request, @ModelAttribute @Valid ChangeEmailForm changeEmailForm, Model model, BindingResult bindingResult) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("changeEmailError", "El email no es válido");
@@ -164,9 +162,9 @@ public class AreaClientsController {
     @PostMapping("/areaclients/changetelephone")
     public String changeTelephone(HttpServletRequest request, @ModelAttribute ChangeTelephoneForm changeTelephoneForm, Model model) {
         HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
 
-        if (!client.getPersona().getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
+        if (!client.getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
             model.addAttribute("changePhoneError", "El teléfono no es correcto");
             areaClientsService.sendToModel(model, session);
             return "areaclients";

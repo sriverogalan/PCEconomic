@@ -3,6 +3,10 @@ package me.pceconomic.shop.domain.entities.persona;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Carrito;
+import me.pceconomic.shop.domain.entities.article.Valoracions;
+import me.pceconomic.shop.domain.entities.article.factura.Factura;
 
 import java.util.Set;
 
@@ -34,6 +38,29 @@ public @Data class Persona {
     @Column(name = "telefon", unique = true, nullable = false)
     private String telefon;
 
+    @Column(name = "dni")
+    private String dni;
+
+    @Column(name = "isSuscrit")
+    private boolean isSubscribed;
+
+    @Column(name = "isActiu")
+    private boolean isActive;
+
+    @OneToOne
+    @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
+    private Carrito carrito;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Factura> factures;
+
+    @OneToOne
+    private Valoracions valoracio;
+
+    @OneToMany
+    @JoinTable(name = "article-administrador", joinColumns = @JoinColumn(name = "id_administrador"), inverseJoinColumns = @JoinColumn(name = "id_article"))
+    private Set<Article> articles;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "persones_direccions",
@@ -41,5 +68,13 @@ public @Data class Persona {
             inverseJoinColumns = @JoinColumn(name = "id_direccio")
     )
     private Set<Direccio> direccions;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "persones_rols",
+            joinColumns = @JoinColumn(name = "id_persona"),
+            inverseJoinColumns = @JoinColumn(name = "id_rol")
+    )
+    private Set<Rols> rols;
 }
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class TokenService {
@@ -18,22 +19,12 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String jwtSecret;
 
-    public String createToken1Hour(String email, List<String> rols) {
+    public String createToken(String email, Set<String> rols, long time) {
         return Jwts.builder()
                 .claim("email", email)
-                .claim("rols", rols)
+                .claim("rols",rols)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour
-                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(this.jwtSecret.getBytes()))
-                .compact();
-    }
-
-    public String createToken10Minute(String email, List<String> rols) {
-        return Jwts.builder()
-                .claim("email", email)
-                .claim("rols", rols)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000)) // 10 minutes
+                .setExpiration(new Date(System.currentTimeMillis() + time)) //1 setmana (7*24*3600*1000)
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(this.jwtSecret.getBytes()))
                 .compact();
     }

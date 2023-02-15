@@ -7,7 +7,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,16 +37,14 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<String> loginGoogle(@RequestBody String token, HttpServletRequest request) throws GeneralSecurityException, IOException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
-                HTTP_TRANSPORT,
-                GsonFactory.getDefaultInstance()
-        ).setAudience(Collections.singletonList(CLIENT_ID))
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, GsonFactory.getDefaultInstance())
+                .setAudience(Collections.singletonList(CLIENT_ID))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
         GoogleIdToken.Payload payload = idToken.getPayload();
 
-        Client client = registerService.getClientByPersona(registerService.getPersonaByEmail(payload.getEmail()));
+        Persona client = registerService.getPersonaByEmail(payload.getEmail());
         if (client == null) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
         HttpSession session = request.getSession();
         if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
