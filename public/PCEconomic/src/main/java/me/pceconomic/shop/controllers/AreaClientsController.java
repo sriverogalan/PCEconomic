@@ -49,13 +49,11 @@ public class AreaClientsController {
         Client client = (Client) session.getAttribute("persona");
 
         if (id == 0) {
-            System.out.println("Añadiendo dirección");
             areaClientsService.saveDirection(client, directionForm, session);
             return "redirect:/areaclients";
         }
 
         try {
-            System.out.println("Actualizando dirección");
             areaClientsService.updateDirection(client, directionForm, id, session);
             return "redirect:/areaclients";
         } catch (Exception e) {
