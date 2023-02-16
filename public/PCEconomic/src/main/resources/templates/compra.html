@@ -66,7 +66,7 @@
                         const transaction = orderData.purchase_units[0].payments.captures[0];
 
                         // redirect with post
-                            var form = $('<form action="/api/pagament" method="post">' +
+                        var form = $('<form action="/pagament" method="post">' +
                             '<input type="hidden" name="status" value="' + transaction.status + '" />' +
                             '<input type="hidden" name="paymentMethod" value="PAYPAL" />' +
                             '</form>');
