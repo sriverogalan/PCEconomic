@@ -1,9 +1,9 @@
 package me.pceconomic.shop.domain.entities.persona;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.article.Article;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import me.pceconomic.shop.domain.entities.article.Carrito;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
@@ -12,8 +12,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "persones")
-@EqualsAndHashCode(exclude = {"direccions", "rols", "factures", "carrito", "valoracio"})
-public @Data class Persona {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,11 +53,11 @@ public @Data class Persona {
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Factura> factures;
-
     @OneToOne
     private Valoracions valoracio;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Factura> factures;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -72,5 +74,21 @@ public @Data class Persona {
             inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
     private Set<Rols> rols;
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname1='" + surname1 + '\'' +
+                ", surname2='" + surname2 + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", telefon='" + telefon + '\'' +
+                ", dni='" + dni + '\'' +
+                ", isSubscribed=" + isSubscribed +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
 
