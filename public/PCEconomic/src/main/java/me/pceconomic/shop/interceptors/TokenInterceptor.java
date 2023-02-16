@@ -7,7 +7,8 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import me.pceconomic.shop.domain.entities.persona.Persona;
-import me.pceconomic.shop.services.RegisterService;
+import me.pceconomic.shop.repositories.PersonaRepository;
+import me.pceconomic.shop.repositories.RolsRepository;
 import me.pceconomic.shop.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,12 +22,14 @@ import java.util.Map;
 public class TokenInterceptor implements HandlerInterceptor {
 
     private final TokenService tokenService;
-    private final RegisterService registerService;
+    private final PersonaRepository personaRepository;
+    private final RolsRepository rolsRepository;
 
     @Autowired
-    public TokenInterceptor(TokenService tokenService, RegisterService registerService) {
+    public TokenInterceptor(TokenService tokenService, PersonaRepository personaRepository, RolsRepository rolsRepository) {
         this.tokenService = tokenService;
-        this.registerService = registerService;
+        this.personaRepository = personaRepository;
+        this.rolsRepository = rolsRepository;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             Claims claims = tokenService.getClaims(request);
 
             String email = claims.get("email", String.class);
-            Persona persona = registerService.getPersonaByEmail(email);
+            Persona persona = personaRepository.findByEmail(email);
 
             if (persona == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not valid");
@@ -113,7 +116,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         for (String rol : allowedRols) {
             if (persona.getRols() != null) {
-                if (persona.getRols().contains(registerService.getRolsByName(rol))) {
+                if (persona.getRols().contains(rolsRepository.getRolsByName(rol))) {
                     return true;
                 }
             }
