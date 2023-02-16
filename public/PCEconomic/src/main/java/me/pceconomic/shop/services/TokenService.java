@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -22,7 +21,7 @@ public class TokenService {
     public String createToken(String email, Set<String> rols, long time) {
         return Jwts.builder()
                 .claim("email", email)
-                .claim("rols",rols)
+                .claim("rols", rols)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + time)) //1 setmana (7*24*3600*1000)
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(this.jwtSecret.getBytes()))
@@ -60,5 +59,9 @@ public class TokenService {
             e.printStackTrace();
         }
         return claims;
+    }
+
+    public void invalidateToken(String token) {
+        Claims claims;
     }
 }
