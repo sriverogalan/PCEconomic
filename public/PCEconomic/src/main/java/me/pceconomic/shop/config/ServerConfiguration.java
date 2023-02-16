@@ -47,9 +47,6 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra")
-                .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
         registry.addInterceptor(compraInterceptor)
                 .addPathPatterns("/compra", "/carrito/**")
                 .excludePathPatterns("/carrito");

@@ -1,11 +1,13 @@
 package me.pceconomic.shop.controllers.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.entities.persona.Rols;
 import me.pceconomic.shop.services.RegisterService;
 import me.pceconomic.shop.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @RestController
 public class RestLoginController {
@@ -36,8 +37,10 @@ public class RestLoginController {
     public ResponseEntity<String> validacioLogin(
             @ModelAttribute("email") String email,
             @ModelAttribute("password") String password,
+            HttpServletRequest request,
             HttpSession session) {
         if (registerService.getPersonaByEmail(email) != null) {
+            System.out.println("Usuari: " + email + " " + password);
             Persona usuari = registerService.getPersonaByEmail(email);
             if (passwordEncoder.matches(password, usuari.getPassword())) {
                 Persona client = registerService.getPersonaByEmail(email);
@@ -47,8 +50,14 @@ public class RestLoginController {
                     rols.addAll(usuari.getRols().stream().map(Rols::getName)
                             .toList());
                 }
+                System.out.println("Rols: " + rols);
+                String token = tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7));
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Authorization", "Bearer " + token);
+                System.out.println(headers);
                 return new ResponseEntity<>(
-                        tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7)),
+                        token,
+                        headers,
                         HttpStatus.OK);
             }
             return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);

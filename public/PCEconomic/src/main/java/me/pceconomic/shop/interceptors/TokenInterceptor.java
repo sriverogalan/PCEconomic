@@ -35,7 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authorization = request.getHeader("Authorization");
-
+        System.out.println("Authorization: " + authorization);
         if (authorization != null && !authorization.isEmpty()) {
             String token = authorization.replace("Bearer ", "");
             int validate = tokenService.validateToken(token);
@@ -43,10 +43,12 @@ public class TokenInterceptor implements HandlerInterceptor {
             if (validate == 2) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No valid Token");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.sendRedirect(request.getContextPath() + "/login");
                 return false;
             } else if (validate == 1) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Expired Token");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.sendRedirect(request.getContextPath() + "/login");
                 return false;
             }
             Claims claims = tokenService.getClaims(request);
@@ -57,6 +59,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             if (persona == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not valid");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.sendRedirect(request.getContextPath() + "/login");
                 return false;
             }
 
@@ -65,18 +68,12 @@ public class TokenInterceptor implements HandlerInterceptor {
 
             boolean hasAuthorization = this.hasAuthorization(persona, rolsURL);
 
-            if (!hasAuthorization) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not valid");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return false;
-            }
-
+            System.out.println("Auth: " + hasAuthorization);
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
-
         }
-
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+        response.sendRedirect(request.getContextPath() + "/login");
+        return false;
     }
 
     private String[] getRolsFromURL(String url) {
