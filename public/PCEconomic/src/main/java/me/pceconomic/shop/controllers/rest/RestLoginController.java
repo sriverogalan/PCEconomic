@@ -7,7 +7,6 @@ import me.pceconomic.shop.domain.entities.persona.Rols;
 import me.pceconomic.shop.services.RegisterService;
 import me.pceconomic.shop.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,12 +51,9 @@ public class RestLoginController {
                 }
                 System.out.println("Rols: " + rols);
                 String token = tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7));
-                HttpHeaders headers = new HttpHeaders();
-                headers.set("Authorization", "Bearer " + token);
-                System.out.println(headers);
+                session.setAttribute("token", token);
                 return new ResponseEntity<>(
                         token,
-                        headers,
                         HttpStatus.OK);
             }
             return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);

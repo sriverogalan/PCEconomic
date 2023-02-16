@@ -34,11 +34,9 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String authorization = request.getHeader("Authorization");
-        System.out.println("Authorization: " + authorization);
+        String authorization = request.getSession().getAttribute("token").toString();
         if (authorization != null && !authorization.isEmpty()) {
-            String token = authorization.replace("Bearer ", "");
-            int validate = tokenService.validateToken(token);
+            int validate = tokenService.validateToken(authorization);
 
             if (validate == 2) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No valid Token");
@@ -51,7 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                 response.sendRedirect(request.getContextPath() + "/login");
                 return false;
             }
-            Claims claims = tokenService.getClaims(request);
+            Claims claims = tokenService.getClaims(authorization);
 
             String email = claims.get("email", String.class);
             Persona persona = personaRepository.findByEmail(email);
@@ -68,7 +66,13 @@ public class TokenInterceptor implements HandlerInterceptor {
 
             boolean hasAuthorization = this.hasAuthorization(persona, rolsURL);
 
-            System.out.println("Auth: " + hasAuthorization);
+            if (!hasAuthorization) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not valid");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.sendRedirect(request.getContextPath() + "/login");
+                return false;
+            }
+            
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }

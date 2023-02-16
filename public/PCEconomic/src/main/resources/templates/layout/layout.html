@@ -163,12 +163,16 @@
         $.ajaxSetup({
             beforeSend: function (xhr) {
                 var token = localStorage.getItem('token');
-                console.log('Authorization header:', token);
                 if (token) {
                     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
                 }
             }
         });
+
+        const headers = new Headers();
+        headers.authorization = "Bearer " + localStorage.getItem('token');
+
+        console.log("headers", headers);
 
         $.ajax({
 
