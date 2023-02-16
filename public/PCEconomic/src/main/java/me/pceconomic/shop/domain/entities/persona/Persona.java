@@ -49,7 +49,7 @@ public class Persona {
     @Column(name = "isActiu")
     private boolean isActive;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
