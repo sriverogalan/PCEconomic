@@ -116,10 +116,21 @@
             $("#loading-wheel").hide();
         },
         success: function (resp) {
+            var propietats = []; // array de articulos
+            var propietatsFiltrades = []; // array de articulos filtrados
+            for (var prop of resp) {
+                propietats.push(prop);
+            }
+
+
+
+
+
             var imgAux = "";
+
+
             for (var prop of resp) {
                 imgAux = "";
-                // recorremos las imagenes de cada propietat para buscar la principal
                 for (var img of prop.imatges) {
                     if (img.principal === true) {
                         imgAux = '/img/productes/' + prop.article.id + '/' + prop.id + '/' + img.path;
@@ -128,7 +139,6 @@
                 if (imgAux === "") {
                     imgAux = '/img/static/no-photo.png';
                 }
-
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
                         '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start">' +

@@ -77,6 +77,7 @@ public class FrontController {
         }
 
         boolean existeix = false;
+
         for (ContadorArticle contador : contadors) {
             if (contador.getIdArticle() == idArticle) {
                 contador.setContador(contador.getContador() + 1);

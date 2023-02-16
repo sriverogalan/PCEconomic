@@ -76,15 +76,19 @@
                         >
                             <img class="d-block img-fluid imgSizeArticle"
                                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
+                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src="" style="max-height:500px; margin:auto; object-fit: contain;">
+                        </div>
+                        <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
+                            <img class="d-block img-fluid imgSizeArticle"
+                                 th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto" src="" style="max-height:500px; margin:auto; object-fit: contain;">
                         </div>
                     </div>
-                    <button class="carousel-control-prev" data-bs-slide="prev"
+                    <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-prev" data-bs-slide="prev"
                             data-bs-target="#carouselExampleIndicators"
                             type="button">
                         <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
                     </button>
-                    <button class="carousel-control-next" data-bs-slide="next"
+                    <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-next" data-bs-slide="next"
                             data-bs-target="#carouselExampleIndicators"
                             type="button">
                         <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
