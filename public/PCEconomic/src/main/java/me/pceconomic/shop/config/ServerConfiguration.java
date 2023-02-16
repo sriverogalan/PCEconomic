@@ -2,6 +2,7 @@ package me.pceconomic.shop.config;
 
 import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
+import me.pceconomic.shop.interceptors.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,11 +18,13 @@ public class ServerConfiguration implements WebMvcConfigurer {
             "classpath:/static/", "classpath:/public/"};
     private final LoginInterceptor loginInterceptor;
     private final CompraInterceptor compraInterceptor;
+    private final TokenInterceptor tokenInterceptor;
 
     @Autowired
-    public ServerConfiguration(LoginInterceptor loginInterceptor, CompraInterceptor compraInterceptor) {
+    public ServerConfiguration(LoginInterceptor loginInterceptor, CompraInterceptor compraInterceptor, TokenInterceptor tokenInterceptor) {
         this.loginInterceptor = loginInterceptor;
         this.compraInterceptor = compraInterceptor;
+        this.tokenInterceptor = tokenInterceptor;
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -50,6 +53,9 @@ public class ServerConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(compraInterceptor)
                 .addPathPatterns("/compra", "/carrito/**")
                 .excludePathPatterns("/carrito");
+        registry.addInterceptor(tokenInterceptor)
+                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra")
+                .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
     }
 
     @Bean
