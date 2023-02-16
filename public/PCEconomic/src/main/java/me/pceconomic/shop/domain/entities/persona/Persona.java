@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "persones")
-@EqualsAndHashCode(exclude = {"direccions", "rols", "factures", "carrito", "valoracio"})
+@EqualsAndHashCode(exclude = {"direccions", "rols", "factures"})
 public @Data class Persona {
 
     @Id

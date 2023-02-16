@@ -120,16 +120,11 @@ public class FrontController {
         HttpSession session = request.getSession();
         if (session == null) return "redirect:/";
 
-        System.out.println(status);
-        System.out.println(paymentMethod);
 
         if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")) {
             Persona persona = (Persona) session.getAttribute("persona");
             ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
-            System.out.println(" ----------------------- ");
-            System.out.println(persona);
-            System.out.println(carrito);
-            System.out.println(" ----------------------- ");
+
             Set<Cart> carts = carrito.getIds();
             System.out.println(carts);
             System.out.println();
@@ -148,8 +143,8 @@ public class FrontController {
             factura.setDireccio(carrito.getDireccio());
             facturaRepository.save(factura);
 
-            clientDB.getFactures().add(factura);
-            frontService.getPersonaRepository().save(clientDB);
+            /*clientDB.getFactures().add(factura);
+            frontService.getPersonaRepository().save(clientDB);*/
 
             for (Cart cart : carts) {
                 LineasFactura lineasFactura = new LineasFactura();

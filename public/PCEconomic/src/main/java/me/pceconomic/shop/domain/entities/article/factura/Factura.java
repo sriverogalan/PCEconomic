@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@EqualsAndHashCode(exclude = "lineasFacturas")
+@EqualsAndHashCode(exclude = {"lineasFacturas", "client"})
 public @Data class Factura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
