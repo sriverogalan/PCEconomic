@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.repositories.PersonaRepository;
 import me.pceconomic.shop.repositories.RolsRepository;
@@ -34,7 +35,19 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String authorization = request.getSession().getAttribute("token").toString();
+        HttpSession session = request.getSession();
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+
+        if (session.getAttribute("token") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return false;
+        }
+
+        String authorization = session.getAttribute("token").toString();
+
         if (authorization != null && !authorization.isEmpty()) {
             int validate = tokenService.validateToken(authorization);
 
@@ -66,13 +79,6 @@ public class TokenInterceptor implements HandlerInterceptor {
 
             boolean hasAuthorization = this.hasAuthorization(persona, rolsURL);
 
-            if (!hasAuthorization) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not valid");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.sendRedirect(request.getContextPath() + "/login");
-                return false;
-            }
-            
             response.setStatus(HttpServletResponse.SC_OK);
             return true;
         }

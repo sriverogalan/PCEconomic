@@ -51,7 +51,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
                 .addPathPatterns("/compra", "/carrito/**")
                 .excludePathPatterns("/carrito");
         registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra")
+                .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra", "/pagament/**")
                 .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
     }
 
