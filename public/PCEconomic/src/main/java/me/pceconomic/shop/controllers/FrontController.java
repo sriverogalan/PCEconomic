@@ -174,9 +174,8 @@ public class FrontController {
             session.setAttribute("pedidos", persona.getFactures());
 
             return "redirect:/carrito/finalitzat";
-        } else {
-            return "redirect:/carrito/error";
         }
+        return "redirect:/carrito/error";
     }
 
     @GetMapping("/carrito/finalitzat")
