@@ -9,7 +9,7 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.repositories.FacturaRepository;
@@ -51,9 +51,9 @@ public class FrontController {
         HttpSession session = request.getSession();
         if (session == null) return "index";
 
-        Client client = (Client) session.getAttribute("persona");
-        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
-        model.addAttribute("user", client);
+        Persona persona = (Persona) session.getAttribute("persona");
+        model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
+        model.addAttribute("user", persona);
 
         return "index";
     }
@@ -122,12 +122,12 @@ public class FrontController {
         if (session == null) return "redirect:/error";
 
         if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")) {
-            Client client = (Client) session.getAttribute("persona");
+            Persona persona = (Persona) session.getAttribute("persona");
             ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
 
             Set<Cart> carts = carrito.getIds();
 
-            Client clientDB = frontService.getClientRepository().findById(client.getId()).orElse(null);
+            Persona clientDB = frontService.getPersonaRepository().findById(persona.getId()).orElse(null);
             if (clientDB == null) return "redirect:/error";
 
             Factura factura = new Factura();
@@ -142,7 +142,7 @@ public class FrontController {
             facturaRepository.save(factura);
 
             clientDB.getFactures().add(factura);
-            frontService.getClientRepository().save(clientDB);
+            frontService.getPersonaRepository().save(clientDB);
 
             for (Cart cart : carts) {
                 LineasFactura lineasFactura = new LineasFactura();
@@ -157,7 +157,7 @@ public class FrontController {
             }
             session.removeAttribute("carrito");
             session.removeAttribute("pedidos");
-            session.setAttribute("pedidos", client.getFactures());
+            session.setAttribute("pedidos", persona.getFactures());
 
             return "redirect:/carrito/finalitzat";
         } else {
@@ -170,9 +170,9 @@ public class FrontController {
         HttpSession session = request.getSession();
         if (session == null) return "redirect:/";
 
-        Client client = (Client) session.getAttribute("persona");
-        model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
-        model.addAttribute("user", client);
+        Persona persona = (Persona) session.getAttribute("persona");
+        model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
+        model.addAttribute("user", persona);
 
         return "finalitzat";
     }
@@ -225,7 +225,7 @@ public class FrontController {
 
         model.addAttribute("directionForm", new AddDirectionForm());
 
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         return false;
     }

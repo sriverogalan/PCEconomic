@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ public @Data class Factura {
 
     @ManyToOne
     @JsonIgnore
-    private Client client;
+    private Persona client;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<LineasFactura> lineasFacturas = new HashSet<>();

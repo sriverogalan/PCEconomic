@@ -8,8 +8,8 @@ import me.pceconomic.shop.domain.entities.article.categoria.Categoria;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
-import me.pceconomic.shop.domain.entities.persona.Client;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +71,7 @@ public class RestFrontController {
     public Set<Factura> pedidos(HttpServletRequest request) {
         HttpSession session = request.getSession();
         if (session == null) return null;
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
         return client.getFactures();
     }
 }

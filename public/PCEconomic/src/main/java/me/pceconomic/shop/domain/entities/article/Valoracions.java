@@ -2,7 +2,7 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -30,8 +30,8 @@ public @Data class Valoracions {
     private Article article;
 
     @OneToOne
-    @JoinColumn(name = "id_client")
-    private Client client;
+    @JoinColumn(name = "id_persona")
+    private Persona client;
 
 
 }

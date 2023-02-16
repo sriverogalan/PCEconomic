@@ -6,7 +6,7 @@ import lombok.Getter;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
-import me.pceconomic.shop.domain.entities.persona.Client;
+import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +29,10 @@ public class FrontService {
     private final PropietatsRepository propietatsRepository;
     private final VisitaRepository visitaRepository;
     private final ValoracionsRepository valoracionsRepository;
-    private final ClientRepository clientRepository;
+    private final PersonaRepository personaRepository;
 
     @Autowired
-    public FrontService(VisitaRepository visitaRepository, ValoracionsRepository valoracionsRepository,ClientRepository clientRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(VisitaRepository visitaRepository, PersonaRepository personaRepository, ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
@@ -40,7 +40,7 @@ public class FrontService {
         this.subcategoriaRepository = subcategoriaRepository;
         this.visitaRepository = visitaRepository;
         this.valoracionsRepository = valoracionsRepository;
-        this.clientRepository = clientRepository;
+        this.personaRepository = personaRepository;
     }
 
     public void article(Model model, HttpServletRequest request) {
@@ -54,21 +54,6 @@ public class FrontService {
 
     public List<Valoracions> getValoracionsPerArticle(int idArticle) {
         return valoracionsRepository.findAllByArticleId(idArticle);
-    }
-
-    public String getFechaValoracion(int idArticle) {
-        List<Valoracions> valoracions = this.getValoracionsPerArticle(idArticle);
-
-        if (valoracions.isEmpty()) return "";
-
-        String fecha = "";
-
-        for (Valoracions valoracion : valoracions)
-            fecha = valoracion.getData().toString();
-
-
-        System.out.println(fecha);
-        return fecha;
     }
 
     public void getCategoria(Model model, int id, HttpServletRequest request) {
@@ -89,7 +74,7 @@ public class FrontService {
 
         if (session == null) return;
 
-        Client client = (Client) session.getAttribute("persona");
+        Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", client);
     }
@@ -97,12 +82,12 @@ public class FrontService {
     public void addValoracio(int idClient, int idArticle, AddValorationForm valorationForm) {
         Valoracions valoracions = new Valoracions();
         Article article = articleRepository.findById(idArticle).orElse(null);
-        Client client = clientRepository.findById(idClient).orElse(null);
+        Persona persona = personaRepository.findById(idClient).orElse(null);
 
         valoracions.setValoracio(valorationForm.getValoracio());
         valoracions.setComentari(valorationForm.getComentari());
         valoracions.setArticle(article);
-        valoracions.setClient(client);
+        valoracions.setClient(persona);
         valoracions.setData(LocalDate.now());
 
         valoracionsRepository.save(valoracions);
