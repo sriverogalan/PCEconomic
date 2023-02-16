@@ -156,7 +156,7 @@
                     Actualmente no hay valoraciones para este producto
                 </div>
 
-                <div id="pagination-container" class="container" style="width: 1250px;">
+                <div id="pagination-container" class="card-deck pag-container container" style="width: 1250px;">
                     <div class="card m-3" th:each="valoracio : ${valoracions}"
                          th:if="${propietats.article.id == valoracio.article.id}">
                         <div class="card-header d-flex justify-content-evenly">
@@ -272,13 +272,29 @@
 
             var tamanoArray = [[${valoracions.size()}]];
             console.log(tamanoArray);
-            $('#pagination-container').pagination({
-                dataSource: new Array(tamanoArray),
-                pageSize: 5,
-                className: 'paginationjs-theme-blue',
+            $('.card-deck').pagination({
+                perPage: 3,
+                dataSource: function (done) {
+                    var data = $('.card-deck .card');
+                    var result = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        result.push(data[i]);
+                    }
+
+                    done(result);
+                },
+                // Agregar una función de callback para mostrar/ocultar las cards en cada página
                 callback: function (data, pagination) {
-                    var html = template(data);
-                    $('#data-container').html(html);
+                    var page = pagination.pageNumber;
+                    var start = (page - 1) * pagination.perPage;
+                    var end = start + pagination.perPage;
+
+                    // Ocultar todas las cards
+                    data.hide();
+
+                    // Mostrar las cards correspondientes a la página actual
+                    data.slice(start, end).show();
                 }
             });
 
