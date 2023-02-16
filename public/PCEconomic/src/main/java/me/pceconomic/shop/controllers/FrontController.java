@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -96,7 +97,6 @@ public class FrontController {
         session.setAttribute("contadors", contadors);
 
 
-
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
                 model.addAttribute("propietats", propietats);
@@ -120,20 +120,26 @@ public class FrontController {
         HttpSession session = request.getSession();
         if (session == null) return "redirect:/";
 
+        System.out.println(status);
+        System.out.println(paymentMethod);
 
         if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")) {
             Persona persona = (Persona) session.getAttribute("persona");
             ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
-
+            System.out.println(" ----------------------- ");
+            System.out.println(persona);
+            System.out.println(carrito);
+            System.out.println(" ----------------------- ");
             Set<Cart> carts = carrito.getIds();
             System.out.println(carts);
             System.out.println();
 
-            Persona clientDB = frontService.getPersonaRepository().findById(persona.getId()).orElse(null);
-            if (clientDB == null) return "redirect:/error";
+            if (!frontService.getPersonaRepository().existsById(persona.getId())) {
+                return "redirect:/error";
+            }
 
             Factura factura = new Factura();
-            factura.setClient(clientDB);
+            factura.setClient(persona);
             factura.setPreu(carrito.getPreuTotal());
             factura.setMetodePagament(paymentMethod);
             factura.setEstat(status);
@@ -141,11 +147,8 @@ public class FrontController {
             factura.setQuantitat(carts.size());
             factura.setPreuTransport(carrito.getPreuTransport());
             factura.setDireccio(carrito.getDireccio());
-            facturaRepository.save(factura);
 
-            /*clientDB.getFactures().add(factura);
-            frontService.getPersonaRepository().save(clientDB);*/
-
+            Set<LineasFactura> facturaSet = new HashSet<>();
             for (Cart cart : carts) {
                 LineasFactura lineasFactura = new LineasFactura();
                 lineasFactura.setFactura(factura);
@@ -154,21 +157,25 @@ public class FrontController {
                 lineasFactura.setPrice(cart.getPrice());
                 lineasFactura.setQuantity(cart.getQuantity());
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
-                factura.addLineasFactura(lineasFactura);
-                lineaFacturaRepository.save(lineasFactura);
+
+                facturaSet.add(lineasFactura);
 
                 Propietats propietats = frontService.getPropietatsRepository().findById(cart.getPropietats().getId()).orElse(null);
+                if (propietats == null) return "redirect:/error";
                 propietats.setStock(propietats.getStock() - cart.getQuantity());
                 frontService.getPropietatsRepository().save(propietats);
             }
+            factura.setLineasFacturas(facturaSet);
+            persona.getFactures().add(factura);
+            frontService.getPersonaRepository().save(persona);
+
             session.removeAttribute("carrito");
             session.removeAttribute("pedidos");
             session.setAttribute("pedidos", persona.getFactures());
 
             return "redirect:/carrito/finalitzat";
-        } else {
-            return "redirect:/carrito/error";
         }
+        return "redirect:/carrito/error";
     }
 
     @GetMapping("/carrito/finalitzat")

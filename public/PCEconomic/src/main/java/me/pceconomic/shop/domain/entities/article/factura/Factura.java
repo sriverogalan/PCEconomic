@@ -8,7 +8,6 @@ import me.pceconomic.shop.domain.entities.persona.Persona;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -46,11 +45,6 @@ public @Data class Factura {
     private Persona client;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<LineasFactura> lineasFacturas = new HashSet<>();
-
-    public void addLineasFactura(LineasFactura lineasFactura) {
-        lineasFactura.setFactura(this);
-        this.lineasFacturas.add(lineasFactura);
-    }
+    private Set<LineasFactura> lineasFacturas;
 
 }
