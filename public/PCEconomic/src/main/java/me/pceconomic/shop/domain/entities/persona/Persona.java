@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "persones")
-@EqualsAndHashCode(exclude = {"direccions"})
+@EqualsAndHashCode(exclude = {"direccions", "rols", "factures", "carrito", "valoracio"})
 public @Data class Persona {
 
     @Id
@@ -56,10 +56,6 @@ public @Data class Persona {
 
     @OneToOne
     private Valoracions valoracio;
-
-    @OneToMany
-    @JoinTable(name = "article-administrador", joinColumns = @JoinColumn(name = "id_administrador"), inverseJoinColumns = @JoinColumn(name = "id_article"))
-    private Set<Article> articles;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

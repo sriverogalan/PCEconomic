@@ -95,6 +95,8 @@ public class FrontController {
 
         session.setAttribute("contadors", contadors);
 
+
+
         article.getPropietats().forEach(prop -> {
             if (prop.getId() == propietats.getId()) {
                 model.addAttribute("propietats", propietats);
@@ -113,17 +115,24 @@ public class FrontController {
     }
 
 
-    @GetMapping("/api/pagament")
+    @PostMapping("/pagament")
     public String pagament(HttpServletRequest request, @RequestParam String status, @RequestParam String paymentMethod) {
         HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
 
-        if (session == null) return "redirect:/error";
+        System.out.println(status);
+        System.out.println(paymentMethod);
 
         if (status.equals("COMPLETED") && paymentMethod.toLowerCase().equals("paypal")) {
             Persona persona = (Persona) session.getAttribute("persona");
             ShoppingCart carrito = (ShoppingCart) session.getAttribute("carrito");
-
+            System.out.println(" ----------------------- ");
+            System.out.println(persona);
+            System.out.println(carrito);
+            System.out.println(" ----------------------- ");
             Set<Cart> carts = carrito.getIds();
+            System.out.println(carts);
+            System.out.println();
 
             Persona clientDB = frontService.getPersonaRepository().findById(persona.getId()).orElse(null);
             if (clientDB == null) return "redirect:/error";
@@ -152,6 +161,10 @@ public class FrontController {
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
                 factura.addLineasFactura(lineasFactura);
                 lineaFacturaRepository.save(lineasFactura);
+
+                Propietats propietats = frontService.getPropietatsRepository().findById(cart.getPropietats().getId()).orElse(null);
+                propietats.setStock(propietats.getStock() - cart.getQuantity());
+                frontService.getPropietatsRepository().save(propietats);
             }
             session.removeAttribute("carrito");
             session.removeAttribute("pedidos");
