@@ -1,525 +1,622 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
-<body class="bgbd">
-    <header th:replace="layout/layout :: navbar"></header>
-    <main class="container bg-cont mt-5 p-3">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1>MI CUENTA</h1>
-                <p th:text="'Bienvenido de nuevo ' + ${user.name}"></p>
-                <div class="d-flex flex-row-reverse mt-2 mb-2">
-                    <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
+    <head th:replace="layout/layout :: head"></head>
+    <body class="bgbd">
+        <header th:replace="layout/layout :: navbar"></header>
+        <main class="container bg-cont mt-5 p-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1>MI CUENTA</h1>
+                    <p th:text="'Bienvenido de nuevo ' + ${user.name}"></p>
+                    <div class="d-flex flex-row-reverse mt-2 mb-2">
+                        <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
-                <i class='bi bi-exclamation-triangle'></i>
-                <span th:text="${updateDirectionError}"></span>
-            </div>
+                <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span th:text="${updateDirectionError}"></span>
+                </div>
 
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="miperfil">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            MI PERFIL
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
-                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="miperfil">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                MI PERFIL
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
 
-                            <div class="row">
-                                <div class="col-12 mb-2 d-flex justify-content-center align-items-center">
-                                    <h2>MIS DATOS</h2>
+                                <div class="row">
+                                    <div class="col-12 mb-2 d-flex justify-content-center align-items-center">
+                                        <h2>MIS DATOS</h2>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
-                                <div class="mt-2 m-1 alert alert-danger" th:if="${changeNameError != null}">
-                                    <i class='bi bi-exclamation-triangle'></i>
-                                    <span th:text="${changeNameError}"></span>
+                                <div>
+                                    <h5 style="font-weight: bold">CAMBIAR NOMBRE</h5>
+                                    <div class="mt-2 m-1 alert alert-danger" th:if="${changeNameError != null}">
+                                        <i class='bi bi-exclamation-triangle'></i>
+                                        <span th:text="${changeNameError}"></span>
+                                    </div>
+                                    <form method="post" th:action="@{/areaclients/changeName}" class="needs-validation"
+                                          novalidate
+                                          th:object="${changeName}">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Antiguo Nombre</label>
+                                                <p class="m-2" th:text="${user.name}"></p>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="name">Nuevo Nombre</label>
+                                                <input th:field="*{newName}" class="form-control" type="text" name="name"
+                                                       id="name"
+                                                       placeholder="Nuevo Nombre"/>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="repeat-name">Repetir Nombre</label>
+                                                <input th:field="*{confirmNewName}" class="form-control" type="text"
+                                                       name="surname" id="repeat-name"
+                                                       placeholder="Nuevo Apellido"/>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row-reverse mt-2">
+                                            <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form method="post" th:action="@{/areaclients/changeName}" class="needs-validation"
-                                      novalidate
-                                      th:object="${changeName}">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Antiguo Nombre</label>
-                                            <p class="m-2" th:text="${user.name}"></p>
-                                        </div>
 
-                                        <div class="col-md-4">
-                                            <label for="name">Nuevo Nombre</label>
-                                            <input th:field="*{newName}" class="form-control" type="text" name="name"
-                                                   id="name"
-                                                   placeholder="Nuevo Nombre"/>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="repeat-name">Repetir Nombre</label>
-                                            <input th:field="*{confirmNewName}" class="form-control" type="text"
-                                                   name="surname" id="repeat-name"
-                                                   placeholder="Nuevo Apellido"/>
-                                        </div>
+                                <div>
+                                    <h5 style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
+                                    <div class="mt-2 m-1 alert alert-danger" th:if="${changePasswordError != null}">
+                                        <i class='bi bi-exclamation-triangle'></i>
+                                        <span th:text="${changePasswordError}"></span>
                                     </div>
-                                    <div class="d-flex flex-row-reverse mt-2">
-                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Nombre
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                    <form method="post" th:action="@{/areaclients/changepassword}" class="needs-validation"
+                                          novalidate
+                                          th:object="${changePasswordForm}">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="old-password">Antigua Contraseña</label>
+                                                <input class="form-control" type="password" name="password"
+                                                       th:field="*{oldPassword}"
+                                                       id="old-password" placeholder="Antigua Contraseña"/>
+                                            </div>
 
-                            <div>
-                                <h5 style="font-weight: bold">CAMBIAR CONTRASEÑA</h5>
-                                <div class="mt-2 m-1 alert alert-danger" th:if="${changePasswordError != null}">
-                                    <i class='bi bi-exclamation-triangle'></i>
-                                    <span th:text="${changePasswordError}"></span>
+                                            <div class="col-md-4">
+                                                <label for="password">Nueva Contraseña</label>
+                                                <input class="form-control" type="password" name="password" id="password"
+                                                       th:field="*{newPassword}"
+                                                       placeholder="Nueva Contraseña"/>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label for="confirm-password">Repetir Nueva Contraseña</label>
+                                                <input class="form-control" type="password" name="password"
+                                                       th:field="*{confirmPassword}"
+                                                       id="confirm-password" placeholder="Repetir Nueva Contraseña"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row-reverse mt-2">
+                                            <button class="btn btn-pc-economic-dark" type="submit">Cambiar Contraseña
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form method="post" th:action="@{/areaclients/changepassword}" class="needs-validation"
-                                      novalidate
-                                      th:object="${changePasswordForm}">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label for="old-password">Antigua Contraseña</label>
-                                            <input class="form-control" type="password" name="password"
-                                                   th:field="*{oldPassword}"
-                                                   id="old-password" placeholder="Antigua Contraseña"/>
-                                        </div>
 
-                                        <div class="col-md-4">
-                                            <label for="password">Nueva Contraseña</label>
-                                            <input class="form-control" type="password" name="password" id="password"
-                                                   th:field="*{newPassword}"
-                                                   placeholder="Nueva Contraseña"/>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="confirm-password">Repetir Nueva Contraseña</label>
-                                            <input class="form-control" type="password" name="password"
-                                                   th:field="*{confirmPassword}"
-                                                   id="confirm-password" placeholder="Repetir Nueva Contraseña"/>
-                                        </div>
+                                <div>
+                                    <h5 style="font-weight: bold">CAMBIAR EMAIL</h5>
+                                    <div class="mt-2 m-1 alert alert-danger" th:if="${changeEmailError != null}">
+                                        <i class='bi bi-exclamation-triangle'></i>
+                                        <span th:text="${changeEmailError}"></span>
                                     </div>
+                                    <form method="post" th:action="@{/areaclients/changeemail}" class="needs-validation"
+                                          novalidate
+                                          th:object="${changeEmailForm}">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label>Antiguo Email</label>
+                                                <p class="m-2" th:text="${user.email}"></p>
+                                            </div>
 
-                                    <div class="d-flex flex-row-reverse mt-2">
-                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Contraseña
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                            <div class="col-md-4">
+                                                <label for="email">Nuevo Email</label>
+                                                <input class="form-control" type="email" name="email" id="email"
+                                                       th:field="*{newEmail}"
+                                                       placeholder="Nuevo Email"/>
+                                            </div>
 
-                            <div>
-                                <h5 style="font-weight: bold">CAMBIAR EMAIL</h5>
-                                <div class="mt-2 m-1 alert alert-danger" th:if="${changeEmailError != null}">
-                                    <i class='bi bi-exclamation-triangle'></i>
-                                    <span th:text="${changeEmailError}"></span>
+                                            <div class="col-md-4">
+                                                <label for="confirm-email">Repetir Nuevo Email</label>
+                                                <input class="form-control" type="email" name="email" id="confirm-email"
+                                                       th:field="*{confirmNewEmail}"
+                                                       placeholder="Repetir Nuevo Email"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row-reverse mt-2">
+                                            <button class="btn btn-pc-economic-dark" type="submit">Cambiar Email
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form method="post" th:action="@{/areaclients/changeemail}" class="needs-validation"
-                                      novalidate
-                                      th:object="${changeEmailForm}">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Antiguo Email</label>
-                                            <p class="m-2" th:text="${user.email}"></p>
-                                        </div>
 
-                                        <div class="col-md-4">
-                                            <label for="email">Nuevo Email</label>
-                                            <input class="form-control" type="email" name="email" id="email"
-                                                   th:field="*{newEmail}"
-                                                   placeholder="Nuevo Email"/>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="confirm-email">Repetir Nuevo Email</label>
-                                            <input class="form-control" type="email" name="email" id="confirm-email"
-                                                   th:field="*{confirmNewEmail}"
-                                                   placeholder="Repetir Nuevo Email"/>
-                                        </div>
+                                <div>
+                                    <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
+                                    <div class="mt-2 m-1 alert alert-danger" th:if="${changePhoneError != null}">
+                                        <i class='bi bi-exclamation-triangle'></i>
+                                        <span th:text="${changePhoneError}"></span>
                                     </div>
+                                    <form th:object="${changeTelephoneForm}" th:action="@{/areaclients/changetelephone}"
+                                          method="post" class="needs-validation" novalidate>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <label for="old-phone">Antiguo Telefono</label>
+                                                <input class="form-control" type="tel" name="phone" id="old-phone"
+                                                       th:field="*{oldTelephone}"
+                                                       placeholder="Antiguo Telefono"/>
+                                            </div>
 
-                                    <div class="d-flex flex-row-reverse mt-2">
-                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Email
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                            <div class="col-md-4">
+                                                <label for="phone">Nuevo Telefono</label>
+                                                <input class="form-control" type="tel" name="phone" id="phone"
+                                                       th:field="*{newTelephone}"
+                                                       placeholder="Nuevo Telefono"/>
+                                            </div>
 
-                            <div>
-                                <h5 style="font-weight: bold">CAMBIAR TELEFONO</h5>
-                                <div class="mt-2 m-1 alert alert-danger" th:if="${changePhoneError != null}">
-                                    <i class='bi bi-exclamation-triangle'></i>
-                                    <span th:text="${changePhoneError}"></span>
+                                            <div class="col-md-4">
+                                                <label for="confirm-phone">Repetir Nuevo Telefono</label>
+                                                <input class="form-control" type="tel" name="phone" id="confirm-phone"
+                                                       th:field="*{confirmNewTelephone}"
+                                                       placeholder="Repetir Nuevo Telefono"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row-reverse mt-2">
+                                            <button class="btn btn-pc-economic-dark" type="submit">Cambiar Telefono
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <form th:object="${changeTelephoneForm}" th:action="@{/areaclients/changetelephone}"
-                                      method="post" class="needs-validation" novalidate>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label for="old-phone">Antiguo Telefono</label>
-                                            <input class="form-control" type="tel" name="phone" id="old-phone"
-                                                   th:field="*{oldTelephone}"
-                                                   placeholder="Antiguo Telefono"/>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="phone">Nuevo Telefono</label>
-                                            <input class="form-control" type="tel" name="phone" id="phone"
-                                                   th:field="*{newTelephone}"
-                                                   placeholder="Nuevo Telefono"/>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <label for="confirm-phone">Repetir Nuevo Telefono</label>
-                                            <input class="form-control" type="tel" name="phone" id="confirm-phone"
-                                                   th:field="*{confirmNewTelephone}"
-                                                   placeholder="Repetir Nuevo Telefono"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex flex-row-reverse mt-2">
-                                        <button class="btn btn-pc-economic-dark" type="submit">Cambiar Telefono
-                                        </button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="direcciones">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            MIS DIRECCIONES
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="direcciones"
-                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="row" th:if="${user.direccions.isEmpty()}">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="direcciones">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                MIS DIRECCIONES
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="direcciones"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row" th:if="${user.direccions.isEmpty()}">
 
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente no tienes ninguna direccion de envio creada</p>
-                                    <p>Pulse aqui si le interesa añadir alguna!</p>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <p>Actualmente no tienes ninguna direccion de envio creada</p>
+                                        <p>Pulse aqui si le interesa añadir alguna!</p>
 
-                                    <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            data-bs-target="#add">
-                                        Añadir direccion
-                                    </button>
+                                        <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                                data-bs-target="#add">
+                                            Añadir direccion
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="row" th:if="${!user.direccions.isEmpty()}">
+                                <div class="row" th:if="${!user.direccions.isEmpty()}">
 
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente tienes las siguientes direcciones de envio</p>
-                                    <p>Pulse aqui si le interesa añadir alguna!</p>
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <p>Actualmente tienes las siguientes direcciones de envio</p>
+                                        <p>Pulse aqui si le interesa añadir alguna!</p>
 
-                                    <ul class="list-group list-group-flush w-50">
-                                        <li th:each="direccio : ${user.direccions}" class="list-group-item">
-                                            <div class="d-flex justify-content-between">
-                                                <span th:text="${direccio.streetandnumber} + ', ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></span>
-                                                <div>
-                                                    <button type="button" class="btn btn-pc-economic-light text-white"
-                                                            data-bs-toggle="modal"
-                                                            th:attr="data-bs-target='#exampleModal-' + ${direccio.id}">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger"
-                                                            data-bs-toggle="modal"
-                                                            th:attr="data-bs-target='#deletedirection-' + ${direccio.id}">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
+                                        <ul class="list-group list-group-flush w-50">
+                                            <li th:each="direccio : ${user.direccions}" class="list-group-item">
+                                                <div class="d-flex justify-content-between">
+                                                    <span th:text="${direccio.streetandnumber} + ', ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></span>
+                                                    <div>
+                                                        <button type="button" class="btn btn-pc-economic-light text-white"
+                                                                data-bs-toggle="modal"
+                                                                th:attr="data-bs-target='#exampleModal-' + ${direccio.id}">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                                data-bs-toggle="modal"
+                                                                th:attr="data-bs-target='#deletedirection-' + ${direccio.id}">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="modal fade" tabindex="-1"
-                                                 aria-labelledby="deletedirectionlabel" aria-hidden="true"
-                                                 th:id="'deletedirection-' + ${direccio.id}">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="deletedirectionlabel">
-                                                                Eliminar
-                                                                direccion</h1>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Desea eliminar la direccion seleccionada?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">
-                                                                No
-                                                            </button>
-                                                            <a class="btn btn-danger"
-                                                               th:href="@{/areaclients/deletedirection/{id}(id=${direccio.id})}">
-                                                                Si
-                                                            </a>
+                                                <div class="modal fade" tabindex="-1"
+                                                     aria-labelledby="deletedirectionlabel" aria-hidden="true"
+                                                     th:id="'deletedirection-' + ${direccio.id}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="deletedirectionlabel">
+                                                                    Eliminar
+                                                                    direccion</h1>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Desea eliminar la direccion seleccionada?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                    No
+                                                                </button>
+                                                                <a class="btn btn-danger"
+                                                                   th:href="@{/areaclients/deletedirection/{id}(id=${direccio.id})}">
+                                                                    Si
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="modal fade" th:id="'exampleModal-' + ${direccio.id}" tabindex="-1"
-                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir
-                                                                Direccion</h1>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal"
-                                                                    aria-label="Close"></button>
+                                                <div class="modal fade" th:id="'exampleModal-' + ${direccio.id}" tabindex="-1"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                                    Añadir
+                                                                    Direccion</h1>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <form method="post" th:object="${directionForm}"
+                                                                      th:action="@{/areaclients/addDirection/{id}(id=${direccio.id})}"
+                                                                      class="needs-validation"
+                                                                      novalidate>
+                                                                    <div class="row">
+
+                                                                        <div class="col-12">
+                                                                            <label for="fname">Nombre completo</label>
+                                                                            <input th:field="*{nombre}" class="form-control"
+                                                                                   type="text"
+                                                                                   th:placeholder="${direccio.fullName}"
+                                                                                   name="direccion"
+                                                                                   id="fname" required
+                                                                                   placeholder="Nombre completo"/>
+                                                                        </div>
+
+                                                                        <div class="col-12">
+                                                                            <label for="telephone">Telefono</label>
+                                                                            <input th:field="*{telefono}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="direccion"
+                                                                                   th:placeholder="${direccio.phone}"
+                                                                                   id="telephone" required
+                                                                                   placeholder="Telefono"/>
+                                                                        </div>
+
+                                                                        <div class="col-12">
+                                                                            <label for="street">Linea de direccion
+                                                                                1</label>
+                                                                            <input th:field="*{calle}" class="form-control"
+                                                                                   type="text"
+                                                                                   name="direccion2"
+                                                                                   id="street" required
+                                                                                   th:placeholder="${direccio.streetandnumber}"
+                                                                                   placeholder="Nombre y numero de la calle"/>
+                                                                            <input th:field="*{direccion}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="direccion"
+                                                                                   th:placeholder="${direccio.address}"
+                                                                                   id="direction" required
+                                                                                   placeholder="Apartamento, suite, unidad, edificio o piso"/>
+
+                                                                        </div>
+
+                                                                        <div class="col-6">
+                                                                            <label for="city">Ciudad</label>
+                                                                            <input th:field="*{ciudad}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="ciudad" th:placeholder="${direccio.city}"
+                                                                                   id="city" required
+                                                                                   placeholder="Ciudad"/>
+                                                                        </div>
+
+                                                                        <div class="col-6">
+                                                                            <label for="postalcode">Codigo
+                                                                                Postal</label>
+                                                                            <input th:field="*{codigoPostal}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="cp" id="postalcode"
+                                                                                   required
+                                                                                   th:placeholder="${direccio.postalCode}"
+                                                                                   placeholder="Codigo Postal"/>
+                                                                        </div>
+
+                                                                        <div class="col-4">
+                                                                            <label for="country">Pais</label>
+                                                                            <input th:field="*{pais}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="pais" id="country"
+                                                                                   required th:placeholder="${direccio.country}"
+                                                                                   placeholder="Pais"/>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <label for="province">Provincia</label>
+                                                                            <input th:field="*{provincia}"
+                                                                                   class="form-control" type="text"
+                                                                                   name="provincia"
+                                                                                   th:placeholder="${direccio.province}"
+                                                                                   id="province" required
+                                                                                   placeholder="Provincia"/>
+                                                                        </div>
+
+                                                                        <div class="col-12">
+                                                                            <input th:field="*{principal}"
+                                                                                   class="form-check-input"
+                                                                                   th:placeholder="${direccio.isPrincipal}"
+                                                                                   type="checkbox" value="" id="principal">
+                                                                            <label class="form-check-label" for="principal">
+                                                                                Es esta tu direccion principal?
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="d-flex flex-row-reverse mt-2">
+                                                                        <button class="btn btn-pc-economic-dark"
+                                                                                type="submit">Añadir
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
 
-                                                            <form method="post" th:object="${directionForm}"
-                                                                  th:action="@{/areaclients/addDirection/{id}(id=${direccio.id})}"
-                                                                  class="needs-validation"
-                                                                  novalidate>
-                                                                <div class="row">
+                                        <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                                data-bs-target="#add">
+                                            Añadir direccion
+                                        </button>
+                                    </div>
+                                </div>
 
-                                                                    <div class="col-12">
-                                                                        <label for="fname">Nombre completo</label>
-                                                                        <input th:field="*{nombre}" class="form-control"
-                                                                               type="text"
-                                                                               th:placeholder="${direccio.fullName}"
-                                                                               name="direccion"
-                                                                               id="fname" required
-                                                                               placeholder="Nombre completo"/>
-                                                                    </div>
+                                <div class="modal fade" id="add" tabindex="-1"
+                                     aria-labelledby="addLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="addLabel">Añadir
+                                                    Direccion</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
 
-                                                                    <div class="col-12">
-                                                                        <label for="telephone">Telefono</label>
-                                                                        <input th:field="*{telefono}"
-                                                                               class="form-control" type="text"
-                                                                               name="direccion"
-                                                                               th:placeholder="${direccio.phone}"
-                                                                               id="telephone" required
-                                                                               placeholder="Telefono"/>
-                                                                    </div>
+                                                <form method="post" th:object="${directionForm}"
+                                                      th:action="@{/areaclients/addDirection}" class="needs-validation"
+                                                      novalidate>
+                                                    <div class="row">
 
-                                                                    <div class="col-12">
-                                                                        <label for="street">Linea de direccion 1</label>
-                                                                        <input th:field="*{calle}" class="form-control"
-                                                                               type="text"
-                                                                               name="direccion2"
-                                                                               id="street" required
-                                                                               th:placeholder="${direccio.streetandnumber}"
-                                                                               placeholder="Nombre y numero de la calle"/>
-                                                                        <input th:field="*{direccion}"
-                                                                               class="form-control" type="text"
-                                                                               name="direccion"
-                                                                               th:placeholder="${direccio.address}"
-                                                                               id="direction" required
-                                                                               placeholder="Apartamento, suite, unidad, edificio o piso"/>
+                                                        <div class="col-12">
+                                                            <label for="fullname">Nombre completo</label>
+                                                            <input th:field="*{nombre}" class="form-control" type="text"
+                                                                   name="direccion"
+                                                                   id="fullname" required
+                                                                   placeholder="Nombre completo"/>
+                                                        </div>
 
-                                                                    </div>
+                                                        <div class="col-12">
+                                                            <label for="telefono">Telefono</label>
+                                                            <input th:field="*{telefono}" class="form-control" type="text"
+                                                                   name="direccion"
+                                                                   id="telefono" required
+                                                                   placeholder="Telefono"/>
+                                                        </div>
 
-                                                                    <div class="col-6">
-                                                                        <label for="city">Ciudad</label>
-                                                                        <input th:field="*{ciudad}"
-                                                                               class="form-control" type="text"
-                                                                               name="ciudad" th:placeholder="${direccio.city}"
-                                                                               id="city" required
-                                                                               placeholder="Ciudad"/>
-                                                                    </div>
+                                                        <div class="col-12">
+                                                            <label for="direccion">Linea de direccion 1</label>
+                                                            <input th:field="*{calle}" class="form-control" type="text"
+                                                                   name="direccion2"
+                                                                   id="direccion2" required
+                                                                   placeholder="Nombre y numero de la calle"/>
+                                                            <input th:field="*{direccion}" class="form-control" type="text"
+                                                                   name="direccion"
+                                                                   id="direccion" required
+                                                                   placeholder="Apartamento, suite, unidad, edificio o piso"/>
 
-                                                                    <div class="col-6">
-                                                                        <label for="postalcode">Codigo Postal</label>
-                                                                        <input th:field="*{codigoPostal}"
-                                                                               class="form-control" type="text"
-                                                                               name="cp" id="postalcode"
-                                                                               required
-                                                                               th:placeholder="${direccio.postalCode}"
-                                                                               placeholder="Codigo Postal"/>
-                                                                    </div>
+                                                        </div>
 
-                                                                    <div class="col-4">
-                                                                        <label for="country">Pais</label>
-                                                                        <input th:field="*{pais}"
-                                                                               class="form-control" type="text"
-                                                                               name="pais" id="country"
-                                                                               required th:placeholder="${direccio.country}"
-                                                                               placeholder="Pais"/>
-                                                                    </div>
-                                                                    <div class="col-8">
-                                                                        <label for="province">Provincia</label>
-                                                                        <input th:field="*{provincia}"
-                                                                               class="form-control" type="text"
-                                                                               name="provincia"
-                                                                               th:placeholder="${direccio.province}"
-                                                                               id="province" required
-                                                                               placeholder="Provincia"/>
-                                                                    </div>
+                                                        <div class="col-6">
+                                                            <label for="ciudad">Ciudad</label>
+                                                            <input th:field="*{ciudad}"
+                                                                   class="form-control" type="text" name="ciudad"
+                                                                   id="ciudad" required
+                                                                   placeholder="Ciudad"/>
+                                                        </div>
 
-                                                                    <div class="col-12">
-                                                                        <input th:field="*{principal}"
-                                                                               class="form-check-input"
-                                                                               th:placeholder="${direccio.isPrincipal}"
-                                                                               type="checkbox" value="" id="principal">
-                                                                        <label class="form-check-label" for="principal">
-                                                                            Es esta tu direccion principal?
-                                                                        </label>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="col-6">
+                                                            <label for="cp">Codigo Postal</label>
+                                                            <input th:field="*{codigoPostal}"
+                                                                   class="form-control" type="text" name="cp" id="cp"
+                                                                   required
+                                                                   placeholder="Codigo Postal"/>
+                                                        </div>
 
+                                                        <div class="col-4">
+                                                            <label for="pais">Pais</label>
+                                                            <input th:field="*{pais}"
+                                                                   class="form-control" type="text" name="pais" id="pais"
+                                                                   required
+                                                                   placeholder="Pais"/>
+                                                        </div>
+                                                        <div class="col-8">
+                                                            <label for="provincia">Provincia</label>
+                                                            <input th:field="*{provincia}"
+                                                                   class="form-control" type="text" name="provincia"
+                                                                   id="provincia" required
+                                                                   placeholder="Provincia"/>
+                                                        </div>
+
+                                                        <div class="col-12">
+                                                            <input th:field="*{principal}" class="form-check-input"
+                                                                   type="checkbox" value="" id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                Es esta tu direccion principal?
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex flex-row-reverse mt-2">
+                                                        <button class="btn btn-pc-economic-dark" type="submit">Añadir
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="pedidos">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                MIS PEDIDOS
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="pedidos"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row" th:if="${user.factures.isEmpty()}">
+
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <p>Actualmente no tienes ningun pedido disponible</p>
+                                        <p>Puede encargar un pedido haciendo una compra en nuestra pagina web</p>
+
+                                        <a class="w-25 btn btn-pc-economic-dark" th:href="@{/}">
+                                            Pagina principal
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="row" th:if="${!user.factures.isEmpty()}">
+
+                                    <div class="d-flex flex-column justify-content-center align-items-center">
+                                        <p>Actualmente tienens los siguientes pedidos hechos</p>
+
+                                        <ul class="list-group list-group-flush w-50">
+                                            <li th:each="factura : ${user.factures}" th:if="${factura.estat == 'COMPLETED'}" class="list-group-item">
+
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="row">
+                                                        <div class="col-7" th:text="'Factura nº ' + ${factura.id}"></div>
+                                                        <div class="col-5"><span class="factura-fecha" th:text="${factura.data}"></span></div>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#visualizarProductos-' + ${factura.id}"
+                                                                data-bs-tool="tooltip" data-bs-title="Visualizar Productos">
+                                                            <i class="bi bi-view-list"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#generarPDF-' + ${factura.id}"
+                                                                data-bs-tool="tooltip" data-bs-title="Generar PDF">
+                                                            <i class="bi bi-filetype-pdf"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal fade" th:id="'visualizarProductos-' + ${factura.id}" tabindex="-1" aria-labelledby="visualizarProductosLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="visualizarProductosLabel" th:text="'Productos Factura nº ' + ${factura.id}"></h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li th:each="productos : ${factura.lineasFacturas}" class="list-group-item">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p th:text="'x' + ${productos.quantity}  + ' | ' + ${productos.nomArticle}"></p>
+                                                                            <p class="linea-price" th:text="${productos.price}"></p>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
                                                                 <div class="d-flex flex-row-reverse mt-2">
-                                                                    <button class="btn btn-pc-economic-dark"
-                                                                            type="submit">Añadir
-                                                                    </button>
+                                                                    <h4 class="total-price linea-price" th:text="'Total: ' + ${factura.preu}"></h4>
                                                                 </div>
-                                                            </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
-                                    </ul>
 
-                                    <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            data-bs-target="#add">
-                                        Añadir direccion
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="modal fade" id="add" tabindex="-1"
-                                 aria-labelledby="addLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="addLabel">Añadir
-                                                Direccion</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <form method="post" th:object="${directionForm}"
-                                                  th:action="@{/areaclients/addDirection}" class="needs-validation"
-                                                  novalidate>
-                                                <div class="row">
-
-                                                    <div class="col-12">
-                                                        <label for="fullname">Nombre completo</label>
-                                                        <input th:field="*{nombre}" class="form-control" type="text"
-                                                               name="direccion"
-                                                               id="fullname" required
-                                                               placeholder="Nombre completo"/>
-                                                    </div>
-
-                                                    <div class="col-12">
-                                                        <label for="telefono">Telefono</label>
-                                                        <input th:field="*{telefono}" class="form-control" type="text"
-                                                               name="direccion"
-                                                               id="telefono" required
-                                                               placeholder="Telefono"/>
-                                                    </div>
-
-                                                    <div class="col-12">
-                                                        <label for="direccion">Linea de direccion 1</label>
-                                                        <input th:field="*{calle}" class="form-control" type="text"
-                                                               name="direccion2"
-                                                               id="direccion2" required
-                                                               placeholder="Nombre y numero de la calle"/>
-                                                        <input th:field="*{direccion}" class="form-control" type="text"
-                                                               name="direccion"
-                                                               id="direccion" required
-                                                               placeholder="Apartamento, suite, unidad, edificio o piso"/>
-
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <label for="ciudad">Ciudad</label>
-                                                        <input th:field="*{ciudad}"
-                                                               class="form-control" type="text" name="ciudad"
-                                                               id="ciudad" required
-                                                               placeholder="Ciudad"/>
-                                                    </div>
-
-                                                    <div class="col-6">
-                                                        <label for="cp">Codigo Postal</label>
-                                                        <input th:field="*{codigoPostal}"
-                                                               class="form-control" type="text" name="cp" id="cp"
-                                                               required
-                                                               placeholder="Codigo Postal"/>
-                                                    </div>
-
-                                                    <div class="col-4">
-                                                        <label for="pais">Pais</label>
-                                                        <input th:field="*{pais}"
-                                                               class="form-control" type="text" name="pais" id="pais"
-                                                               required
-                                                               placeholder="Pais"/>
-                                                    </div>
-                                                    <div class="col-8">
-                                                        <label for="provincia">Provincia</label>
-                                                        <input th:field="*{provincia}"
-                                                               class="form-control" type="text" name="provincia"
-                                                               id="provincia" required
-                                                               placeholder="Provincia"/>
-                                                    </div>
-
-                                                    <div class="col-12">
-                                                        <input th:field="*{principal}" class="form-check-input"
-                                                               type="checkbox" value="" id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            Es esta tu direccion principal?
-                                                        </label>
+                                                <div class="modal fade" th:id="'generarPDF-' + ${factura.id}" tabindex="-1" aria-labelledby="generarPDFLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="generarPDFLabel">Generar PDF</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Le gustaria generar un PDF con los productos de su pedido?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-pc-economic-dark" data-bs-dismiss="modal">No</button>
+                                                                <a type="button" class="btn btn-danger">Si</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="d-flex flex-row-reverse mt-2">
-                                                    <button class="btn btn-pc-economic-dark" type="submit">Añadir
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="pedidos">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                            MIS PEDIDOS
-                        </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="pedidos"
-                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class="row" th:if="${user.factures.isEmpty()}">
-
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente no tienes ningun pedido disponible</p>
-                                    <p>Puede encargar un pedido haciendo una compra en nuestra pagina web</p>
-
-                                    <a class="w-25 btn btn-pc-economic-dark" th:href="@{/}">
-                                        Pagina principal
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="row" th:if="${!user.factures.isEmpty()}">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-    <footer th:replace="layout/layout :: footer"></footer>
-    <script th:src="@{/js/formvalidator.js}"></script>
-    <div th:replace="layout/layout.html :: jquery"></div>
-</body>
+        </main>
+        <footer th:replace="layout/layout :: footer"></footer>
+        <div th:replace="layout/layout :: jquery"></div>
+        <script th:src="@{/js/formvalidator.js}"></script>
+        <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-tool="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+            $(document).ready(function () {
+                $(".factura-fecha").each(function () {
+                    var fecha = $(this).text();
+                    var fechaSplit = fecha.split("-");
+                    var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
+                    $(this).text(fechaFinal);
+                });
+
+                $(".linea-price").each(function () {
+                    if ($(this).text().endsWith(".0")) {
+                        $(this).text($(this).text().replace(".0", ",00") + " €");
+                    } else {
+                        $(this).text($(this).text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
+                    }
+                });
+            });
+        </script>
+        <div th:replace="layout/layout.html :: jquery"></div>
+    </body>
 </html>
