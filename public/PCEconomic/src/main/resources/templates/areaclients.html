@@ -522,20 +522,39 @@
                                             <li th:each="factura : ${user.factures}" th:if="${factura.estat == 'COMPLETED'}" class="list-group-item">
 
                                                 <div class="d-flex justify-content-between">
-                                                    <p class="factura-fecha" th:text="${factura.data}"></p>
                                                     <div>
-                                                        <a class="btn btn-pc-economic-dark"
-                                                           data-bs-toggle="tooltip"
-                                                           data-bs-title="Visualizar Productos">
+                                                        <p class="factura-fecha" th:text="${factura.data}"></p>
+                                                    </div>
+                                                    <div>
+                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" data-bs-target="#visualizarProductos"
+                                                                data-bs-tool="tooltip" data-bs-title="Visualizar Productos">
                                                             <i class="bi bi-view-list"></i>
-                                                        </a>
-                                                        <a class="btn btn-pc-economic-dark"
-                                                           data-bs-toggle="tooltip"
-                                                           data-bs-title="Generar PDF">
+                                                        </button>
+                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#generarPDF-' + ${factura.id}"
+                                                                data-bs-tool="tooltip" data-bs-title="Generar PDF">
                                                             <i class="bi bi-filetype-pdf"></i>
-                                                        </a>
+                                                        </button>
                                                     </div>
                                                 </div>
+
+                                                <div class="modal fade" th:id="'generarPDF-' + ${factura.id}" tabindex="-1" aria-labelledby="generarPDFLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="generarPDFLabel">Generar PDF</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Le gustaria generar un PDF con los productos de su pedido?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-pc-economic-dark" data-bs-dismiss="modal">No</button>
+                                                                <a type="button" class="btn btn-danger">Si</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </li>
                                         </ul>
                                     </div>
@@ -550,7 +569,7 @@
         <div th:replace="layout/layout :: jquery"></div>
         <script th:src="@{/js/formvalidator.js}"></script>
         <script>
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-tool="tooltip"]')
             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
             $(document).ready(function () {
