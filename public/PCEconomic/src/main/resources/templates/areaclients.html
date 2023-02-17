@@ -548,7 +548,10 @@
                                                             <div class="modal-body">
                                                                 <ul class="list-group list-group-flush">
                                                                     <li th:each="productos : ${factura.lineasFacturas}" class="list-group-item">
-                                                                        <p th:text="${productos.nomArticle}"></p>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <p th:text="'x' + ${productos.quantity}  + ' | ' + ${productos.nomArticle}"></p>
+                                                                            <p class="linea-price" th:text="${productos.price}"></p>
+                                                                        </div>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -600,6 +603,14 @@
                     var fechaSplit = fecha.split("-");
                     var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
                     $(this).text(fechaFinal);
+                });
+
+                $(".linea-price").each(function () {
+                    if ($(this).text().endsWith(".0")) {
+                        $(this).text($(this).text().replace(".0", ",00") + " €");
+                    } else {
+                        $(this).text($(this).text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
+                    }
                 });
             });
         </script>
