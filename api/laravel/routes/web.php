@@ -15,7 +15,8 @@ use App\Models\Persones;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $message = "Hello, Welcome!";
+    return response()->json($message);
 });
 
 Route::get('/persones', function () {
