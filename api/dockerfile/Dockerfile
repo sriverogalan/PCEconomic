@@ -12,6 +12,6 @@ RUN apt update
 RUN apt install -y curl
 RUN apt install -y git
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
+ENV COMPOSER_ALLOW_SUPERUSER=1
 # Install Laravel
-RUN composer global require laravel/installer
+
