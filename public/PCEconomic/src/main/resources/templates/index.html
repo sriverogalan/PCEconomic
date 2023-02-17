@@ -4,7 +4,7 @@
 <head>
     <title th:text="' Index | PCEconomic'"></title>
 </head>
-<link rel="stylesheet" href="https://pagination.js.org/dist/2.5.0/pagination.css">
+<link rel="stylesheet" th:href="@{/css/pagination.css}">
 
 <nav th:replace="layout/layout.html :: navbar"></nav>
 <body class="bgbd">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div id="pagination"></div>
+        <div id="pagination" class="row justify-content-center mt-3 mb-3"></div>
     </section>
 </main>
 <footer th:replace="layout/layout.html :: footer"></footer>
@@ -133,13 +133,14 @@
                 }
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<div href="/article/' + prop.article.id + '/' + prop.id + '" class="producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start">' +
-                        '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
-                        '<div class="col-12 justify-content-center row">' +
-                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12"></div>' +
-                        '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
+                        '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
+                        '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top"  onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'">' +
+                        '<div class="col-12 justify-content-center row" >' +
+                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12" ></div>' +
+                        '<div  onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'"><div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
                         '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
                         '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                        '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>'
@@ -159,10 +160,10 @@
                         }
 
                         $('#' + prop.id).append(
-                            '<div class="col-lg-3 col-md-4 mt-3 mb-3 col-3"' +
-                            ' href="/article/' + prop.article.id + '/' + props.id
-                            + '"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </div>'
+                            '<div class="col-lg-3 col-md-4 mt-3 mb-3 col-3" onclick="window.location.href = \'/article/' + props.article.id + '/' + props.id + '\'"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </div>'
                         );
+
+
                     }
                 }
             }
@@ -173,13 +174,16 @@
                 arrayCards.push(cartes[i]);
             }
 
-            console.log()
-
             $("#pagination").pagination({
                 dataSource: arrayCards,
-                pageSize: 3,
-                className: 'paginationjs-theme-blue paginationjs-big',
-                callback: function (data) {
+                pageSize: 10,
+                formatResult: function(data) {
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        data[i].a = data[i].a + ' - bad guys';
+                    }
+                },
+                className: 'paginationjs-theme-purple paginationjs-big justify-content-center',
+                callback: function (data, pagination) {
                     var html = template(data)
                     $("#articles").html(html);
                 }
@@ -191,10 +195,6 @@
                 })
                 return html;
             }
-
-
-
-
         },
     });
     function formatCurrency(amount) {
