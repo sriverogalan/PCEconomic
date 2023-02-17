@@ -254,6 +254,47 @@
 .paginationjs > :first-child {
     margin-left: 0
 }
+/**
+ Purple color
+*/
+.paginationjs.paginationjs-theme-purple .paginationjs-pages li {
+    border-color: #12005e
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-pages li > a {
+    color: #12005e
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-pages li > a:hover {
+    background: #e9f4fc
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-pages li.active > a {
+    background: #12005e;
+    color: #fff
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-pages li.disabled > a:hover {
+    background: 0 0
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-go-input > input[type=text], .paginationjs.paginationjs-theme-purple .paginationjs-size-changer > select {
+    border-color: #12005e
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-go-button > input[type=button] {
+    background: #12005e;
+    border-color: #12005e;
+    color: #fff
+}
+
+.paginationjs.paginationjs-theme-purple .paginationjs-go-button > input[type=button]:hover {
+    background-color: #230891
+}
+
+
+
+
 
 .paginationjs.paginationjs-theme-blue .paginationjs-pages li {
     border-color: #289de9
