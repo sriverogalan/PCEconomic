@@ -55,13 +55,14 @@
                         <option disabled selected>Buscador</option>
                     </select>
                 </div>
-                <button class="btn btn-pc-economic-dark mx-1 col" id="cercar">
+                <button class="btn btn-pc-economic-dark mx-1 col" id="cercar"
+                        data-bs-tool="tooltip" data-bs-title="Buscar" >
                     <i class="bi bi-search"></i>
                 </button>
             </div>
             <!-- Login + Carrito -->
             <div class="d-flex justify-content-center d-md-none d-block mx-1">
-                <a class="nav-link btn btn-pc-economic-dark" href="/">
+                <a class="nav-link btn btn-pc-economic-dark" href="/" data-bs-tool="tooltip" data-bs-title="Menu principal">
                     <i class="bi bi-house"></i>
                 </a>
             </div>
@@ -74,7 +75,7 @@
                 <ul class="navbar-nav col-12 justify-content-evenly">
 
                     <li th:if="${client == 'LOGIN'}" class="nav-item d-flex justify-content-center ">
-                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}">
+                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}" data-bs-tool="tooltip" data-bs-title="Iniciar Session">
                             <i class="bi bi-person"></i>
                         </a>
                     </li>
@@ -93,12 +94,12 @@
 
                     <li class="nav-item d-flex justify-content-center ">
                         <button type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal"
-                                data-bs-target="#modal">
+                                data-bs-target="#modal" data-bs-tool="tooltip" data-bs-title="Cambiar Idioma">
                             <i class="bi bi-translate"></i>
                         </button>
                     </li>
                     <li class="nav-item d-flex justify-content-center ">
-                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}">
+                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}" data-bs-tool="tooltip" data-bs-title="Ver carrito de la compra">
                             <i class="bi bi-cart4"></i>
                         </a>
                     </li>
@@ -220,6 +221,9 @@
                 }
             },
         });
+
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-tool="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
         function formatCurrency(amount) {
             return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
