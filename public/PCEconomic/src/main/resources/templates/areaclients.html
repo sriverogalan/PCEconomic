@@ -597,6 +597,9 @@
         <div th:replace="layout/layout :: jquery"></div>
         <script th:src="@{/js/formvalidator.js}"></script>
         <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-tool="tooltip"]')
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
             $(document).ready(function () {
                 $(".factura-fecha").each(function () {
                     var fecha = $(this).text();
