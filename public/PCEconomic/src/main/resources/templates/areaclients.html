@@ -526,7 +526,7 @@
                                                         <p class="factura-fecha" th:text="${factura.data}"></p>
                                                     </div>
                                                     <div>
-                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" data-bs-target="#visualizarProductos"
+                                                        <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#visualizarProductos-' + ${factura.id}"
                                                                 data-bs-tool="tooltip" data-bs-title="Visualizar Productos">
                                                             <i class="bi bi-view-list"></i>
                                                         </button>
@@ -534,6 +534,23 @@
                                                                 data-bs-tool="tooltip" data-bs-title="Generar PDF">
                                                             <i class="bi bi-filetype-pdf"></i>
                                                         </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal fade" th:id="'visualizarProductos-' + ${factura.id}" tabindex="-1" aria-labelledby="visualizarProductosLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="visualizarProductosLabel">Generar PDF</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Lista de items :)
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
