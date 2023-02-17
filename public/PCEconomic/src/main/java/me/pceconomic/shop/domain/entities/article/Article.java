@@ -28,7 +28,6 @@ public class Article {
     private String nom;
 
     @Lob
-    @JsonIgnore
     @Column(name = "descripcio", columnDefinition = "LONGTEXT")
     private String descripcio;
 
