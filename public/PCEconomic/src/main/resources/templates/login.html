@@ -10,7 +10,7 @@
     <main class="container bg-cont mt-5 p-3">
         <h1 class="text-center">Iniciar sesión</h1>
         <div class="d-flex flex-column justify-content-center align-items-center">
-            <form class="needs-validation w-25" th:action="@{/login}"
+            <form class="needs-validation col-sm-12 col-xl-3" th:action="@{/login}"
                   th:object="${loginForm}" method="post" novalidate>
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo Electronico</label>
