@@ -36,6 +36,12 @@
                     <span th:text="${error}"></span>
                 </div>
 
+                <div class="m-1 alert alert-danger" id="error" style="display: none">
+                    <i class='bi bi-exclamation-triangle'></i>
+                    <span></span>
+                </div>
+
+
                 <div class="text-center">
                     <button type="submit" class="btn btn-pc-economic-dark">Iniciar Session</button>
                 </div>
@@ -92,7 +98,12 @@
                     },
                     success: function (data) {
                         localStorage.setItem('token', data);
-                        window.location.href = "http://localhost:8080/";
+                        window.location.href = "/";
+                    },
+                    error: function (data) {
+                        console.log(data.responseText);
+                        $("#error").css("display", "block");
+                        $("#error span").text(data.responseText);
                     },
                 });
             });

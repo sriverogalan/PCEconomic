@@ -39,8 +39,12 @@ public class RestLoginController {
             HttpServletRequest request,
             HttpSession session) {
         if (registerService.getPersonaByEmail(email) != null) {
-            System.out.println("Usuari: " + email + " " + password);
             Persona usuari = registerService.getPersonaByEmail(email);
+
+            if (!usuari.isActive()) {
+                return new ResponseEntity<>("Tienes que activar tu cuenta antes de iniciar sesión", HttpStatus.UNAUTHORIZED);
+            }
+
             if (passwordEncoder.matches(password, usuari.getPassword())) {
                 Persona client = registerService.getPersonaByEmail(email);
                 registerService.setSession(session, client);
@@ -49,15 +53,14 @@ public class RestLoginController {
                     rols.addAll(usuari.getRols().stream().map(Rols::getName)
                             .toList());
                 }
-                System.out.println("Rols: " + rols);
                 String token = tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7));
                 session.setAttribute("token", token);
                 return new ResponseEntity<>(
                         token,
                         HttpStatus.OK);
             }
-            return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Usuari no autoritzat!", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
     }
 }
