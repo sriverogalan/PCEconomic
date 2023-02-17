@@ -1,9 +1,8 @@
 <?php
 
+use App\Http\Controllers\JwtController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Persones;
-use App\Models\Clients;
-use App\Models\Admins;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +16,20 @@ use App\Models\Admins;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $message = "Hello, Welcome!";
+    return response()->json($message);
 });
 
 Route::get('/persones', function () {
     $persones = Persones::all();
-    return $persones->toJson();
+    return response()->json($persones);
 });
 
 Route::get('/persones/{id}', function ($id) {
     $persones = Persones::find($id);
-    return $persones->toJson();
+    return response()->json($persones, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
 });
 
-Route::get('/clients', function () {
-    $clientes = Clients::with('persones')->get();
-    return $clientes->toJson();
-});
-
-Route::get('/admins', function () {
-    $admins = Admins::all();
-    return $admins->toJson();
+Route::controller(JwtController::class)->group(function () {
+    Route::get('/token', 'generateToken');
 });

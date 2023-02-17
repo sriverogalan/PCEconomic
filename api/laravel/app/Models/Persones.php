@@ -22,13 +22,8 @@ class Persones extends Model
         'contraseña' => '',
     ];
 
-    public function clients()
+    public function rols()
     {
-        return $this->hasOne(Clients::class, 'id_persona', 'id_persona');
-    }
-
-    public function admins()
-    {
-        return $this->hasOne(Admins::class, 'id_persona', 'id_persona');
+        return $this->belongsToMany(Rols::class, 'persones_rols', 'id_persona', 'id_rol');
     }
 }

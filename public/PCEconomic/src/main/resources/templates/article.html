@@ -278,6 +278,7 @@
             console.log(tamanoArray);
             $('.card-deck').pagination({
                 perPage: 3,
+                pageSize: 3,
                 dataSource: function (done) {
                     var data = $('.card-deck .card');
                     var result = [];
