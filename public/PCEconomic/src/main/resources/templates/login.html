@@ -60,14 +60,14 @@
                 callback: async (response) => {
                     const credential = response.credential;
                     const responseFetch = await fetch(
-                        "http://localhost:8080/auth/login",
+                        "/auth/login",
                         {
                             method: "POST",
                             body: credential,
                         }
                     );
-                    if (responseFetch.ok) window.location.href = "http://localhost:8080/";
-                    else window.location.href = "http://localhost:8080/error";
+                    if (responseFetch.ok) window.location.href = "/";
+                    else window.location.href = "/error";
                 },
             });
             google.accounts.id.prompt();
@@ -84,7 +84,7 @@
         function login(email, password) {
             $(document).ready(function () {
                 $.ajax({
-                    url: "http://localhost:8080/restlogin",
+                    url: "/restlogin",
                     type: "POST",
                     data: {
                         email: email,

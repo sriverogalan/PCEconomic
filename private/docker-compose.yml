@@ -1,0 +1,12 @@
+version: "4.12"
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./quasar:/app
+    ports:
+      - 8080:8080
+    command: sh -c "npm install && quasar dev"
+    tty: true
