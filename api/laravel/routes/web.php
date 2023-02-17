@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 Route::get('/persones', function () {
     $persones = Persones::all();
-    return response()->json($persones, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
+    return response()->json($persones);
 });
 
 Route::get('/persones/{id}', function ($id) {
