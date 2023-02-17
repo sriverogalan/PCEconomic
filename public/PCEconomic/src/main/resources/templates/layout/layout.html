@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
+    <title th:text="${title}">PCEconomic</title>
     <meta charset="UTF-8"/>
     <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta th:content="${description}" name="description"/>
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
@@ -41,7 +43,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item active">
                         <a class="nav-link col-12 d-flex justify-content-center" href="/"
-                        ><img class="col-9" src="/img/static/logo-no-background.png"
+                        ><img class="col-9" src="/img/static/logo-no-background.png" alt="logo"
                         /></a>
                     </li>
                 </ul>

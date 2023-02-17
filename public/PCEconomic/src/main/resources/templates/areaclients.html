@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout :: head"></head>
+    <head th:replace="layout/layout :: head(title='Area de Clientes | PCEconomic', description='Esta es el area de clientes de la pagina web PCEconomic')"></head>
     <body class="bgbd">
         <header th:replace="layout/layout :: navbar"></header>
         <main class="container bg-cont mt-5 p-3">
@@ -577,7 +577,7 @@
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-pc-economic-dark" data-bs-dismiss="modal">No</button>
-                                                                <a type="button" class="btn btn-danger">Si</a>
+                                                                <a type="button" class="btn btn-danger" th:href="@{/areaclients/generatepdf/{idfactura}(idfactura=${factura.id})}">Si</a>
                                                             </div>
                                                         </div>
                                                     </div>
