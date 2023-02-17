@@ -20,13 +20,11 @@ public class ServerConfiguration implements WebMvcConfigurer {
             "classpath:/static/", "classpath:/public/"};
     private final LoginInterceptor loginInterceptor;
     private final CompraInterceptor compraInterceptor;
-    private final TokenInterceptor tokenInterceptor;
 
     @Autowired
-    public ServerConfiguration(LoginInterceptor loginInterceptor, CompraInterceptor compraInterceptor, TokenInterceptor tokenInterceptor) {
+    public ServerConfiguration(LoginInterceptor loginInterceptor, CompraInterceptor compraInterceptor) {
         this.loginInterceptor = loginInterceptor;
         this.compraInterceptor = compraInterceptor;
-        this.tokenInterceptor = tokenInterceptor;
     }
 
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -52,7 +50,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(compraInterceptor)
                 .addPathPatterns("/compra", "/carrito/**")
                 .excludePathPatterns("/carrito");
-        registry.addInterceptor(tokenInterceptor)
+        registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/carrito/**", "/compra/**", "/areaclients/**", "/compra", "/pagament/**")
                 .excludePathPatterns("/carrito", "/css/**", "/js/**", "/img/**", "/fonts/**", "/error");
     }
