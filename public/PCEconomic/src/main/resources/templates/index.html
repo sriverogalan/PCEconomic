@@ -133,24 +133,18 @@
                 }
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '">' +
-                        '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top" onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'">' +
-                        '<div class="col-12 justify-content-center row">' +
-                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12"></div>' +
-                        '<div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
+                        '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
+                        '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top"  onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'">' +
+                        '<div class="col-12 justify-content-center row" >' +
+                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12" ></div>' +
+                        '<div  onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'"><div><p class="text-start h4 col-12">' + prop.article.nom + '</p></div>' +
                         '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
                         '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
                         '</div>' +
                         '</div>' +
+                        '</div>' +
                         '</div>'
                     );
-
-                    $('#propietat' + prop.id).click(
-                        function () {
-                            window.location.href = "/article/" + prop.article.id + "/" + prop.id;
-                        }
-                    );
-
                 }
                 for (props of resp) {
                     if (props.esPrincipal === false && props.article.id === prop.article.id) {
@@ -166,8 +160,9 @@
                         }
 
                         $('#' + prop.id).append(
-                            '<div class="col-lg-3 col-md-4 mt-3 mb-3 col-3" onclick="window.location.href = \'/article/' + prop.article.id + '/' + prop.id + '\'"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </div>'
+                            '<div class="col-lg-3 col-md-4 mt-3 mb-3 col-3" onclick="window.location.href = \'/article/' + props.article.id + '/' + props.id + '\'"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </div>'
                         );
+
 
                     }
                 }
@@ -178,7 +173,6 @@
             for (var i = 0; i < cartes.length; i++) {
                 arrayCards.push(cartes[i]);
             }
-
 
             $("#pagination").pagination({
                 dataSource: arrayCards,
