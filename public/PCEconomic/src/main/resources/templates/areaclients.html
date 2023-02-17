@@ -522,8 +522,9 @@
                                             <li th:each="factura : ${user.factures}" th:if="${factura.estat == 'COMPLETED'}" class="list-group-item">
 
                                                 <div class="d-flex justify-content-between">
-                                                    <div>
-                                                        <p class="factura-fecha" th:text="${factura.data}"></p>
+                                                    <div class="row">
+                                                        <div class="col-7" th:text="'Factura nº ' + ${factura.id}"></div>
+                                                        <div class="col-5"><span class="factura-fecha" th:text="${factura.data}"></span></div>
                                                     </div>
                                                     <div>
                                                         <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#visualizarProductos-' + ${factura.id}"
@@ -541,11 +542,15 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="visualizarProductosLabel">Generar PDF</h1>
+                                                                <h1 class="modal-title fs-5" id="visualizarProductosLabel" th:text="'Productos Factura nº ' + ${factura.id}"></h1>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                Lista de items :)
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li th:each="productos : ${factura.lineasFacturas}" class="list-group-item">
+                                                                        <p th:text="${productos.nomArticle}"></p>
+                                                                    </li>
+                                                                </ul>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
