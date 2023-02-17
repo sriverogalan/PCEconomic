@@ -274,6 +274,24 @@
 
         $(document).ready(function () {
 
+            $(".carousel-item:first").addClass("active");
+            $("#comprar").append(
+                "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+            )
+            $("#addcarrito").append(
+                "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+            )
+            $('#cantidad').bind('input', function () {
+                $("#comprar").empty();
+                $("#addcarrito").empty();
+                $("#comprar").append(
+                    "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+                )
+                $("#addcarrito").append(
+                    "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+                )
+            });
+
             var tamanoArray = [[${valoracions.size()}]];
             console.log(tamanoArray);
             $('.card-deck').pagination({
@@ -310,23 +328,8 @@
                 $(this).text(fechaFinal);
             });
 
-            $(".carousel-item:first").addClass("active");
-            $("#comprar").append(
-                "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
-            )
-            $("#addcarrito").append(
-                "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
-            )
-            $('#cantidad').bind('input', function () {
-                $("#comprar").empty();
-                $("#addcarrito").empty();
-                $("#comprar").append(
-                    "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
-                )
-                $("#addcarrito").append(
-                    "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
-                )
-            });
+
+
         });
 
 
