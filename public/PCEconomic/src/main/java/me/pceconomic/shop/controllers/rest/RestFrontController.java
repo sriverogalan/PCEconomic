@@ -22,22 +22,22 @@ import java.util.Set;
 public class RestFrontController {
     private final ImatgeRepository imatgeRepository;
     private final CategoriaRepository categoriaRepository;
-    private final ArticleRepository articleRepository;
     private final PropietatRepository propietatRepository;
     private final PropietatsRepository propietatsRepository;
+    private final ArticleRepository articleRepository;
 
     @Autowired
-    public RestFrontController(PropietatsRepository propietatsRepository, PropietatRepository propietatRepository, ArticleRepository articleRepository, ImatgeRepository imatgeRepository, CategoriaRepository categoriaRepository) {
+    public RestFrontController(PropietatsRepository propietatsRepository, PropietatRepository propietatRepository, ImatgeRepository imatgeRepository, CategoriaRepository categoriaRepository, ArticleRepository articleRepository) {
         this.imatgeRepository = imatgeRepository;
         this.categoriaRepository = categoriaRepository;
-        this.articleRepository = articleRepository;
         this.propietatsRepository = propietatsRepository;
         this.propietatRepository = propietatRepository;
+        this.articleRepository = articleRepository;
     }
 
     @GetMapping("/api/articles")
     public List<Article> articleRepository() {
-        return articleRepository.findAll();
+        return articleRepository.findAll( );
     }
 
     @GetMapping("/api/images")

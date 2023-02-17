@@ -4,6 +4,7 @@
 <head>
     <title th:text="' Index | PCEconomic'"></title>
 </head>
+<link rel="stylesheet" href="https://pagination.js.org/dist/2.5.0/pagination.css">
 
 <nav th:replace="layout/layout.html :: navbar"></nav>
 <body class="bgbd">
@@ -27,11 +28,13 @@
                 </div>
             </div>
         </div>
+        <div id="pagination"></div>
     </section>
 </main>
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
+<script src="https://pagination.js.org/dist/2.5.0/pagination.js"></script>
 <script>
     <!-- Recomendats -->
     $("#productos-recomendados").hide();
@@ -108,27 +111,16 @@
     $.ajax({
         url: "/api/propietats",
         type: "GET",
-        dataType: "json",
+        contentType: "application/json",
         beforeSend: function () {
             $("#loading-wheel").show();
         },
         complete: function () {
-            $("#loading-wheel").hide();
+            $("#loading-wheel").remove();
         },
         success: function (resp) {
-            var propietats = []; // array de articulos
-            var propietatsFiltrades = []; // array de articulos filtrados
-            for (var prop of resp) {
-                propietats.push(prop);
-            }
-
-
-
-
-
             var imgAux = "";
-
-
+            var arrayCards = []
             for (var prop of resp) {
                 imgAux = "";
                 for (var img of prop.imatges) {
@@ -141,7 +133,7 @@
                 }
                 if (prop.esPrincipal === true) {
                     $('#articles').append(
-                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start">' +
+                        '<div href="/article/' + prop.article.id + '/' + prop.id + '" class="producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end border align-items-center text-decoration-none card-deck card align-items-start">' +
                         '<img src="' + imgAux + '" style="max-height:200px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
                         '<div class="col-12 justify-content-center row">' +
                         '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center  col-12"></div>' +
@@ -150,7 +142,7 @@
                         '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
                         '</div>' +
                         '</div>' +
-                        '</a>'
+                        '</div>'
                     );
                 }
                 for (props of resp) {
@@ -167,13 +159,42 @@
                         }
 
                         $('#' + prop.id).append(
-                            '<a class="col-lg-3 col-md-4 mt-3 mb-3 col-3"' +
+                            '<div class="col-lg-3 col-md-4 mt-3 mb-3 col-3"' +
                             ' href="/article/' + prop.article.id + '/' + props.id
-                            + '"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </a>'
+                            + '"> <img src="' + imgAux + '" style="width: 100%; object-fit: contain;" alt="img"> </div>'
                         );
                     }
                 }
             }
+
+            var cartes = document.querySelectorAll(".producte");
+
+            for (var i = 0; i < cartes.length; i++) {
+                arrayCards.push(cartes[i]);
+            }
+
+            console.log()
+
+            $("#pagination").pagination({
+                dataSource: arrayCards,
+                pageSize: 3,
+                className: 'paginationjs-theme-blue paginationjs-big',
+                callback: function (data) {
+                    var html = template(data)
+                    $("#articles").html(html);
+                }
+            })
+            function template(data) {
+                var html = ''
+                $.each(data, function (index, item) {
+                    html += item.outerHTML
+                })
+                return html;
+            }
+
+
+
+
         },
     });
     function formatCurrency(amount) {
