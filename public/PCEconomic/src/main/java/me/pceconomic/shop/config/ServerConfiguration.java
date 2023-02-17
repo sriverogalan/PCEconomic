@@ -4,6 +4,8 @@ import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
 import me.pceconomic.shop.interceptors.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,7 +37,7 @@ public class ServerConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                .allowedOrigins("http://localhost:80", "http://localhost:5500", "http://localhost:8080")
+                .allowedOrigins("http://localhost:80", "http://localhost:5500", "http://localhost:8080", "http://pceconomic.live:8080/")
                 .allowCredentials(true);
     }
 
@@ -58,5 +60,10 @@ public class ServerConfiguration implements WebMvcConfigurer {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        return new NoOpCacheManager();
     }
 }
