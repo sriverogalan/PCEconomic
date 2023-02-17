@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.logging.Logger;
 
-@Component("loginInterceptor")
+@Component
 public class LoginInterceptor implements HandlerInterceptor {
 
     private static final Logger log = Logger.getLogger(LoginInterceptor.class.getName());

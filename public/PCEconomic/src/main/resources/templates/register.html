@@ -7,13 +7,11 @@
 </head>
 <body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
-    <main class="container bg-cont">
+    <main class="container bg-cont mt-3">
         <h1 class="text-center">Registrate Aqui!</h1>
 
-        <div class="d-flex justify-content-center">
-
-
-            <form class="needs-validation w-50" th:action="@{/register}" th:object="${registerForm}" method="post"
+        <div class="d-flex justify-content-center align-items-center">
+            <form class="col-sm-12 col-xl-5 needs-validation" th:action="@{/register}" th:object="${registerForm}" method="post"
                   novalidate>
                 <div class="row">
                     <div class="col-12">
