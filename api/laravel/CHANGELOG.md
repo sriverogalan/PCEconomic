@@ -1,6 +1,26 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v9.4.0...9.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v9.5.1...9.x)
+
+## [v9.5.1](https://github.com/laravel/laravel/compare/v9.5.0...v9.5.1) - 2023-01-11
+
+### Changed
+
+- Use minimum stability "stable" by @taylorotwell in https://github.com/laravel/laravel/commit/c1092ec084bb294a61b0f1c2149fddd662f1fc55
+
+## [v9.5.0](https://github.com/laravel/laravel/compare/v9.4.1...v9.5.0) - 2023-01-02
+
+### Changed
+
+- Update to Heroicons v2 by @driesvints in https://github.com/laravel/laravel/pull/6051
+- Support pusher-js v8.0 by @balu-lt in https://github.com/laravel/laravel/pull/6059
+- Switch password reset email to a primary key by @browner12 in https://github.com/laravel/laravel/pull/6064
+
+## [v9.4.1](https://github.com/laravel/laravel/compare/v9.4.0...v9.4.1) - 2022-12-19
+
+### Changed
+
+- Add decimal translation by @taylorotwell in https://github.com/laravel/laravel/commit/39f4830e92a7467b2a7fe6bc23d0ec14bc3b46a6
 
 ## [v9.4.0](https://github.com/laravel/laravel/compare/v9.3.12...v9.4.0) - 2022-12-15
 

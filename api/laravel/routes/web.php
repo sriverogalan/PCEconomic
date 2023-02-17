@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Persones;
-use App\Models\Clients;
-use App\Models\Admins;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +26,4 @@ Route::get('/persones', function () {
 Route::get('/persones/{id}', function ($id) {
     $persones = Persones::find($id);
     return $persones->toJson();
-});
-
-Route::get('/clients', function () {
-    $clientes = Clients::with('persones')->get();
-    return $clientes->toJson();
-});
-
-Route::get('/admins', function () {
-    $admins = Admins::all();
-    return $admins->toJson();
 });
