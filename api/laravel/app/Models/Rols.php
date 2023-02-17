@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Rols extends Model
 {
     use HasFactory;
+
+    protected $table = 'rols';
+
+    protected $primaryKey = 'id_rol';
 }

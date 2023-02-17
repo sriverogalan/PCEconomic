@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JwtController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Persones;
 
@@ -27,4 +28,8 @@ Route::get('/persones', function () {
 Route::get('/persones/{id}', function ($id) {
     $persones = Persones::find($id);
     return response()->json($persones, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
+});
+
+Route::controller(JwtController::class)->group(function () {
+    Route::get('/token', 'generateToken');
 });
