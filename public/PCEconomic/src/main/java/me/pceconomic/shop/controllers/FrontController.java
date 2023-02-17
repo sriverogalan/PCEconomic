@@ -47,6 +47,11 @@ public class FrontController {
         this.lineaFacturaRepository = lineaFacturaRepository;
     }
 
+    @GetMapping("/lang")
+    public String langGenerator( ) {
+        return "/generarLang/lang";
+    }
+
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -77,6 +82,7 @@ public class FrontController {
         }
 
         boolean existeix = false;
+
         for (ContadorArticle contador : contadors) {
             if (contador.getIdArticle() == idArticle) {
                 contador.setContador(contador.getContador() + 1);
@@ -113,6 +119,7 @@ public class FrontController {
 
         return "article";
     }
+
 
 
     @PostMapping("/pagament")

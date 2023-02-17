@@ -20,7 +20,7 @@
         $.ajax({
             url: "/api/propietats",
             type: "GET",
-            dataType: "json",
+            contentType: "application/json",
             beforeSend: function() {
                 $("#loading-wheel").show();
             },
