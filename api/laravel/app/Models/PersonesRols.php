@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ArticleAdministrador extends Model
+class PersonesRols extends Model
 {
     use HasFactory;
 
-    protected $table = 'articles_administrador';
+    protected $table = 'persones_rols';
+
+    
 }
