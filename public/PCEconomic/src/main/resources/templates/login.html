@@ -101,7 +101,6 @@
                         window.location.href = "/";
                     },
                     error: function (data) {
-                        console.log(data.responseText);
                         $("#error").css("display", "block");
                         $("#error span").text(data.responseText);
                     },
