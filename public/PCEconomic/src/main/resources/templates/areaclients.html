@@ -524,7 +524,9 @@
                                                 <div class="d-flex justify-content-between">
                                                     <div class="row">
                                                         <div class="col-7" th:text="'Factura nº ' + ${factura.id}"></div>
-                                                        <div class="col-5"><span class="factura-fecha" th:text="${factura.data}"></span></div>
+                                                        <div class="col-5">
+                                                            <span class="factura-fecha" th:text="${factura.data}"></span>
+                                                        </div>
                                                     </div>
                                                     <div>
                                                         <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal" th:attr="data-bs-target='#visualizarProductos-' + ${factura.id}"
@@ -549,17 +551,27 @@
                                                                 <ul class="list-group list-group-flush">
                                                                     <li th:each="productos : ${factura.lineasFacturas}" class="list-group-item">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <p th:text="'x' + ${productos.quantity}  + ' | ' + ${productos.nomArticle}"></p>
+                                                                            <p th:text="'x' + ${productos.quantity}  + ' | ' + ${productos.marca.name} + ' ' + ${productos.nomArticle}"></p>
+                                                                            <span th:each="vals : ${productos.propietats.valor}">
+                                                                                <span th:each="prop : ${vals.propietat}">
+                                                                                    <p th:text="${prop.nom} + ': ' + ${vals.valor}"></p>
+                                                                                </span>
+                                                                            </span>
                                                                             <p class="linea-price" th:text="${productos.price}"></p>
                                                                         </div>
                                                                     </li>
                                                                 </ul>
                                                                 <div class="d-flex flex-row-reverse mt-2">
-                                                                    <h4 class="total-price linea-price" th:text="'Total: ' + ${factura.preu}"></h4>
+                                                                    <div class="p-2 d-flex flex-column align-content-between justify-content-between">
+                                                                        <h6 class="total-price" th:text="'Precio Envio: ' + ${factura.preuTransport}"></h6>
+                                                                        <h6 class="total-price" th:text="'Total: ' + ${factura.preu}"></h6>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                                                    Cerrar
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -569,14 +581,18 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="generarPDFLabel">Generar PDF</h1>
+                                                                <h1 class="modal-title fs-5" id="generarPDFLabel">
+                                                                    Generar PDF</h1>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                Le gustaria generar un PDF con los productos de su pedido?
+                                                                Le gustaria generar un PDF con los productos de su
+                                                                pedido?
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-pc-economic-dark" data-bs-dismiss="modal">No</button>
+                                                                <button type="button" class="btn btn-pc-economic-dark" data-bs-dismiss="modal">
+                                                                    No
+                                                                </button>
                                                                 <a type="button" class="btn btn-danger" th:href="@{/areaclients/generatepdf/{idfactura}(idfactura=${factura.id})}">Si</a>
                                                             </div>
                                                         </div>
@@ -609,12 +625,33 @@
                 });
 
                 $(".linea-price").each(function () {
-                    if ($(this).text().endsWith(".0")) {
-                        $(this).text($(this).text().replace(".0", ",00") + " €");
+                    var text = $(this).text();
+                    var price = parseFloat(text);
+                    var roundedPrice = price.toFixed(2);
+                    var formattedNum = roundedPrice.replace(".", ",");
+                    $(this).text(formattedNum + " €");
+                })
+
+                $(".total-price").each(function () {
+                    var text = $(this).text();
+                    var numberRegex = /(\d+(?:\.\d+)?)/;
+                    var matches = text.match(numberRegex);
+
+                    if (matches !== null && matches.length > 0) {
+
+                        var myNumber = parseFloat(matches[0]);
+                        var formattedNumber = myNumber.toLocaleString('es-ES', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                            useGrouping: true,
+                            decimal: ',',
+                            thousands: '.'
+                        });
+                        $(this).text(text.replace(numberRegex, formattedNumber + " €"));
                     } else {
-                        $(this).text($(this).text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
+                        console.log("No se ha encontrado un número en el texto del elemento h6");
                     }
-                });
+                })
             });
         </script>
         <div th:replace="layout/layout.html :: jquery"></div>
