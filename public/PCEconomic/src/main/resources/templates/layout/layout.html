@@ -49,8 +49,8 @@
             <!-- Cercador -->
             <div class="order-2 col-xs-8 col-7 d-flex">
                 <div class="my-auto col-9 col-xl-11">
-                    <select id="cercador">
-                        <option disabled selected>Buscador</option>
+                    <select id="cercador" class="h-100">
+                        <option disabled selected> Buscar </option>
                     </select>
                 </div>
                 <button class="btn btn-pc-economic-dark mx-1 col" id="cercar">
@@ -168,25 +168,42 @@
             type: "GET",
             success: function (data) {
                 var options = [];
-
-
                 for (var prop of data) {
                     var propietats = "";
                     for (var v of prop.valor) {
                         propietats += v.propietat[0].nom + " " + v.valor + " ";
                     }
-                    $("#cercador").append(
-                        '<option value="/article/' + prop.article.id + '/' + prop.id + '">' + prop.article.nom + " " + propietats + "</option>"
-                    );
+                    for (var i of prop.imatges) {
+                        if (i.principal) {
+                            $("#cercador").append(
+                                '<option data-image="/img/productes/' + prop.article.id + '/' + prop.id + '/' + i.path + '" value="/article/' + prop.article.id + '/' + prop.id + '"> ' + prop.article.nom + " " + propietats + "</option>"
+                            );
+                        }
+                    }
                 }
-
 
                 $("#cercador").select2({
                     data: options,
-                    placeholder: "Buscar",
                     allowClear: true,
-                    width: "100%"
+                    width: "100%",
+                    templateResult: formatState,
+                    templateSelection: formatState
                 });
+                function formatState (opt) {
+                    if (!opt.id) {
+                        return opt.text;
+                    }
+                    var optimage = $(opt.element).data('image');
+                    if(!optimage){
+                        return opt.text;
+                    } else {
+                        var $opt = $(
+                            '<span><img src="' + optimage + '" width="15px" style="margin:auto; " /> ' + opt.text + '</span>'
+                        );
+                        return $opt;
+                    }
+
+                };
 
                 $("#cercar").click(function () {
                     window.location.href = $("#cercador").val();
