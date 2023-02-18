@@ -60,7 +60,7 @@
         </div>
         <div class="d-flex flex-row-reverse">
             <div class="p-2">
-                <h3>Total: <span th:text="${carrito.total}"></span></h3>
+                <h3 id="total">Total: <span th:text="${carrito.total}"></span></h3>
                 <a class="btn btn-success" th:href="@{/carrito/direccion}">Comprar</a>
             </div>
         </div>
@@ -78,13 +78,20 @@
         $(document).ready(function () {
             var num = $(".table td:nth-child(3)");
             var num2 = $(".table td:nth-child(5)");
-            var total = $("h3");
-            total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
+            var total = $("#total");
+
+            if (total.text().endsWith(".0")) total.text(total.text().replace(".0", ",00") + " €");
+            else total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
+
             for (var i = 0; i < num.length; i++) {
                 var num3 = num[i].innerHTML;
                 var num4 = num2[i].innerHTML;
-                num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-                num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+
+                if (num3.endsWith(".0")) num3 = num3.replace(".0", ",00") + " €";
+                else num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+                if (num4.endsWith(".0")) num4 = num4.replace(".0", ",00") + " €";
+                else num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+
                 num[i].innerHTML = num3;
                 num2[i].innerHTML = num4;
             }
