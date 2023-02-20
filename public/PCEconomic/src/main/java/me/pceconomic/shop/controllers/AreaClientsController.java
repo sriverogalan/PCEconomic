@@ -1,12 +1,15 @@
 package me.pceconomic.shop.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
+import me.pceconomic.shop.services.PDFService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,17 +24,20 @@ public class AreaClientsController {
 
     private final FrontService frontService;
     private final AreaClientsService areaClientsService;
+    private final PDFService pdfService;
 
     @Autowired
-    public AreaClientsController(FrontService frontService, AreaClientsService areaClientsService) {
+    public AreaClientsController(FrontService frontService, PDFService pdfService, AreaClientsService areaClientsService) {
         this.frontService = frontService;
         this.areaClientsService = areaClientsService;
+        this.pdfService = pdfService;
     }
 
     @GetMapping("/areaclients")
     public String areaclients(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        model.addAttribute("user", session.getAttribute("persona"));
+        Persona client = (Persona) session.getAttribute("persona");
+        model.addAttribute("user", client);
         frontService.sendListsToView(model, request);
 
         model.addAttribute("changeName", new ChangeNameForm());
@@ -185,6 +191,19 @@ public class AreaClientsController {
         }
 
         return "redirect:/areaclients";
+    }
+
+    @GetMapping("/areaclients/generatepdf/{id}")
+    public void generatePdf(HttpServletRequest request, HttpServletResponse response, @PathVariable int id) {
+        HttpSession session = request.getSession();
+        if (session == null) return;
+        Persona client = (Persona) session.getAttribute("persona");
+
+        for (Factura factura : client.getFactures()) {
+            if (factura.getId() == id) {
+                pdfService.generatePdf(response, factura);
+            }
+        }
     }
 
 }
