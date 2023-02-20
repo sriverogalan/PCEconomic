@@ -4,6 +4,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfCell;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
@@ -29,7 +30,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.awt.*;
+import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Set;
 
 @Controller
@@ -207,6 +210,7 @@ public class AreaClientsController {
     private final Font titleFont = new Font(Font.HELVETICA, 20, Font.BOLD);
     private final Font headerFont = new Font(Font.HELVETICA, 14, Font.BOLD);
     private final Font textFont = new Font(Font.HELVETICA, 12, Font.NORMAL);
+    NumberFormat formatoEuros = NumberFormat.getCurrencyInstance(Locale.ITALY);
 
     @GetMapping("/areaclients/generatepdf/{id}")
     public void generatePdf(HttpServletRequest request, HttpServletResponse response, @PathVariable int id) {
@@ -248,7 +252,7 @@ public class AreaClientsController {
         document.add(new Paragraph("Estado: " + factura.getEstat(), textFont));
 
         // Tabla con las líneas de factura
-        PdfPTable table = new PdfPTable(4);
+        PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(100);
         table.setSpacingBefore(20);
         table.setSpacingAfter(20);
@@ -258,9 +262,16 @@ public class AreaClientsController {
 
         // Precio total
         double total = factura.getPreu() + factura.getPreuTransport();
-        Paragraph totalParagraph = new Paragraph("Precio total: " + total + "€", textFont);
+        Paragraph transportParagraph = new Paragraph("Precio del transporte: " + formatoEuros.format(factura.getPreuTransport()), textFont);
+        Paragraph totalParagraph = new Paragraph("Precio total: " + formatoEuros.format(total), textFont);
+
+        transportParagraph.setAlignment(Paragraph.ALIGN_RIGHT);
+        transportParagraph.setSpacingBefore(20);
+
         totalParagraph.setAlignment(Paragraph.ALIGN_RIGHT);
         totalParagraph.setSpacingBefore(20);
+
+        document.add(transportParagraph);
         document.add(totalParagraph);
     }
 
@@ -270,22 +281,29 @@ public class AreaClientsController {
             PdfPCell headerCell = new PdfPCell();
             headerCell.setBackgroundColor(Color.LIGHT_GRAY);
             headerCell.setPhrase(new Paragraph(header, headerFont));
+            if (header.equals("Artículo")) headerCell.setColspan(2);
             table.addCell(headerCell);
         }
     }
 
     private void addRows(PdfPTable table, Set<LineasFactura> lineasFacturas) {
         for (LineasFactura lf : lineasFacturas) {
-            table.addCell(Integer.toString(lf.getQuantity()));
+            table.addCell("x" + Integer.toString(lf.getQuantity()));
+
             String vals = "";
             for (Valor v : lf.getPropietats().getValor()) {
                 for (Propietat prop : v.getPropietat()) {
                     vals += prop.getNom() + " " + v.getValor() + " ";
                 }
             }
-            table.addCell(lf.getMarca().getName() + " " + lf.getNomArticle() + vals);
-            table.addCell(Double.toString(lf.getPrice()));
-            table.addCell(Double.toString(lf.getPrice() * lf.getQuantity()));
+
+            PdfPCell cell = new PdfPCell();
+            cell.setColspan(2);
+            cell.setPhrase(new Paragraph(lf.getMarca().getName() + " " + lf.getNomArticle() + " " + vals, textFont));
+
+            table.addCell(cell);
+            table.addCell(formatoEuros.format(lf.getPrice()));
+            table.addCell(formatoEuros.format(lf.getPrice() * lf.getQuantity()));
         }
     }
 
