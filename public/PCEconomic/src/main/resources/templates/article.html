@@ -6,6 +6,14 @@
 <nav th:replace="layout/layout.html :: navbar"></nav>
 <body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
     <main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
+        <nav aria-label="breadcrumb mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" th:each="c : ${categoria}" th:href="@{/categoria/{categoria}(categoria=${c.getId()})}" th:text="${c.getName()}"></a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${propietats.article.nom}"></li>
+            </ol>
+        </nav>
+
         <div class="col-12 row m-2 justify-content-center">
             <div class="col-md-6 col-sm-12">
                 <div id="carouselExampleIndicators" class="carousel slide">
@@ -35,9 +43,9 @@
             </div>
 
             <div class="col-md-6 col-sm-12">
-                <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5"></h1>
                 <div class="row">
-                    <div th:if="!${preuOferta}" class="col-6 d-flex">
+                    <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5 col-6"></h1>
+                    <div th:if="!${preuOferta}" class="col-6 d-flex mt-md-3 mt-5 text-center">
                         <span class="col h1 text-pc-economic-dark" th:text="${preuEuros} "></span>
                     </div>
                     <div th:if="${preuOferta}" class="col-6 d-flex">
@@ -50,31 +58,50 @@
                 <h5 class="text-body mt-2"
                     th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
-                <div class="row justify-content-start align-items-center">
-                    <div class="col-12 row">
-                        <label for="cantidad" class="form-label h3">Cantidad</label>
-                        <div class="row justify-content-center col-6">
-                            <div>
-                                <input id="cantidad" class="form-control border border-secondary col-3" type="number"
-                                       min="1"
-                                       value="1"
-                                       th:max="${propietats.stock}">
-                            </div>
+                <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
+                    <div class="col-6 row justify-content-start">
+                        <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
+                        <div class="row col-4 mx-1">
+                            <input id="cantidad" class="form-control border border-secondary " type="number"
+                                   min="1"
+                                   value="1"
+                                   th:max="${propietats.stock}">
                         </div>
                     </div>
                 </div>
 
                 <div id="articles-disponibles" class="row mt-4 justify-content-center">
-                    <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
                     <div class="spinner-border text-secondary" role="status" id="loading-wheel">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-evenly mt-5">
+
+                <div class="d-flex justify-content-evenly mt-5" th:if="${propietats.stock} > 0">
                     <div id="addcarrito" class="col-5 row"></div>
                     <div id="comprar" class="col-5 row"></div>
                 </div>
+
+                <div class="row justify-content-evenly mt-3" th:if="${propietats.stock} == 0">
+                    <div class="row justify-content-start align-items-start mt-4 col-12" th:if="${propietats.stock} == 0">
+                        <div class="col-12 row justify-content-start">
+                            <div class="alert alert-warning" role="alert">
+                                Lo sentimos, este producto no está disponible en este momento.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="stockDisponible" class="col-10 row">
+                        <div class="col-6">
+                            <input type="email" class="form-control " id="email" placeholder="Introduce tu email" >
+                        </div>
+                        <button type="button" class="btn btn-pc-economic-dark col-6">
+                          Notificar cuando haya stock
+                        </button>
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-12 mt-5 row justify-content-center">
@@ -88,112 +115,112 @@
                     <h3>Descripción</h3>
                     <p th:text="${propietats.article.descripcio}"></p>
                 </div>
-            </div>
-            <div class="col-12">
-                <h3>Valoraciones</h3>
+                <div class="col-12">
+                    <h3>Valoraciones</h3>
 
-                <div th:if="${valoracions == null || valoracions.isEmpty()}">
-                    Actualmente no hay valoraciones para este producto
-                </div>
+                    <div th:if="${valoracions == null || valoracions.isEmpty()}">
+                        Actualmente no hay valoraciones para este producto
+                    </div>
 
-                <div id="pagination-container" class="card-deck pag-container container" style="width: 1250px;">
-                    <div class="card m-3" th:each="valoracio : ${valoracions}"
-                         th:if="${propietats.article.id == valoracio.article.id}">
-                        <div class="card-header d-flex justify-content-evenly">
-                            <p class="me-auto p-2"
-                               th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
-                            <input class="rating"
-                                   max="5"
-                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                   step="0.5"
-                                   th:style="'--value: ' + ${valoracio.valoracio}"
-                                   type="range"
-                                   value="2.5"
-                                   disabled
-                            />
-                            <span class="valoracion-fecha" style="margin-left: 10px;"
-                                  th:text="${valoracio.data}"></span>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-12">
-                                <p th:text="${valoracio.comentari}"></p>
+                    <div id="pagination-container" class="card-deck pag-container container" style="width: 1250px;">
+                        <div class="card m-3" th:each="valoracio : ${valoracions}"
+                             th:if="${propietats.article.id == valoracio.article.id}">
+                            <div class="card-header d-flex justify-content-evenly">
+                                <p class="me-auto p-2"
+                                   th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
+                                <input class="rating"
+                                       max="5"
+                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                       step="0.5"
+                                       th:style="'--value: ' + ${valoracio.valoracio}"
+                                       type="range"
+                                       value="2.5"
+                                       disabled
+                                />
+                                <span class="valoracion-fecha" style="margin-left: 10px;"
+                                      th:text="${valoracio.data}"></span>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <p th:text="${valoracio.comentari}"></p>
+                                </div>
+
+                                <div th:if="${user != null && user.id == valoracio.client.id}"
+                                     class="d-flex flex-row-reverse mt-2">
+                                    <button style="margin-left: 10px;" type="button" class="btn btn-danger"
+                                            data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                            th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                </div>
                             </div>
 
-                            <div th:if="${user != null && user.id == valoracio.client.id}"
-                                 class="d-flex flex-row-reverse mt-2">
-                                <button style="margin-left: 10px;" type="button" class="btn btn-danger"
-                                        data-bs-toggle="modal"
-                                        th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                                <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                        th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
-                             tabindex="-1"
-                             aria-labelledby="editValorationLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
-                                              th:object="${addvaloracio}" method="post">
-                                            <div class="mb-3">
-                                                <label for="editvaloracio" class="form-label">Valoracion</label>
-                                                <input id="editvaloracio"
-                                                       th:field="*{valoracio}"
-                                                       class="rating"
-                                                       max="5"
-                                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                                       step="0.5"
-                                                       th:style="'--value: ' + ${valoracio.valoracio}"
-                                                       type="range"
-                                                       th:value="${valoracio.valoracio}"
-                                                       th:placeholder="${valoracio.valoracio}"
-                                                />
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="editComentari" class="form-label">Comentario</label>
-                                                <input type="text" id="editComentari" th:field="*{comentari}"
-                                                       th:placeholder="${valoracio.comentari}">
-                                            </div>
-                                            <button type="submit" class="btn btn-pc-economic-dark">Actualizar</button>
-                                        </form>
+                            <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
+                                 tabindex="-1"
+                                 aria-labelledby="editValorationLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
+                                                  th:object="${addvaloracio}" method="post">
+                                                <div class="mb-3">
+                                                    <label for="editvaloracio" class="form-label">Valoracion</label>
+                                                    <input id="editvaloracio"
+                                                           th:field="*{valoracio}"
+                                                           class="rating"
+                                                           max="5"
+                                                           oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                           step="0.5"
+                                                           th:style="'--value: ' + ${valoracio.valoracio}"
+                                                           type="range"
+                                                           th:value="${valoracio.valoracio}"
+                                                           th:placeholder="${valoracio.valoracio}"
+                                                    />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="editComentari" class="form-label">Comentario</label>
+                                                    <input type="text" id="editComentari" th:field="*{comentari}"
+                                                           th:placeholder="${valoracio.comentari}">
+                                                </div>
+                                                <button type="submit" class="btn btn-pc-economic-dark">Actualizar</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
-                             aria-labelledby="deleteModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoracion</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Esta seguro que desea eliminar la valoracion?
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-pc-economic-default"
-                                                data-bs-dismiss="modal">
-                                            No
-                                        </button>
-                                        <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
-                                           class="btn btn-danger">Si</a>
+                            <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
+                                 aria-labelledby="deleteModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoracion</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Esta seguro que desea eliminar la valoracion?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-pc-economic-default"
+                                                    data-bs-dismiss="modal">
+                                                No
+                                            </button>
+                                            <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
+                                               class="btn btn-danger">Si</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -230,32 +257,7 @@
 
             var tamanoArray = [[${valoracions.size()}]];
             console.log(tamanoArray);
-            $('.card-deck').pagination({
-                perPage: 3,
-                pageSize: 3,
-                dataSource: function (done) {
-                    var data = $('.card-deck .card');
-                    var result = [];
 
-                    for (var i = 0; i < data.length; i++) {
-                        result.push(data[i]);
-                    }
-
-                    done(result);
-                },
-                // Agregar una función de callback para mostrar/ocultar las cards en cada página
-                callback: function (data, pagination) {
-                    var page = pagination.pageNumber;
-                    var start = (page - 1) * pagination.perPage;
-                    var end = start + pagination.perPage;
-
-                    // Ocultar todas las cards
-                    data.hide();
-
-                    // Mostrar las cards correspondientes a la página actual
-                    data.slice(start, end).show();
-                }
-            });
 
             $(".valoracion-fecha").each(function () {
                 var fecha = $(this).text();
@@ -263,9 +265,6 @@
                 var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
                 $(this).text(fechaFinal);
             });
-
-
-
         });
 
 
