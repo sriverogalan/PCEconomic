@@ -265,7 +265,7 @@ public class AreaClientsController {
     }
 
     private void addTableHeader(PdfPTable table) {
-        String[] headers = {"ID", "Artículo", "Precio", "Cantidad"};
+        String[] headers = {"Cantidad", "Artículo", "Precio", "Subtotal"};
         for (String header : headers) {
             PdfPCell headerCell = new PdfPCell();
             headerCell.setBackgroundColor(Color.LIGHT_GRAY);
@@ -276,15 +276,15 @@ public class AreaClientsController {
 
     private void addRows(PdfPTable table, Set<LineasFactura> lineasFacturas) {
         for (LineasFactura lf : lineasFacturas) {
-            table.addCell(lf.getNomArticle());
+            table.addCell(Integer.toString(lf.getQuantity()));
+            String vals = "";
             for (Valor v : lf.getPropietats().getValor()) {
                 for (Propietat prop : v.getPropietat()) {
-                    table.addCell(prop.getNom() + " " + v.getValor());
+                    vals += prop.getNom() + " " + v.getValor() + " ";
                 }
             }
-            table.addCell(lf.getMarca().getName());
+            table.addCell(lf.getMarca().getName() + " " + lf.getNomArticle() + vals);
             table.addCell(Double.toString(lf.getPrice()));
-            table.addCell(Integer.toString(lf.getQuantity()));
             table.addCell(Double.toString(lf.getPrice() * lf.getQuantity()));
         }
     }
