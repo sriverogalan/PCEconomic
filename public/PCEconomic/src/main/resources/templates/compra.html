@@ -26,6 +26,36 @@
     </div>
 
     <div class="col-6">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Redsys
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Pago redsys</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form name="from" action="https://sis-t.redsys.es:25443/sis/realizarPago" method="POST">
+                            <input type="hidden" name="Ds_SignatureVersion" value="HMAC_SHA256_V1"/>
+                            <input type="hidden" name="Ds_MerchantParameters"
+                                   value="eyJEU19NRVJDSEFOVF9BTU9VTlQiOiAiMTQ1IiwiRFNfTUVSQ0hBTlRfQ1VSUkVOQ1kiOiAiOTc4IiwiRFNfTUVSQ0hBTlRfTUVSQ0hBTlRDT0RFIjogIjk5OTAwODg4MSIsIkRTX01FUkNIQU5UX01FUkNIQU5UVVJMIjogImh0dHA6Ly93d3cucHJ1ZWJhLmNvbS91cmxOb3RpZmljYWNpb24ucGhwIiwiRFNfTUVSQ0hBTlRfT1JERVIiOiAiMTQ0NjA2ODU4MSIsIkRTX01FUkNIQU5UX1RFUk1JTkFMIjogIjEiLCJEU19NRVJDSEFOVF9UUkFOU0FDVElPTlRZUEUiOiAiMCIsIkRTX01FUkNIQU5UX1VSTEtPIjogImh0dHA6Ly93d3cucHJ1ZWJhLmNvbS91cmxLTy5waHAiLCJEU19NRVJDSEFOVF9VUkxPSyI6ICJodHRwOi8vd3d3LnBydWViYS5jb20vdXJsT0sucGhwIn0="/>
+                            <input type="hidden" name="Ds_Signature"
+                                   value="PqV2+SF6asdasMjXasKJRTh3UIYya1hmU/igHkzhC+R="/>
+
+                            <input type="submit" value="Enviar" class="btn btn-success"/>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="btnRedsys" >Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="paypal-button-container"></div>
     </div>
 
@@ -36,8 +66,6 @@
 <div th:replace="layout/layout.html :: jquery"></div>
 
 <script>
-
-
     $.ajax({
         url: "/api/carrito",
         type: "GET",
@@ -48,12 +76,12 @@
             $("#total").text(formatDoubleToEuros(props.preuTotal));
 
             paypal.Buttons({
-                // Sets up the transaction when a payment button is clicked
+                // Sets up the transaction when a.html payment button is clicked
                 createOrder: (data, actions) => {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                value: formatDouble(props.preuTotal) // Can also reference a variable or function
+                                value: formatDouble(props.preuTotal) // Can also reference a.html variable or function
                             }
                         }]
                     });
@@ -85,58 +113,6 @@
     function formatDoubleToEuros(value) {
         return value.toFixed(2).replace(".", ",") + " €";
     }
-
-
-    $(document).ready(function () {
-        $('#payment-form').submit(function (event) {
-            event.preventDefault();
-
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: 'http://your-spring-endpoint.com/payment',
-                data: formData,
-                success: function (data) {
-                    window.location.href = data.redirectUrl;
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-        });
-    });
-
-    var json = {
-        "DS_MERCHANT_AMOUNT": "145",
-        "DS_MERCHANT_CURRENCY": "978",
-        "DS_MERCHANT_MERCHANTCODE": "999008881",
-        "DS_MERCHANT_MERCHANTURL": "http://www.prueba.com/urlNotificacion.php",
-        "DS_MERCHANT_ORDER": "1446068581",
-        "DS_MERCHANT_TERMINAL": "1",
-        "DS_MERCHANT_TRANSACTIONTYPE": "0",
-        "DS_MERCHANT_URLKO": "http://www.prueba.com/urlKO.php",
-        "DS_MERCHANT_URLOK": "http://www.prueba.com/urlOK.php"
-    }
-    var claveComercio = "sq7HjrUOBfKmC576ILgskD5srU870gJ7";
-    var encodeClaveComercio = btoa(claveComercio);
-    console.log(encodeClaveComercio)
-    var encoded = btoa(JSON.stringify(json))
-    console.log(encoded);
-
-    $("#pay-redsys").click(function () {
-        $.ajax({
-            url: "https://sis-t.redsys.es:25443/sis/realizarPago",
-            type: "POST",
-            data: {
-                Ds_MerchantParameters: encoded,
-                Ds_SignatureVersion: "HMAC_SHA256_V1"
-            },
-            success: function (props) {
-                console.log(props);
-            }
-        });
-    });
 
 </script>
 

@@ -109,7 +109,7 @@ public class FrontController {
                 model.addAttribute("preuEuros", frontService.formatearComoEuros(prop.getPreu()));
                 model.addAttribute("propietatsArticles", frontService.getPropietatsRepository().findAll());
                 model.addAttribute("contadors", session.getAttribute("contadors"));
-
+                model.addAttribute("categoria", article.getSubcategories());
             }
         });
 
@@ -188,7 +188,7 @@ public class FrontController {
     @GetMapping("/carrito/finalitzat")
     public String finalitzat(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        if (session == null) return "redirect:/";
+        if (session == null) return "pagorealizado";
 
         Persona persona = (Persona) session.getAttribute("persona");
         model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
