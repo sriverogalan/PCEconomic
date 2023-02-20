@@ -2,12 +2,16 @@ package me.pceconomic.shop.services;
 
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.Getter;
+import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.persona.Direccio;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.repositories.DireccioRepository;
+import me.pceconomic.shop.repositories.FacturaRepository;
 import me.pceconomic.shop.repositories.PersonaRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,12 +26,14 @@ public class AreaClientsService {
     private final PersonaRepository personaRepository;
     private final DireccioRepository direccioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final FacturaRepository facturaRepository;
 
     @Autowired
-    public AreaClientsService(PasswordEncoder passwordEncoder, PersonaRepository personaRepository, DireccioRepository direccioRepository) {
+    public AreaClientsService(PasswordEncoder passwordEncoder, PersonaRepository personaRepository, DireccioRepository direccioRepository, FacturaRepository facturaRepository) {
         this.personaRepository = personaRepository;
         this.direccioRepository = direccioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.facturaRepository = facturaRepository;
     }
 
     public void sendToModel(Model model, HttpSession session) {
@@ -36,6 +42,15 @@ public class AreaClientsService {
         model.addAttribute("directionForm", new AddDirectionForm());
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
+    }
+
+    @Transactional
+    public Factura getFacturaWithLineasFacturas(int id) {
+        Factura factura = facturaRepository.findById(id).orElse(null);
+        if (factura != null) {
+            Hibernate.initialize(factura.getLineasFacturas());
+        }
+        return factura;
     }
 
     public void saveDirection(Persona persona, AddDirectionForm directionForm, HttpSession session) {
