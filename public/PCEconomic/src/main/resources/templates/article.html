@@ -58,7 +58,7 @@
                 <h5 class="text-body mt-2"
                     th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
 
-                <div class="row justify-content-start align-items-start mt-4">
+                <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
                     <div class="col-6 row justify-content-start">
                         <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
                         <div class="row col-4 mx-1">
@@ -71,16 +71,37 @@
                 </div>
 
                 <div id="articles-disponibles" class="row mt-4 justify-content-center">
-                    <span class="col-12 text-center mt-1 mb-2">Elige tu mismo articulo pero con distintas propiedades!</span>
                     <div class="spinner-border text-secondary" role="status" id="loading-wheel">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-evenly mt-5">
+
+                <div class="d-flex justify-content-evenly mt-5" th:if="${propietats.stock} > 0">
                     <div id="addcarrito" class="col-5 row"></div>
                     <div id="comprar" class="col-5 row"></div>
                 </div>
+
+                <div class="row justify-content-evenly mt-3" th:if="${propietats.stock} == 0">
+                    <div class="row justify-content-start align-items-start mt-4 col-12" th:if="${propietats.stock} == 0">
+                        <div class="col-12 row justify-content-start">
+                            <div class="alert alert-warning" role="alert">
+                                Lo sentimos, este producto no está disponible en este momento.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="stockDisponible" class="col-10 row">
+                        <div class="col-6">
+                            <input type="email" class="form-control " id="email" placeholder="Introduce tu email" >
+                        </div>
+                        <button type="button" class="btn btn-pc-economic-dark col-6">
+                          Notificar cuando haya stock
+                        </button>
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="col-12 mt-5 row justify-content-center">

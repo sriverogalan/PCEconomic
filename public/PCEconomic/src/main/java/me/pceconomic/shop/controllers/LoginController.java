@@ -166,7 +166,7 @@ public class LoginController {
 
         String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.MINUTES.toMillis(10));
         mailService.sendMail(sendEmailForm.getEmail(), "PC Economic - Password recovery", "Use the link below to recover your password: http://pceconomic.live:8080/changepassword/" + token + " \n\n" +
-                "You have 1 hour to recover your password. After that, you will have to request a new password recovery.");
+                "You have 1 hour to recover your password. After that, you will have to request a.html new password recovery.");
         return "redirect:/";
     }
 
