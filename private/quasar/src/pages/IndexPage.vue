@@ -1,17 +1,24 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-  </q-page>
+  Hello Worlds
+
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
+import { axios } from "axios";
 
 export default defineComponent({
-  name: 'IndexPage'
-})
+  name: "IndexPage",
+  methods: {
+
+  },
+
+  setup() {
+    const get = async () => {
+      const response = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
+      console.log(response);
+    };
+    get();
+  },
+});
 </script>

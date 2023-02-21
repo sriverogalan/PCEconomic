@@ -54,12 +54,15 @@ public class FrontController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
+
         HttpSession session = request.getSession();
         if (session == null) return "index";
+
 
         Persona persona = (Persona) session.getAttribute("persona");
         model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", persona);
+        model.addAttribute("rols", persona == null ? null : persona.getRols());
 
         return "index";
     }
