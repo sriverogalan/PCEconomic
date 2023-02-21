@@ -49,6 +49,13 @@ module.exports = configure(function (ctx) {
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+      extendWebpack(cfg) {
+        cfg.watchOptions = {
+          aggregateTimeout: 200,
+          poll: 1000,
+        };
+      },
+      
 
       // transpile: false,
       // publicPath: '/',
