@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -17,14 +16,44 @@ export default defineComponent({
   },
   methods: {
     async getToken() {
-      const response = await axios.get("http://localhost:8080/token", {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      });
-      this.token = response;
-      console.log(response);
+      const urlParams = this.$route.params.token;
+
+      if (urlParams) {
+        localStorage.setItem("token", urlParams);
+      }
+
+      const token = localStorage.getItem("token");
+
+
+      if (token) {
+        const response = await this.$axios.get(`http://localhost:8000/persones`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          withCredentials: true,
+        });
+        
+        this.token = response.data;
+      }
+
+
+
+/*       if (token) {
+        const response = await this.$axios.get(`http://localhost:8000`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          withCredentials: true,
+        });
+
+        this.token = response.data.display_name;
+      }
+
+      if (!token) {
+        window.location.href = "";
+      } */
     },
   },
 
