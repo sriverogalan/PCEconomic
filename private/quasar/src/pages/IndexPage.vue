@@ -15,7 +15,7 @@ export default defineComponent({
 
   setup() {
     const get = async () => {
-      const response = await axios.get("https://jsonplaceholder.typicode.com/todos/1");
+      const response = await axios.get("http://www.pceconomic.me/token");
       console.log(response);
     };
     get();
