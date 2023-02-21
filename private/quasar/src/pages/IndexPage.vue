@@ -27,9 +27,13 @@ export default defineComponent({
       console.log(response);
     },
   },
-
-  mounted() {
-    this.getToken();
+ 
+  setup() {
+    const get = async () => {
+      const response = await axios.get("http://www.pceconomic.me/token");
+      console.log(response);
+    };
+    get(); 
   },
 });
 </script>
