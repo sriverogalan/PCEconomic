@@ -35,7 +35,19 @@ public class ServerConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                .allowedOrigins("http://localhost:80", "http://localhost:5500", "http://localhost:8080", "http://pceconomic.live:8080/")
+                .allowedOrigins(
+                        "http://localhost:80",
+                        "http://localhost:5500",
+                        "http://localhost:8080",
+                        "http://pceconomic.live:8080/",
+                        "http://www.pceconomic.me/",
+                        "http://pceconomic.me/",
+                        "http://admin.pceconomic.me/",
+                        "http://api.pceconomic.me/",
+                        "http://pceconomic.me:8080/",
+                        "http://pceconomic.live:8000",
+                        "http://pceconomic.live:3000"
+                )
                 .allowCredentials(true);
     }
 
