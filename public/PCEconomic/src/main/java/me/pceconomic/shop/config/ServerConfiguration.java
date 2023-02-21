@@ -45,8 +45,8 @@ public class ServerConfiguration implements WebMvcConfigurer {
                         "http://admin.pceconomic.me/",
                         "http://api.pceconomic.me/",
                         "http://pceconomic.me:8080/",
-                        "http://pceconomic.live:8000",
-                        "http://pceconomic.live:3000"
+                        "http://pceconomic.me:8000",
+                        "http://pceconomic.me:3000"
                 )
                 .allowCredentials(true);
     }
