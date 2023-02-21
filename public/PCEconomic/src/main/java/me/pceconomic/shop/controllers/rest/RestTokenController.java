@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RestToken {
+public class RestTokenController {
 
     @GetMapping("/token")
-    public String generateToket(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         return request.getSession().getAttribute("token").toString();
     }
 }
