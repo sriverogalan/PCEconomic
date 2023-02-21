@@ -18,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
@@ -36,6 +37,12 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
+
+        if (Objects.equals(request.getMethod(), "OPTIONS")) {
+            response.sendRedirect(request.getContextPath() + "/token");
+            return true;
+        }
+
         if (session == null) {
             response.sendRedirect(request.getContextPath() + "/login");
             return false;
