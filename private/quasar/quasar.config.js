@@ -85,8 +85,8 @@ module.exports = configure(function (ctx) {
     devServer: {
       server: {
         type: 'http'
-      },
-      port: 82,
+      }, 
+      port: 80, 
       open: true // opens browser window automatically
     },
 
