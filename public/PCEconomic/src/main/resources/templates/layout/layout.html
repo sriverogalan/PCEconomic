@@ -92,7 +92,11 @@
                             </button>
                             <ul class="dropdown-menu" id="menu-login">
                                 <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
+<<<<<<< HEAD
                                 <li><a class="dropdown-item" th:href="'http://localhost/#/'+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar Productos</a></li>
+=======
+                                <li><a class="dropdown-item" href="http://admin.pceconomic.me/#/" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar Productos</a></li>
+>>>>>>> 4ca5d043272395599ffe7d2a93a8e3769b5b9981
                                 <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
                             </ul>
                         </div>
