@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Imatge;
+import me.pceconomic.shop.domain.entities.article.Valoracions;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -41,4 +42,7 @@ public @Data class Propietats {
     @Fetch(FetchMode.JOIN)
     @JoinColumn(name = "id_propietats")
     private Set<Imatge> imatges;
+
+    @OneToMany(mappedBy = "propietats")
+    private Set<Valoracions> valoracions;
 }

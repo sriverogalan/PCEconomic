@@ -128,11 +128,11 @@
                     </div>
 
                     <div class="card m-3" th:each="valoracio : ${valoracions}"
-                         th:if="${propietats.article.id == valoracio.article.id}">
+                         th:if="${propietats.article.id == valoracio.propietats.article.id}">
                         <div class="card-header d-flex justify-content-evenly">
                             <div class="row">
                                 <p class="me-auto p-2"
-                                   th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
+                                   th:text="${valoracio.persona.name} + ' ' + ${valoracio.persona.surname1} "></p>
                                 <input class="rating col-sm-6"
                                        max="5"
                                        oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
@@ -151,7 +151,7 @@
                                 <p th:text="${valoracio.comentari}"></p>
                             </div>
 
-                            <div th:if="${user != null && user.id == valoracio.client.id}"
+                            <div th:if="${user != null && user.id == valoracio.persona.id}"
                                  class="d-flex flex-row-reverse mt-2">
                                 <button style="margin-left: 10px;" type="button" class="btn btn-danger"
                                         data-bs-toggle="modal"

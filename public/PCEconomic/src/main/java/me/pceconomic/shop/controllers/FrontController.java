@@ -6,6 +6,7 @@ import me.pceconomic.shop.domain.ContadorArticle;
 import me.pceconomic.shop.domain.carrito.Cart;
 import me.pceconomic.shop.domain.carrito.ShoppingCart;
 import me.pceconomic.shop.domain.entities.article.Article;
+import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
@@ -14,6 +15,7 @@ import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
 import me.pceconomic.shop.repositories.FacturaRepository;
 import me.pceconomic.shop.repositories.LineaFacturaRepository;
+import me.pceconomic.shop.repositories.ValoracionsRepository;
 import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
@@ -37,14 +39,16 @@ public class FrontController {
     private final VisitaRepository visitaRepository;
     private final FacturaRepository facturaRepository;
     private final LineaFacturaRepository lineaFacturaRepository;
+    private final ValoracionsRepository valoracionsRepository;
 
     @Autowired
-    public FrontController(FrontService frontService, LineaFacturaRepository lineaFacturaRepository, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository) {
+    public FrontController(FrontService frontService, LineaFacturaRepository lineaFacturaRepository, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository, ValoracionsRepository valoracionsRepository) {
         this.frontService = frontService;
         this.carritoService = carritoService;
         this.visitaRepository = visitaRepository;
         this.facturaRepository = facturaRepository;
         this.lineaFacturaRepository = lineaFacturaRepository;
+        this.valoracionsRepository = valoracionsRepository;
     }
 
     @GetMapping("/lang")
@@ -117,8 +121,9 @@ public class FrontController {
             }
         });
 
+
         model.addAttribute("imatges", frontService.getImatgeRepository().findAll());
-        model.addAttribute("valoracions", frontService.getValoracionsPerArticle(idArticle));
+        model.addAttribute("valoracions", frontService.getValoracionsPerArticle(article));
         model.addAttribute("addvaloracio", new AddValorationForm());
 
         return "article";
@@ -181,8 +186,10 @@ public class FrontController {
             frontService.getPersonaRepository().save(persona);
 
             session.removeAttribute("carrito");
+            session.removeAttribute("persona");
             session.removeAttribute("pedidos");
             session.setAttribute("pedidos", persona.getFactures());
+            session.setAttribute("persona", persona);
 
             return "redirect:/carrito/finalitzat";
         }
@@ -201,10 +208,11 @@ public class FrontController {
         return "finalitzat";
     }
 
-    @SuppressWarnings("all")
-    @PostMapping("/areaclients/addvaloracio/{idArticle}/{idClient}/{idPropietat}")
-    public String addValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idClient, @PathVariable int idPropietat) {
-        frontService.addValoracio(idClient, idArticle, addvaloracio);
+    @PostMapping("/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}")
+    public String addValoracio(HttpServletRequest request, @PathVariable int idLinea, @PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idPropietat) {
+        HttpSession session = request.getSession();
+        if (session == null) return "redirect:/";
+        frontService.addValoracio(session, idArticle, addvaloracio, idPropietat, idLinea);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
