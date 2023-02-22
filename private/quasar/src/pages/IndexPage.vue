@@ -25,27 +25,24 @@ export default defineComponent({
 
       const token = localStorage.getItem("token");
 
-
       if (token) {
-        const response = await this.$axios.get(`http://localhost:8000/persones`, {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
-          },
-          withCredentials: true,
-        }).then(
-          (response) => {
-            console.log(response);
-          },
-          (error) => {
-            console.log(error);
-          }
-        )
+        await this.$axios
+          .get(`http://localhost:8000/persones`, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then(
+            (response) => {
+              console.log(response);
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
       }
 
-
-
-/*       if (token) {
+      /*       if (token) {
         const response = await this.$axios.get(`http://localhost:8000`, {
           headers: {
             "Content-Type": "application/json",
@@ -62,8 +59,7 @@ export default defineComponent({
       } */
     },
   },
- 
-  setup() {  
-  },
+
+  setup() {},
 });
 </script>
