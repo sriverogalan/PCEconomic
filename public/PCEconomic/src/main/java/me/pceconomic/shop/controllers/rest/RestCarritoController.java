@@ -9,6 +9,7 @@ import me.pceconomic.shop.repositories.ValoracionsRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +38,7 @@ public class RestCarritoController {
         return carritoService.getCarrito();
     }
 
+    @Transactional
     @GetMapping("/api/valoracions")
     public List<Valoracions> valoracions() {
         return valoracionsRepository.findAll();

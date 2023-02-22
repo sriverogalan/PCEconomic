@@ -218,7 +218,6 @@ public class FrontController {
 
     @PostMapping("/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idValoracio}")
     public String updateValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idClient, @PathVariable int idPropietat, @PathVariable int idValoracio) {
-        System.out.println(addvaloracio);
         Valoracions valoracions = null;
 
         for (Valoracions valoracions1 : frontService.getValoracionsRepository().findAll()) {

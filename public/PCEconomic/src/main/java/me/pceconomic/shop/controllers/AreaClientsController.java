@@ -45,7 +45,6 @@ public class AreaClientsController {
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
         model.addAttribute("changeTelephoneForm", new ChangeTelephoneForm());
-        model.addAttribute("addvaloracio", new AddValorationForm());
 
         return "areaclients";
     }
