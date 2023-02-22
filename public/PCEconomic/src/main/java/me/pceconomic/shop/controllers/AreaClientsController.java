@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.persona.Persona;
+import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 @Controller
 public class AreaClientsController {
 
@@ -45,6 +45,7 @@ public class AreaClientsController {
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
         model.addAttribute("changeTelephoneForm", new ChangeTelephoneForm());
+        model.addAttribute("addvaloracio", new AddValorationForm());
 
         return "areaclients";
     }

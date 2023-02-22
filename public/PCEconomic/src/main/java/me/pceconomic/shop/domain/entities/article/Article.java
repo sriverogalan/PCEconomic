@@ -51,5 +51,4 @@ public class Article {
     @JoinColumn(name = "id_article")
     @JsonIgnore
     private Set<Propietats> propietats;
-
 }

@@ -107,8 +107,8 @@ public class PDFService {
             cell.setPhrase(new Paragraph(lf.getMarca().getName() + " " + lf.getNomArticle() + " " + vals, textFont));
 
             table.addCell(cell);
+            table.addCell(formatoEuros.format(lf.getPrice() / lf.getQuantity()));
             table.addCell(formatoEuros.format(lf.getPrice()));
-            table.addCell(formatoEuros.format(lf.getPrice() * lf.getQuantity()));
         }
     }
 

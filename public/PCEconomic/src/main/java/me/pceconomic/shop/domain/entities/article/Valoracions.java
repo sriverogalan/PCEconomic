@@ -2,12 +2,14 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Entity
+@Table
 public @Data class Valoracions {
 
     @Id
@@ -25,13 +27,11 @@ public @Data class Valoracions {
     @Column(name = "data_valoracio")
     private LocalDate data;
 
-    @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_propietat")
+    private Propietats propietats;
 
-    @OneToOne
-    @JoinColumn(name = "id_persona")
-    private Persona client;
-
+    @Column(name = "id_persona")
+    private int idPersona;
 
 }

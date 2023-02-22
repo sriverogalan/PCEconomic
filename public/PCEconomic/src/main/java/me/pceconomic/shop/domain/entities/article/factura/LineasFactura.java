@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import me.pceconomic.shop.domain.entities.article.Marca;
+import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 @Entity
@@ -31,6 +32,9 @@ public @Data class LineasFactura {
 
     @Column(name = "quantitat")
     private int quantity;
+
+    @Column(name = "esValorat")
+    private boolean esValorat;
 
     @OneToOne
     @JoinColumn(name = "id_marca")

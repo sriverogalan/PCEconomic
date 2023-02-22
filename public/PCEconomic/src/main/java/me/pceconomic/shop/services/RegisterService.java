@@ -55,7 +55,6 @@ public class RegisterService {
 
         persona.setDni(registerForm.getDni());
         persona.setActive(false);
-        persona.setSubscribed(false);
 
         personaRepository.save(persona);
     }
