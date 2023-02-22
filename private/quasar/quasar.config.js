@@ -56,6 +56,12 @@ module.exports = configure(function (ctx) {
         };
       },
 
+      env: require('dotenv').config({
+        path: (process.env.ENVIRONMENT)
+          ?`.env.${process.env.ENVIRONMENT}`
+          : '.env.developer',
+      }).parsed,
+
 
       // transpile: false,
       // publicPath: '/',

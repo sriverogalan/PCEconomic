@@ -30,7 +30,7 @@ const linksList = [
   {
     title: "Marcas",
     icon: "work",
-    link: "/#/crearmarca",
+    link: "/#/gestionmarcas",
   },
 ];
 

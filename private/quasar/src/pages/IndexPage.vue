@@ -1,7 +1,11 @@
 <template>
-  <q-page class="flex"> 
-    
-    
+  <q-page class="row justify-center">
+    <div class="col-10">
+      <h1 class="col-12 text-center">Gestiona tus usuarios</h1>
+      <div class="q-pa-md">
+        <q-table title="Usuaris" :rows="rows" :columns="columns" row-key="name" />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -12,13 +16,20 @@ export default defineComponent({
   name: "IndexPage",
   data() {
     return {
-      token: "",
+      columns: [],
+      columnsFiltrades: [],
+      rows: [],
+      rowsFiltrades: [],
     };
   },
   methods: {
-     
+
+
   },
 
-  setup() {},
+  setup() {
+
+    
+  },
 });
 </script>

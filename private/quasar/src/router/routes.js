@@ -4,16 +4,22 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: ":token",
+        path: "",
         name: "Token",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        path: "gestionmarcas",
+        name: "Index",
+        component: () => import("pages/GestionMarcas.vue"),
+      },
     ],
   },
+
   {
     path: "/error/:error",
     name: "Error",
-    component: () => import("pages/ErrorPage.vue"),  
+    component: () => import("pages/ErrorPage.vue"),
   },
   {
     path: "/:catchAll(.*)*",
