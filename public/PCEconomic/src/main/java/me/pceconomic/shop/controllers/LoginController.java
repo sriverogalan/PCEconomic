@@ -174,7 +174,7 @@ public class LoginController {
     public String preChangePassword(@PathVariable String token, Model model) {
         int valid = tokenService.validateToken(token);
 
-        if (valid == 0) return "redirect:/";
+        if (valid == 1) return "redirect:/";
         if (valid == 2) return "redirect:/";
 
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
@@ -187,7 +187,7 @@ public class LoginController {
     public String postChangePassword(@PathVariable String token, @ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePasswordForm, BindingResult bindingResult, Model model) {
         int valid = tokenService.validateToken(token);
 
-        if (valid == 0) return "redirect:/";
+        if (valid == 1) return "redirect:/";
         if (valid == 2) return "redirect:/";
 
         if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {

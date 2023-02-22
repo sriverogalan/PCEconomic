@@ -1,6 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <h1>{{ token }}</h1>
+    <button @click="getToken">Get Token</button>
   </q-page>
 </template>
 
@@ -32,9 +33,14 @@ export default defineComponent({
             "X-Requested-With": "XMLHttpRequest",
           },
           withCredentials: true,
-        });
-        
-        this.token = response.data;
+        }).then(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
       }
 
 
@@ -57,12 +63,7 @@ export default defineComponent({
     },
   },
  
-  setup() {
-    const get = async () => {
-      const response = await axios.get("http://www.pceconomic.me/token");
-      console.log(response);
-    };
-    get(); 
+  setup() {  
   },
 });
 </script>
