@@ -26,37 +26,15 @@ export default defineComponent({
       const token = localStorage.getItem("token");
 
       if (token) {
-        await this.$axios
-          .get(`http://localhost:8000/persones`, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-          .then(
-            (response) => {
-              console.log(response);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
-      }
-
-      /*       if (token) {
-        const response = await this.$axios.get(`http://localhost:8000`, {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
+        await this.$axios.get(`http://localhost:8000/persones`, {}).then(
+          (response) => {
+            console.log(JSON.parse(response.request.response));
           },
-          withCredentials: true,
-        });
-
-        this.token = response.data.display_name;
-      }
-
-      if (!token) {
-        window.location.href = "";
-      } */
+          (error) => {
+            console.log(error);
+          }
+        );
+      } 
     },
   },
 
