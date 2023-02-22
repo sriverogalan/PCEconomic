@@ -51,7 +51,7 @@ export default route(function (/* { store, ssrContext } */) {
     }
 
     if (token) {
-      await fetch(`http://localhost:8000/persones`, {
+      await fetch(`http://localhost:8000/`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
