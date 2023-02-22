@@ -219,7 +219,26 @@ public class FrontController {
     @PostMapping("/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idValoracio}")
     public String updateValoracio(@PathVariable int idArticle, @ModelAttribute AddValorationForm addvaloracio, @PathVariable int idClient, @PathVariable int idPropietat, @PathVariable int idValoracio) {
         System.out.println(addvaloracio);
-        frontService.updateValoracio(idValoracio, addvaloracio);
+        Valoracions valoracions = null;
+
+        for (Valoracions valoracions1 : frontService.getValoracionsRepository().findAll()) {
+            if (valoracions1.getId() == idValoracio) {
+                valoracions = valoracions1;
+                break;
+            }
+        }
+
+        if (valoracions == null) return "redirect:/error";
+        if (addvaloracio.getValoracio() == 0.0 && addvaloracio.getComentari() == null) return "redirect:/error";
+        if (addvaloracio.getValoracio() == 0.0) return "redirect:/error";
+        if (addvaloracio.getComentari() == null) return "redirect:/error";
+        if (addvaloracio.getComentari().equals("")) return "redirect:/error";
+
+        valoracions.setValoracio(addvaloracio.getValoracio());
+        valoracions.setComentari(addvaloracio.getComentari());
+        valoracions.setData(LocalDate.now());
+
+        valoracionsRepository.save(valoracions);
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 

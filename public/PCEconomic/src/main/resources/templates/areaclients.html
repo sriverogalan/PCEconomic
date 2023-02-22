@@ -572,8 +572,7 @@
                                                                             </span>
                                                                         <div>
                                                                             <p class="linea-price" th:text="${productos.price}"></p>
-                                                                            <button th:if="${user.valoracions.isEmpty()}"
-                                                                                    type="button" class="btn btn-pc-economic-dark"
+                                                                            <button th:if="${productos.propietats.valoracions == null}" type="button" class="btn btn-pc-economic-dark"
                                                                                     data-bs-toggle="modal"
                                                                                     th:attr="data-bs-target='#addValoration-' + ${productos.id}"
                                                                                     data-bs-dismiss="modal">

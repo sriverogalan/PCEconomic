@@ -1,5 +1,6 @@
 package me.pceconomic.shop.domain.entities.article.propietats;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "propietats")
-@EqualsAndHashCode(exclude = {"article", "valor", "imatges"})
+@EqualsAndHashCode(exclude = {"article", "valor", "imatges", "valoracions"})
 public @Data class Propietats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +45,6 @@ public @Data class Propietats {
     private Set<Imatge> imatges;
 
     @OneToMany(mappedBy = "propietats")
+    @JsonIgnore
     private Set<Valoracions> valoracions;
 }
