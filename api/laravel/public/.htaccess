@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    Header set Access-Control-Allow-Origin http://localhost, 
+    Header set Access-Control-Allow-Methods "GET,POST,OPTIONS,DELETE,PUT"
+    Header set Access-Control-Allow-Headers "Content-Type,Authorization"
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -15,16 +15,15 @@ use App\Models\Persones;
 |
 */
 
-Route::get('/', function () {
-    $message = "Hello, Welcome!";
-    return response()->json($message);
+Route::get('/', function () { 
+    return response()->json(true);
 });
 
 Route::get('/persones', function () {
     $persones = Persones::all();
     return response()->json($persones);
 });
-
+ 
 Route::get('/persones/{id}', function ($id) {
     $persones = Persones::find($id);
     return response()->json($persones, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
@@ -32,4 +31,16 @@ Route::get('/persones/{id}', function ($id) {
 
 Route::controller(JwtController::class)->group(function () {
     Route::get('/token', 'generateToken');
+});
+ 
+Route::group(['middleware' => ['cors']], function () 
+
+{
+    Log::info('Middleware CORS está siendo ejecutado');
+    Route::get('/persones', function () { 
+        
+    Log::info('2');
+        $persones = Persones::all();
+        return response()->json($persones);
+    }); 
 });

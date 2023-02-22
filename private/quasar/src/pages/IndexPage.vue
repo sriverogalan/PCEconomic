@@ -1,24 +1,69 @@
 <template>
-  Hello Worlds
-
+  <q-page class="flex flex-center">
+    <h1>{{ token }}</h1>
+    <button @click="getToken">Get Token</button>
+  </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { axios } from "axios";
 
 export default defineComponent({
   name: "IndexPage",
-  methods: {
-
-  },
-
-  setup() {
-    const get = async () => {
-      const response = await axios.get("http://www.pceconomic.me/token");
-      console.log(response);
+  data() {
+    return {
+      token: "",
     };
-    get();
+  },
+  methods: {
+    async getToken() {
+      const urlParams = this.$route.params.token;
+
+      if (urlParams) {
+        localStorage.setItem("token", urlParams);
+      }
+
+      const token = localStorage.getItem("token");
+
+
+      if (token) {
+        const response = await this.$axios.get(`http://localhost:8000/persones`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          withCredentials: true,
+        }).then(
+          (response) => {
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+          }
+        )
+      }
+
+
+
+/*       if (token) {
+        const response = await this.$axios.get(`http://localhost:8000`, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+          },
+          withCredentials: true,
+        });
+
+        this.token = response.data.display_name;
+      }
+
+      if (!token) {
+        window.location.href = "";
+      } */
+    },
+  },
+ 
+  setup() {  
   },
 });
 </script>
