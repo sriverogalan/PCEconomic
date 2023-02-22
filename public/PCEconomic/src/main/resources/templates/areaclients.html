@@ -572,7 +572,8 @@
                                                                             </span>
                                                                         <div>
                                                                             <p class="linea-price" th:text="${productos.price}"></p>
-                                                                            <button th:if="${productos.propietats.valoracions == null}" type="button" class="btn btn-pc-economic-dark"
+                                                                            <button th:if="${productos.esValorat == false}"
+                                                                                    type="button" class="btn btn-pc-economic-dark"
                                                                                     data-bs-toggle="modal"
                                                                                     th:attr="data-bs-target='#addValoration-' + ${productos.id}"
                                                                                     data-bs-dismiss="modal">
@@ -600,8 +601,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-
 
                                             <div th:each="productos : ${factura.lineasFacturas}">
                                                 <div class="modal fade" th:id="'addValoration-' + ${productos.id}" tabindex="-1" aria-labelledby="addValorationLabel"

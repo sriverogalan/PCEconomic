@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex"> </q-page>
+  <q-page class="flex">This is a marca </q-page>
 </template>
 
 <script>
