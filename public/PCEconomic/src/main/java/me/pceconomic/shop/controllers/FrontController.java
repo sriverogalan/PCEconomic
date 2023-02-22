@@ -63,6 +63,7 @@ public class FrontController {
         model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", persona);
         model.addAttribute("rols", persona == null ? null : persona.getRols());
+        model.addAttribute("token", session.getAttribute("token"));
 
         return "index";
     }
