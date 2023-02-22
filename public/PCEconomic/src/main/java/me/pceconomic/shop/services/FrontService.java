@@ -77,6 +77,8 @@ public class FrontService {
         Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", client);
+        model.addAttribute("rols", client == null ? null : client.getRols());
+
     }
 
     public void addValoracio(int idClient, int idArticle, AddValorationForm valorationForm) {
