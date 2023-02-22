@@ -52,7 +52,7 @@ public class Persona {
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Factura> factures;
 
     @ManyToMany(fetch = FetchType.EAGER)
