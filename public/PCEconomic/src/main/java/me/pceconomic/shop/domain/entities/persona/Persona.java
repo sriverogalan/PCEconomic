@@ -7,6 +7,8 @@ import lombok.Setter;
 import me.pceconomic.shop.domain.entities.article.Carrito;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.Set;
 
@@ -43,17 +45,14 @@ public class Persona {
     @Column(name = "dni")
     private String dni;
 
-    @Column(name = "isSuscrit")
-    private boolean isSubscribed;
-
     @Column(name = "isActiu")
     private boolean isActive;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Factura> factures;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -64,7 +63,7 @@ public class Persona {
     )
     private Set<Direccio> direccions;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "persones_rols",
             joinColumns = @JoinColumn(name = "id_persona"),
@@ -72,7 +71,7 @@ public class Persona {
     )
     private Set<Rols> rols;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_persona")
     private Set<Valoracions> valoracions;
 
@@ -87,7 +86,6 @@ public class Persona {
                 ", password='" + password + '\'' +
                 ", telefon='" + telefon + '\'' +
                 ", dni='" + dni + '\'' +
-                ", isSubscribed=" + isSubscribed +
                 ", isActive=" + isActive +
                 '}';
     }

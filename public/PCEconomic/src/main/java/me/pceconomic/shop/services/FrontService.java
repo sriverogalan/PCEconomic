@@ -61,7 +61,9 @@ public class FrontService {
     public List<Valoracions> getValoracionsPerArticle(Article article) {
         List<Valoracions> valoracions = new ArrayList<>();
         for (Valoracions valoracio : valoracionsRepository.findAll()) {
+            if (valoracio.getPropietats().getArticle().getId() == article.getId()) {
                 valoracions.add(valoracio);
+            }
         }
         return valoracions;
     }

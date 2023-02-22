@@ -125,6 +125,8 @@ public class FrontController {
         model.addAttribute("imatges", frontService.getImatgeRepository().findAll());
         model.addAttribute("valoracions", frontService.getValoracionsPerArticle(article));
         model.addAttribute("addvaloracio", new AddValorationForm());
+        model.addAttribute("valoracions", frontService.getValoracionsPerArticle(article));
+        model.addAttribute("persones", frontService.getPersonaRepository().findAll());
 
         return "article";
     }
@@ -241,17 +243,17 @@ public class FrontController {
         return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
-    @SuppressWarnings("all")
-    @GetMapping("/areaclients/deletevaloracio/{id}/{idArticle}/{idPropietat}")
-    public String deleteValoracio(@PathVariable int id, @PathVariable int idArticle, @PathVariable int idPropietat) {
-        frontService.deleteValoracio(id);
-        return "redirect:/article/" + idArticle + "/" + idPropietat;
-    }
-
     @GetMapping("/categoria/{id}")
     public String getCategories(Model model, @PathVariable int id, HttpServletRequest request) {
         frontService.getCategoria(model, id, request);
         return "categoria";
+    }
+
+    @SuppressWarnings("all")
+    @GetMapping("/areaclients/deletevaloracio/{id}/{idArticle}/{idPropietat}")
+    public String deleteValoracio(@PathVariable int id, @PathVariable int idArticle, @PathVariable int idPropietat) {
+        valoracionsRepository.deleteById(id);
+        return "redirect:/article/" + idArticle + "/" + idPropietat;
     }
 
     @GetMapping("/carrito/direccion")

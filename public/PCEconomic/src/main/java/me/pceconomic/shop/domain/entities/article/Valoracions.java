@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"id_propietat", "id_persona"})})
+@Table
 public @Data class Valoracions {
 
     @Id
@@ -27,12 +27,11 @@ public @Data class Valoracions {
     @Column(name = "data_valoracio")
     private LocalDate data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_propietat")
     private Propietats propietats;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_persona")
-    private Persona persona;
+    @Column(name = "id_persona")
+    private int idPersona;
 
 }
