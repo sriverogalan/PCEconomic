@@ -63,7 +63,7 @@ public class Persona {
     )
     private Set<Direccio> direccions;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "persones_rols",
             joinColumns = @JoinColumn(name = "id_persona"),

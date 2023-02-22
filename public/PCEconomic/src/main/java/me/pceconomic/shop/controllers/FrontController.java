@@ -175,6 +175,7 @@ public class FrontController {
                 lineasFactura.setPrice(cart.getPrice());
                 lineasFactura.setQuantity(cart.getQuantity());
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
+                lineasFactura.setEsValorat(false);
 
                 facturaSet.add(lineasFactura);
 

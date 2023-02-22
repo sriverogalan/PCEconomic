@@ -33,6 +33,9 @@ public @Data class LineasFactura {
     @Column(name = "quantitat")
     private int quantity;
 
+    @Column(name = "esValorat")
+    private boolean esValorat;
+
     @OneToOne
     @JoinColumn(name = "id_marca")
     private Marca marca;

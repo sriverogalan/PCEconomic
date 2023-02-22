@@ -108,9 +108,15 @@ public class FrontService {
         valoracions.setValoracio(valorationForm.getValoracio());
         valoracions.setComentari(valorationForm.getComentari());
         valoracions.setData(LocalDate.now());
+        valoracions.setPropietats(propietats);
+        valoracions.setIdPersona(persona.getId());
 
         valoracionsRepository.save(valoracions);
 
+        if (lineasFactura == null) return;
+
+        lineasFactura.setEsValorat(true);
+        lineasFacturaRepository.save(lineasFactura);
         this.setSession(session, persona);
     }
 
