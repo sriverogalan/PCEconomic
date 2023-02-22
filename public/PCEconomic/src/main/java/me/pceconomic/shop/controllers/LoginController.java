@@ -130,17 +130,16 @@ public class LoginController {
 
         int valid = tokenService.validateToken(token);
 
-        if (valid == 0) return "redirect:/";
+        if (valid == 1) return "redirect:/";
         if (valid == 2) return "redirect:/";
 
-        if (valid == 1) {
-            Persona persona = registerService.getPersonaByEmail(email);
-            Rols rol = registerService.getRolsByName("CLIENT");
+        Persona persona = registerService.getPersonaByEmail(email);
+        Rols rol = registerService.getRolsByName("CLIENT");
 
-            persona.setActive(true);
-            registerService.updatePersona(persona);
-            persona.getRols().add(rol);
-        }
+        persona.setActive(true);
+        registerService.updatePersona(persona);
+        persona.getRols().add(rol);
+
 
         return "redirect:/";
     }

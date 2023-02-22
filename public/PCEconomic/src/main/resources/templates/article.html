@@ -9,7 +9,9 @@
         <nav aria-label="breadcrumb mt-2">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
-                <li class="breadcrumb-item"><a class="text-decoration-none" th:each="c : ${categoria}" th:href="@{/categoria/{categoria}(categoria=${c.getId()})}" th:text="${c.getName()}"></a></li>
+                <li class="breadcrumb-item"><a class="text-decoration-none" th:each="c : ${categoria}"
+                                               th:href="@{/categoria/{categoria}(categoria=${c.getId()})}"
+                                               th:text="${c.getName()}"></a></li>
                 <li class="breadcrumb-item active" aria-current="page" th:text="${propietats.article.nom}"></li>
             </ol>
         </nav>
@@ -22,11 +24,13 @@
                         >
                             <img class="d-block img-fluid imgSizeArticle"
                                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src="" style="max-height:500px; margin:auto; object-fit: contain;">
+                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src=""
+                                 style="max-height:500px; margin:auto; object-fit: contain;">
                         </div>
                         <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
                             <img class="d-block img-fluid imgSizeArticle"
-                                 th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto" src="" style="max-height:500px; margin:auto; object-fit: contain;">
+                                 th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto"
+                                 src="" style="max-height:500px; margin:auto; object-fit: contain;">
                         </div>
                     </div>
                     <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-prev" data-bs-slide="prev"
@@ -61,7 +65,7 @@
                 <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
                     <div class="col-6 row justify-content-start">
                         <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
-                        <div class="row col-4 mx-1">
+                        <div class="row col-xl-4 mx-1 col-sm-6">
                             <input id="cantidad" class="form-control border border-secondary " type="number"
                                    min="1"
                                    value="1"
@@ -83,7 +87,8 @@
                 </div>
 
                 <div class="row justify-content-evenly mt-3" th:if="${propietats.stock} == 0">
-                    <div class="row justify-content-start align-items-start mt-4 col-12" th:if="${propietats.stock} == 0">
+                    <div class="row justify-content-start align-items-start mt-4 col-12"
+                         th:if="${propietats.stock} == 0">
                         <div class="col-12 row justify-content-start">
                             <div class="alert alert-warning" role="alert">
                                 Lo sentimos, este producto no está disponible en este momento.
@@ -93,10 +98,10 @@
 
                     <div id="stockDisponible" class="col-10 row">
                         <div class="col-6">
-                            <input type="email" class="form-control " id="email" placeholder="Introduce tu email" >
+                            <input type="email" class="form-control " id="email" placeholder="Introduce tu email">
                         </div>
                         <button type="button" class="btn btn-pc-economic-dark col-6">
-                          Notificar cuando haya stock
+                            Notificar cuando haya stock
                         </button>
 
                     </div>
@@ -122,13 +127,13 @@
                         Actualmente no hay valoraciones para este producto
                     </div>
 
-                    <div id="pagination-container" class="card-deck pag-container container" style="width: 1250px;">
-                        <div class="card m-3" th:each="valoracio : ${valoracions}"
-                             th:if="${propietats.article.id == valoracio.article.id}">
-                            <div class="card-header d-flex justify-content-evenly">
+                    <div class="card m-3" th:each="valoracio : ${valoracions}"
+                         th:if="${propietats.article.id == valoracio.propietats.article.id}">
+                        <div class="card-header d-flex justify-content-evenly">
+                            <div class="row">
                                 <p class="me-auto p-2"
-                                   th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
-                                <input class="rating"
+                                   th:text="${valoracio.persona.name} + ' ' + ${valoracio.persona.surname1} "></p>
+                                <input class="rating col-sm-6"
                                        max="5"
                                        oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
                                        step="0.5"
@@ -140,87 +145,87 @@
                                 <span class="valoracion-fecha" style="margin-left: 10px;"
                                       th:text="${valoracio.data}"></span>
                             </div>
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <p th:text="${valoracio.comentari}"></p>
-                                </div>
-
-                                <div th:if="${user != null && user.id == valoracio.client.id}"
-                                     class="d-flex flex-row-reverse mt-2">
-                                    <button style="margin-left: 10px;" type="button" class="btn btn-danger"
-                                            data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-12">
+                                <p th:text="${valoracio.comentari}"></p>
                             </div>
 
-                            <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
-                                 tabindex="-1"
-                                 aria-labelledby="editValorationLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
-                                                  th:object="${addvaloracio}" method="post">
-                                                <div class="mb-3">
-                                                    <label for="editvaloracio" class="form-label">Valoracion</label>
-                                                    <input id="editvaloracio"
-                                                           th:field="*{valoracio}"
-                                                           class="rating"
-                                                           max="5"
-                                                           oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                                           step="0.5"
-                                                           th:style="'--value: ' + ${valoracio.valoracio}"
-                                                           type="range"
-                                                           th:value="${valoracio.valoracio}"
-                                                           th:placeholder="${valoracio.valoracio}"
-                                                    />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editComentari" class="form-label">Comentario</label>
-                                                    <input type="text" id="editComentari" th:field="*{comentari}"
-                                                           th:placeholder="${valoracio.comentari}">
-                                                </div>
-                                                <button type="submit" class="btn btn-pc-economic-dark">Actualizar</button>
-                                            </form>
-                                        </div>
+                            <div th:if="${user != null && user.id == valoracio.persona.id}"
+                                 class="d-flex flex-row-reverse mt-2">
+                                <button style="margin-left: 10px;" type="button" class="btn btn-danger"
+                                        data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                        th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
+                             tabindex="-1"
+                             aria-labelledby="editValorationLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
+                                              th:object="${addvaloracio}" method="post">
+                                            <div class="mb-3">
+                                                <label for="editvaloracio" class="form-label">Valoracion</label>
+                                                <input id="editvaloracio"
+                                                       th:field="*{valoracio}"
+                                                       class="rating"
+                                                       max="5"
+                                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                       step="0.5"
+                                                       th:style="'--value: ' + ${valoracio.valoracio}"
+                                                       type="range"
+                                                       th:value="${valoracio.valoracio}"
+                                                       th:placeholder="${valoracio.valoracio}"
+                                                />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="editComentari" class="form-label">Comentario</label>
+                                                <input type="text" id="editComentari" th:field="*{comentari}"
+                                                       th:placeholder="${valoracio.comentari}">
+                                            </div>
+                                            <button type="submit" class="btn btn-pc-economic-dark">Actualizar</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
 
-                            <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
-                                 aria-labelledby="deleteModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoracion</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Esta seguro que desea eliminar la valoracion?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-pc-economic-default"
-                                                    data-bs-dismiss="modal">
-                                                No
-                                            </button>
-                                            <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
-                                               class="btn btn-danger">Si</a>
-                                        </div>
+                        <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
+                             aria-labelledby="deleteModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoracion</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Esta seguro que desea eliminar la valoracion?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-pc-economic-default"
+                                                data-bs-dismiss="modal">
+                                            No
+                                        </button>
+                                        <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
+                                           class="btn btn-danger">Si</a>
                                     </div>
                                 </div>
                             </div>
@@ -290,7 +295,7 @@
                                 "<div class='col-12'> <h3 class='mb-3 mt-2'>" + v.propietat[0].nom + "</h3> <div id='" + v.propietat[0].nom + "' class='d-flex justify-content-evenly'> </div></div>"
                             )
                             $("#" + v.propietat[0].nom).append(
-                                "<button class='btn btn-pc-economic-dark text-white col-2'>" + v.valor + "</button>"
+                                "<button class='btn btn-pc-economic-dark text-white col-sm-4 col-xl-2'>" + v.valor + "</button>"
                             )
 
                             for (var prop2 of propietats) {
@@ -300,7 +305,7 @@
                                         if (auxArrIndex == -1) {
                                             auxArr.push(v2.valor);
                                             $("#" + v.propietat[0].nom).append(
-                                                "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-2'>" + v2.valor + "</a>"
+                                                "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-sm-4 col-xl-2'>" + v2.valor + "</a>"
                                             );
                                         }
                                     }

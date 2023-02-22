@@ -53,9 +53,6 @@ public class Persona {
     @JoinColumn(name = "id_carrito", referencedColumnName = "id_carrito", unique = true)
     private Carrito carrito;
 
-    @OneToOne
-    private Valoracions valoracio;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Factura> factures;
 
@@ -74,6 +71,10 @@ public class Persona {
             inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
     private Set<Rols> rols;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_persona")
+    private Set<Valoracions> valoracions;
 
     @Override
     public String toString() {

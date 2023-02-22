@@ -6,15 +6,19 @@ import lombok.Getter;
 import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.categoria.Subcategoria;
+import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,9 +34,10 @@ public class FrontService {
     private final VisitaRepository visitaRepository;
     private final ValoracionsRepository valoracionsRepository;
     private final PersonaRepository personaRepository;
+    private final LineaFacturaRepository lineasFacturaRepository;
 
     @Autowired
-    public FrontService(VisitaRepository visitaRepository, PersonaRepository personaRepository, ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository) {
+    public FrontService(VisitaRepository visitaRepository, PersonaRepository personaRepository, ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, LineaFacturaRepository lineasFacturaRepository) {
         this.categoriaRepository = categoriaRepository;
         this.articleRepository = articleRepository;
         this.imatgeRepository = imatgeRepository;
@@ -41,6 +46,7 @@ public class FrontService {
         this.visitaRepository = visitaRepository;
         this.valoracionsRepository = valoracionsRepository;
         this.personaRepository = personaRepository;
+        this.lineasFacturaRepository = lineasFacturaRepository;
     }
 
     public void article(Model model, HttpServletRequest request) {
@@ -52,8 +58,13 @@ public class FrontService {
         return formatter.format(value);
     }
 
-    public List<Valoracions> getValoracionsPerArticle(int idArticle) {
-        return valoracionsRepository.findAllByArticleId(idArticle);
+    public List<Valoracions> getValoracionsPerArticle(Article article) {
+        List<Valoracions> valoracions = new ArrayList<>();
+        for (Valoracions valoracio : valoracionsRepository.findAll()) {
+            if (valoracio.getPropietats().getArticle().getId() == article.getId())
+                valoracions.add(valoracio);
+        }
+        return valoracions;
     }
 
     public void getCategoria(Model model, int id, HttpServletRequest request) {
@@ -77,20 +88,31 @@ public class FrontService {
         Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", client);
+        model.addAttribute("rols", client == null ? null : client.getRols());
+
     }
 
-    public void addValoracio(int idClient, int idArticle, AddValorationForm valorationForm) {
+    @Transactional
+    public void addValoracio(HttpSession session, int idArticle, AddValorationForm valorationForm, int idPropietat, int idLinea) {
         Valoracions valoracions = new Valoracions();
         Article article = articleRepository.findById(idArticle).orElse(null);
-        Persona persona = personaRepository.findById(idClient).orElse(null);
+        Persona sessionPersona = (Persona) session.getAttribute("persona");
+        Propietats propietats = propietatsRepository.findById(idPropietat).orElse(null);
+        LineasFactura lineasFactura = lineasFacturaRepository.findById(idLinea).orElse(null);
+
+        Persona persona = personaRepository.findById(sessionPersona.getId()).orElse(null);
+
+        if (article == null || persona == null || propietats == null) return;
 
         valoracions.setValoracio(valorationForm.getValoracio());
         valoracions.setComentari(valorationForm.getComentari());
-        valoracions.setArticle(article);
-        valoracions.setClient(persona);
         valoracions.setData(LocalDate.now());
+        valoracions.setPropietats(propietats);
+        valoracions.setPersona(persona);
 
         valoracionsRepository.save(valoracions);
+
+        this.setSession(session, persona);
     }
 
     public void updateValoracio(int idValoracio, AddValorationForm valorationForm) {
@@ -112,4 +134,11 @@ public class FrontService {
     public void deleteValoracio(int idValoracio) {
         valoracionsRepository.deleteById(idValoracio);
     }
+
+    public void setSession(HttpSession session, Persona persona) {
+        session.setAttribute("persona", persona);
+        session.setAttribute("direccions", persona.getDireccions());
+        session.setAttribute("pedidos", persona.getFactures());
+    }
+
 }

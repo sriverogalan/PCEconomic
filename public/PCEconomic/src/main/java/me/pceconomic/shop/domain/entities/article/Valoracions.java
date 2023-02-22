@@ -2,12 +2,14 @@ package me.pceconomic.shop.domain.entities.article;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"id_propietat", "id_persona"})})
 public @Data class Valoracions {
 
     @Id
@@ -26,12 +28,11 @@ public @Data class Valoracions {
     private LocalDate data;
 
     @ManyToOne
-    @JoinColumn(name = "id_article")
-    private Article article;
+    @JoinColumn(name = "id_propietat")
+    private Propietats propietats;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_persona")
-    private Persona client;
-
+    private Persona persona;
 
 }
