@@ -1,23 +1,18 @@
 <template>
-  <q-page class="flex"> 
-    
-    
-  </q-page>
+  <q-page class="flex"> </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "IndexPage",
+  name: "GestionMarcas",
   data() {
     return {
       token: "",
     };
   },
-  methods: {
-     
-  },
+  methods: {},
 
   setup() {},
 });
