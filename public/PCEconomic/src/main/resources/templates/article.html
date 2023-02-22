@@ -65,7 +65,7 @@
                 <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
                     <div class="col-6 row justify-content-start">
                         <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
-                        <div class="row col-4 mx-1">
+                        <div class="row col-xl-4 mx-1 col-sm-6">
                             <input id="cantidad" class="form-control border border-secondary " type="number"
                                    min="1"
                                    value="1"
@@ -130,19 +130,21 @@
                     <div class="card m-3" th:each="valoracio : ${valoracions}"
                          th:if="${propietats.article.id == valoracio.article.id}">
                         <div class="card-header d-flex justify-content-evenly">
-                            <p class="me-auto p-2"
-                               th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
-                            <input class="rating"
-                                   max="5"
-                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                   step="0.5"
-                                   th:style="'--value: ' + ${valoracio.valoracio}"
-                                   type="range"
-                                   value="2.5"
-                                   disabled
-                            />
-                            <span class="valoracion-fecha" style="margin-left: 10px;"
-                                  th:text="${valoracio.data}"></span>
+                            <div class="row">
+                                <p class="me-auto p-2"
+                                   th:text="${valoracio.client.name} + ' ' + ${valoracio.client.surname1} "></p>
+                                <input class="rating col-sm-6"
+                                       max="5"
+                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                       step="0.5"
+                                       th:style="'--value: ' + ${valoracio.valoracio}"
+                                       type="range"
+                                       value="2.5"
+                                       disabled
+                                />
+                                <span class="valoracion-fecha" style="margin-left: 10px;"
+                                      th:text="${valoracio.data}"></span>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="col-12">
@@ -293,7 +295,7 @@
                                 "<div class='col-12'> <h3 class='mb-3 mt-2'>" + v.propietat[0].nom + "</h3> <div id='" + v.propietat[0].nom + "' class='d-flex justify-content-evenly'> </div></div>"
                             )
                             $("#" + v.propietat[0].nom).append(
-                                "<button class='btn btn-pc-economic-dark text-white col-2'>" + v.valor + "</button>"
+                                "<button class='btn btn-pc-economic-dark text-white col-sm-4 col-xl-2'>" + v.valor + "</button>"
                             )
 
                             for (var prop2 of propietats) {
@@ -303,7 +305,7 @@
                                         if (auxArrIndex == -1) {
                                             auxArr.push(v2.valor);
                                             $("#" + v.propietat[0].nom).append(
-                                                "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-2'>" + v2.valor + "</a>"
+                                                "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-sm-4 col-xl-2'>" + v2.valor + "</a>"
                                             );
                                         }
                                     }
