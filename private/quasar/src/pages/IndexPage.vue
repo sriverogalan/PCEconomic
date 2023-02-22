@@ -1,7 +1,6 @@
 <template>
-  <q-page class="flex"> 
-    
-    
+  <q-page class="row">
+    <h1 class="col-12 text-center">Bienvenido</h1>
   </q-page>
 </template>
 
@@ -15,9 +14,7 @@ export default defineComponent({
       token: "",
     };
   },
-  methods: {
-     
-  },
+  methods: {},
 
   setup() {},
 });

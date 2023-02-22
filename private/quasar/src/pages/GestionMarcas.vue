@@ -1,5 +1,7 @@
 <template>
-  <q-page class="flex"> </q-page>
+  <q-page class="row">
+    <h1 class="col-12 text-center">Marcas</h1>
+  </q-page>
 </template>
 
 <script>
