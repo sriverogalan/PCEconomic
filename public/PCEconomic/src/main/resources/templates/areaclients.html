@@ -5,12 +5,14 @@
     <header th:replace="layout/layout :: navbar"></header>
     <main class="container bg-cont mt-5 p-3">
         <div class="row">
+            <div class="d-flex flex-row mt-2 mb-2">
+                <a class="btn btn-danger" href="/logout">
+                    <i class="bi bi-door-open-fill"></i>
+                </a>
+            </div>
             <div class="col-12 text-center">
                 <h1>MI CUENTA</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.name}"></p>
-                <div class="d-flex flex-row-reverse mt-2 mb-2">
-                    <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
-                </div>
             </div>
 
             <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
