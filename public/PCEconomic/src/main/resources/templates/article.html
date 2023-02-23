@@ -125,36 +125,34 @@
 
                     <div class="card m-3" th:each="valoracio : ${valoracions}"
                          th:if="${propietats.article.id == valoracio.propietats.article.id}">
-                        <div class="card-header d-flex justify-content-between">
+                        <div class="card-header">
                             <div class="row">
-                                <div class="col-12">
+                                <div class="row col-xl-6">
+                                    <div class="col-12">
                                     <span th:each="persona : ${persones}" th:if="${persona.id == valoracio.idPersona}">
-                                        <p class="me-auto p-2 fs-5"
+                                        <p class="me-auto fs-5"
                                            th:text="${persona.name} + ' ' + ${persona.surname1} "></p>
                                     </span>
+                                    </div>
+                                    <div class="col-12 mb-sm-2">
+                                        <label>
+                                            <input class="rating"
+                                                   max="5"
+                                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                   step="0.5"
+                                                   th:style="'--value: ' + ${valoracio.valoracio}"
+                                                   type="range"
+                                                   value="2.5"
+                                                   disabled
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
-
-                                <div class="col-12">
-                                    <label>
-                                        <input class="rating"
-                                               max="5"
-                                               oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                               step="0.5"
-                                               th:style="'--value: ' + ${valoracio.valoracio}"
-                                               type="range"
-                                               value="2.5"
-                                               disabled
-                                        />
-                                    </label>
+                                <div class="row col-xl-6">
+                                <span class="valoracion-fecha my-auto fs-5 col-12 text-xl-end text-sm-start" style="margin-left: 10px;"
+                                      th:text="${valoracio.data}"></span>
                                 </div>
-
-                                <div class="col-12">
-                                    <span class="valoracion-fecha my-auto fs-5" style="margin-left: 10px;"
-                                          th:text="${valoracio.data}"></span>
-                                </div>
-
                             </div>
-
                         </div>
                         <div class="card-body">
                             <div class="col-12">
