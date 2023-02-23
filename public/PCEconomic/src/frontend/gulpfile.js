@@ -9,7 +9,7 @@ async function defaultTask() {
 async function compileSASS() {
     return src("../main/resources/static/sass/*.scss")
         .pipe(sass.sync().on("error", sass.logError))
-        .pipe(cleanCss)
+        .pipe(cleanCss())
         .pipe(dest("../main/resources/static/css"));
 }
 
