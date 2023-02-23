@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,6 +66,7 @@ public class FrontService {
                 valoracions.add(valoracio);
             }
         }
+        valoracions.sort(Comparator.comparing(Valoracions::getData).reversed());
         return valoracions;
     }
 
