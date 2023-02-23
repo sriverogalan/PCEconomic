@@ -1,0 +1,15 @@
+{
+  "short_name": "DIW",
+  "name": "PCEconomic",
+  "start_url": "index.html",
+  "scope": "/",
+  "theme_color": "#4DBA87",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/img/static/logo.png",
+      "sizes": "240x240",
+      "type": "image/png"
+    }
+  ]
+}
