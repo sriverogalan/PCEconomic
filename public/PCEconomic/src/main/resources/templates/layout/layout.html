@@ -1,278 +1,285 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head">
-    <title th:text="${title}"></title>
-    <meta charset="UTF-8"/>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <meta th:content="${description}" name="description"/>
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link
-            href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap"
-            rel="stylesheet"
-    />
-    <link rel="stylesheet" th:href="@{/css/custom.css}"/>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
-            rel="stylesheet"
-    />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/pagination.css}">
-    <link rel="stylesheet" th:href="@{/css/stars.css}">
-</head>
+    <head th:fragment="head">
+        <title th:text="${title}"></title>
+        <meta charset="UTF-8"/>
+        <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <meta th:content="${description}" name="description"/>
+        <meta http-equiv="cache-control" content="max-age=0"/>
+        <meta http-equiv="cache-control" content="no-cache"/>
+        <meta http-equiv="expires" content="0"/>
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"/>
+        <meta http-equiv="pragma" content="no-cache"/>
+        <link href="https://fonts.googleapis.com" rel="preconnect"/>
+        <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+        <link
+                href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap"
+                rel="stylesheet"
+        />
+        <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+        <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+                rel="stylesheet"
+        />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/pagination.css}">
+        <link rel="stylesheet" th:href="@{/css/stars.css}">
+    </head>
 
 
-<header th:fragment="header2" class="bg-pc-economic-light">
-    <div class="container">
-        <a class="col-12 d-flex justify-content-center text-center" href="/">
-            <img style="width:200px; height: 100px;object-fit: contain;" class="col-9"
-                 src="/img/static/logo-no-background.png" alt="logo"/>
-        </a>
-    </div>
-</header>
-
-<header th:fragment="navbar">
-    <nav
-            class="navbar navbar-expand-md navbar-pc-economic-light bg-pc-economic-default"
-    >
-        <div class="container-fluid">
-            <div class="navbar-collapse collapse order-1 col-1">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link col-12 d-flex justify-content-center" href="/"
-                        ><img class="col-9" src="/img/static/logo-no-background.png" alt="logo"
-                        /></a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Cercador -->
-            <div class="order-2 col-xs-8 col-7 d-flex">
-                <div class="my-auto col-9 col-xl-11">
-                    <select id="cercador" class="h-100">
-                        <option disabled selected> Buscar </option>
-                    </select>
-                </div>
-                <button class="btn btn-pc-economic-dark mx-1 col" id="cercar"
-                        aria-label="Buscar"
-                        data-bs-tool="tooltip" data-bs-title="Buscar" >
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-            <!-- Login + Carrito -->
-            <div class="d-flex justify-content-center d-md-none d-block mx-1">
-                <a class="nav-link btn btn-pc-economic-dark" href="/" data-bs-tool="tooltip" data-bs-title="Menu principal">
-                    <i class="bi bi-house"></i>
-                </a>
-            </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
-                <ul class="navbar-nav col-12 justify-content-evenly">
-
-                    <li th:if="${client == 'LOGIN'}" class="nav-item d-flex justify-content-center ">
-                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}" data-bs-tool="tooltip" data-bs-title="Iniciar Session">
-                            <i class="bi bi-person"></i>
-                        </a>
-                    </li>
-                    <li th:if="${client == 'LOGOUT'}" class="nav-item d-flex justify-content-center ">
-                        <div class="dropdown">
-                            <button aria-label="Desplegable area de Clientes" class="nav-link btn btn-danger mt-1 dropdown-toggle" type="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-door-open-fill"></i>
-                            </button>
-                            <ul class="dropdown-menu" id="menu-login">
-                                <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
-                                <li><a class="dropdown-item" th:href="'http://localhost/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar Productos</a></li>
-                                <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li class="nav-item d-flex justify-content-center ">
-                        <button aria-label="Cambiar idioma" type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal"
-                                data-bs-target="#modal" data-bs-tool="tooltip" data-bs-title="Cambiar Idioma">
-                            <i class="bi bi-translate"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item d-flex justify-content-center ">
-                        <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}" data-bs-tool="tooltip" data-bs-title="Ver carrito de la compra">
-                            <i class="bi bi-cart4"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <header th:fragment="header2" class="bg-pc-economic-light">
+        <div class="container">
+            <a class="col-12 d-flex justify-content-center text-center" href="/">
+                <img style="width:200px; height: 100px;object-fit: contain;" class="col-9"
+                     src="/img/static/logo-no-background.png" alt="logo"/>
+            </a>
         </div>
-    </nav>
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalLabel">Elige tu idioma</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </header>
+
+    <header th:fragment="navbar">
+        <nav
+                class="navbar navbar-expand-md navbar-pc-economic-light bg-pc-economic-default"
+        >
+            <div class="container-fluid">
+                <div class="navbar-collapse collapse order-1 col-1">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link col-12 d-flex justify-content-center" href="/"
+                            ><img class="col-9" src="/img/static/logo-no-background.png" alt="logo"
+                            /></a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="modal-body">
-                    <div>
-                        <!-- Imprimir select de idiomas -->
+                <!-- Cercador -->
+                <div class="order-2 col-xs-8 col-7 d-flex">
+                    <div class="my-auto col-9 col-xl-11">
+                        <select id="cercador" class="h-100">
+                            <option disabled selected> Buscar</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-pc-economic-dark mx-1 col" id="cercar"
+                            aria-label="Buscar"
+                            data-bs-tool="tooltip" data-bs-title="Buscar">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+                <!-- Login + Carrito -->
+                <div class="d-flex justify-content-center d-md-none d-block mx-1">
+                    <a class="nav-link btn btn-pc-economic-dark" href="/" data-bs-tool="tooltip" data-bs-title="Menu principal">
+                        <i class="bi bi-house"></i>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse order-3 col" id="navbarSupportedContent">
+                    <ul class="navbar-nav col-12 justify-content-evenly">
+
+                        <li th:if="${client == 'LOGIN'}" class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/login}" data-bs-tool="tooltip" data-bs-title="Iniciar Session">
+                                <i class="bi bi-person"></i>
+                            </a>
+                        </li>
+                        <li th:if="${client == 'LOGOUT'}" class="nav-item d-flex justify-content-center ">
+                            <div class="dropdown">
+                                <button aria-label="Desplegable area de Clientes" class="nav-link btn btn-danger mt-1 dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-door-open-fill"></i>
+                                </button>
+                                <ul class="dropdown-menu" id="menu-login">
+                                    <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
+                                    <li>
+                                        <a class="dropdown-item" th:href="'http://localhost/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
+                                            Productos</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item d-flex justify-content-center ">
+                            <button aria-label="Cambiar idioma" type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal"
+                                    data-bs-target="#modal" data-bs-tool="tooltip" data-bs-title="Cambiar Idioma">
+                                <i class="bi bi-translate"></i>
+                            </button>
+                        </li>
+                        <li class="nav-item d-flex justify-content-center ">
+                            <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}" data-bs-tool="tooltip" data-bs-title="Ver carrito de la compra">
+                                <i class="bi bi-cart4"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Elige tu idioma</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <!-- Imprimir select de idiomas -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Guardar</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
-                </div>
             </div>
         </div>
-    </div>
 
-    <nav class="navbar navbar-expand-md bg-pc-economic-light">
-        <!-- Categories Offcanvas -->
-        <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-            Todas las categorias
-        </button>
-    </nav>
+        <nav class="navbar navbar-expand-md bg-pc-economic-light">
+            <!-- Categories Offcanvas -->
+            <button class="btn btn-pc-economic-dark ml-4" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                Todas las categorias
+            </button>
+        </nav>
 
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-         aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header bg-pc-economic-default">
-            <h5 class="offcanvas-title text-light" id="offcanvasWithBothOptionsLabel">
-                Todas las categorias :</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+             aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header bg-pc-economic-default">
+                <h5 class="offcanvas-title text-light" id="offcanvasWithBothOptionsLabel">
+                    Todas las categorias :</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" id="canvasBody">
+            </div>
         </div>
-        <div class="offcanvas-body" id="canvasBody">
+    </header>
+
+    <footer
+            class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container bg-cont"
+            th:fragment="footer"
+    >
+        <div class="row col-12">
+            <div class="col-xl-6 col-sm-12">
+                <p class="mb-0 text-muted">
+                    © 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses
+                    Tapereres, 32, 07500 Manacor, Balearic Islands
+                </p>
+            </div>
+            <div class="col-xl-6 col-sm-12">
+                <div id="map" style="height: 400px;width: 100%;"></div>
+            </div>
         </div>
-    </div>
-</header>
 
-<footer
-        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top container bg-cont"
-        th:fragment="footer"
->
-    <p class="col-md-4 mb-0 text-muted">
-        © 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses
-        Tapereres, 32, 07500 Manacor, Balearic Islands
-    </p>
+        <script type="module">
 
-    <div id="map"></div>
-
-    <script type="module">
-        function init() {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const myPos = {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                };
-                const map = new google.maps.Map(document.getElementById("map"), {
-                    zoom: 15,
-                    center: myPos,
+            function init() {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const myPos = {
+                        lat: 39.56165954084053,
+                        lng: 3.199846605521957,
+                    };
+                    const map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 17,
+                        center: myPos,
+                    });
+                    const marker = new google.maps.Marker({
+                        position: myPos,
+                        map: map,
+                    });
                 });
-                const marker = new google.maps.Marker({
-                    position: myPos,
-                    map: map,
-                });
-            });
-        }
-        window.inicialitza = init;
-    </script>
-    <script
-            src="https://maps.googleapis.com/maps/api/js?key=&callback=inicialitza&v=weekly"
-            defer
-    ></script>
+            }
 
-</footer>
-<div th:fragment="jquery">
-    <script
-            crossorigin="anonymous"
-            integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
-            src="https://code.jquery.com/jquery-3.6.2.min.js"
-    ></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>
-        $.ajax({
-            url: "/api/propietats",
-            type: "GET",
-            success: function (data) {
-                var options = [];
-                for (var prop of data) {
-                    var propietats = "";
-                    for (var v of prop.valor) {
-                        propietats += v.propietat[0].nom + " " + v.valor + " ";
+            window.inicialitza = init;
+        </script>
+        <script th:src="${googleapikey}" defer></script>
+    </footer>
+    <div th:fragment="jquery">
+        <script
+                crossorigin="anonymous"
+                integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA="
+                src="https://code.jquery.com/jquery-3.6.2.min.js"
+        ></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script>
+            $.ajax({
+                url: "/api/propietats",
+                type: "GET",
+                success: function (data) {
+                    var options = [];
+                    for (var prop of data) {
+                        var propietats = "";
+                        for (var v of prop.valor) {
+                            propietats += v.propietat[0].nom + " " + v.valor + " ";
+                        }
+                        for (var i of prop.imatges) {
+                            if (i.principal) {
+                                $("#cercador").append(
+                                    '<option data-image="/img/productes/' + prop.article.id + '/' + prop.id + '/' + i.path + '" value="/article/' + prop.article.id + '/' + prop.id + '"> ' + prop.article.nom + " " + propietats + "</option>"
+                                );
+                            }
+                        }
                     }
-                    for (var i of prop.imatges) {
-                        if (i.principal) {
-                            $("#cercador").append(
-                                '<option data-image="/img/productes/' + prop.article.id + '/' + prop.id + '/' + i.path + '" value="/article/' + prop.article.id + '/' + prop.id + '"> ' + prop.article.nom + " " + propietats + "</option>"
+
+                    $("#cercador").select2({
+                        data: options,
+                        allowClear: true,
+                        width: "100%",
+                        templateResult: formatState,
+                        templateSelection: formatState
+                    });
+
+                    function formatState(opt) {
+                        if (!opt.id) {
+                            return opt.text;
+                        }
+                        var optimage = $(opt.element).data('image');
+                        if (!optimage) {
+                            return opt.text;
+                        } else {
+                            var $opt = $(
+                                '<span><img src="' + optimage + '" width="15px" style="margin:auto; " /> ' + opt.text + '</span>'
+                            );
+                            return $opt;
+                        }
+
+                    };
+
+                    $("#cercar").click(function () {
+                        window.location.href = $("#cercador").val();
+                    });
+                }
+            });
+
+            $.ajax({
+                url: "/api/categories",
+                type: "GET",
+                success: function (data) {
+                    for (var c of data) {
+                        $("#canvasBody").append(
+                            '<div class="row justify-content-center">' +
+                            '<div class="btn-group col-12 mb-2">' +
+                            '<button type="button" class="btn btn-pc-economic-default text-light dropdown-toggle" data-bs-toggle="dropdown"' +
+                            'aria-expanded="false">' + c.name + '</button>' +
+                            '<ul class="dropdown-menu " id="cat-' + c.id + '">' +
+                            '</ul>' +
+                            '</div>' +
+                            '<br>' +
+                            '</div>'
+                        );
+                        for (var s of c.subcategorias) {
+                            $("#cat-" + c.id).append(
+                                '<li><a class="dropdown-item" href="/categoria/' + s.id + '">' + s.name + '</a></li>'
                             );
                         }
                     }
-                }
+                },
+            });
 
-                $("#cercador").select2({
-                    data: options,
-                    allowClear: true,
-                    width: "100%",
-                    templateResult: formatState,
-                    templateSelection: formatState
-                });
-                function formatState (opt) {
-                    if (!opt.id) {
-                        return opt.text;
-                    }
-                    var optimage = $(opt.element).data('image');
-                    if(!optimage){
-                        return opt.text;
-                    } else {
-                        var $opt = $(
-                            '<span><img src="' + optimage + '" width="15px" style="margin:auto; " /> ' + opt.text + '</span>'
-                        );
-                        return $opt;
-                    }
-
-                };
-
-                $("#cercar").click(function () {
-                    window.location.href = $("#cercador").val();
-                });
+            function formatCurrency(amount) {
+                return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
             }
-        });
-
-        $.ajax({
-            url: "/api/categories",
-            type: "GET",
-            success: function (data) {
-                for (var c of data) {
-                    $("#canvasBody").append(
-                        '<div class="row justify-content-center">' +
-                        '<div class="btn-group col-12 mb-2">' +
-                        '<button type="button" class="btn btn-pc-economic-default text-light dropdown-toggle" data-bs-toggle="dropdown"' +
-                        'aria-expanded="false">' + c.name + '</button>' +
-                        '<ul class="dropdown-menu " id="cat-' + c.id + '">' +
-                        '</ul>' +
-                        '</div>' +
-                        '<br>' +
-                        '</div>'
-                    );
-                    for (var s of c.subcategorias) {
-                        $("#cat-" + c.id).append(
-                            '<li><a class="dropdown-item" href="/categoria/' + s.id + '">' + s.name + '</a></li>'
-                        );
-                    }
-                }
-            },
-        });
-        function formatCurrency(amount) {
-            return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-        }
-    </script>
-</div>
+        </script>
+    </div>
 </html>

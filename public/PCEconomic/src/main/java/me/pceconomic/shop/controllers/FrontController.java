@@ -61,13 +61,10 @@ public class FrontController {
 
         HttpSession session = request.getSession();
         if (session == null) return "index";
-
-
         Persona persona = (Persona) session.getAttribute("persona");
-        model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
-        model.addAttribute("user", persona);
-        model.addAttribute("rols", persona == null ? null : persona.getRols());
         model.addAttribute("token", session.getAttribute("token"));
+
+        frontService.sendListsToView(model, request);
 
         return "index";
     }
