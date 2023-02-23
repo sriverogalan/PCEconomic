@@ -197,19 +197,7 @@ public class FrontController {
 
             return "pagorealizado";
         }
-        return "redirect:/carrito/error";
-    }
-
-    @GetMapping("/carrito/finalitzat")
-    public String finalitzat(HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession();
-        if (session == null) return "pagorealizado";
-
-        Persona persona = (Persona) session.getAttribute("persona");
-        model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
-        model.addAttribute("user", persona);
-
-        return "pagorealizado";
+        return "redirect:/error";
     }
 
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}")

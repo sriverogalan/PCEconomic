@@ -118,20 +118,20 @@ public class LoginController {
         }
 
         String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(1));
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token + " \n\n" +
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://www.pceconomic.me/confirmregister/" + token + " \n\n" +
                 "You have 1 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
     @GetMapping("/confirmregister/{token}")
     public String confirmRegister(@PathVariable String token) {
-        Claims claims = tokenService.getClaims(token);
-        String email = claims.get("email", String.class);
-
         int valid = tokenService.validateToken(token);
 
         if (valid == 1) return "redirect:/";
         if (valid == 2) return "redirect:/";
+
+        Claims claims = tokenService.getClaims(token);
+        String email = claims.get("email", String.class);
 
         Persona persona = registerService.getPersonaByEmail(email);
         Rols rol = registerService.getRolsByName("CLIENT");
