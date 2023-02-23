@@ -105,7 +105,9 @@ public class CarritoController {
     public String deleteArticleToCart(@RequestParam int idprops) {
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
         Set<Cart> ids = shoppingCart.getIds() == null ? new HashSet<>() : shoppingCart.getIds();
-        ids.stream().filter(c -> c.getPropietats().getId() == idprops).findFirst().ifPresent(ids::remove);
+        ids.stream()
+                .filter(c -> c.getPropietats().getId() == idprops)
+                .forEach(ids::remove);
         carritoService.setTotal(shoppingCart);
 
         if (ids.isEmpty()) {
