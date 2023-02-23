@@ -4,6 +4,13 @@
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
 <main class="container-lg bg-cont mt-md-5 mt-1 row justify-content-around">
+    <nav aria-label="breadcrumb mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+            <li class="breadcrumb-item" aria-current="page">Carrito</li>
+            <li class="breadcrumb-item active" aria-current="page">Direcciones de Envio</li>
+        </ol>
+    </nav>
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
     <div class="col-md-6 col-sm-12 mb-3" id="form">
         <h2 class="text-pc-economic-dark h3 text-center"> Escribe la dirección de envío</h2>
