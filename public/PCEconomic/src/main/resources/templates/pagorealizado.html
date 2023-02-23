@@ -1,36 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout :: head(title='Pago Realizado | PCEconomic', description='Pagina de redireccion cuando finalizas un pago')"></head>
 
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
 <main class="container bg-cont mt-md-5 mt-5">
+    <div class="d-flex flex-row-reverse">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <div class="fs-2 mb-3 text-success">
+                <i class="bi bi-bag-check"></i>
+                PAGO REALIZADO
+            </div>
+            <p class="mt-3 fs-5 text-center">El pago que usted ha hecho se ha realizado correctamente, a continuacion puede decidir si seguir comprando o ir a su area de clientes donde puede ver los pedidos que ha realizado y poder generar un PDF de la factura completa. </p>
+
+            <div>
+                <a class="btn btn-pc-economic-dark mt-3 mb-5" th:href="@{/}">Explorar articulos</a>
+                <a class="btn btn-pc-economic-dark mt-3 mb-5" th:href="@{/areaclients}">Area Clientes</a>
+            </div>
+        </div>
+    </div>
 </main>
-
 <div th:replace="layout/layout.html :: jquery"></div>
-<script>
-    $(document).ready(function () {
-        var num = $(".table td:nth-child(3)");
-        var num2 = $(".table td:nth-child(5)");
-        var total = $("#total");
-
-        if (total.text().endsWith(".0")) total.text(total.text().replace(".0", ",00") + " €");
-        else total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
-
-        for (var i = 0; i < num.length; i++) {
-            var num3 = num[i].innerHTML;
-            var num4 = num2[i].innerHTML;
-
-            if (num3.endsWith(".0")) num3 = num3.replace(".0", ",00") + " €";
-            else num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-            if (num4.endsWith(".0")) num4 = num4.replace(".0", ",00") + " €";
-            else num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-
-            num[i].innerHTML = num3;
-            num2[i].innerHTML = num4;
-        }
-    });
-</script>
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 </html>

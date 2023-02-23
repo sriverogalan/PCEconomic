@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.*;
+
 @Controller
 public class AreaClientsController {
 
@@ -40,12 +43,22 @@ public class AreaClientsController {
         model.addAttribute("user", client);
         frontService.sendListsToView(model, request);
 
+        List<Factura> facturas = new ArrayList<>();
+        for (Factura factura : client.getFactures()) {
+            if (factura.getEstat().equals("COMPLETED")) {
+                facturas.add(factura);
+            }
+        }
+
+        facturas.sort(Comparator.comparing(Factura::getData).reversed());
+
         model.addAttribute("changeName", new ChangeNameForm());
         model.addAttribute("directionForm", new AddDirectionForm());
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         model.addAttribute("changeEmailForm", new ChangeEmailForm());
         model.addAttribute("changeTelephoneForm", new ChangeTelephoneForm());
         model.addAttribute("addvaloracio", new AddValorationForm());
+        model.addAttribute("facturas", facturas);
 
         return "areaclients";
     }

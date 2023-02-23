@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout.html :: head(title='Carrito | PCEconomic', description='Carrito de la compra de PCEconomic')">
 
 <body class="bgbd">
-    <header th:replace="layout/layout :: header2"></header>
+    <header th:replace="layout/layout :: navbar"></header>
     <main th:if="${carrito.ids != null}" class="container bg-cont mt-md-5 mt-5">
         <h1 class="mt-3 text-center">Carrito</h1>
         <div th:if="${error != null}" class="m-1 alert alert-danger">
@@ -34,7 +34,7 @@
                     <td>
                         <div th:text="${carro.propietats.article.nom}"></div>
                     </td>
-                    <td th:text="${carro.propietats.preu}"></td>
+                    <td class="price" th:text="${carro.propietats.preu}"></td>
                     <td>
                         <div class="row">
                             <form th:action="@{/updatecarrito}" method="get">
@@ -48,7 +48,7 @@
                         </div>
 
                     </td>
-                    <td th:text="${carro.price}"></td>
+                    <td class="price" th:text="${carro.price}"></td>
                     <td>
                         <form th:action="@{/deletecarrito}" method="get">
                             <input hidden="hidden" th:name="idprops" th:value="${carro.propietats.id}">
@@ -60,7 +60,7 @@
         </div>
         <div class="d-flex flex-row-reverse">
             <div class="p-2">
-                <h3 id="total">Total: <span th:text="${carrito.total}"></span></h3>
+                <h3 id="total">Total: <span class="price" th:text="${carrito.total}"></span></h3>
                 <a class="btn btn-success" th:href="@{/carrito/direccion}">Comprar</a>
             </div>
         </div>
@@ -76,25 +76,13 @@
     <div th:replace="layout/layout.html :: jquery"></div>
     <script>
         $(document).ready(function () {
-            var num = $(".table td:nth-child(3)");
-            var num2 = $(".table td:nth-child(5)");
-            var total = $("#total");
-
-            if (total.text().endsWith(".0")) total.text(total.text().replace(".0", ",00") + " €");
-            else total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
-
-            for (var i = 0; i < num.length; i++) {
-                var num3 = num[i].innerHTML;
-                var num4 = num2[i].innerHTML;
-
-                if (num3.endsWith(".0")) num3 = num3.replace(".0", ",00") + " €";
-                else num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-                if (num4.endsWith(".0")) num4 = num4.replace(".0", ",00") + " €";
-                else num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-
-                num[i].innerHTML = num3;
-                num2[i].innerHTML = num4;
-            }
+            $(".price").each(function () {
+                var text = $(this).text();
+                var price = parseFloat(text);
+                var roundedPrice = price.toFixed(2);
+                var formattedNum = roundedPrice.replace(".", ",");
+                $(this).text(formattedNum + " €");
+            });
         });
     </script>
     <footer th:replace="layout/layout.html :: footer"></footer>

@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout.html :: head"></head>
-<head>
-    <title th:text="' Index | PCEconomic'"></title>
-</head>
+<head th:replace="layout/layout.html :: head(title='Index | PCEconomic', description='Pagina principal de PCEconomic')"></head>
 <link rel="stylesheet" th:href="@{/css/pagination.css}">
 
 <nav th:replace="layout/layout.html :: navbar"></nav>
