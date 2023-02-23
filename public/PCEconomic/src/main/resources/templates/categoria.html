@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head"></head>
+    <head th:replace="layout/layout.html :: head(title=${subcategoria.name} + ' | PCEconomic', description='Aqui se listan los articulos de la categoria ' + ${subcategoria.name})"></head>
     <header th:replace="layout/layout.html :: navbar"></header>
     <link rel="stylesheet" th:href="@{/css/pagination.css}">
     <body class="bgbd">

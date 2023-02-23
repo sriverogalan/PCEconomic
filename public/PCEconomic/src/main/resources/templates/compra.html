@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout.html :: head"></head>
-<head>
-    <title th:text="' Pasarela de pago | PCEconomic '"></title>
-</head>
+<head th:replace="layout/layout.html :: head(title=' Pasarela de pago | PCEconomic ', description='Pasarela de pago para la pagina de PCEconomic')"></head>
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
 <script src="https://www.paypal.com/sdk/js?client-id=test&currency=EUR"></script>
@@ -26,28 +23,6 @@
     </div>
 
     <div class="col-6">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Redsys
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Pago redsys</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="btnRedsys" >Enviar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div id="paypal-button-container"></div>
     </div>
 

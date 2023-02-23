@@ -1,36 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head"></head>
+<head th:replace="layout/layout :: head(title='Pago Realizado | PCEconomic', description='Pagina de redireccion cuando finalizas un pago')"></head>
 
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
 <main class="container bg-cont mt-md-5 mt-5">
+
 </main>
-
 <div th:replace="layout/layout.html :: jquery"></div>
-<script>
-    $(document).ready(function () {
-        var num = $(".table td:nth-child(3)");
-        var num2 = $(".table td:nth-child(5)");
-        var total = $("#total");
-
-        if (total.text().endsWith(".0")) total.text(total.text().replace(".0", ",00") + " €");
-        else total.text(total.text().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €");
-
-        for (var i = 0; i < num.length; i++) {
-            var num3 = num[i].innerHTML;
-            var num4 = num2[i].innerHTML;
-
-            if (num3.endsWith(".0")) num3 = num3.replace(".0", ",00") + " €";
-            else num3 = num3.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-            if (num4.endsWith(".0")) num4 = num4.replace(".0", ",00") + " €";
-            else num4 = num4.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
-
-            num[i].innerHTML = num3;
-            num2[i].innerHTML = num4;
-        }
-    });
-</script>
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 </html>

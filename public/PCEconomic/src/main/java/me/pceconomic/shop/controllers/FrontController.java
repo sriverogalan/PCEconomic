@@ -195,7 +195,7 @@ public class FrontController {
             session.setAttribute("pedidos", persona.getFactures());
             session.setAttribute("persona", persona);
 
-            return "redirect:/carrito/finalitzat";
+            return "pagorealizado";
         }
         return "redirect:/carrito/error";
     }
@@ -209,7 +209,7 @@ public class FrontController {
         model.addAttribute("client", persona == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", persona);
 
-        return "finalitzat";
+        return "pagorealizado";
     }
 
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}")
