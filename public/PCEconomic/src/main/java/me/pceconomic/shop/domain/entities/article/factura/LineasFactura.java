@@ -3,12 +3,18 @@ package me.pceconomic.shop.domain.entities.article.factura;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import me.pceconomic.shop.domain.entities.article.Marca;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
 
 @Entity
-public @Data class LineasFactura {
+@NoArgsConstructor
+@Getter
+@Setter
+public class LineasFactura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_lineaFactura")
@@ -40,4 +46,14 @@ public @Data class LineasFactura {
     @JoinColumn(name = "id_marca")
     private Marca marca;
 
+    @Override
+    public String toString() {
+        return "LineasFactura{" +
+                "id=" + id +
+                ", nomArticle='" + nomArticle + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", esValorat=" + esValorat +
+                '}';
+    }
 }
