@@ -5,6 +5,12 @@
 <body class="bgbd">
     <header th:replace="layout/layout :: header2"></header>
     <main class="container bg-cont mt-5 p-3">
+        <nav aria-label="breadcrumb mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Iniciar Session</li>
+            </ol>
+        </nav>
         <h1 class="text-center">Iniciar sesión</h1>
         <div class="d-flex flex-column justify-content-center align-items-center">
             <form class="needs-validation col-sm-12 col-xl-3" th:action="@{/login}"
