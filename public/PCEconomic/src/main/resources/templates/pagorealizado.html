@@ -5,6 +5,15 @@
 <body class="bgbd">
 <header th:replace="layout/layout :: header2"></header>
 <main class="container bg-cont mt-md-5 mt-5">
+    <nav aria-label="breadcrumb mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+            <li class="breadcrumb-item" aria-current="page">Carrito</li>
+            <li class="breadcrumb-item" aria-current="page">Direcciones de Envio</li>
+            <li class="breadcrumb-item" aria-current="page">Pasarela de pago</li>
+            <li class="breadcrumb-item active" aria-current="page">Pago Realizado</li>
+        </ol>
+    </nav>
     <div class="d-flex flex-row-reverse">
         <div class="d-flex flex-column justify-content-center align-items-center">
             <div class="fs-2 mb-3 text-success">
