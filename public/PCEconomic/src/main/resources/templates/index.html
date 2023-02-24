@@ -144,13 +144,60 @@
                             '</div>'
                         );
                     }
-                    for (props of resp) {
-                        if (props.esPrincipal === false && props.article.id === prop.article.id) {
-                            imgAux = "";
-                            for (var i of props.imatges) {
-                                if (i.principal === true) {
-                                    imgAux = '/img/productes/' + prop.article.id + '/' + props.id + '/' + i.path;
-                                }
+                },
+            });
+
+        },
+    });
+
+    <!-- Print -->
+    $.ajax({
+        url: "/api/propietats",
+        type: "GET",
+        contentType: "application/json",
+        beforeSend: function () {
+            $("#loading-wheel").show();
+        },
+        complete: function () {
+            $("#loading-wheel").remove();
+        },
+        success: function (resp) {
+            var imgAux = "";
+            var arrayCards = []
+            for (var prop of resp) {
+                imgAux = "";
+                for (var img of prop.imatges) {
+                    if (img.principal === true) {
+                        imgAux = '/img/productes/' + prop.article.id + '/' + prop.id + '/' + img.path;
+                    }
+                }
+                if (imgAux === "") {
+                    imgAux = '/img/static/no-photo.png';
+                }
+                if (prop.esPrincipal === true && prop.article.marca.active === true) {
+                    $('#articles').append(
+                        '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
+                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none" style="max-height:100px; margin:auto; object-fit: contain;">' +
+                        '<img src="' + imgAux + '" style="max-height:100px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
+                        '</a>' +
+                        '<div class="col-12 justify-content-center row" >' +
+                        '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center col-12" ></div>' +
+                        '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none row">' +
+                        '<span class="text-start h5 col-12">' + prop.article.nom + '</span>' +
+                        '<span class="text-start h3 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
+                        '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                        '</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                }
+                for (props of resp) {
+                    if (props.esPrincipal === false && props.article.id === prop.article.id) {
+                        imgAux = "";
+                        for (var i of props.imatges) {
+                            if (i.principal === true) {
+                                imgAux = '/img/productes/' + prop.article.id + '/' + props.id + '/' + i.path;
                             }
 
                             if (imgAux === "") {

@@ -28,9 +28,14 @@ import { defineComponent, ref } from "vue";
 
 const linksList = [
   {
+    title: "Usuaris",
+    icon: "person",
+    link: "/",
+  },
+  {
     title: "Marcas",
     icon: "work",
-    link: "/#/gestionmarcas",
+    link: "/gestionmarcas",
   },
 ];
 

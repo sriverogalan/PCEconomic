@@ -30,8 +30,8 @@ public class Marca {
     @Column(name = "nom")
     private String name;
 
-    @Column(name = "web")
-    private String web;
+    @Column(name = "isActiu")
+    private boolean isActive;
 
     @OneToMany(mappedBy = "marca")
     @Fetch(FetchMode.JOIN)
