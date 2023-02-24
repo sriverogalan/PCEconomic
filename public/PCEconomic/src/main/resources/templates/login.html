@@ -99,11 +99,12 @@
                         email: email,
                         password: password,
                     },
-                    success: function (data) {
-                        localStorage.setItem('token', data);
+                    success: function (success) {
+                        localStorage.setItem('token', success);
                         window.location.href = "/";
                     },
                     error: function (data) {
+                        console.log(data);
                         $("#error").css("display", "block");
                         $("#error span").text(data.responseText);
                     },

@@ -618,7 +618,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <form action="#"
-                                                                      th:action="@{/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}(idArticle=${productos.propietats.article.id}, idPropietat=${productos.propietats.id}, idLinea=${productos.id})}"
+                                                                      th:action="@{/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}(idArticle=${productos.idArticle}, idPropietat=${productos.idPropietats}, idLinea=${productos.id})}"
                                                                       th:object="${addvaloracio}" method="post">
                                                                     <div class="mb-3">
                                                                         <label for="valoracio" class="form-label">Valoracion</label>
