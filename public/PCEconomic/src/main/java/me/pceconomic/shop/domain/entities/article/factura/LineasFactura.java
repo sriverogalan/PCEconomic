@@ -29,9 +29,8 @@ public class LineasFactura {
     private String nomArticle;
 
 
-    @JoinColumn(name = "id_propietat")
-    @OneToOne
-    private Propietats propietats;
+    @JoinColumn(name = "propietats")
+    private String propietats;
 
     @Column(name = "preu")
     private double price;

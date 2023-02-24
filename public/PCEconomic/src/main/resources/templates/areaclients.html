@@ -29,7 +29,7 @@
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="miperfil">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             MI PERFIL
                         </button>
@@ -573,11 +573,7 @@
                                                                     class="list-group-item">
                                                                     <div class="d-flex justify-content-between">
                                                                         <p th:text="'x' + ${productos.quantity}  + ' | ' + ${productos.marca.name} + ' ' + ${productos.nomArticle}"></p>
-                                                                        <span th:each="vals : ${productos.propietats.valor}">
-                                                                                <span th:each="prop : ${vals.propietat}">
-                                                                                    <p th:text="${prop.nom} + ': ' + ${vals.valor}"></p>
-                                                                                </span>
-                                                                            </span>
+                                                                        <p th:text="${productos.propietats}"></p>
                                                                         <div>
                                                                             <p class="linea-price" th:text="${productos.price}"></p>
                                                                             <button th:if="${productos.esValorat == false}"
