@@ -9,7 +9,9 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
@@ -169,11 +171,21 @@ public class FrontController {
                 LineasFactura lineasFactura = new LineasFactura();
                 lineasFactura.setFactura(factura);
                 lineasFactura.setNomArticle(cart.getPropietats().getArticle().getNom());
-                lineasFactura.setPropietats(cart.getPropietats());
+
+                String vals = "";
+                for (Valor v : cart.getPropietats().getValor()) {
+                    for (Propietat prop : v.getPropietat()) {
+                        vals += prop.getNom() + " " + v.getValor() + ", ";
+                    }
+                }
+
+                lineasFactura.setPropietats(vals);
                 lineasFactura.setPrice(cart.getPrice());
                 lineasFactura.setQuantity(cart.getQuantity());
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
                 lineasFactura.setEsValorat(false);
+                lineasFactura.setIdArticle(cart.getPropietats().getArticle().getId());
+                lineasFactura.setIdPropietats(cart.getPropietats().getId());
 
                 facturaSet.add(lineasFactura);
 
