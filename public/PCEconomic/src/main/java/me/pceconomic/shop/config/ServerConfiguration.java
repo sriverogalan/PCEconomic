@@ -2,7 +2,6 @@ package me.pceconomic.shop.config;
 
 import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
-import me.pceconomic.shop.interceptors.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
@@ -65,11 +64,8 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        WebMvcConfigurer.super.addResourceHandlers(registry);
-        registry.addResourceHandler("/**")
-                .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-        registry.addResourceHandler("/static/img/**")
-                .addResourceLocations("file:img/");
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:/opt/app/img/");
     }
 
     @Override

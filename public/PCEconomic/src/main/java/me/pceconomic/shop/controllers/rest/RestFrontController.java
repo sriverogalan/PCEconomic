@@ -50,7 +50,6 @@ public class RestFrontController {
         List<Propietats> propietats = propietatsRepository.findAll();
         propietats.sort((o1, o2) -> o1.getArticle().getNom().compareTo(o2.getArticle().getNom()));
         return propietats;
-
     }
 
     @GetMapping("/api/categories")
