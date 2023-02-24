@@ -20,8 +20,14 @@ Route::get('/', function () {
     return response()->json(true);
 });
 
-
 Route::get('/api/get/marques', [MarquesController::class, 'index']);
+
+Route::post('/create/marques', 'MarquesController@create');
+Route::post('/update/marques', 'MarquesController@update');
+Route::post('/delete/marques', 'MarquesController@delete');
+
+
+Route::post('/api/post/create/marques', [MarquesController::class, 'create']);
 
 Route::get('/persones', function () {
     $persones = Persones::all();

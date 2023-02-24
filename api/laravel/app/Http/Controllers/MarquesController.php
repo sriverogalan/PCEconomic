@@ -13,7 +13,7 @@ class MarquesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
+    {
         return response()->json(Marques::all());
     }
 
@@ -22,14 +22,18 @@ class MarquesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request )
-    {  
-        $marca = new Marques();
-        $marca->nom = $request->input('nom');
-        $marca->cif = $request->input('cif');
-        $marca->save();
-        
-        return response()->json(['message' => 'Marca creada correctamente'], 201);
+    public function create(Request $request)
+    {
+        try {
+            $marques = new Marques();
+            $marques->cif = $request->cif;
+            $marques->nom = $request->nom;
+            $marques->save();
+
+            return response()->json(['message' => 'Marca creada correctamente'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error al crear la marca'], 500);
+        }
     }
     /**
      * Show the form for editing the specified resource.
@@ -38,9 +42,9 @@ class MarquesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {  
+    {
     }
-        
+
     /**
      * Update the specified resource in storage.
      *
