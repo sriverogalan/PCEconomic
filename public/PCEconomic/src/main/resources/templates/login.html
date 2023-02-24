@@ -90,25 +90,27 @@
                 login(email, password);
             });
 
-        function login(email, password) {
-            const formData = new FormData();
-            formData.append('email', email);
-            formData.append('password', password);
+            async function login(email, password) {
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
 
-            fetch('/restlogin', {
-                method: 'POST',
-                body: new URLSearchParams(formData),
-            })
-                .then(response => response.text())
-                .then(success => {
-                    localStorage.setItem('token', success);
+                const restLoginFetch = await fetch(
+                    "/restlogin",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (restLoginFetch.ok) {
+                    const token = await restLoginFetch.text();
+                    localStorage.setItem("token", token);
                     window.location.href = "/";
-                })
-                .catch(error => {
-                    console.log(error);
+                } else {
                     document.querySelector("#error").style.display = "block";
-                    document.querySelector("#error span").textContent = error.responseText;
-                });
+                    document.querySelector("#error span").textContent = await restLoginFetch.text();
+                }
             }
         </script>
 

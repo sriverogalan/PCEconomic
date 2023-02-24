@@ -1,6 +1,7 @@
 package me.pceconomic.shop.controllers.rest;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.entities.persona.Rols;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +38,6 @@ public class RestLoginController {
     public ResponseEntity<String> validacioLogin(
             @ModelAttribute("email") String email,
             @ModelAttribute("password") String password,
-            HttpServletRequest request,
             HttpSession session) {
         if (registerService.getPersonaByEmail(email) != null) {
             Persona usuari = registerService.getPersonaByEmail(email);
