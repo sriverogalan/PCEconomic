@@ -48,9 +48,9 @@ export default route(function (/* { store, ssrContext } */) {
       token = localStorage.getItem("token");
     } else {
       window.location = "http://localhost:8080/error";
-    } 
-    window.history.replaceState({}, document.title, "/"); 
-    
+    }
+    window.history.replaceState({}, document.title, "/");
+
     if (token) {
       await fetch(`http://localhost:8000/`, {
         method: "GET",
@@ -76,8 +76,7 @@ export default route(function (/* { store, ssrContext } */) {
         .catch((error) => {
           console.error(error);
         });
-    } 
-
+    }
   });
 
   return Router;
