@@ -128,7 +128,7 @@
                 if (imgAux === "") {
                     imgAux = '/img/static/no-photo.png';
                 }
-                if (prop.esPrincipal === true) {
+                if (prop.esPrincipal === true && prop.article.marca.active === true) {
                     $('#articles').append(
                         '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
                         '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none" style="max-height:100px; margin:auto; object-fit: contain;">' +
