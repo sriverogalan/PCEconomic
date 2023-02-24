@@ -189,6 +189,64 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>install workbox</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install workbox-cli --save-dev</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>install workbox-window</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install workbox-window --save</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>install workbox webpack</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install workbox-webpack-plugin --save-dev</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>install workbox build</id>
+
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install workbox-build --save-dev</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>run npx workbox generateSW</id>
+                        <goals>
+                            <goal>npx</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>workbox generateSW workbox-config.js</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>gulp build</id>
                         <goals>
                             <goal>gulp</goal>

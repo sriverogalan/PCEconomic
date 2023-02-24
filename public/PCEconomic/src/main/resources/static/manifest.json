@@ -1,7 +1,7 @@
 {
-  "short_name": "DIW",
+  "short_name": "PCEconomic",
   "name": "PCEconomic",
-  "start_url": "index.html",
+  "start_url": "/",
   "scope": "/",
   "theme_color": "#4DBA87",
   "display": "standalone",
