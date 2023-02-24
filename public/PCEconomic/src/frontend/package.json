@@ -9,11 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^5.2.2"
+    "bootstrap": "^5.2.2",
+    "gulp-clean-css": "^4.3.0",
+    "workbox-window": "^6.5.4"
   },
   "devDependencies": {
-    "gulp": "^4.0.2", 
-    "gulp-sass": "^5.1.0", 
-    "sass": "^1.32.13"
+    "gulp": "^4.0.2",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.32.13",
+    "workbox-build": "^6.5.4",
+    "workbox-cli": "^6.5.4",
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

@@ -1,5 +1,6 @@
 const {watch, src, dest, series, task} = require("gulp");
 const sass = require("gulp-sass")(require("sass"));
+const cleanCss = require('gulp-clean-css');
 
 async function defaultTask() {
     return "default task";
@@ -8,6 +9,7 @@ async function defaultTask() {
 async function compileSASS() {
     return src("../main/resources/static/sass/*.scss")
         .pipe(sass.sync().on("error", sass.logError))
+        .pipe(cleanCss())
         .pipe(dest("../main/resources/static/css"));
 }
 
@@ -16,7 +18,7 @@ task("watch", async function () {
 });
 
 function jscopy() {
-    return src("./node_modules/bootstrap/dist/js/*.js").pipe(dest("./js"));
+    return src("./node_modules/bootstrap/dist/js/*.js").pipe(dest("../main/resources/static/js/"));
 }
 
 exports.jscopy = jscopy;
