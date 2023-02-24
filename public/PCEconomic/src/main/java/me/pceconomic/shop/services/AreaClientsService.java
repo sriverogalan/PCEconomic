@@ -53,6 +53,10 @@ public class AreaClientsService {
         return factura;
     }
 
+    public Persona getPersona(Persona persona) {
+        return personaRepository.findById(persona.getId()).orElse(null);
+    }
+
     public void saveDirection(Persona persona, AddDirectionForm directionForm, HttpSession session) {
         Direccio direccio = new Direccio(directionForm);
 

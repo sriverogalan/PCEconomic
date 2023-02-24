@@ -1,5 +1,6 @@
 package me.pceconomic.shop.controllers;
 
+import com.google.api.Http;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,10 +47,11 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String preLogin(Model model) {
+    public String preLogin(Model model, HttpServletRequest request) {
 
         LoginForm loginForm = new LoginForm();
         model.addAttribute("loginForm", loginForm);
+        frontService.sendListsToView(model, request);
 
         return "login";
     }
@@ -118,20 +120,20 @@ public class LoginController {
         }
 
         String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(1));
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://pceconomic.live:8080/confirmregister/" + token + " \n\n" +
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://www.pceconomic.me/confirmregister/" + token + " \n\n" +
                 "You have 1 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
     @GetMapping("/confirmregister/{token}")
     public String confirmRegister(@PathVariable String token) {
-        Claims claims = tokenService.getClaims(token);
-        String email = claims.get("email", String.class);
-
         int valid = tokenService.validateToken(token);
 
         if (valid == 1) return "redirect:/";
         if (valid == 2) return "redirect:/";
+
+        Claims claims = tokenService.getClaims(token);
+        String email = claims.get("email", String.class);
 
         Persona persona = registerService.getPersonaByEmail(email);
         Rols rol = registerService.getRolsByName("CLIENT");
@@ -145,9 +147,10 @@ public class LoginController {
     }
 
     @GetMapping("/forgotpassword")
-    public String preForgotPassword(Model model) {
+    public String preForgotPassword(Model model, HttpServletRequest request) {
         SendEmailForm sendEmailForm = new SendEmailForm();
         model.addAttribute("sendEmailForm", sendEmailForm);
+        frontService.sendListsToView(model, request);
         return "lostpassword";
     }
 
@@ -170,7 +173,7 @@ public class LoginController {
     }
 
     @GetMapping("/changepassword/{token}")
-    public String preChangePassword(@PathVariable String token, Model model) {
+    public String preChangePassword(@PathVariable String token, Model model, HttpServletRequest request) {
         int valid = tokenService.validateToken(token);
 
         if (valid == 1) return "redirect:/";
@@ -179,6 +182,7 @@ public class LoginController {
         ChangePasswordForm changePasswordForm = new ChangePasswordForm();
         model.addAttribute("changePasswordForm", changePasswordForm);
         model.addAttribute("token", token);
+        frontService.sendListsToView(model, request);
         return "changepassword";
     }
 

@@ -4,13 +4,21 @@
 <body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
     <main class="container bg-cont mt-5 p-3">
+        <nav aria-label="breadcrumb mt-2">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Area de Clientes</li>
+            </ol>
+        </nav>
         <div class="row">
+            <div class="d-flex flex-row mt-2 mb-2">
+                <a class="btn btn-danger" href="/logout">
+                    <i class="bi bi-door-open-fill"></i>
+                </a>
+            </div>
             <div class="col-12 text-center">
                 <h1>MI CUENTA</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.name}"></p>
-                <div class="d-flex flex-row-reverse mt-2 mb-2">
-                    <a class="btn btn-pc-economic-dark" th:href="@{/logout}">Cerrar Sesión</a>
-                </div>
             </div>
 
             <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
@@ -22,11 +30,11 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="miperfil">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                             MI PERFIL
                         </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="miperfil"
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="miperfil"
                          data-bs-parent="#accordionExample">
                         <div class="accordion-body">
 
@@ -504,7 +512,7 @@
                     <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="pedidos"
                          data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <div class="row" th:if="${user.factures.isEmpty()}">
+                            <div class="row" th:if="${facturas.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
                                     <p>Actualmente no tienes ningun pedido disponible</p>
@@ -516,13 +524,13 @@
                                 </div>
                             </div>
 
-                            <div class="row" th:if="${!user.factures.isEmpty()}">
+                            <div class="row" th:if="${!facturas.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
                                     <p>Actualmente tienens los siguientes pedidos hechos</p>
 
                                     <ul class="list-group list-group-flush w-50">
-                                        <li th:each="factura : ${user.factures}" th:if="${factura.estat == 'COMPLETED'}"
+                                        <li th:each="factura : ${facturas}" th:if="${factura.estat == 'COMPLETED'}"
                                             class="list-group-item">
 
                                             <div class="d-flex justify-content-between">

@@ -12,6 +12,7 @@ import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,6 +37,9 @@ public class FrontService {
     private final ValoracionsRepository valoracionsRepository;
     private final PersonaRepository personaRepository;
     private final LineaFacturaRepository lineasFacturaRepository;
+
+    @Value("${google.maps.key}")
+    private String key;
 
     @Autowired
     public FrontService(VisitaRepository visitaRepository, PersonaRepository personaRepository, ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, LineaFacturaRepository lineasFacturaRepository) {
@@ -65,6 +70,7 @@ public class FrontService {
                 valoracions.add(valoracio);
             }
         }
+        valoracions.sort(Comparator.comparing(Valoracions::getData).reversed());
         return valoracions;
     }
 
@@ -78,9 +84,11 @@ public class FrontService {
     }
 
     public void sendListsToView(Model model, HttpServletRequest request) {
+        String google = "https://maps.googleapis.com/maps/api/js?key=" + key +  "&callback=inicialitza&v=weekly";
         model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
+        model.addAttribute("googleapikey", google);
 
         HttpSession session = request.getSession();
 
@@ -90,7 +98,6 @@ public class FrontService {
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", client);
         model.addAttribute("rols", client == null ? null : client.getRols());
-
     }
 
     @Transactional
