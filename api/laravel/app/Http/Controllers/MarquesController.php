@@ -24,16 +24,21 @@ class MarquesController extends Controller
      */
     public function create(Request $request)
     {
-        try {
-            $marques = new Marques();
-            $marques->cif = $request->cif;
-            $marques->nom = $request->nom;
-            $marques->save();
+        $validatedData = $request->validate([
+            'nom' => 'required',
+            'cif' => 'required',
+        ]);
 
-            return response()->json(['message' => 'Marca creada correctamente'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al crear la marca'], 500);
-        }
+        // Crear una nueva instancia del modelo Marca y asignar los valores recibidos
+        $marca = new Marques;
+        $marca->nom = $validatedData['nom'];
+        $marca->cif = $validatedData['cif'];
+
+        // Guardar la nueva marca en la base de datos
+        $marca->save();
+
+        // Devolver una respuesta al cliente
+        return response()->json(['message' => 'Marca creada correctamente'], 201);
     }
     /**
      * Show the form for editing the specified resource.

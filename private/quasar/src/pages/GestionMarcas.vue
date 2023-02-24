@@ -60,8 +60,8 @@
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" v-model="name" filled class="q-mb-md" />
-                <q-input label="CIF" v-model="cif" filled class="q-mb-md" />
+                <q-input label="Nombre" v-model="nomMarca" filled class="q-mb-md" />
+                <q-input label="CIF" v-model="cifMarca" filled class="q-mb-md" />
               </q-form>
             </q-card-section>
 
@@ -117,10 +117,14 @@
 import axios from "axios";
 import { defineComponent } from "vue";
 
+const source = axios.CancelToken.source();
+
 export default defineComponent({
   name: "IndexPage",
   data() {
     return {
+      nomMarca: "",
+      cifMarca: "",
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
@@ -174,7 +178,9 @@ export default defineComponent({
   },
   methods: {
     async getMarques() {
-      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques");
+      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques", {
+        cancelToken: source.token,
+      });
       const marquesJson = await marquesAxios.data;
       console.log(marquesJson);
       marquesJson.map((p) => {
@@ -204,9 +210,26 @@ export default defineComponent({
     showCreateDialog() {
       this.dialogCreate = true;
     },
-    createMarca(props) {
-
-
+    async createMarca() {
+      try {
+        const token = localStorage.getItem("token");
+        const sendAxios = await axios.post(
+          "http://localhost:8000/api/create/marques",
+          {
+            nom: this.nomMarca,
+            cif: this.cifMarca,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   mounted() {

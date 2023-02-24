@@ -21,10 +21,9 @@ Route::get('/', function () {
 });
 
 Route::get('/api/get/marques', [MarquesController::class, 'index']);
-
-Route::post('/create/marques', 'MarquesController@create');
-Route::post('/update/marques', 'MarquesController@update');
-Route::post('/delete/marques', 'MarquesController@delete');
+Route::post('/api/create/marques', [MarquesController::class, 'create']);
+Route::post('/api/update/marques', [MarquesController::class, 'update']);
+Route::post('/api/delete/marques', [MarquesController::class, 'delete']);
 
 
 Route::post('/api/post/create/marques', [MarquesController::class, 'create']);
