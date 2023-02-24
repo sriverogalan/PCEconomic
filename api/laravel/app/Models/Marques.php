@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marques extends Model
 {
-    use HasFactory;
-
+    use HasFactory; 
+    public $timestamps = false;
     protected $table = 'marques';
 }

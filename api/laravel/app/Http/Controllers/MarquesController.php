@@ -7,6 +7,8 @@ use App\Models\Marques;
 
 class MarquesController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -24,15 +26,11 @@ class MarquesController extends Controller
      */
     public function create(Request $request)
     {
-        $validatedData = $request->validate([
-            'nom' => 'required',
-            'cif' => 'required',
-        ]);
-
         // Crear una nueva instancia del modelo Marca y asignar los valores recibidos
         $marca = new Marques;
-        $marca->nom = $validatedData['nom'];
-        $marca->cif = $validatedData['cif'];
+        $marca->nom = $request->input('nom');
+        $marca->cif = $request->input('cif');
+        $marca->is_actiu = true;
 
         // Guardar la nueva marca en la base de datos
         $marca->save();

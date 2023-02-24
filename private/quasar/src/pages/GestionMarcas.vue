@@ -150,19 +150,19 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "CIF",
-          required: true,
-          label: "CIF",
-          align: "center",
-          field: (row) => row.cif,
-          sortable: true,
-        },
-        {
           name: "Nom",
           required: true,
           label: "Nom",
           align: "center",
           field: (row) => row.nom,
+          sortable: true,
+        },
+        {
+          name: "CIF",
+          required: true,
+          label: "CIF",
+          align: "center",
+          field: (row) => row.cif,
           sortable: true,
         },
         {
