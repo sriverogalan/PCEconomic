@@ -1,34 +1,113 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona tus marcas</h1>
+      <h1 class="col-12 text-center">Gestiona las marcas</h1>
 
       <div class="q-pa-md">
         <q-table
-          title="Usuarios"
+          title="Marcas"
           :rows="rowsFiltrats"
           :columns="columns"
           row-key="nom"
           :loading="loading"
-          loading-label="Cargando..." 
+          loading-label="Cargando..."
         >
+          <q-inner-loading
+            :showing="true"
+            label="Please wait..."
+            label-class="text-teal"
+            label-style="font-size: 1.1em"
+          />
           <template v-slot:bottom-left>
             <q-btn class="mb-1" color="purple-9" icon="add" />
           </template>
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn color="amber-5" icon="edit" />
-              <q-btn class="ml-2" color="red-14" icon="delete" />
+              <q-btn icon="edit" color="amber-5" @click="showEditDialog(props)" />
+              <q-btn
+                icon="delete"
+                class="ml-2"
+                color="red-14"
+                @click="showDeleteDialog(props)"
+              />
             </q-td>
+          </template>
+
+          <template v-slot:top-right>
+            <q-input
+              @update:model-value="filtrarUsuaris()"
+              v-model="filter"
+              color="primary"
+            >
+              <template v-slot:prepend>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+
+          <template v-slot:top-left>
+            <q-btn class="mb-1" color="purple-9" icon="add" @click="showCreateDialog()">
+            </q-btn>
           </template>
         </q-table>
 
-        <q-dialog v-model="dialog"> </q-dialog>
+        <q-dialog v-model="dialogCreate" persistent id="dialogCreate">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Crear marca</div>
+            </q-card-section>
 
-        <q-dialog v-model="dialog"> </q-dialog>
+            <q-card-section>
+              <q-form>
+                <q-input label="Nombre" filled class="q-mb-md" />
+                <q-input label="CIF" filled class="q-mb-md" />
+              </q-form>
+            </q-card-section>
 
-        <q-dialog v-model="dialog"> </q-dialog>
+            <q-card-actions align="right">
+              <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
+              <q-btn label="Guardar" color="purple-9" @click="dialogCreate = false" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialogEdit" persistent id="dialogUpdate">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Editar marca</div>
+            </q-card-section>
+
+            <q-card-section>
+              <q-form>
+                <q-input v-model="marcaEdit.nom" label="Nombre" filled class="q-mb-md" />
+                <q-input v-model="marcaEdit.cif" label="CIF" filled class="q-mb-md" />
+              </q-form>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
+              <q-btn label="Guardar" color="purple-9" @click="dialogEdit = false" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialogDelete" persistent id="dialogDelete">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Eliminar marca</div>
+            </q-card-section>
+
+            <q-card-section>
+              <p>Estas seguro que quieres eliminar la marca {{ marcaDelete.nom }} ?</p>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
+              <q-btn label="Eliminar" color="purple-9" @click="dialogDelete = false" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
   </q-page>
@@ -42,14 +121,28 @@ export default defineComponent({
   name: "IndexPage",
   data() {
     return {
+      filter: "",
+      dialogCreate: false,
+      dialogEdit: false,
+      dialogDelete: false,
       loading: true,
+      marcaEdit: {
+        id_marca: "",
+        nom: "",
+        cif: "",
+      },
+      marcaDelete: {
+        id_marca: "",
+        nom: "",
+        cif: "",
+      },
       columns: [
         {
           name: "Id",
           required: true,
-          label: "id",
+          label: "Id",
           align: "center",
-          field: (row) => row.id,
+          field: (row) => row.id_marca,
           sortable: true,
         },
         {
@@ -80,25 +173,38 @@ export default defineComponent({
     };
   },
   methods: {
-    async getPersones() {
-      const personesAxios = await axios.get("http://localhost:8000/api/get/marques");
-      const personesJson = await personesAxios.data;
-
-      console.log(personesJson);
-      personesJson.map((p) => {
+    async getMarques() {
+      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques");
+      const marquesJson = await marquesAxios.data;
+      console.log(marquesJson);
+      marquesJson.map((p) => {
         this.rows.push({
-          id: p.id_marca,
+          id_marca: p.id_marca,
           cif: p.cif,
           nom: p.nom,
         });
-        console.log(this.rows);
       });
       this.rowsFiltrats = this.rows;
       this.loading = false;
     },
+    showEditDialog(props) {
+      this.dialogEdit = true;
+      this.marcaEdit.id_marca = props.row.id_marca;
+      this.marcaEdit.nom = props.row.nom;
+      this.marcaEdit.cif = props.row.cif;
+    },
+    showDeleteDialog(props) {
+      this.dialogDelete = true;
+      this.marcaDelete.id_marca = props.row.id_marca;
+      this.marcaDelete.nom = props.row.nom;
+      this.marcaDelete.cif = props.row.cif;
+    },
+    showCreateDialog() {
+      this.dialogCreate = true;
+    },
   },
   mounted() {
-    this.getPersones();
+    this.getMarques();
   },
 });
 </script>
@@ -106,5 +212,9 @@ export default defineComponent({
 <style scoped>
 .ml-2 {
   margin-left: 2rem;
+}
+
+.sizeTitleCard {
+  width: 350px;
 }
 </style>

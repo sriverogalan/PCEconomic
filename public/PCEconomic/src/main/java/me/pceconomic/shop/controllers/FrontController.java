@@ -75,7 +75,7 @@ public class FrontController {
         Article article = frontService.getArticleRepository().findById(idArticle).orElse(null);
         Propietats propietats = frontService.getPropietatsRepository().findById(idPropietat).orElse(null);
 
-        if (article == null || propietats == null) return "redirect:/error";
+        if (article == null || propietats == null || !article.getMarca().isActive()) return "redirect:/error";
 
         HttpSession session = request.getSession();
         if (session == null) return "redirect:/";
