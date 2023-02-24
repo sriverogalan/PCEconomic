@@ -52,6 +52,10 @@ public class ServerConfiguration implements WebMvcConfigurer {
                         "http://pceconomic.me/",
                         "http://admin.pceconomic.me/",
                         "http://api.pceconomic.me/",
+                        "https://www.pceconomic.me/",
+                        "https://pceconomic.me/",
+                        "https://admin.pceconomic.me/",
+                        "https://api.pceconomic.me/",
                         "http://pceconomic.me:8080/",
                         "http://pceconomic.me:8000",
                         "http://pceconomic.me:3000"
@@ -61,8 +65,11 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        WebMvcConfigurer.super.addResourceHandlers(registry);
         registry.addResourceHandler("/**")
                 .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+        registry.addResourceHandler("/static/img/**")
+                .addResourceLocations("file:img/");
     }
 
     @Override
