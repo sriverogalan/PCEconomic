@@ -22,15 +22,14 @@
                     <div class="carousel-inner">
                         <div class="carousel-item" th:each="foto : ${propietats.imatges}"
                         >
-                            <img class="d-block img-fluid imgSizeArticle"
+                            <img class="d-block img-fluid imgSizeArticle carousel-image"
                                  th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src=""
-                                 style="max-height:500px; margin:auto; object-fit: contain;">
+                                 id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
                         </div>
                         <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
-                            <img class="d-block img-fluid imgSizeArticle"
+                            <img class="d-block img-fluid imgSizeArticle carousel-image"
                                  th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto"
-                                 src="" style="max-height:500px; margin:auto; object-fit: contain;">
+                                 src="">
                         </div>
                     </div>
                     <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-prev" data-bs-slide="prev"
@@ -149,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="row col-xl-6">
-                                <span class="valoracion-fecha my-auto fs-5 col-12 text-xl-end text-sm-start" style="margin-left: 10px;"
+                                <span class="valoracion-fecha my-auto fs-5 col-12 text-xl-end text-sm-start margin-left-10"
                                       th:text="${valoracio.data}"></span>
                                 </div>
                             </div>
@@ -161,7 +160,7 @@
 
                             <div th:if="${user != null && user.id == valoracio.idPersona}"
                                  class="d-flex flex-row-reverse mt-2">
-                                <button style="margin-left: 10px;" type="button" class="btn btn-danger"
+                                <button type="button" class="margin-left-10 btn btn-danger"
                                         data-bs-toggle="modal"
                                         th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
                                     <i class="bi bi-trash"></i>

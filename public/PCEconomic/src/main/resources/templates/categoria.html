@@ -61,8 +61,8 @@
                     if (prop.esPrincipal === true  && idSubcategoriaAux === $('main').data('id-subcat')) {
                         $('#articles').append(
                             '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
-                            '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none" style="max-height:100px; margin:auto; object-fit: contain;">' +
-                            '<img src="' + imgAux + '" style="max-height:100px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
+                            '<a class="article-propietat-image" href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none">' +
+                            '<img src="' + imgAux + '" alt="" class="card-img-top article-propietat-image">' +
                             '</a>' +
                             '<div class="col-12 justify-content-center row" >' +
                             '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center col-12" ></div>' +
@@ -90,7 +90,7 @@
                             }
 
                             $('#' + prop.id).append(
-                                '<div class="col-lg-4 col-md-4 mt-4 mb-3 col-4"> <a href=" /article/' + props.article.id + '/' + props.id + ' " class="text-decoration-none"> <img src="' + imgAux + '" style="max-height:50px; object-fit: contain;" alt="img" class="card-img-top"> </a> </div>'
+                                '<div class="col-lg-4 col-md-4 mt-4 mb-3 col-4"> <a href=" /article/' + props.article.id + '/' + props.id + ' " class="text-decoration-none"> <img src="' + imgAux + '" alt="img" class="card-img-top article-propietat-image-min"> </a> </div>'
                             );
                         }
                     }
