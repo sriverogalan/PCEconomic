@@ -60,14 +60,14 @@
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" filled class="q-mb-md" />
-                <q-input label="CIF" filled class="q-mb-md" />
+                <q-input label="Nombre" v-model="name" filled class="q-mb-md" />
+                <q-input label="CIF" v-model="cif" filled class="q-mb-md" />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
-              <q-btn label="Guardar" color="purple-9" @click="dialogCreate = false" />
+              <q-btn label="Crear" color="purple-9" @click="createMarca()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -104,7 +104,7 @@
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
-              <q-btn label="Eliminar" color="purple-9" @click="dialogDelete = false" />
+              <q-btn label="Eliminar" color="purple-9" @click="" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -178,11 +178,13 @@ export default defineComponent({
       const marquesJson = await marquesAxios.data;
       console.log(marquesJson);
       marquesJson.map((p) => {
-        this.rows.push({
-          id_marca: p.id_marca,
-          cif: p.cif,
-          nom: p.nom,
-        });
+        if (p.is_actiu) {
+          this.rows.push({
+            id_marca: p.id_marca,
+            cif: p.cif,
+            nom: p.nom,
+          });
+        }
       });
       this.rowsFiltrats = this.rows;
       this.loading = false;
@@ -201,6 +203,10 @@ export default defineComponent({
     },
     showCreateDialog() {
       this.dialogCreate = true;
+    },
+    createMarca(props) {
+
+
     },
   },
   mounted() {
