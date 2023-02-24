@@ -250,14 +250,14 @@
                         var json = JSON.parse(response);
                         if (json.rows[0].elements[0].status === "NOT_FOUND") {
                             $("#error").append("<div class=\"alert alert-danger d-flex justify-content-center align-items-center\" role=\"alert\">\n" +
-                                " <i class='bi bi-exclamation-triangle' style='font-size: 2rem'></i>" +
+                                " <i class='bi bi-exclamation-triangle font-2'></i>" +
                                 "  <div> <span class='h5 mx-3'>" +
                                 "No se han podido calcular el envío introduce bien los datos." +
                                 "</span></div>" +
                                 "</div>");
                         } else if (json.rows[0].elements[0].status === "ZERO_RESULTS") {
                             $("#error").append("<div class=\"alert alert-danger d-flex justify-content-evenly align-items-center\" role=\"alert\">\n" +
-                                " <i class='bi bi-exclamation-triangle' style='font-size: 2rem'></i>" +
+                                " <i class='bi bi-exclamation-triangle font-2'></i>" +
                                 "  <div class='ml-1'>" +
                                 "No se ha encontrado tu direccion, prueba a poner otra." +
                                 "  </div>" +
