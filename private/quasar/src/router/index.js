@@ -1,9 +1,10 @@
+import process from "process";
 import { route } from "quasar/wrappers";
 import {
   createMemoryHistory,
   createRouter,
   createWebHashHistory,
-  createWebHistory,
+  createWebHistory
 } from "vue-router";
 import routes from "./routes";
 /*
@@ -47,12 +48,12 @@ export default route(function (/* { store, ssrContext } */) {
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token");
     } else {
-      window.location = "http://localhost:8080/error";
+      window.location = process.env.CRIDADA_ERROR;
     }
     window.history.replaceState({}, document.title, "/");
 
     if (token) {
-      await fetch(`http://localhost:8000/`, {
+      await fetch(process.env.CRIDADA_API, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,14 +64,14 @@ export default route(function (/* { store, ssrContext } */) {
           if (response.status < 399) {
             return response.json();
           } else {
-            window.location = "http://localhost:8080/error";
+            window.location = process.env.CRIDADA_ERROR;
           }
         })
         .then((data) => {
           if (data) {
             console.log(data);
           } else {
-            window.location = "http://localhost:8080/error";
+            window.location = process.env.CRIDADA_ERROR;
           }
         })
         .catch((error) => {
