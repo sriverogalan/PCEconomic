@@ -194,10 +194,6 @@
                                 $("#cercador").append(
                                     '<option data-image="/img/productes/' + prop.article.id + '/' + prop.id + '/' + i.path + '" value="/article/' + prop.article.id + '/' + prop.id + '"> ' + prop.article.nom + " " + propietats + "</option>"
                                 );
-                            } else if (prop.article.marca.active === true) {
-                                $("#cercador").append(
-                                    '<option data-image="/img/static/no-photo.png" value="/article/' + prop.article.id + '/' + prop.id + '"> ' + prop.article.nom + " " + propietats + "</option>"
-                                );
                             }
                         }
                     }
