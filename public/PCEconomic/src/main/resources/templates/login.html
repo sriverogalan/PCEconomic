@@ -1,116 +1,118 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head(title='Login | PCEconomic', description='Pagina de logeo de PCEconomic')">
-</head>
-<body class="bgbd">
-    <header th:replace="layout/layout :: header2"></header>
-    <main class="container bg-cont mt-5 p-3">
-        <nav aria-label="breadcrumb mt-2">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">Iniciar Session</li>
-            </ol>
-        </nav>
-        <h1 class="text-center">Iniciar sesión</h1>
-        <div class="d-flex flex-column justify-content-center align-items-center">
-            <form class="needs-validation col-sm-12 col-xl-3" th:action="@{/login}"
-                  th:object="${loginForm}" method="post" novalidate>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electronico</label>
-                    <input th:field="*{email}" type="email" class="form-control" id="email"
-                           placeholder="Correo Electronico"
-                           aria-describedby="emailHelp" required>
-                    <div class="invalid-feedback">
-                        Introduzca su Correo Electronico.
+    <head th:replace="layout/layout :: head(title='Login | PCEconomic', description='Pagina de logeo de PCEconomic')">
+    </head>
+    <body class="bgbd">
+        <header th:replace="layout/layout :: header2"></header>
+        <main class="container bg-cont mt-5 p-3">
+            <nav aria-label="breadcrumb mt-2">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Iniciar Session</li>
+                </ol>
+            </nav>
+            <h1 class="text-center">Iniciar sesión</h1>
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <form class="needs-validation col-sm-12 col-xl-3" th:action="@{/login}"
+                      th:object="${loginForm}" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electronico</label>
+                        <input th:field="*{email}" type="email" class="form-control" id="email"
+                               placeholder="Correo Electronico"
+                               aria-describedby="emailHelp" required>
+                        <div class="invalid-feedback">
+                            Introduzca su Correo Electronico.
+                        </div>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Contraseña</label>
-                    <input th:field="*{password}" type="password" class="form-control" id="password"
-                           placeholder="Contraseña"
-                           required>
-                    <div class="invalid-feedback">
-                        Introduzca su Contraseña.
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input th:field="*{password}" type="password" class="form-control" id="password"
+                               placeholder="Contraseña"
+                               required>
+                        <div class="invalid-feedback">
+                            Introduzca su Contraseña.
+                        </div>
                     </div>
-                </div>
 
-                <div th:if="${error != null}" class="m-1 alert alert-danger">
-                    <i class='bi bi-exclamation-triangle'></i>
-                    <span th:text="${error}"></span>
-                </div>
+                    <div th:if="${error != null}" class="m-1 alert alert-danger">
+                        <i class='bi bi-exclamation-triangle'></i>
+                        <span th:text="${error}"></span>
+                    </div>
 
-                <div class="m-1 alert alert-danger display-none" id="error" >
-                    <i class='bi bi-exclamation-triangle'></i>
-                    <span></span>
-                </div>
+                    <div class="m-1 alert alert-danger display-none" id="error">
+                        <i class='bi bi-exclamation-triangle'></i>
+                        <span></span>
+                    </div>
 
 
-                <div class="text-center">
-                    <button type="submit" class="btn btn-pc-economic-dark">Iniciar Session</button>
-                </div>
-            </form>
-        </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-pc-economic-dark">Iniciar Session</button>
+                    </div>
+                </form>
+            </div>
 
-        <div class="text-center">
-            <a th:href="@{/register}">Registrarse</a>
-            <a th:href="@{/forgotpassword}">¿Olvidaste tu contraseña?</a>
-        </div>
-    </main>
-    <div th:replace="layout/layout.html :: jquery"></div>
-    <script th:src="@{/js/formvalidator.js}"></script>
-    <footer th:replace="layout/layout :: footer"></footer>
+            <div class="text-center">
+                <a th:href="@{/register}">Registrarse</a>
+                <a th:href="@{/forgotpassword}">¿Olvidaste tu contraseña?</a>
+            </div>
+        </main>
+        <div th:replace="layout/layout.html :: jquery"></div>
+        <script th:src="@{/js/formvalidator.js}"></script>
+        <footer th:replace="layout/layout :: footer"></footer>
 
-    <script async defer src="https://accounts.google.com/gsi/client"></script>
-    <script>
-        window.onload = function () {
-            google.accounts.id.initialize({
-                client_id:
-                    "327064841381-lloi1on6ses7vmjr72h2lptajd3g14fn.apps.googleusercontent.com",
-                callback: async (response) => {
-                    const credential = response.credential;
-                    const responseFetch = await fetch(
-                        "/auth/login",
-                        {
-                            method: "POST",
-                            body: credential,
-                        }
-                    );
-                    if (responseFetch.ok) window.location.href = "/";
-                    else window.location.href = "/error";
-                },
-            });
-            google.accounts.id.prompt();
-        };
-
-        // on form submit call login function
-        $("form").on("submit", function (e) {
-            e.preventDefault();
-            var email = $("#email").val();
-            var password = $("#password").val();
-            login(email, password);
-        });
-
-        function login(email, password) {
-            $(document).ready(function () {
-                $.ajax({
-                    url: "/restlogin",
-                    type: "POST",
-                    data: {
-                        email: email,
-                        password: password,
-                    },
-                    success: function (data) {
-                        localStorage.setItem('token', data);
-                        window.location.href = "/";
-                    },
-                    error: function (data) {
-                        $("#error").css("display", "block");
-                        $("#error span").text(data.responseText);
+        <script async defer src="https://accounts.google.com/gsi/client"></script>
+        <script>
+            window.onload = function () {
+                google.accounts.id.initialize({
+                    client_id:
+                        "327064841381-lloi1on6ses7vmjr72h2lptajd3g14fn.apps.googleusercontent.com",
+                    callback: async (response) => {
+                        const credential = response.credential;
+                        const responseFetch = await fetch(
+                            "/auth/login",
+                            {
+                                method: "POST",
+                                body: credential,
+                            }
+                        );
+                        if (responseFetch.ok) window.location.href = "/";
+                        else window.location.href = "/error";
                     },
                 });
-            });
-        }
-    </script>
+                google.accounts.id.prompt();
+            };
 
-</body>
+            // on form submit call login function
+            $("form").on("submit", function (e) {
+                e.preventDefault();
+                var email = $("#email").val();
+                var password = $("#password").val();
+                login(email, password);
+            });
+
+            async function login(email, password) {
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+
+                const restLoginFetch = await fetch(
+                    "/restlogin",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (restLoginFetch.ok) {
+                    const token = await restLoginFetch.text();
+                    localStorage.setItem("token", token);
+                    window.location.href = "/";
+                } else {
+                    document.querySelector("#error").style.display = "block";
+                    document.querySelector("#error span").textContent = await restLoginFetch.text();
+                }
+            }
+        </script>
+
+    </body>
 </html>

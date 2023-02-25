@@ -95,16 +95,9 @@ public class PDFService {
         for (LineasFactura lf : lineasFacturas) {
             table.addCell("x" + Integer.toString(lf.getQuantity()));
 
-            String vals = "";
-            for (Valor v : lf.getPropietats().getValor()) {
-                for (Propietat prop : v.getPropietat()) {
-                    vals += prop.getNom() + " " + v.getValor() + " ";
-                }
-            }
-
             PdfPCell cell = new PdfPCell();
             cell.setColspan(2);
-            cell.setPhrase(new Paragraph(lf.getMarca().getName() + " " + lf.getNomArticle() + " " + vals, textFont));
+            cell.setPhrase(new Paragraph(lf.getMarca().getName() + " " + lf.getNomArticle() + " " + lf.getPropietats(), textFont));
 
             table.addCell(cell);
             table.addCell(formatoEuros.format(lf.getPrice() / lf.getQuantity()));
