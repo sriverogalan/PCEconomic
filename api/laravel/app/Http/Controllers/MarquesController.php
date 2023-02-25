@@ -26,26 +26,14 @@ class MarquesController extends Controller
      */
     public function create(Request $request)
     {
-        // Crear una nueva instancia del modelo Marca y asignar los valores recibidos
         $marca = new Marques;
         $marca->nom = $request->input('nom');
         $marca->cif = $request->input('cif');
         $marca->is_actiu = true;
 
-        // Guardar la nueva marca en la base de datos
         $marca->save();
 
-        // Devolver una respuesta al cliente
         return response()->json(['message' => 'Marca creada correctamente'], 201);
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
     }
 
     /**
@@ -55,9 +43,15 @@ class MarquesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $marca = Marques::find($request->input('id_marca'));
+        $marca->nom = $request->input('nom');
+        $marca->cif = $request->input('cif');
+        $marca->is_actiu = true;
+        $marca->save();
+        return response()->json(['message' => 'Marca actualizada correctamente'], 200);
     }
 
     /**
@@ -66,8 +60,11 @@ class MarquesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+        $marca = Marques::find($request->input('id_marca'));
+        $marca->is_actiu = 0;
+        $marca->save();
+        return response()->json(['message' => 'Marca eliminada correctamente'], 200);
     }
 }
