@@ -78,7 +78,7 @@
               for (var rec of recomanacions) {
                 if (
                   prop.article.id == rec.idArticle &&
-                  prop.id == rec.idPropietat
+                  prop.id == rec.idPropietat && prop.article.marca.active === true
                 ) {
                   articulosRecomendados.push([prop, rec]);
                 }
