@@ -18,6 +18,7 @@
 <script>
 import axios from "axios";
 import { defineComponent } from "vue";
+import process from "process";
 
 export default defineComponent({
   name: "IndexPage",
@@ -66,7 +67,7 @@ export default defineComponent({
   },
   methods: {
     async getPersones() {
-      const personesAxios = await axios.get("http://localhost:8000/persones");
+      const personesAxios = await axios.get(process.env.CRIDADA_API + "persones");
       const personesJson = await personesAxios.data;
       console.log(personesJson);
       personesJson.map((p) => {
