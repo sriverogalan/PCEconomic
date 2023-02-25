@@ -22,6 +22,7 @@ import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,9 @@ public class FrontController {
     private final FacturaRepository facturaRepository;
     private final LineaFacturaRepository lineaFacturaRepository;
     private final ValoracionsRepository valoracionsRepository;
+
+    @Value("${google.maps.key}")
+    private String key;
 
     @Autowired
     public FrontController(FrontService frontService, LineaFacturaRepository lineaFacturaRepository, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository, ValoracionsRepository valoracionsRepository) {
@@ -206,7 +210,7 @@ public class FrontController {
 
             return "pagorealizado";
         }
-        return "redirect:/error";
+        return "pagoerror";
     }
 
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}")
@@ -279,6 +283,14 @@ public class FrontController {
         Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         return false;
+    }
+
+    @GetMapping("/aboutus")
+    public String getAboutUs(HttpServletRequest request, Model model) {
+        frontService.sendListsToView(model, request);
+        String google = "https://maps.googleapis.com/maps/api/js?key=" + key +  "&callback=inicialitza&v=weekly";
+        model.addAttribute("googleapikey", google);
+        return "aboutus";
     }
 
 }
