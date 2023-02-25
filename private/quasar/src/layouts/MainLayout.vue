@@ -2,7 +2,14 @@
   <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-purple-9">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
 
         <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
       </q-toolbar>
@@ -12,7 +19,11 @@
       <q-list>
         <q-item-label header>Gestiona</q-item-label>
 
-        <LinkPersonalitzat v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <LinkPersonalitzat
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
       </q-list>
     </q-drawer>
 
@@ -23,10 +34,11 @@
 </template>
 
 <script>
-import LinkPersonalitzat from "src/components/LinkPersonalitzat.vue";
-import EssentialLink from "src/components/LinkPersonalitzat.vue";
+import {
+  default as EssentialLink,
+  default as LinkPersonalitzat,
+} from "src/components/LinkPersonalitzat.vue";
 import { defineComponent, ref } from "vue";
-
 
 const linksList = [
   {
@@ -39,6 +51,11 @@ const linksList = [
     icon: "work",
     link: "/gestionmarcas",
   },
+  {
+    title: "Categories",
+    icon: "category",
+    link: "/gestioncategorias",
+  },
 ];
 
 export default defineComponent({
@@ -46,8 +63,8 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-    LinkPersonalitzat
-},
+    LinkPersonalitzat,
+  },
 
   setup() {
     const leftDrawerOpen = ref(false);

@@ -13,6 +13,11 @@ const routes = [
         name: "Index",
         component: () => import("pages/GestionMarcas.vue"),
       },
+      {
+        path: "gestioncategorias",
+        name: "Categorias",
+        component: () => import("pages/GestionCategorias.vue"),
+      },
     ],
   },
 

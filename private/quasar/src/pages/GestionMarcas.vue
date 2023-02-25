@@ -169,8 +169,8 @@
 
 <script>
 import axios from "axios";
-import { defineComponent } from "vue";
 import process from "process";
+import { defineComponent } from "vue";
 
 const source = axios.CancelToken.source();
 
@@ -236,7 +236,7 @@ export default defineComponent({
       this.loading = true;
       this.rows = [];
       const marquesAxios = await axios.get(
-        "https://api.pceconomic.me/api/get/marques",
+        process.env.CRIDADA_API + "api/get/marques",
         {
           cancelToken: source.token,
         }
