@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="layout/layout :: head(title='Sobre Nosotros | PCEconomic', description='Esta es la pagina que cuanta un poco sobre nosotros')"></head>
+    <body class="bgbd">
+        <header th:replace="layout/layout :: navbar"></header>
+        <main class="container bg-cont mt-5 p-3">
+            <h1 class="text-center mt-2 mb-4">Sobre Nosotros</h1>
+            <div class="row">
+                <div class="row col-xl-6 col-sm-12">
+                    <p>PCEconomic es una tienda online líder en la venta de productos con una relación calidad-precio
+                        inigualable. Desde nuestro sitio web, ofrecemos una amplia gama de productos electrónicos,
+                        informáticos y tecnológicos, así como también artículos para el hogar y el jardín.
+                    </p>
+
+                    <p>Ubicados en Manacor, en las Islas Baleares, PCEconomic se ha ganado la confianza de nuestros
+                        clientes por ofrecer productos de alta calidad a precios competitivos. En nuestra tienda en
+                        línea, los clientes pueden encontrar todo lo que necesitan para equipar su hogar o negocio con
+                        los últimos dispositivos electrónicos y tecnológicos.
+                    </p>
+
+                    <p>Nos enorgullece ofrecer una experiencia de compra en línea sencilla y fácil de usar. Con solo
+                        unos pocos clics, nuestros clientes pueden encontrar y comprar lo que necesitan, con envío a
+                        cualquier lugar de España.
+                    </p>
+                    <p>En PCEconomic, nos esforzamos por mantener un alto nivel de calidad en nuestros productos y
+                        servicios. Nos aseguramos de que cada artículo que vendemos sea de la mejor calidad posible, y
+                        ofrecemos una garantía de satisfacción del cliente para todos nuestros productos.
+                    </p>
+                    <p>Además, nuestro equipo de atención al cliente está siempre a disposición para responder cualquier
+                        pregunta o preocupación que pueda tener el cliente. Nos enorgullece ofrecer un servicio al
+                        cliente excepcional y una experiencia de compra en línea sin problemas.
+                    </p>
+                    <p>En resumen, PCEconomic es una tienda online de confianza que ofrece productos de calidad a
+                        precios competitivos. Si necesita cualquier dispositivo electrónico o tecnológico, artículos
+                        para el hogar o el jardín, no busque más allá de PCEconomic. ¡Visítenos en línea o en nuestra
+                        tienda en Manacor en Ses Tapereres, 32, 07500 Manacor, Balearic Islands, y descubra lo que
+                        tenemos para ofrecer!
+                    </p>
+                </div>
+                <div class="col-xl-6 col-sm-12">
+                    <div id="map"></div>
+                    <script type="module">
+                        function init() {
+                            navigator.geolocation.getCurrentPosition((position) => {
+                                const myPos = {
+                                    lat: 39.56165954084053,
+                                    lng: 3.199846605521957,
+                                };
+                                const map = new google.maps.Map(document.getElementById("map"), {
+                                    zoom: 17,
+                                    center: myPos,
+                                });
+                                const marker = new google.maps.Marker({
+                                    position: myPos,
+                                    map: map,
+                                });
+                            });
+                        }
+
+                        window.inicialitza = init;
+                    </script>
+                    <script th:src="${googleapikey}" defer></script>
+                </div>
+            </div>
+        </main>
+        <footer th:replace="layout/layout :: footer"></footer>
+        <div th:replace="layout/layout.html :: jquery"></div>
+    </body>
+</html>

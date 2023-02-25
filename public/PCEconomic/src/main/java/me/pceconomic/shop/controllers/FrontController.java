@@ -9,7 +9,9 @@ import me.pceconomic.shop.domain.entities.article.Article;
 import me.pceconomic.shop.domain.entities.article.Valoracions;
 import me.pceconomic.shop.domain.entities.article.factura.Factura;
 import me.pceconomic.shop.domain.entities.article.factura.LineasFactura;
+import me.pceconomic.shop.domain.entities.article.propietats.Propietat;
 import me.pceconomic.shop.domain.entities.article.propietats.Propietats;
+import me.pceconomic.shop.domain.entities.article.propietats.Valor;
 import me.pceconomic.shop.domain.entities.persona.Persona;
 import me.pceconomic.shop.domain.forms.AddValorationForm;
 import me.pceconomic.shop.domain.forms.areaclients.AddDirectionForm;
@@ -20,6 +22,7 @@ import me.pceconomic.shop.repositories.VisitaRepository;
 import me.pceconomic.shop.services.CarritoService;
 import me.pceconomic.shop.services.FrontService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,9 @@ public class FrontController {
     private final FacturaRepository facturaRepository;
     private final LineaFacturaRepository lineaFacturaRepository;
     private final ValoracionsRepository valoracionsRepository;
+
+    @Value("${google.maps.key}")
+    private String key;
 
     @Autowired
     public FrontController(FrontService frontService, LineaFacturaRepository lineaFacturaRepository, CarritoService carritoService, VisitaRepository visitaRepository, FacturaRepository facturaRepository, ValoracionsRepository valoracionsRepository) {
@@ -169,11 +175,21 @@ public class FrontController {
                 LineasFactura lineasFactura = new LineasFactura();
                 lineasFactura.setFactura(factura);
                 lineasFactura.setNomArticle(cart.getPropietats().getArticle().getNom());
-                lineasFactura.setPropietats(cart.getPropietats());
+
+                StringBuilder vals = new StringBuilder();
+                for (Valor v : cart.getPropietats().getValor()) {
+                    for (Propietat prop : v.getPropietat()) {
+                        vals.append(prop.getNom()).append(" ").append(v.getValor()).append(" ");
+                    }
+                }
+
+                lineasFactura.setPropietats(vals.toString());
                 lineasFactura.setPrice(cart.getPrice());
                 lineasFactura.setQuantity(cart.getQuantity());
                 lineasFactura.setMarca(cart.getPropietats().getArticle().getMarca());
                 lineasFactura.setEsValorat(false);
+                lineasFactura.setIdArticle(cart.getPropietats().getArticle().getId());
+                lineasFactura.setIdPropietats(cart.getPropietats().getId());
 
                 facturaSet.add(lineasFactura);
 
@@ -194,7 +210,7 @@ public class FrontController {
 
             return "pagorealizado";
         }
-        return "redirect:/error";
+        return "pagoerror";
     }
 
     @PostMapping("/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}")
@@ -267,6 +283,14 @@ public class FrontController {
         Persona client = (Persona) session.getAttribute("persona");
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         return false;
+    }
+
+    @GetMapping("/aboutus")
+    public String getAboutUs(HttpServletRequest request, Model model) {
+        frontService.sendListsToView(model, request);
+        String google = "https://maps.googleapis.com/maps/api/js?key=" + key +  "&callback=inicialitza&v=weekly";
+        model.addAttribute("googleapikey", google);
+        return "aboutus";
     }
 
 }
