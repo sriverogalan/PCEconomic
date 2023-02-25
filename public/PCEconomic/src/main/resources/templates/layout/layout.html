@@ -29,7 +29,6 @@
         <link rel="manifest" th:href="@{/manifest.json}"/>
     </head>
 
-
     <header th:fragment="header2" class="bg-pc-economic-light">
         <div class="container">
             <a class="col-12 d-flex justify-content-center text-center" href="/">
@@ -94,7 +93,7 @@
                                 <ul class="dropdown-menu" id="menu-login">
                                     <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
                                     <li>
-                                        <a class="dropdown-item" th:href="'http://localhost/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
+                                        <a class="dropdown-item" th:href="'https://admin.pceconomic.me/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
                                             Productos</a></li>
                                     <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
                                 </ul>

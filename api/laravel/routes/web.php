@@ -20,13 +20,12 @@ Route::get('/', function () {
     return response()->json(true);
 });
 
-Route::get('/api/get/marques', [MarquesController::class, 'index']);
-Route::post('/api/create/marques', [MarquesController::class, 'create']);
-Route::post('/api/update/marques', [MarquesController::class, 'update']);
-Route::post('/api/delete/marques', [MarquesController::class, 'delete']);
-
-
-Route::post('/api/post/create/marques', [MarquesController::class, 'create']);
+Route::controller(MarquesController::class)->group(function () {
+    Route::get('/api/get/marques', 'index');
+    Route::post('/api/create/marques', 'create');
+    Route::post('/api/update/marques', 'update');
+    Route::post('/api/delete/marques', 'delete');
+});
 
 Route::get('/persones', function () {
     $persones = Persones::all();
@@ -35,5 +34,12 @@ Route::get('/persones', function () {
 
 Route::get('/persones/{id}', function ($id) {
     $persones = Persones::find($id);
-    return response()->json($persones, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8']);
+    return response()->json($persones);
+});
+
+Route::controller(CategoriaController::class)->group(function () {
+    Route::get('/api/get/categoria', 'index');
+    Route::post('/api/create/categoria', 'create');
+    Route::post('/api/update/categoria', 'update');
+    Route::post('/api/delete/categoria', 'delete');
 });
