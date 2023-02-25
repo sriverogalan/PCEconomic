@@ -27,8 +27,9 @@
         <link rel="stylesheet" th:href="@{/css/pagination.css}">
         <link rel="stylesheet" th:href="@{/css/stars.css}">
         <link rel="manifest" th:href="@{/manifest.json}"/>
+        <link rel="apple-touch-icon" th:href="@{/img/static/logo-no-background.png}"/>
+        <link rel="icon" type="image/png" th:href="@{/img/static/logo-no-background.png}"/>
     </head>
-
 
     <header th:fragment="header2" class="bg-pc-economic-light">
         <div class="container">
@@ -94,7 +95,7 @@
                                 <ul class="dropdown-menu" id="menu-login">
                                     <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
                                     <li>
-                                        <a class="dropdown-item" th:href="'http://localhost/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
+                                        <a class="dropdown-item" th:href="'https://admin.pceconomic.me/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
                                             Productos</a></li>
                                     <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
                                 </ul>

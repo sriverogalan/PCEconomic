@@ -83,3 +83,4 @@ back/esquelet-BotigaInformatica/esquelet-BotigaInformatica.iml
 back/esquelet-BotigaInformatica/src/main/resources/application.properties
 *.properties
 public/esquelet-BotigaInformatica/src/main/resources/application.properties
+private/quasar/.env.dev-miquelangel
