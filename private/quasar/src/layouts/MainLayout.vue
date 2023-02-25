@@ -12,7 +12,7 @@
       <q-list>
         <q-item-label header>Gestiona</q-item-label>
 
-        <EssentialLink v-for="link in essentialLinks" :key="link.title" v-bind="link" />
+        <LinkPersonalitzat v-for="link in essentialLinks" :key="link.title" v-bind="link" />
       </q-list>
     </q-drawer>
 
@@ -23,8 +23,10 @@
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
+import LinkPersonalitzat from "src/components/LinkPersonalitzat.vue";
+import EssentialLink from "src/components/LinkPersonalitzat.vue";
 import { defineComponent, ref } from "vue";
+
 
 const linksList = [
   {
@@ -44,7 +46,8 @@ export default defineComponent({
 
   components: {
     EssentialLink,
-  },
+    LinkPersonalitzat
+},
 
   setup() {
     const leftDrawerOpen = ref(false);
