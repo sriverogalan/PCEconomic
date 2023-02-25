@@ -10,7 +10,7 @@ use \Firebase\JWT\JWT;
 class JwtController extends Controller
 {
 
-    public function generateToken(Request $request)
+/*     public function generateToken(Request $request)
     {
 
         $expiration_time = time() + (7 * 24 * 60 * 60);
@@ -18,7 +18,7 @@ class JwtController extends Controller
 
         /*if (!$persona) {
             return response()->json(['error' => 'Email no existeix'], 404);
-        } */
+        } 
         $payload = [
             'email' => 'hulkrojo2@gmail.com',
             'rols' => $persona->rols->pluck('name'),
@@ -29,5 +29,5 @@ class JwtController extends Controller
         $jwt = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
 
         return response()->json($jwt);
-    }
+    } */
 }
