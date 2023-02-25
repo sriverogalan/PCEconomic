@@ -1,217 +1,293 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head(title='Index | PCEconomic', description='Pagina principal de PCEconomic')"></head>
-    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+  <head
+    th:replace="layout/layout.html :: head(title='Index | PCEconomic', description='Pagina principal de PCEconomic')"
+  ></head>
+  <link rel="stylesheet" th:href="@{/css/pagination.css}" />
 
-    <nav th:replace="layout/layout.html :: navbar"></nav>
-    <body class="bgbd">
-        <main class="container-lg bg-cont mt-md-5 mt-1">
-            <section id="productos-recomendados" class="row mt-3 justify-content-center">
-                <div id="text-recomendados"></div>
-                <div id="articles-recomenats" class="row mt-2 justify-content-evenly mb-2">
-                    <div class="col-12 d-flex justify-content-center">
-                        <div class="spinner-border text-secondary" role="status" id="loading-wheel2">
-                            <span class="visually-hidden">Cargando...</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section id="productes" class="row mt-5 justify-content-center">
-                <h2 class="text-center">Estos son algunos de los productos que te pueden interesar</h2>
-                <div id="articles" class="row mt-4 mb-2 p-1 col-11">
-                    <div class="col-12 d-flex justify-content-center">
-                        <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                            <span class="visually-hidden">Cargando...</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="pagination" class="row justify-content-center mt-3 mb-3"></div>
-            </section>
-        </main>
-        <footer th:replace="layout/layout.html :: footer"></footer>
-    </body>
-    <div th:replace="layout/layout.html :: jquery"></div>
-    <script src="https://pagination.js.org/dist/2.5.0/pagination.js"></script>
-    <script>
-        <!-- Recomendats -->
-        $("#productos-recomendados").hide();
+  <nav th:replace="layout/layout.html :: navbar"></nav>
+  <body class="bgbd">
+    <main class="container-lg bg-cont mt-md-5 mt-1">
+      <section
+        id="productos-recomendados"
+        class="row mt-3 justify-content-center"
+      >
+        <div id="text-recomendados"></div>
+        <div
+          id="articles-recomenats"
+          class="row mt-2 justify-content-evenly mb-2"
+        >
+          <div class="col-12 d-flex justify-content-center">
+            <div
+              class="spinner-border text-secondary"
+              role="status"
+              id="loading-wheel2"
+            >
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="productes" class="row mt-5 justify-content-center">
+        <h2 class="text-center">
+          Estos son algunos de los productos que te pueden interesar
+        </h2>
+        <div id="articles" class="row mt-4 mb-2 p-1 col-11">
+          <div class="col-12 d-flex justify-content-center">
+            <div
+              class="spinner-border text-secondary"
+              role="status"
+              id="loading-wheel"
+            >
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        </div>
+        <div id="pagination" class="row justify-content-center mt-3 mb-3"></div>
+      </section>
+    </main>
+    <footer th:replace="layout/layout.html :: footer"></footer>
+  </body>
+  <div th:replace="layout/layout.html :: jquery"></div>
+  <script src="https://pagination.js.org/dist/2.5.0/pagination.js"></script>
+  <script>
+    $("#productos-recomendados").hide();
+    $.ajax({
+      url: "/api/propietats",
+      type: "GET",
+      dataType: "json",
+      success: function (props) {
         $.ajax({
-            url: "/api/propietats",
-            type: "GET",
-            dataType: "json",
-            success: function (props) {
-                $.ajax({
-                    url: "/api/recomanacio",
-                    type: "GET",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $("#loading-wheel2").show();
-                    },
-                    complete: function () {
-                        $("#loading-wheel2").hide();
-                    },
-                    success: function (recomanacions) {
-                        $("#productos-recomendados").show();
-                        $("#text-recomendados").append(
-                            "<h2 class='text-center'>Continúa desde donde lo dejaste</h2>"
-                        )
-                        var articulosRecomendados = [];
+          url: "/api/recomanacio",
+          type: "GET",
+          dataType: "json",
+          beforeSend: function () {
+            $("#loading-wheel2").show();
+          },
+          complete: function () {
+            $("#loading-wheel2").hide();
+          },
+          success: function (recomanacions) {
+            $("#productos-recomendados").show();
+            $("#text-recomendados").append(
+              "<h2 class='text-center'>Continúa desde donde lo dejaste</h2>"
+            );
+            var articulosRecomendados = [];
 
-                        for (var prop of props) {
-                            for (var rec of recomanacions) {
-                                if (prop.article.id == rec.idArticle && prop.id == rec.idPropietat) {
-                                    articulosRecomendados.push([prop, rec])
-                                }
-                            }
-                        }
-
-                        articulosRecomendados.sort(function (a, b) {
-                            return b[1].contador - a[1].contador;
-                        });
-
-                        // mostrar solo 4 articulos recomendados
-                        if (articulosRecomendados.length > 4) {
-                            articulosRecomendados = articulosRecomendados.slice(0, 4);
-                        }
-
-                        var imgAux = "";
-
-                        for (var prop of articulosRecomendados) {
-                            imgAux = "";
-                            for (var img of prop[0].imatges) {
-                                if (img.principal === true) {
-                                    imgAux = '/img/productes/' + prop[0].article.id + '/' + prop[0].id + '/' + img.path;
-                                }
-                            }
-                            if (imgAux === "") {
-                                imgAux = '/img/static/no-photo.png';
-                            }
-                            $('#articles-recomenats').append(
-                                '<a href="/article/' + prop[0].article.id + '/' + prop[0].id + '" class="col-xs-12 col-sm-6 col-lg-3 text-end border text-decoration-none card d-flex align-items-center align-self-center">' +
-                                '<img src="' + imgAux + '" style="width:150px; height:150px; object-fit: contain;" alt="img" class="mt-2">' +
-                                '<div class="col-12 justify-content-center row">' +
-                                '<div><p class="text-start h4 col-12">' + prop[0].article.nom + '</p></div>' +
-                                '<span class="text-start h2 text-pc-economic-default bold col-12">' + formatCurrency(prop[0].preu) + '</span>' +
-                                '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
-                                '</div>' +
-                                '</div>' +
-                                '</a>'
-                            );
-                        }
-                    },
-                });
-
-            },
-        });
-
-        <!-- Print -->
-        $.ajax({
-            url: "/api/propietats",
-            type: "GET",
-            contentType: "application/json",
-            beforeSend: function () {
-                $("#loading-wheel").show();
-            },
-            complete: function () {
-                $("#loading-wheel").remove();
-            },
-            success: function (resp) {
-                var imgAux = "";
-                var arrayCards = []
-                for (var prop of resp) {
-                    imgAux = "";
-                    for (var img of prop.imatges) {
-                        if (img.principal === true) {
-                            imgAux = '/img/productes/' + prop.article.id + '/' + prop.id + '/' + img.path;
-                        }
-                    }
-                    if (imgAux === "") {
-                        imgAux = '/img/static/no-photo.png';
-                    }
-                    if (prop.esPrincipal === true && prop.article.marca.active === true) {
-                        $('#articles').append(
-                            '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' + prop.id + '" >' +
-                            '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none" style="max-height:100px; margin:auto; object-fit: contain;">' +
-                            '<img src="' + imgAux + '" style="max-height:100px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
-                            '</a>' +
-                            '<div class="col-12 justify-content-center row" >' +
-                            '<div id="' + prop.id + '" class="row justify-content-evenly align-items-center col-12" ></div>' +
-                            '<a href="/article/' + prop.article.id + '/' + prop.id + '" class="text-decoration-none row">' +
-                            '<span class="text-start h5 col-12">' + prop.article.nom + '</span>' +
-                            '<span class="text-start h3 text-pc-economic-default bold col-12">' + formatCurrency(prop.preu) + '</span>' +
-                            '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
-                            '</a>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                    }
-                    for (props of resp) {
-                        if (props.esPrincipal === false && props.article.id === prop.article.id) {
-                            imgAux = "";
-                            for (var i of props.imatges) {
-                                if (i.principal === true) {
-                                    imgAux = '/img/productes/' + prop.article.id + '/' + props.id + '/' + i.path;
-                                }
-                            }
-
-                            if (imgAux === "") {
-                                imgAux = '/img/static/no-photo.png';
-                            }
-
-                            $('#' + prop.id).append(
-                                '<div class="col-lg-4 col-md-4 mt-4 mb-3 col-4"> <a href=" /article/' + props.article.id + '/' + props.id + ' " class="text-decoration-none"> <img src="' + imgAux + '" style="max-height:50px; object-fit: contain;" alt="img" class="card-img-top"> </a> </div>'
-                            );
-
-
-                        }
-                    }
+            for (var prop of props) {
+              for (var rec of recomanacions) {
+                if (
+                  prop.article.id == rec.idArticle &&
+                  prop.id == rec.idPropietat
+                ) {
+                  articulosRecomendados.push([prop, rec]);
                 }
-
-                var cartes = document.querySelectorAll(".producte");
-
-                for (var i = 0; i < cartes.length; i++) {
-                    arrayCards.push(cartes[i]);
-                }
-
-                $("#pagination").pagination({
-                    dataSource: arrayCards,
-                    pageSize: 8,
-                    formatResult: function(data) {
-                        for (var i = 0, len = data.length; i < len; i++) {
-                            data[i].a = data[i].a + ' - bad guys';
-                        }
-                    },
-                    className: 'paginationjs-theme-purple paginationjs-big justify-content-center',
-                    callback: function (data, pagination) {
-                        var html = template(data)
-                        $("#articles").html(html);
-                    }
-                })
-                function template(data) {
-                    var html = ''
-                    $.each(data, function (index, item) {
-                        html += item.outerHTML
-                    })
-                    return html;
-                }
+              }
             }
-            },
+
+            articulosRecomendados.sort(function (a, b) {
+              return b[1].contador - a[1].contador;
+            });
+
+            // mostrar solo 4 articulos recomendados
+            if (articulosRecomendados.length > 4) {
+              articulosRecomendados = articulosRecomendados.slice(0, 4);
+            }
+
+            var imgAux = "";
+
+            for (var prop of articulosRecomendados) {
+              imgAux = "";
+              for (var img of prop[0].imatges) {
+                if (img.principal === true) {
+                  imgAux =
+                    "/img/productes/" +
+                    prop[0].article.id +
+                    "/" +
+                    prop[0].id +
+                    "/" +
+                    img.path;
+                }
+              }
+              if (imgAux === "") {
+                imgAux = "/img/static/no-photo.png";
+              }
+              $("#articles-recomenats").append(
+                '<a href="/article/' +
+                  prop[0].article.id +
+                  "/" +
+                  prop[0].id +
+                  '" class="col-xs-12 col-sm-6 col-lg-3 text-end border text-decoration-none card d-flex align-items-center align-self-center">' +
+                  '<img src="' +
+                  imgAux +
+                  '" style="width:150px; height:150px; object-fit: contain;" alt="img" class="mt-2">' +
+                  '<div class="col-12 justify-content-center row">' +
+                  '<div><p class="text-start h4 col-12">' +
+                  prop[0].article.nom +
+                  "</p></div>" +
+                  '<span class="text-start h2 text-pc-economic-default bold col-12">' +
+                  formatCurrency(prop[0].preu) +
+                  "</span>" +
+                  '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                  "</div>" +
+                  "</div>" +
+                  "</a>"
+              );
+            }
+          },
         });
-        function formatCurrency(amount) {
-            return amount.toFixed(2).toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €";
+      },
+    });
+
+    $.ajax({
+      url: "/api/propietats",
+      type: "GET",
+      contentType: "application/json",
+      beforeSend: function () {
+        $("#loading-wheel").show();
+      },
+      complete: function () {
+        $("#loading-wheel").remove();
+      },
+      success: function (resp) {
+        var imgAux = "";
+        var arrayCards = [];
+        for (var prop of resp) {
+          imgAux = "";
+          for (var img of prop.imatges) {
+            if (img.principal === true) {
+              imgAux =
+                "/img/productes/" +
+                prop.article.id +
+                "/" +
+                prop.id +
+                "/" +
+                img.path;
+            }
+          }
+          if (imgAux === "") {
+            imgAux = "/img/static/no-photo.png";
+          }
+          if (prop.esPrincipal === true && prop.article.marca.active === true) {
+            $("#articles").append(
+              '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' +
+                prop.id +
+                '" >' +
+                '<a href="/article/' +
+                prop.article.id +
+                "/" +
+                prop.id +
+                '" class="text-decoration-none" style="max-height:100px; margin:auto; object-fit: contain;">' +
+                '<img src="' +
+                imgAux +
+                '" style="max-height:100px; margin:auto; object-fit: contain;" alt="img" class="card-img-top">' +
+                "</a>" +
+                '<div class="col-12 justify-content-center row" >' +
+                '<div id="' +
+                prop.id +
+                '" class="row justify-content-evenly align-items-center col-12" ></div>' +
+                '<a href="/article/' +
+                prop.article.id +
+                "/" +
+                prop.id +
+                '" class="text-decoration-none row">' +
+                '<span class="text-start h5 col-12">' +
+                prop.article.nom +
+                "</span>" +
+                '<span class="text-start h3 text-pc-economic-default bold col-12">' +
+                formatCurrency(prop.preu) +
+                "</span>" +
+                '<span class="text-success col-12 text-start mb-1"> Recíbelo mañana </span>' +
+                "</a>" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+            );
+          }
+          for (props of resp) {
+            if (
+              props.esPrincipal === false &&
+              props.article.id === prop.article.id
+            ) {
+              imgAux = "";
+              for (var i of props.imatges) {
+                if (i.principal === true) {
+                  imgAux =
+                    "/img/productes/" +
+                    prop.article.id +
+                    "/" +
+                    props.id +
+                    "/" +
+                    i.path;
+                }
+              }
+
+              if (imgAux === "") {
+                imgAux = "/img/static/no-photo.png";
+              }
+
+              $("#" + prop.id).append(
+                '<div class="col-lg-4 col-md-4 mt-4 mb-3 col-4"> <a href=" /article/' +
+                  props.article.id +
+                  "/" +
+                  props.id +
+                  ' " class="text-decoration-none"> <img src="' +
+                  imgAux +
+                  '" style="max-height:50px; object-fit: contain;" alt="img" class="card-img-top"> </a> </div>'
+              );
+            }
+          }
         }
-    </script>
 
-    <script src="https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-sw.js"></script>
-    <script src="https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-window.prod.mjs"></script>
-    <script type="module">
-        import {Workbox} from "https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-window.prod.mjs";
+        var cartes = document.querySelectorAll(".producte");
 
-        if ("serviceWorker" in navigator) {
-            const wb = new Workbox("/sw.js");
-            wb.register();
+        for (var i = 0; i < cartes.length; i++) {
+          arrayCards.push(cartes[i]);
         }
-    </script>
 
+        $("#pagination").pagination({
+          dataSource: arrayCards,
+          pageSize: 8,
+          formatResult: function (data) {
+            for (var i = 0, len = data.length; i < len; i++) {
+              data[i].a = data[i].a + " - bad guys";
+            }
+          },
+          className:
+            "paginationjs-theme-purple paginationjs-big justify-content-center",
+          callback: function (data, pagination) {
+            var html = template(data);
+            $("#articles").html(html);
+          },
+        });
+        function template(data) {
+          var html = "";
+          $.each(data, function (index, item) {
+            html += item.outerHTML;
+          });
+          return html;
+        }
+      },
+    });
+    function formatCurrency(amount) {
+      return (
+        amount
+          .toFixed(2)
+          .toString()
+          .replace(".", ",")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €"
+      );
+    }
+  </script>
+
+  <script src="https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-sw.js"></script>
+  <script src="https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-window.prod.mjs"></script>
+  <script type="module">
+    import { Workbox } from "https://storage.googleapis.com/workbox-cdn/releases/6.3.0/workbox-window.prod.mjs";
+
+    if ("serviceWorker" in navigator) {
+      const wb = new Workbox("/sw.js");
+      wb.register();
+    }
+  </script>
 </html>
