@@ -39,6 +39,16 @@ const linksList = [
     icon: "work",
     link: "/gestionmarcas",
   },
+  {
+    title: "Categories",
+    icon: "category",
+    link: "/gestioncategories",
+  },
+  {
+    title: "Productes",
+    icon: "add_business",
+    link: "/gestionproductes",
+  }, 
 ];
 
 export default defineComponent({

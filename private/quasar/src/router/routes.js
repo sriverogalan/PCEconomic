@@ -10,8 +10,18 @@ const routes = [
       },
       {
         path: "gestionmarcas",
-        name: "Index",
+        name: "PCEconomic Marcas",
         component: () => import("pages/GestionMarcas.vue"),
+      },
+      {
+        path: "gestioncategories",
+        name: "PCEconomic Categories",
+        component: () => import("pages/GestionCategorias.vue"),
+      },
+      {
+        path: "gestionproductes",
+        name: "PCEconomic Productos",
+        component: () => import("pages/GestionProductos.vue"),
       },
     ],
   },
