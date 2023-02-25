@@ -7,6 +7,8 @@ use App\Models\Marques;
 
 class MarquesController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -24,25 +26,14 @@ class MarquesController extends Controller
      */
     public function create(Request $request)
     {
-        try {
-            $marques = new Marques();
-            $marques->cif = $request->cif;
-            $marques->nom = $request->nom;
-            $marques->save();
+        $marca = new Marques;
+        $marca->nom = $request->input('nom');
+        $marca->cif = $request->input('cif');
+        $marca->is_actiu = true;
 
-            return response()->json(['message' => 'Marca creada correctamente'], 201);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error al crear la marca'], 500);
-        }
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
+        $marca->save();
+
+        return response()->json(['message' => 'Marca creada correctamente'], 201);
     }
 
     /**
@@ -52,9 +43,15 @@ class MarquesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+
+        $marca = Marques::find($request->input('id_marca'));
+        $marca->nom = $request->input('nom');
+        $marca->cif = $request->input('cif');
+        $marca->is_actiu = true;
+        $marca->save();
+        return response()->json(['message' => 'Marca actualizada correctamente'], 200);
     }
 
     /**
@@ -63,8 +60,11 @@ class MarquesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete(Request $request)
     {
-        //
+        $marca = Marques::find($request->input('id_marca'));
+        $marca->is_actiu = 0;
+        $marca->save();
+        return response()->json(['message' => 'Marca eliminada correctamente'], 200);
     }
 }

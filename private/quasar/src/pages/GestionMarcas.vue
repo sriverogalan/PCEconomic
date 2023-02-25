@@ -60,14 +60,14 @@
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" filled class="q-mb-md" />
-                <q-input label="CIF" filled class="q-mb-md" />
+                <q-input label="Nombre" v-model="nomMarca" filled class="q-mb-md" />
+                <q-input label="CIF" v-model="cifMarca" filled class="q-mb-md" />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
-              <q-btn label="Guardar" color="purple-9" @click="dialogCreate = false" />
+              <q-btn label="Crear" color="purple-9" @click="createMarca()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -80,6 +80,13 @@
 
             <q-card-section>
               <q-form>
+                <q-input
+                  v-model="marcaEdit.id_marca"
+                  label="Id"
+                  filled
+                  class="q-mb-md"
+                  disable
+                />
                 <q-input v-model="marcaEdit.nom" label="Nombre" filled class="q-mb-md" />
                 <q-input v-model="marcaEdit.cif" label="CIF" filled class="q-mb-md" />
               </q-form>
@@ -87,7 +94,7 @@
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-9" @click="dialogEdit = false" />
+              <q-btn label="Guardar" color="purple-9" @click="updateMarca()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -104,7 +111,7 @@
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
-              <q-btn label="Eliminar" color="purple-9" @click="dialogDelete = false" />
+              <q-btn label="Eliminar" color="purple-9" @click="deleteMarca()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -117,10 +124,14 @@
 import axios from "axios";
 import { defineComponent } from "vue";
 
+const source = axios.CancelToken.source();
+
 export default defineComponent({
   name: "IndexPage",
   data() {
     return {
+      nomMarca: "",
+      cifMarca: "",
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
@@ -146,19 +157,19 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "CIF",
-          required: true,
-          label: "CIF",
-          align: "center",
-          field: (row) => row.cif,
-          sortable: true,
-        },
-        {
           name: "Nom",
           required: true,
           label: "Nom",
           align: "center",
           field: (row) => row.nom,
+          sortable: true,
+        },
+        {
+          name: "CIF",
+          required: true,
+          label: "CIF",
+          align: "center",
+          field: (row) => row.cif,
           sortable: true,
         },
         {
@@ -174,15 +185,21 @@ export default defineComponent({
   },
   methods: {
     async getMarques() {
-      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques");
+      this.loading = true;
+      this.rows = [];
+      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques", {
+        cancelToken: source.token,
+      });
       const marquesJson = await marquesAxios.data;
       console.log(marquesJson);
       marquesJson.map((p) => {
-        this.rows.push({
-          id_marca: p.id_marca,
-          cif: p.cif,
-          nom: p.nom,
-        });
+        if (p.is_actiu) {
+          this.rows.push({
+            id_marca: p.id_marca,
+            cif: p.cif,
+            nom: p.nom,
+          });
+        }
       });
       this.rowsFiltrats = this.rows;
       this.loading = false;
@@ -201,6 +218,60 @@ export default defineComponent({
     },
     showCreateDialog() {
       this.dialogCreate = true;
+    },
+    async createMarca() {
+      try {
+        this.loading = true;
+        this.dialogCreate = false;
+        const sendAxios = await axios.post("http://localhost:8000/api/create/marques", {
+          nom: this.nomMarca,
+          cif: this.cifMarca,
+        });
+        const sendJson = await sendAxios.data;
+
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getMarques();
+      }
+    },
+    async updateMarca() {
+      try {
+        this.loading = true;
+        this.dialogEdit = false;
+        const sendAxios = await axios.post("http://localhost:8000/api/update/marques", {
+          id_marca: this.marcaEdit.id_marca,
+          nom: this.marcaEdit.nom,
+          cif: this.marcaEdit.cif,
+        });
+        const sendJson = await sendAxios.data;
+
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getMarques();
+      }
+    },
+    async deleteMarca() {
+      try {
+        this.loading = true;
+        this.dialogDelete = false;
+        const sendAxios = await axios.post("http://localhost:8000/api/delete/marques", {
+          id_marca: this.marcaDelete.id_marca,
+        });
+        const sendJson = await sendAxios.data;
+
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getMarques();
+      }
     },
   },
   mounted() {
