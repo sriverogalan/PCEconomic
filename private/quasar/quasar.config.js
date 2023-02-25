@@ -77,6 +77,12 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
+      env: require("dotenv").config({
+        path: process.env.ENVIRONMENT
+          ? ".env." + process.env.ENVIRONMENT
+          : ".env.dev-miquelangel",
+      }).parsed,
+
       chainWebpack(/* chain */) {},
     },
 
