@@ -84,11 +84,9 @@ public class FrontService {
     }
 
     public void sendListsToView(Model model, HttpServletRequest request) {
-        String google = "https://maps.googleapis.com/maps/api/js?key=" + key +  "&callback=inicialitza&v=weekly";
         model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
-        model.addAttribute("googleapikey", google);
 
         HttpSession session = request.getSession();
 

@@ -2,7 +2,6 @@ package me.pceconomic.shop.config;
 
 import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
-import me.pceconomic.shop.interceptors.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
@@ -52,6 +51,10 @@ public class ServerConfiguration implements WebMvcConfigurer {
                         "http://pceconomic.me/",
                         "http://admin.pceconomic.me/",
                         "http://api.pceconomic.me/",
+                        "https://www.pceconomic.me/",
+                        "https://pceconomic.me/",
+                        "https://admin.pceconomic.me/",
+                        "https://api.pceconomic.me/",
                         "http://pceconomic.me:8080/",
                         "http://pceconomic.me:8000",
                         "http://pceconomic.me:3000"
@@ -61,8 +64,8 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**")
-                .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations("file:/opt/app/img/");
     }
 
     @Override
