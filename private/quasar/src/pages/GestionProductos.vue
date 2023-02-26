@@ -1,11 +1,11 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona las marcas</h1>
+      <h1 class="col-12 text-center">Gestiona els Articles</h1>
 
       <div class="q-pa-md">
         <q-table
-          title="Marcas"
+          title="articles"
           :rows="rowsFiltrats"
           :columns="columns"
           row-key="nom"
@@ -59,19 +59,19 @@
         <q-dialog v-model="dialogCreate" persistent id="dialogCreate">
           <q-card class="sizeTitleCard">
             <q-card-section class="row items-center">
-              <div class="text-h6">Crear marca</div>
+              <div class="text-h6">Crear article</div>
             </q-card-section>
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" v-model="nomMarca" filled class="q-mb-md" />
-                <q-input label="CIF" v-model="cifMarca" filled class="q-mb-md" />
+                <q-input label="Nombre" v-model="nomarticle" filled class="q-mb-md" />
+                <q-input label="CIF" v-model="cifarticle" filled class="q-mb-md" />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
-              <q-btn label="Crear" color="purple-9" @click="createMarca()" />
+              <q-btn label="Crear" color="purple-9" @click="createarticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -79,26 +79,31 @@
         <q-dialog v-model="dialogEdit" persistent id="dialogUpdate">
           <q-card class="sizeTitleCard">
             <q-card-section class="row items-center">
-              <div class="text-h6">Editar marca</div>
+              <div class="text-h6">Editar article</div>
             </q-card-section>
 
             <q-card-section>
               <q-form>
                 <q-input
-                  v-model="marcaEdit.id_marca"
+                  v-model="articleEdit.id_article"
                   label="Id"
                   filled
                   class="q-mb-md"
                   disable
                 />
-                <q-input v-model="marcaEdit.nom" label="Nombre" filled class="q-mb-md" />
-                <q-input v-model="marcaEdit.cif" label="CIF" filled class="q-mb-md" />
+                <q-input
+                  v-model="articleEdit.nom"
+                  label="Nombre"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-input v-model="articleEdit.cif" label="CIF" filled class="q-mb-md" />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-9" @click="updateMarca()" />
+              <q-btn label="Guardar" color="purple-9" @click="updatearticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -106,19 +111,18 @@
         <q-dialog v-model="dialogDelete" persistent id="dialogDelete">
           <q-card class="sizeTitleCard">
             <q-card-section class="row items-center">
-              <div class="text-h6">Eliminar marca</div>
+              <div class="text-h6">Eliminar article</div>
             </q-card-section>
 
             <q-card-section>
               <p>
-                Estas seguro que quieres eliminar la marca
-                {{ marcaDelete.nom }} ?
+                Estas seguro que quieres eliminar la Article {{ articleDelete.nom }} ?
               </p>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
-              <q-btn label="Eliminar" color="purple-9" @click="deleteMarca()" />
+              <q-btn label="Eliminar" color="purple-9" @click="deletearticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -138,20 +142,20 @@ export default defineComponent({
   name: "IndexPage",
   data() {
     return {
-      nomMarca: "",
-      cifMarca: "",
+      nomarticle: "",
+      cifarticle: "",
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
-      marcaEdit: {
-        id_marca: "",
+      articleEdit: {
+        id_article: "",
         nom: "",
         cif: "",
       },
-      marcaDelete: {
-        id_marca: "",
+      articleDelete: {
+        id_article: "",
         nom: "",
         cif: "",
       },
@@ -161,7 +165,7 @@ export default defineComponent({
           required: true,
           label: "Id",
           align: "center",
-          field: (row) => row.id_marca,
+          field: (row) => row.id_article,
           sortable: true,
         },
         {
@@ -173,11 +177,27 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "CIF",
+          name: "Descripcio",
           required: true,
-          label: "CIF",
+          label: "Descripcio",
           align: "center",
-          field: (row) => row.cif,
+          field: (row) => row.descripcio,
+          sortable: true,
+        },
+        {
+          name: "Pes",
+          required: true,
+          label: "Pes (Kg)",
+          align: "center",
+          field: (row) => row.pes,
+          sortable: true,
+        },
+        {
+          name: "Marca",
+          required: true,
+          label: "Marca",
+          align: "center",
+          field: (row) => row.marca.nom,
           sortable: true,
         },
         {
@@ -196,111 +216,56 @@ export default defineComponent({
       this.rowsFiltrats = this.rows.filter((m) => {
         return (
           m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.cif.toLowerCase().includes(this.filter.toLowerCase())
+          m.descripcio.toLowerCase().includes(this.filter.toLowerCase())
         );
       });
     },
-    async getMarques() {
+    async getArticle() {
       this.loading = true;
       this.rows = [];
-      const marquesAxios = await axios.get(process.env.CRIDADA_API + "/api/get/marques", {
+      const articleAxios = await axios.get(process.env.CRIDADA_API + "api/get/articles", {
         cancelToken: source.token,
       });
-      const marquesJson = await marquesAxios.data;
-      console.log(marquesJson);
-      marquesJson.map((p) => {
-        if (p.is_actiu) {
-          this.rows.push({
-            id_marca: p.id_marca,
-            cif: p.cif,
-            nom: p.nom,
-          });
-        }
+      const articleJson = await articleAxios.data;
+      console.log(articleJson);
+
+      articleJson.forEach((a) => {
+        this.rows.push({
+          id_article: a.id_article,
+          nom: a.nom,
+          descripcio: a.descripcio,
+          pes: a.pes,
+          marca: {
+            id_marca: a.marca.id_marca,
+            nom: a.marca.nom,
+          },
+        });
       });
+
       this.rowsFiltrats = this.rows;
       this.loading = false;
     },
     showEditDialog(props) {
       this.dialogEdit = true;
-      this.marcaEdit.id_marca = props.row.id_marca;
-      this.marcaEdit.nom = props.row.nom;
-      this.marcaEdit.cif = props.row.cif;
+      this.articleEdit.id_article = props.row.id_article;
+      this.articleEdit.nom = props.row.nom;
+      this.articleEdit.cif = props.row.cif;
     },
     showDeleteDialog(props) {
       this.dialogDelete = true;
-      this.marcaDelete.id_marca = props.row.id_marca;
-      this.marcaDelete.nom = props.row.nom;
-      this.marcaDelete.cif = props.row.cif;
+      this.articleDelete.id_article = props.row.id_article;
+      this.articleDelete.nom = props.row.nom;
+      this.articleDelete.cif = props.row.cif;
     },
     showCreateDialog() {
       this.dialogCreate = true;
     },
-    async createMarca() {
-      try {
-        this.loading = true;
-        this.dialogCreate = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/create/marques",
-          {
-            nom: this.nomMarca,
-            cif: this.cifMarca,
-          }
-        );
-        const sendJson = await sendAxios.data;
-
-        console.log(sendJson);
-      } catch ($a) {
-        console.log($a);
-      } finally {
-        this.loading = false;
-        this.getMarques();
-      }
-    },
-    async updateMarca() {
-      try {
-        this.loading = true;
-        this.dialogEdit = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/update/marques",
-          {
-            id_marca: this.marcaEdit.id_marca,
-            nom: this.marcaEdit.nom,
-            cif: this.marcaEdit.cif,
-          }
-        );
-        const sendJson = await sendAxios.data;
-
-        console.log(sendJson);
-      } catch ($a) {
-        console.log($a);
-      } finally {
-        this.loading = false;
-        this.getMarques();
-      }
-    },
-    async deleteMarca() {
-      try {
-        this.loading = true;
-        this.dialogDelete = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/delete/marques",
-          {
-            id_marca: this.marcaDelete.id_marca,
-          }
-        );
-        const sendJson = await sendAxios.data;
-
-        console.log(sendJson);
-      } catch ($a) {
-        console.log($a);
-      } finally {
-        this.loading = false;
-        this.getMarques();
-      }
-    },
+    async createarticle() {},
+    async updatearticle() {},
+    async deletearticle() {},
   },
   mounted() {
-    this.getMarques();
+    this.getArticle();
   },
 });
 </script>

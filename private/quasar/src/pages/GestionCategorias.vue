@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona las marcas</h1>
+      <h1 class="col-12 text-center">Gestiona Categories</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -110,10 +110,7 @@
             </q-card-section>
 
             <q-card-section>
-              <p>
-                Estas seguro que quieres eliminar la marca
-                {{ marcaDelete.nom }} ?
-              </p>
+              <p>Estas seguro que quieres eliminar la marca {{ marcaDelete.nom }} ?</p>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -129,7 +126,6 @@
 
 <script>
 import axios from "axios";
-import process from "process";
 import { defineComponent } from "vue";
 
 const source = axios.CancelToken.source();
@@ -203,7 +199,7 @@ export default defineComponent({
     async getMarques() {
       this.loading = true;
       this.rows = [];
-      const marquesAxios = await axios.get(process.env.CRIDADA_API + "/api/get/marques", {
+      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques", {
         cancelToken: source.token,
       });
       const marquesJson = await marquesAxios.data;
@@ -239,13 +235,10 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogCreate = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/create/marques",
-          {
-            nom: this.nomMarca,
-            cif: this.cifMarca,
-          }
-        );
+        const sendAxios = await axios.post("http://localhost:8000/api/create/marques", {
+          nom: this.nomMarca,
+          cif: this.cifMarca,
+        });
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
@@ -260,14 +253,11 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogEdit = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/update/marques",
-          {
-            id_marca: this.marcaEdit.id_marca,
-            nom: this.marcaEdit.nom,
-            cif: this.marcaEdit.cif,
-          }
-        );
+        const sendAxios = await axios.post("http://localhost:8000/api/update/marques", {
+          id_marca: this.marcaEdit.id_marca,
+          nom: this.marcaEdit.nom,
+          cif: this.marcaEdit.cif,
+        });
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
@@ -282,12 +272,9 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogDelete = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/delete/marques",
-          {
-            id_marca: this.marcaDelete.id_marca,
-          }
-        );
+        const sendAxios = await axios.post("http://localhost:8000/api/delete/marques", {
+          id_marca: this.marcaDelete.id_marca,
+        });
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
