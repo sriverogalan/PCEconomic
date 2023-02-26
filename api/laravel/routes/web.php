@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\JwtController;
+use App\Http\Controllers\ArticlesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Persones;
 use App\Http\Controllers\MarquesController;
@@ -25,7 +25,17 @@ Route::controller(MarquesController::class)->group(function () {
     Route::post('/api/create/marques', 'create');
     Route::post('/api/update/marques', 'update');
     Route::post('/api/delete/marques', 'delete');
+    // TODO: Hacer papelera para recuperar eliminados
 });
+
+Route::controller(ArticlesController::class)->group(function () {
+    Route::get('/api/get/articles', 'index');
+    Route::post('/api/create/articles', 'create');
+    Route::post('/api/update/articles', 'update');
+    Route::post('/api/delete/articles', 'delete');
+});
+
+
 
 Route::get('/persones', function () {
     $persones = Persones::all();

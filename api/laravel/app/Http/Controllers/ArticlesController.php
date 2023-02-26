@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Articles;
 
 class ArticlesController extends Controller
 {
@@ -13,7 +14,8 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        //
+        $article = Articles::with('marca')->get();
+        return $article;
     }
 
     /**
