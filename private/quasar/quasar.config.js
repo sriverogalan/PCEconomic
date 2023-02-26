@@ -80,7 +80,7 @@ module.exports = configure(function (ctx) {
       env: require("dotenv").config({
         path: process.env.ENVIRONMENT
           ? ".env." + process.env.ENVIRONMENT
-          : ".env.dev-miquelangel",
+          : ".env.dev",
       }).parsed,
 
       chainWebpack(/* chain */) {},
