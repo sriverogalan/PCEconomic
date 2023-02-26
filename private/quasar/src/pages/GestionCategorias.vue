@@ -21,7 +21,11 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn icon="edit" color="amber-5" @click="showEditDialog(props)" />
+              <q-btn
+                icon="edit"
+                color="amber-5"
+                @click="showEditDialog(props)"
+              />
               <q-btn
                 icon="delete"
                 class="ml-2"
@@ -46,12 +50,22 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn class="mb-1" color="purple-9" icon="add" @click="showCreateDialog()">
+            <q-btn
+              class="mb-1"
+              color="purple-9"
+              icon="add"
+              @click="showCreateDialog()"
+            >
             </q-btn>
           </template>
 
           <template v-slot:bottom-left>
-            <q-btn class="mb-1" color="purple-9" icon="add" @click="showCreateDialog()">
+            <q-btn
+              class="mb-1"
+              color="purple-9"
+              icon="add"
+              @click="showCreateDialog()"
+            >
             </q-btn>
           </template>
         </q-table>
@@ -64,13 +78,28 @@
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" v-model="nomMarca" filled class="q-mb-md" />
-                <q-input label="CIF" v-model="cifMarca" filled class="q-mb-md" />
+                <q-input
+                  label="Nombre"
+                  v-model="nomMarca"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-input
+                  label="CIF"
+                  v-model="cifMarca"
+                  filled
+                  class="q-mb-md"
+                />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="dialogCreate = false"
+              />
               <q-btn label="Crear" color="purple-9" @click="createMarca()" />
             </q-card-actions>
           </q-card>
@@ -91,13 +120,28 @@
                   class="q-mb-md"
                   disable
                 />
-                <q-input v-model="marcaEdit.nom" label="Nombre" filled class="q-mb-md" />
-                <q-input v-model="marcaEdit.cif" label="CIF" filled class="q-mb-md" />
+                <q-input
+                  v-model="marcaEdit.nom"
+                  label="Nombre"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-input
+                  v-model="marcaEdit.cif"
+                  label="CIF"
+                  filled
+                  class="q-mb-md"
+                />
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="dialogEdit = false"
+              />
               <q-btn label="Guardar" color="purple-9" @click="updateMarca()" />
             </q-card-actions>
           </q-card>
@@ -110,11 +154,19 @@
             </q-card-section>
 
             <q-card-section>
-              <p>Estas seguro que quieres eliminar la marca {{ marcaDelete.nom }} ?</p>
+              <p>
+                Estas seguro que quieres eliminar la marca
+                {{ marcaDelete.nom }} ?
+              </p>
             </q-card-section>
 
             <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="dialogDelete = false"
+              />
               <q-btn label="Eliminar" color="purple-9" @click="deleteMarca()" />
             </q-card-actions>
           </q-card>
@@ -131,25 +183,25 @@ import { defineComponent } from "vue";
 const source = axios.CancelToken.source();
 
 export default defineComponent({
-  name: "IndexPage",
+  name: "GestionMarcas",
   data() {
     return {
-      nomMarca: "",
-      cifMarca: "",
+      nomCategoria: "",
+      subcategories: [],
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
-      marcaEdit: {
-        id_marca: "",
+      categoriaEdit: {
+        id_categoria: "",
         nom: "",
-        cif: "",
+        subcategories: [],
       },
-      marcaDelete: {
-        id_marca: "",
+      categoriaDelete: {
+        id_categoria: "",
         nom: "",
-        cif: "",
+        subcategories: [],
       },
       columns: [
         {
@@ -157,7 +209,7 @@ export default defineComponent({
           required: true,
           label: "Id",
           align: "center",
-          field: (row) => row.id_marca,
+          field: (row) => row.id_categoria,
           sortable: true,
         },
         {
@@ -169,11 +221,11 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "CIF",
+          name: "Subcategories",
           required: true,
-          label: "CIF",
+          label: "Subcategories",
           align: "center",
-          field: (row) => row.cif,
+          field: (row) => row.subcategories,
           sortable: true,
         },
         {
@@ -196,23 +248,18 @@ export default defineComponent({
         );
       });
     },
-    async getMarques() {
+    async getCategories() {
       this.loading = true;
       this.rows = [];
-      const marquesAxios = await axios.get("http://localhost:8000/api/get/marques", {
-        cancelToken: source.token,
-      });
-      const marquesJson = await marquesAxios.data;
-      console.log(marquesJson);
-      marquesJson.map((p) => {
-        if (p.is_actiu) {
-          this.rows.push({
-            id_marca: p.id_marca,
-            cif: p.cif,
-            nom: p.nom,
-          });
+      const categoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/categories",
+        {
+          cancelToken: source.token,
         }
-      });
+      );
+      const categoriesJson = await categoriesAxios.data;
+      console.log(categoriesJson);
+
       this.rowsFiltrats = this.rows;
       this.loading = false;
     },
@@ -235,10 +282,13 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogCreate = false;
-        const sendAxios = await axios.post("http://localhost:8000/api/create/marques", {
-          nom: this.nomMarca,
-          cif: this.cifMarca,
-        });
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/create/marques",
+          {
+            nom: this.nomMarca,
+            cif: this.cifMarca,
+          }
+        );
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
@@ -253,11 +303,14 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogEdit = false;
-        const sendAxios = await axios.post("http://localhost:8000/api/update/marques", {
-          id_marca: this.marcaEdit.id_marca,
-          nom: this.marcaEdit.nom,
-          cif: this.marcaEdit.cif,
-        });
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/update/marques",
+          {
+            id_marca: this.marcaEdit.id_marca,
+            nom: this.marcaEdit.nom,
+            cif: this.marcaEdit.cif,
+          }
+        );
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
@@ -272,9 +325,12 @@ export default defineComponent({
       try {
         this.loading = true;
         this.dialogDelete = false;
-        const sendAxios = await axios.post("http://localhost:8000/api/delete/marques", {
-          id_marca: this.marcaDelete.id_marca,
-        });
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/delete/marques",
+          {
+            id_marca: this.marcaDelete.id_marca,
+          }
+        );
         const sendJson = await sendAxios.data;
 
         console.log(sendJson);
@@ -287,7 +343,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.getMarques();
+    this.getCategories();
   },
 });
 </script>

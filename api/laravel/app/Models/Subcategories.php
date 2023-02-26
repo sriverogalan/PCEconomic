@@ -10,4 +10,9 @@ class Subcategories extends Model
     use HasFactory;
 
     protected $table = 'subcategories';
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class);
+    }
 }

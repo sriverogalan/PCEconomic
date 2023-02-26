@@ -3,72 +3,84 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
-use App\Models\Subcategories;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-
-    public function getCategories()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        return response()->json(Categories::all());
+        $categories = Categories::with('subcategories')->get();
+        return response()->json("Hola");
     }
 
-    public function getSubcategories()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        return response()->json(Subcategories::all());
+        //
     }
 
-    public function getSubcategoriesByCategoria($id)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        return response()->json(Categories::find($id)->subcategories);
+        //
     }
 
-    public function createCategoria(Request $request)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $categoria = new Categories();
-        $categoria->nom = $request->nom;
-        $categoria->save();
-        return response()->json($categoria);
+        //
     }
 
-    public function createSubcategoria(Request $request)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        $subcategoria = new Subcategories();
-        $subcategoria->nom = $request->nom;
-        $subcategoria->categoria_id = $request->categoria_id;
-        $subcategoria->save();
-        return response()->json($subcategoria);
+        //
     }
 
-    public function updateCategoria(Request $request)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        $categoria = Categories::find($request->id);
-        $categoria->nom = $request->nom;
-        $categoria->save();
-        return response()->json($categoria);
+        //
     }
 
-    public function updateSubcategoria(Request $request)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $subcategoria = Subcategories::find($request->id);
-        $subcategoria->nom = $request->nom;
-        $subcategoria->categoria_id = $request->categoria_id;
-        $subcategoria->save();
-        return response()->json($subcategoria);
-    }
-
-    public function deleteCategoria(Request $request)
-    {
-        $categoria = Categories::find($request->id);
-        $categoria->delete();
-        return response()->json($categoria);
-    }
-
-    public function deleteSubcategoria(Request $request)
-    {
-        $subcategoria = Subcategories::find($request->id);
-        $subcategoria->delete();
-        return response()->json($subcategoria);
+        //
     }
 }

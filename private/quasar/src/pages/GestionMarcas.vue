@@ -203,7 +203,7 @@ export default defineComponent({
     async getMarques() {
       this.loading = true;
       this.rows = [];
-      const marquesAxios = await axios.get(process.env.CRIDADA_API + "/api/get/marques", {
+      const marquesAxios = await axios.get(process.env.CRIDADA_API + "api/get/marques", {
         cancelToken: source.token,
       });
       const marquesJson = await marquesAxios.data;

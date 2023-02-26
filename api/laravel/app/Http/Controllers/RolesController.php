@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Persones;
+use App\Models\Rols;
 use Illuminate\Http\Request;
 
-class PersonesController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PersonesController extends Controller
      */
     public function index()
     {
-        return response()->json(Persones::all());
+        return response()->json(Rols::all());
     }
 
     /**
