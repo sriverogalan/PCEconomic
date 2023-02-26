@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\JwtController;
+use App\Http\Controllers\ArticlesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Persones;
 use App\Http\Controllers\MarquesController;
@@ -25,6 +25,7 @@ Route::controller(MarquesController::class)->group(function () {
     Route::post('/api/create/marques', 'create');
     Route::post('/api/update/marques', 'update');
     Route::post('/api/delete/marques', 'delete');
+    // TODO: Hacer papelera para recuperar eliminados
 });
 
 Route::controller(CategoriaController::class)->group(function () {
@@ -37,14 +38,16 @@ Route::controller(CategoriaController::class)->group(function () {
     Route::post('/api/update/subcategoria', 'updateSubcategoria');
     Route::post('/api/delete/categoria', 'deleteCategoria');
     Route::post('/api/delete/subcategoria', 'deleteSubcategoria');
-});
-
-Route::get('/api/get/persones', function () {
-    return response()->json(Persones::all());
+    
+ 
+Route::controller(ArticlesController::class)->group(function () {
+    Route::get('/api/get/articles', 'index');
+    Route::post('/api/create/articles', 'create');
+    Route::post('/api/update/articles', 'update');
+    Route::post('/api/delete/articles', 'delete');
 });
 
 Route::controller(PersonesController::class)->group(function () {
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'delete');
-});
