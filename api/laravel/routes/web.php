@@ -39,11 +39,8 @@ Route::controller(CategoriaController::class)->group(function () {
     Route::post('/api/delete/subcategoria', 'deleteSubcategoria');
 });
 
-Route::get('/api/get/persones', function () {
-    return response()->json(Persones::all());
-});
-
 Route::controller(PersonesController::class)->group(function () {
+    Route::get('/api/get/persones', 'index');
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'delete');
