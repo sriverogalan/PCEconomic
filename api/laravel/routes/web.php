@@ -47,9 +47,6 @@ Route::controller(PersonesController::class)->group(function () {
     Route::post('/api/delete/persones', 'delete');
 });
 
-
-Route::get('/api/get/categories', [CategoriaController::class, 'index']);
-
 Route::controller(CategoriaController::class)->group(function () {
     Route::get('/api/get/categories', 'index');
     Route::post('/api/create/categories', 'create');
