@@ -233,8 +233,7 @@ export default defineComponent({
           align: "center",
           label: "Acciones",
           field: "actions",
-        },
-      ],
+        },],
       rows: [],
       rowsFiltrats: [],
     };
@@ -259,6 +258,26 @@ export default defineComponent({
       );
       const categoriesJson = await categoriesAxios.data;
       console.log(categoriesJson);
+
+      for (let i = 0; i < categoriesJson.length; i++) {
+        const subcategoriesAxios = await axios.get(
+          process.env.CRIDADA_API + "api/get/subcategories/" + categoriesJson[i].id_categoria,
+          {
+            cancelToken: source.token,
+          }
+        );
+        const subcategoriesJson = await subcategoriesAxios.data;
+        console.log(subcategoriesJson);
+        const subcategories = [];
+        for (let j = 0; j < subcategoriesJson.length; j++) {
+          subcategories.push(subcategoriesJson[j].nom + ' ');
+        }
+        this.rows.push({
+          id_categoria: categoriesJson[i].id_categoria,
+          nom: categoriesJson[i].nom,
+          subcategories: subcategories,
+        });
+      }
 
       this.rowsFiltrats = this.rows;
       this.loading = false;
