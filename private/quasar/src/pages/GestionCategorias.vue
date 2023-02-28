@@ -73,34 +73,53 @@
         <q-dialog v-model="dialogCreate" persistent id="dialogCreate">
           <q-card class="sizeTitleCard">
             <q-card-section class="row items-center">
-              <div class="text-h6">Crear marca</div>
-            </q-card-section>
-
-            <q-card-section>
-              <q-form>
-                <q-input
-                  label="Nombre"
-                  v-model="nomMarca"
-                  filled
-                  class="q-mb-md"
-                />
-                <q-input
-                  label="CIF"
-                  v-model="cifMarca"
-                  filled
-                  class="q-mb-md"
-                />
-              </q-form>
+              <span class="q-ml-sm">¿Que desea crear?.</span>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn
                 flat
-                label="Cancelar"
-                color="red-14"
-                @click="dialogCreate = false"
+                label="Categoria"
+                color="primary"
+                v-close-popup
+                @click="showCreateCategory()"
               />
-              <q-btn label="Crear" color="purple-9" @click="createMarca()" />
+              <q-btn
+                flat
+                label="Subcategoria"
+                color="primary"
+                v-close-popup
+                @click="showCreateSubcategory()"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialogCreateCategory" id="dialogCreateCategory">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <span class="q-ml-sm">Crear Categoria.</span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Categoria" color="primary" v-close-popup />
+              <q-btn flat label="Subcategoria" color="primary" v-close-popup />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog
+          v-model="dialogCreateSubcategory"
+          id="dialogCreateSubcategory"
+        >
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <span class="q-ml-sm">Crear Subcategoria.</span>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn flat label="Categoria" color="primary" v-close-popup />
+              <q-btn flat label="Subcategoria" color="primary" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -190,6 +209,8 @@ export default defineComponent({
       subcategories: [],
       filter: "",
       dialogCreate: false,
+      dialogCreateCategory: false,
+      dialogCreateSubcategory: false,
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
@@ -233,7 +254,8 @@ export default defineComponent({
           align: "center",
           label: "Acciones",
           field: "actions",
-        },],
+        },
+      ],
       rows: [],
       rowsFiltrats: [],
     };
@@ -261,7 +283,9 @@ export default defineComponent({
 
       for (let i = 0; i < categoriesJson.length; i++) {
         const subcategoriesAxios = await axios.get(
-          process.env.CRIDADA_API + "api/get/subcategories/" + categoriesJson[i].id_categoria,
+          process.env.CRIDADA_API +
+            "api/get/subcategories/" +
+            categoriesJson[i].id_categoria,
           {
             cancelToken: source.token,
           }
@@ -270,7 +294,7 @@ export default defineComponent({
         console.log(subcategoriesJson);
         const subcategories = [];
         for (let j = 0; j < subcategoriesJson.length; j++) {
-          subcategories.push(subcategoriesJson[j].nom + ' ');
+          subcategories.push(subcategoriesJson[j].nom + " ");
         }
         this.rows.push({
           id_categoria: categoriesJson[i].id_categoria,
@@ -296,6 +320,14 @@ export default defineComponent({
     },
     showCreateDialog() {
       this.dialogCreate = true;
+    },
+    showCreateCategory() {
+      this.dialogCreate = false;
+      this.dialogCreateCategory = true;
+    },
+    showCreateSubcategory() {
+      this.dialogCreate = false;
+      this.dialogCreateSubcategory = true;
     },
     async createMarca() {
       try {
