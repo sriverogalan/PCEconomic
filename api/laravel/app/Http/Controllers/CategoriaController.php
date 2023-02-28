@@ -15,8 +15,14 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categories = Subcategories::with('categories')->get();
+        $categories = Categories::all();
         return response()->json($categories);
+    }
+
+    public function getSubcategoriaByCategoriaId($id)
+    {
+        $subcategories = Subcategories::where('id_categoria', $id)->get();
+        return response()->json($subcategories);
     }
 
     /**
