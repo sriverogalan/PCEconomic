@@ -30,9 +30,21 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function createCategory(Request $request)
     {
-        //
+        $category = new Categories;
+        $category->nom = $request->input('nom');
+        $category->save();
+        return response()->json(['message' => 'Categoria creada correctamente'], 201);
+    }
+
+    public function createSubcategory(Request $request)
+    {
+        $subcategory = new Subcategories;
+        $subcategory->nom = $request->input('nom');
+        $subcategory->id_categoria = $request->input('id_categoria');
+        $subcategory->save();
+        return response()->json(['message' => 'Subcategoria creada correctamente'], 201);
     }
 
     /**

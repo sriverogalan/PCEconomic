@@ -101,9 +101,29 @@
               <span class="q-ml-sm">Crear Categoria.</span>
             </q-card-section>
 
+            <q-card-section>
+              <q-form>
+                <q-input
+                  v-model="nomCategoria"
+                  label="Nombre"
+                  filled
+                  class="q-mb-md"
+                />
+              </q-form>
+            </q-card-section>
+
             <q-card-actions align="right">
-              <q-btn flat label="Categoria" color="primary" v-close-popup />
-              <q-btn flat label="Subcategoria" color="primary" v-close-popup />
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="dialogCreateCategory = false"
+              />
+              <q-btn
+                label="Guardar"
+                color="purple-9"
+                @click="createCategoria()"
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -117,9 +137,36 @@
               <span class="q-ml-sm">Crear Subcategoria.</span>
             </q-card-section>
 
+            <q-card-section>
+              <q-form>
+                <q-input
+                  v-model="nomSubcategoria"
+                  label="Nombre"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-select
+                  v-model="categoria"
+                  :options="options"
+                  label="Categoria"
+                  filled
+                  class="q-mb-md"
+                />
+              </q-form>
+            </q-card-section>
+
             <q-card-actions align="right">
-              <q-btn flat label="Categoria" color="primary" v-close-popup />
-              <q-btn flat label="Subcategoria" color="primary" v-close-popup />
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="dialogCreateSubcategory = false"
+              />
+              <q-btn
+                label="Guardar"
+                color="purple-9"
+                @click="createSubcategoria()"
+              />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -130,29 +177,7 @@
               <div class="text-h6">Editar marca</div>
             </q-card-section>
 
-            <q-card-section>
-              <q-form>
-                <q-input
-                  v-model="marcaEdit.id_marca"
-                  label="Id"
-                  filled
-                  class="q-mb-md"
-                  disable
-                />
-                <q-input
-                  v-model="marcaEdit.nom"
-                  label="Nombre"
-                  filled
-                  class="q-mb-md"
-                />
-                <q-input
-                  v-model="marcaEdit.cif"
-                  label="CIF"
-                  filled
-                  class="q-mb-md"
-                />
-              </q-form>
-            </q-card-section>
+            <q-card-section> </q-card-section>
 
             <q-card-actions align="right">
               <q-btn
@@ -208,6 +233,10 @@ export default defineComponent({
       nomCategoria: "",
       subcategories: [],
       filter: "",
+      nomSubcategoria: "",
+      categoria: [],
+      categories: [],
+      options: [],
       dialogCreate: false,
       dialogCreateCategory: false,
       dialogCreateSubcategory: false,
@@ -280,6 +309,18 @@ export default defineComponent({
       );
       const categoriesJson = await categoriesAxios.data;
       console.log(categoriesJson);
+      this.categories = categoriesJson;
+
+      // map de categories per a que el q-select les mostri label = nom, value = id_categoria
+
+      this.options = this.categories.map((c) => {
+        return {
+          label: c.nom,
+          value: c.id_categoria,
+        };
+      });
+
+      console.log("Categories", this.categories);
 
       for (let i = 0; i < categoriesJson.length; i++) {
         const subcategoriesAxios = await axios.get(
@@ -329,25 +370,45 @@ export default defineComponent({
       this.dialogCreate = false;
       this.dialogCreateSubcategory = true;
     },
-    async createMarca() {
+    async createCategoria() {
       try {
         this.loading = true;
-        this.dialogCreate = false;
+        this.dialogCreateCategory = false;
         const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/create/marques",
+          process.env.CRIDADA_API + "api/create/categories",
           {
-            nom: this.nomMarca,
-            cif: this.cifMarca,
+            nom: this.nomCategoria,
           }
         );
         const sendJson = await sendAxios.data;
-
         console.log(sendJson);
       } catch ($a) {
         console.log($a);
       } finally {
         this.loading = false;
-        this.getMarques();
+        this.getCategories();
+      }
+    },
+    async createSubcategoria() {
+      try {
+        this.loading = true;
+        this.dialogCreateSubcategory = false;
+        console.log("Nom Subcategoria: ", this.nomSubcategoria);
+        console.log("Nom Categoria: ", this.categoria);
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/create/subcategories",
+          {
+            nom: this.nomSubcategoria,
+            id_categoria: this.categoria.value,
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getCategories();
       }
     },
     async updateMarca() {
