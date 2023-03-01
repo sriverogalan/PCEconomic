@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
-use App\Models\Subcategories;
+use App\Models\Rols;
 use Illuminate\Http\Request;
 
-class CategoriaController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +14,7 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        $categories = Categories::all();
-        return response()->json($categories);
-    }
-
-    public function getSubcategoriaByCategoriaId($id)
-    {
-        $subcategories = Subcategories::where('id_categoria', $id)->get();
-        return response()->json($subcategories);
+        return response()->json(Rols::all());
     }
 
     /**
@@ -30,21 +22,9 @@ class CategoriaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function createCategory(Request $request)
+    public function create()
     {
-        $category = new Categories;
-        $category->nom = $request->input('nom');
-        $category->save();
-        return response()->json(['message' => 'Categoria creada correctamente'], 201);
-    }
-
-    public function createSubcategory(Request $request)
-    {
-        $subcategory = new Subcategories;
-        $subcategory->nom = $request->input('nom');
-        $subcategory->id_categoria = $request->input('id_categoria');
-        $subcategory->save();
-        return response()->json(['message' => 'Subcategoria creada correctamente'], 201);
+        //
     }
 
     /**

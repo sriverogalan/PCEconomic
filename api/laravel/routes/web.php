@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\ArticlesController;
+use App\Http\Controllers\CategoriaController;
 use Illuminate\Support\Facades\Route;
-use App\Models\Persones;
 use App\Http\Controllers\MarquesController;
+use App\Http\Controllers\PersonesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,18 +29,10 @@ Route::controller(MarquesController::class)->group(function () {
     // TODO: Hacer papelera para recuperar eliminados
 });
 
-Route::controller(CategoriaController::class)->group(function () {
-    Route::get('/api/get/categoria', 'getCategories');
-    Route::get('/api/get/subcategories', 'getSubcategories');
-    Route::get('/api/get/subcategories/{id}', 'getSubcategoriesByCategoria');
-    Route::post('/api/create/categoria', 'createCategoria');
-    Route::post('/api/create/subcategoria', 'createSubcategoria');
-    Route::post('/api/update/categoria', 'updateCategoria');
-    Route::post('/api/update/subcategoria', 'updateSubcategoria');
-    Route::post('/api/delete/categoria', 'deleteCategoria');
-    Route::post('/api/delete/subcategoria', 'deleteSubcategoria');
-    
- 
+Route::controller(RolesController::class)->group(function () {
+    Route::get('/api/get/roles', 'index');
+});
+
 Route::controller(ArticlesController::class)->group(function () {
     Route::get('/api/get/articles', 'index');
     Route::post('/api/create/articles', 'create');
@@ -48,6 +41,19 @@ Route::controller(ArticlesController::class)->group(function () {
 });
 
 Route::controller(PersonesController::class)->group(function () {
+    Route::get('/api/get/persones', 'index');
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'delete');
+});
+
+Route::controller(CategoriaController::class)->group(function () {
+    Route::get('/api/get/categories', 'index');
+    Route::get('/api/get/subcategories/{id}', 'getSubcategoriaByCategoriaId');
+    Route::post('/api/create/categories', 'createCategory');
+    Route::post('/api/create/subcategories', 'createSubcategory');
+    Route::post('/api/update/categories', 'updateCategory');
+    Route::post('/api/update/subcategories', 'updateSubcategory');
+    Route::post('/api/delete/categories', 'deleteCategory');
+    Route::post('/api/delete/subcategories', 'deleteSubcategory');
+});

@@ -23,6 +23,11 @@ const routes = [
         name: "PCEconomic Productos",
         component: () => import("pages/GestionProductos.vue"),
       },
+      {
+        path: "gestiontraducciones",
+        name: "PCEconomic Traducciones",
+        component: () => import("pages/GestionTraducciones.vue"),
+      },
     ],
   },
 
