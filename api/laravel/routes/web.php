@@ -49,11 +49,7 @@ Route::controller(PersonesController::class)->group(function () {
 
 Route::controller(CategoriaController::class)->group(function () {
     Route::get('/api/get/categories', 'index');
-    Route::get('/api/get/subcategories/{id}', 'getSubcategoriaByCategoriaId');
     Route::post('/api/create/categories', 'createCategory');
-    Route::post('/api/create/subcategories', 'createSubcategory');
     Route::post('/api/update/categories', 'updateCategory');
-    Route::post('/api/update/subcategories', 'updateSubcategory');
     Route::post('/api/delete/categories', 'deleteCategory');
-    Route::post('/api/delete/subcategories', 'deleteSubcategory');
 });
