@@ -237,9 +237,11 @@ export default defineComponent({
       this.categories = categoriesJson;
 
       console.log("Categories", this.categories);
-      this.rows.push({
-          id_categoria: categoriesJson.id_categoria,
-          nom: categoriesJson.nom,
+      this.categories.forEach((c) => {
+        this.rows.push({
+          id_categoria: c.id_categoria,
+          nom: c.nom,
+        });
       });
 
       this.rowsFiltrats = this.rows;
