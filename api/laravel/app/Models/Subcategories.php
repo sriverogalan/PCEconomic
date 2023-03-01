@@ -10,4 +10,11 @@ class Subcategories extends Model
     use HasFactory;
 
     protected $table = 'subcategories';
+    protected $primaryKey = 'id_subcategoria';
+    public $timestamps = false;
+
+    public function categories()
+    {
+        return $this->belongsTo(Categories::class, 'id_categoria');
+    }
 }
