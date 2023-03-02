@@ -486,6 +486,10 @@ export default defineComponent({
       this.subcatRowsFiltrats = this.subcatRows;
       this.loading = false;
     },
+
+    showCreateSubcategory() {
+      this.dialogCreateSubcategory = true;
+    },
   },
   mounted() {
     this.getCategories();
