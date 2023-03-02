@@ -21,7 +21,20 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn icon="edit" color="amber-5" @click="showEditDialog(props)" />
+              <q-btn
+                icon="design_services"
+                color="purple-14"
+                @click="showEditDialog(props)"
+              >
+                <q-tooltip> Propietats {{ props.row.nom }} </q-tooltip>
+              </q-btn>
+              <q-btn
+                icon="edit"
+                class="ml-2"
+                color="amber-5"
+                @click="showEditDialog(props)"
+              />
+
               <q-btn
                 icon="delete"
                 class="ml-2"
@@ -33,7 +46,7 @@
 
           <template v-slot:top-right>
             <q-input
-              color="purple-6"
+              color="purple-14"
               v-model="filter"
               rounded
               outlined
@@ -46,12 +59,7 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn class="mb-1" color="purple-9" icon="add" @click="showCreateDialog()">
-            </q-btn>
-          </template>
-
-          <template v-slot:bottom-left>
-            <q-btn class="mb-1" color="purple-9" icon="add" @click="showCreateDialog()">
+            <q-btn class="mb-1" color="purple-14" icon="add" @click="showCreateDialog()">
             </q-btn>
           </template>
         </q-table>
@@ -71,7 +79,7 @@
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
-              <q-btn label="Crear" color="purple-9" @click="createarticle()" />
+              <q-btn label="Crear" color="purple-14" @click="createarticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -97,13 +105,34 @@
                   filled
                   class="q-mb-md"
                 />
-                <q-input v-model="articleEdit.cif" label="CIF" filled class="q-mb-md" />
+                <q-input
+                  v-model="articleEdit.descripcio"
+                  label="Descripcio"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-input v-model="articleEdit.pes" label="Pes" filled class="q-mb-md" />
+                <q-input
+                  v-model="articleEdit.marca.id_marca"
+                  label="Id Marca"
+                  filled
+                  class="q-mb-md"
+                />
+
+                <q-select
+                  v-model="articleEdit.marca.nom"
+                  :options="marques"
+                  label="Marca"
+                  filled
+                  class="q-mb-md"
+                >
+                </q-select>
               </q-form>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-9" @click="updatearticle()" />
+              <q-btn label="Guardar" color="purple-14" @click="updatearticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -116,7 +145,7 @@
 
             <q-card-section>
               <p>
-                Estas seguro que quieres eliminar la Article {{ articleDelete.nom }} ?
+                Estas seguro que quieres eliminar la Article {{ articleEdit.nom }} ?
               </p>
             </q-card-section>
 
@@ -152,12 +181,16 @@ export default defineComponent({
       articleEdit: {
         id_article: "",
         nom: "",
-        cif: "",
+        descripcio: "",
+        pes: "",
+        marca: {
+          id_marca: "",
+          nom: "",
+        },
       },
+      marques: [],
       articleDelete: {
         id_article: "",
-        nom: "",
-        cif: "",
       },
       columns: [
         {
@@ -245,17 +278,32 @@ export default defineComponent({
       this.rowsFiltrats = this.rows;
       this.loading = false;
     },
+    async getMarques() {
+      const marquesAxios = await axios.get(process.env.CRIDADA_API + "api/get/marques", {
+        cancelToken: source.token,
+      });
+      const marquesJson = await marquesAxios.data;
+      console.log(marquesJson);
+
+      marquesJson.forEach((m) => {
+        if (m.is_actiu) {
+          this.marques.push(m.nom);
+        }
+      });
+    },
+
     showEditDialog(props) {
       this.dialogEdit = true;
       this.articleEdit.id_article = props.row.id_article;
       this.articleEdit.nom = props.row.nom;
-      this.articleEdit.cif = props.row.cif;
+      this.articleEdit.descripcio = props.row.descripcio;
+      this.articleEdit.pes = props.row.pes;
+      this.articleEdit.marca.id_marca = props.row.marca.id_marca;
+      this.articleEdit.marca.nom = props.row.marca.nom;
     },
     showDeleteDialog(props) {
       this.dialogDelete = true;
       this.articleDelete.id_article = props.row.id_article;
-      this.articleDelete.nom = props.row.nom;
-      this.articleDelete.cif = props.row.cif;
     },
     showCreateDialog() {
       this.dialogCreate = true;
@@ -264,7 +312,8 @@ export default defineComponent({
     async updatearticle() {},
     async deletearticle() {},
   },
-  mounted() {
+  created() {
+    this.getMarques();
     this.getArticle();
   },
 });

@@ -2,14 +2,7 @@
   <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-purple-9">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
       </q-toolbar>
@@ -57,7 +50,7 @@ const linksList = [
     link: "/gestioncategories",
   },
   {
-    title: "Productes",
+    title: "Articles",
     icon: "add_business",
     link: "/gestionproductes",
   },
