@@ -19,6 +19,9 @@ public @Data class Categoria {
     @Column(name = "nom")
     private String name;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_categoria")
     private Set<Subcategoria> subcategorias;

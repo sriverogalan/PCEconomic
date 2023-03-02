@@ -18,6 +18,9 @@ public @Data class Subcategoria {
     @Column(name = "nom")
     private String name;
 
+    @Column(name = "is_active")
+    private boolean isActive = true;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "id_categoria")
