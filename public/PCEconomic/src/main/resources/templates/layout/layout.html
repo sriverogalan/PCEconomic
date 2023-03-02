@@ -234,6 +234,7 @@
                 type: "GET",
                 success: function (data) {
                     for (var c of data) {
+                        if (!c.active) continue;
                         $("#canvasBody").append(
                             '<div class="row justify-content-center">' +
                             '<div class="btn-group col-12 mb-2">' +
@@ -246,6 +247,7 @@
                             '</div>'
                         );
                         for (var s of c.subcategorias) {
+                            if (!s.active) continue;
                             $("#cat-" + c.id).append(
                                 '<li><a class="dropdown-item" href="/categoria/' + s.id + '">' + s.name + '</a></li>'
                             );
