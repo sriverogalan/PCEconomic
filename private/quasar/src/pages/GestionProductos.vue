@@ -24,7 +24,7 @@
               <q-btn
                 icon="design_services"
                 color="purple-14"
-                @click="showEditDialog(props)"
+                @click="showPropietats(props)"
               >
                 <q-tooltip> Propietats {{ props.row.nom }} </q-tooltip>
               </q-btn>
@@ -72,8 +72,16 @@
 
             <q-card-section>
               <q-form>
-                <q-input label="Nombre" v-model="nomarticle" filled class="q-mb-md" />
-                <q-input label="CIF" v-model="cifarticle" filled class="q-mb-md" />
+                <q-input label="Nombre" v-model="nom_article" filled class="q-mb-md" />
+                <q-input
+                  label="Descripcio"
+                  v-model="descripcio_article"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-input label="Pes (Kg)" v-model="pes_article" filled class="q-mb-md" />
+                <q-select :options="marques" label="Marca" filled class="q-mb-md">
+                </q-select>
               </q-form>
             </q-card-section>
 
@@ -144,9 +152,7 @@
             </q-card-section>
 
             <q-card-section>
-              <p>
-                Estas seguro que quieres eliminar la Article {{ articleEdit.nom }} ?
-              </p>
+              <p>Estas seguro que quieres eliminar {{ articleDelete.nom }} ?</p>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -171,8 +177,9 @@ export default defineComponent({
   name: "IndexPage",
   data() {
     return {
-      nomarticle: "",
-      cifarticle: "",
+      nom_article: "",
+      descripcio_article: "",
+      pes_article: "",
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
@@ -191,6 +198,7 @@ export default defineComponent({
       marques: [],
       articleDelete: {
         id_article: "",
+        nom: "",
       },
       columns: [
         {
@@ -304,6 +312,7 @@ export default defineComponent({
     showDeleteDialog(props) {
       this.dialogDelete = true;
       this.articleDelete.id_article = props.row.id_article;
+      this.articleDelete.nom = props.row.nom;
     },
     showCreateDialog() {
       this.dialogCreate = true;
