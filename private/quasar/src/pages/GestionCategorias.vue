@@ -159,7 +159,7 @@ import { defineComponent } from "vue";
 const source = axios.CancelToken.source();
 
 export default defineComponent({
-  name: "GestionMarcas",
+  name: "GestionCategorias",
   data() {
     return {
       nomCategoria: "",
