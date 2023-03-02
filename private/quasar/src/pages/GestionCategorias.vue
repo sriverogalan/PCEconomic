@@ -2,151 +2,243 @@
   <q-page class="row justify-center">
     <div class="col-10">
       <h1 class="col-12 text-center">Gestiona Categories</h1>
-
       <div class="q-pa-md">
-        <q-table
-          title="Marcas"
-          :rows="rowsFiltrats"
-          :columns="columns"
-          row-key="nom"
-          :loading="loading"
-          loading-label="Cargando..."
+        <q-tabs
+          v-model="tab"
+          dense
+          class="text-grey"
+          active-color="primary"
+          indicator-color="primary"
+          align="justify"
+          narrow-indicator
         >
-          <q-inner-loading
-            :showing="true"
-            label="Please wait..."
-            label-class="text-teal"
-            label-style="font-size: 1.1em"
-          />
+          <q-tab name="categories" label="Categories" />
+          <q-tab name="subcategories" label="Subcategories" />
+        </q-tabs>
 
-          <template v-slot:body-cell-actions="props">
-            <q-td :props="props">
-              <q-btn
-                icon="edit"
-                color="amber-5"
-                @click="showEditDialog(props)"
-              />
-              <q-btn
-                icon="delete"
-                class="ml-2"
-                color="red-14"
-                @click="showDeleteDialog(props)"
-              />
-            </q-td>
-          </template>
-
-          <template v-slot:top-right>
-            <q-input
-              color="purple-6"
-              v-model="filter"
-              rounded
-              outlined
-              @update:model-value="filtrar"
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="categories">
+            <q-table
+              title="Categorias"
+              :rows="catRowsFiltrats"
+              :columns="columns"
+              row-key="nom"
+              :loading="loading"
+              loading-label="Cargando..."
             >
-              <template v-slot:prepend>
-                <q-icon name="search" />
+              <q-inner-loading
+                :showing="true"
+                label="Please wait..."
+                label-class="text-teal"
+                label-style="font-size: 1.1em"
+              />
+
+              <template v-slot:body-cell-actions="props">
+                <q-td :props="props">
+                  <q-btn
+                    icon="edit"
+                    color="amber-5"
+                    @click="showEditDialog(props)"
+                  />
+                  <q-btn
+                    icon="delete"
+                    class="ml-2"
+                    color="red-14"
+                    @click="showDeleteDialog(props)"
+                  />
+                </q-td>
               </template>
-            </q-input>
-          </template>
 
-          <template v-slot:top-left>
-            <q-btn
-              class="mb-1"
-              color="purple-9"
-              icon="add"
-              @click="showCreateDialog()"
-            >
-            </q-btn>
-          </template>
-
-          <template v-slot:bottom-left>
-            <q-btn
-              class="mb-1"
-              color="purple-9"
-              icon="add"
-              @click="showCreateCategory()"
-            >
-            </q-btn>
-          </template>
-        </q-table>
-
-        <q-dialog v-model="dialogCreateCategory" id="dialogCreateCategory">
-          <q-card class="sizeTitleCard">
-            <q-card-section class="row items-center">
-              <span class="q-ml-sm">Crear Categoria.</span>
-            </q-card-section>
-
-            <q-card-section>
-              <q-form>
+              <template v-slot:top-right>
                 <q-input
-                  v-model="nomCategoria"
-                  label="Nombre"
-                  filled
-                  class="q-mb-md"
-                />
-              </q-form>
-            </q-card-section>
+                  color="purple-6"
+                  v-model="filter"
+                  rounded
+                  outlined
+                  @update:model-value="filtrarCategories"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </template>
 
-            <q-card-actions align="right">
-              <q-btn
-                flat
-                label="Cancelar"
-                color="red-14"
-                @click="dialogCreateCategory = false"
+              <template v-slot:top-left>
+                <q-btn
+                  class="mb-1"
+                  color="purple-9"
+                  icon="add"
+                  @click="showCreateDialog()"
+                >
+                </q-btn>
+              </template>
+
+              <template v-slot:bottom-left>
+                <q-btn
+                  class="mb-1"
+                  color="purple-9"
+                  icon="add"
+                  @click="showCreateCategory()"
+                >
+                </q-btn>
+              </template>
+            </q-table>
+
+            <q-dialog v-model="dialogCreateCategory" id="dialogCreateCategory">
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <span class="q-ml-sm">Crear Categoria.</span>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-form>
+                    <q-input
+                      v-model="nomCategoria"
+                      label="Nombre"
+                      filled
+                      class="q-mb-md"
+                    />
+                  </q-form>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogCreateCategory = false"
+                  />
+                  <q-btn
+                    label="Guardar"
+                    color="purple-9"
+                    @click="createCategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+
+            <q-dialog v-model="dialogEdit" persistent id="dialogUpdate">
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <div class="text-h6">Editar categoria</div>
+                </q-card-section>
+
+                <q-card-section> </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogEdit = false"
+                  />
+                  <q-btn
+                    label="Guardar"
+                    color="purple-9"
+                    @click="updateCategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+
+            <q-dialog v-model="dialogDelete" persistent id="dialogDelete">
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <div class="text-h6">Eliminar marca</div>
+                </q-card-section>
+
+                <q-card-section>
+                  <p>
+                    Estas seguro que quieres eliminar la marca
+                    {{ marcaDelete.nom }} ?
+                  </p>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogDelete = false"
+                  />
+                  <q-btn
+                    label="Eliminar"
+                    color="purple-9"
+                    @click="deleteCategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+          </q-tab-panel>
+
+          <q-tab-panel name="subcategories">
+            <q-table
+              title="Categorias"
+              :rows="subcatRowsFiltrats"
+              :columns="columns"
+              row-key="nom"
+              :loading="loading"
+              loading-label="Cargando..."
+            >
+              <q-inner-loading
+                :showing="true"
+                label="Please wait..."
+                label-class="text-teal"
+                label-style="font-size: 1.1em"
               />
-              <q-btn
-                label="Guardar"
-                color="purple-9"
-                @click="createCategoria()"
-              />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
 
-        <q-dialog v-model="dialogEdit" persistent id="dialogUpdate">
-          <q-card class="sizeTitleCard">
-            <q-card-section class="row items-center">
-              <div class="text-h6">Editar marca</div>
-            </q-card-section>
+              <template v-slot:body-cell-actions="props">
+                <q-td :props="props">
+                  <q-btn
+                    icon="edit"
+                    color="amber-5"
+                    @click="showEditDialog(props)"
+                  />
+                  <q-btn
+                    icon="delete"
+                    class="ml-2"
+                    color="red-14"
+                    @click="showDeleteDialog(props)"
+                  />
+                </q-td>
+              </template>
 
-            <q-card-section> </q-card-section>
+              <template v-slot:top-right>
+                <q-input
+                  color="purple-6"
+                  v-model="filter"
+                  rounded
+                  outlined
+                  @update:model-value="filtrarSubcategories"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="search" />
+                  </template>
+                </q-input>
+              </template>
 
-            <q-card-actions align="right">
-              <q-btn
-                flat
-                label="Cancelar"
-                color="red-14"
-                @click="dialogEdit = false"
-              />
-              <q-btn label="Guardar" color="purple-9" @click="updateMarca()" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
+              <template v-slot:top-left>
+                <q-btn
+                  class="mb-1"
+                  color="purple-9"
+                  icon="add"
+                  @click="showCreateDialog()"
+                >
+                </q-btn>
+              </template>
 
-        <q-dialog v-model="dialogDelete" persistent id="dialogDelete">
-          <q-card class="sizeTitleCard">
-            <q-card-section class="row items-center">
-              <div class="text-h6">Eliminar marca</div>
-            </q-card-section>
-
-            <q-card-section>
-              <p>
-                Estas seguro que quieres eliminar la marca
-                {{ marcaDelete.nom }} ?
-              </p>
-            </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn
-                flat
-                label="Cancelar"
-                color="red-14"
-                @click="dialogDelete = false"
-              />
-              <q-btn label="Eliminar" color="purple-9" @click="deleteMarca()" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
+              <template v-slot:bottom-left>
+                <q-btn
+                  class="mb-1"
+                  color="purple-9"
+                  icon="add"
+                  @click="showCreateCategory()"
+                >
+                </q-btn>
+              </template>
+            </q-table>
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
     </div>
   </q-page>
@@ -162,6 +254,7 @@ export default defineComponent({
   name: "GestionCategorias",
   data() {
     return {
+      tab: "categories",
       nomCategoria: "",
       subcategories: [],
       filter: "",
@@ -176,12 +269,10 @@ export default defineComponent({
       categoriaEdit: {
         id_categoria: "",
         nom: "",
-        subcategories: [],
       },
       categoriaDelete: {
         id_categoria: "",
         nom: "",
-        subcategories: [],
       },
       columns: [
         {
@@ -207,13 +298,15 @@ export default defineComponent({
           field: "actions",
         },
       ],
-      rows: [],
-      rowsFiltrats: [],
+      catRows: [],
+      catRowsFiltrats: [],
+      subcatRows: [],
+      subcatRowsFiltrats: [],
     };
   },
   methods: {
-    filtrar() {
-      this.rowsFiltrats = this.rows.filter((m) => {
+    filtrarCategories() {
+      this.catRowsFiltrats = this.catRows.filter((m) => {
         return (
           m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
           m.id_categoria
@@ -223,9 +316,20 @@ export default defineComponent({
         );
       });
     },
+    filtrarSubcategories() {
+      this.subcatRowsFiltrats = this.subcatRows.filter((m) => {
+        return (
+          m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
+          m.id_subcategoria
+            .toString()
+            .toLowerCase()
+            .includes(this.filter.toLowerCase())
+        );
+      });
+    },
     async getCategories() {
       this.loading = true;
-      this.rows = [];
+      this.catRows = [];
       const categoriesAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/categories",
         {
@@ -238,26 +342,24 @@ export default defineComponent({
 
       console.log("Categories", this.categories);
       this.categories.forEach((c) => {
-        this.rows.push({
+        this.catRows.push({
           id_categoria: c.id_categoria,
           nom: c.nom,
         });
       });
 
-      this.rowsFiltrats = this.rows;
+      this.catRowsFiltrats = this.catRows;
       this.loading = false;
     },
     showEditDialog(props) {
       this.dialogEdit = true;
-      this.marcaEdit.id_marca = props.row.id_marca;
+      this.marcaEdit.id_categoria = props.row.id_categoria;
       this.marcaEdit.nom = props.row.nom;
-      this.marcaEdit.cif = props.row.cif;
     },
     showDeleteDialog(props) {
       this.dialogDelete = true;
-      this.marcaDelete.id_marca = props.row.id_marca;
+      this.marcaDelete.id_categoria = props.row.id_categoria;
       this.marcaDelete.nom = props.row.nom;
-      this.marcaDelete.cif = props.row.cif;
     },
     showCreateDialog() {
       this.dialogCreate = true;
@@ -311,7 +413,7 @@ export default defineComponent({
         this.getCategories();
       }
     },
-    async updateMarca() {
+    async updateCategoria() {
       try {
         this.loading = true;
         this.dialogEdit = false;
@@ -333,14 +435,14 @@ export default defineComponent({
         this.getMarques();
       }
     },
-    async deleteMarca() {
+    async deleteCategoria() {
       try {
         this.loading = true;
         this.dialogDelete = false;
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/delete/marques",
           {
-            id_marca: this.marcaDelete.id_marca,
+            id_marca: this.categoriaDelete.id_categoria,
           }
         );
         const sendJson = await sendAxios.data;
@@ -353,9 +455,41 @@ export default defineComponent({
         this.getMarques();
       }
     },
+
+    /* 
+    
+    SUBCATEGORIES
+
+    */
+
+    async getSubcategories() {
+      this.loading = true;
+      this.subcatRows = [];
+      const subcategoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/subcategories",
+        {
+          cancelToken: source.token,
+        }
+      );
+      const subcategoriesJson = await subcategoriesAxios.data;
+      console.log(subcategoriesJson);
+      this.subcategories = subcategoriesJson;
+
+      console.log("Subcategories", this.subcategories);
+      this.subcategories.forEach((c) => {
+        this.subcatRows.push({
+          id_categoria: c.id_subcategoria,
+          nom: c.nom,
+        });
+      });
+
+      this.subcatRowsFiltrats = this.subcatRows;
+      this.loading = false;
+    },
   },
   mounted() {
     this.getCategories();
+    this.getSubcategories();
   },
 });
 </script>

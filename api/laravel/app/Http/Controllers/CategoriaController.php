@@ -19,9 +19,9 @@ class CategoriaController extends Controller
         return response()->json($categories);
     }
 
-    public function getSubcategoriaByCategoriaId($id)
+    public function getSubcategories()
     {
-        $subcategories = Subcategories::where('id_categoria', $id)->get();
+        $subcategories = Subcategories::all();
         return response()->json($subcategories);
     }
 
