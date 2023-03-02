@@ -320,7 +320,7 @@ export default defineComponent({
       this.subcatRowsFiltrats = this.subcatRows.filter((m) => {
         return (
           m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.id_subcategoria
+          m.id_categoria
             .toString()
             .toLowerCase()
             .includes(this.filter.toLowerCase())
