@@ -184,7 +184,7 @@
             <q-table
               title="Categorias"
               :rows="subcatRowsFiltrats"
-              :columns="columns"
+              :columns="subcatColumns"
               row-key="nom"
               :loading="loading"
               loading-label="Cargando..."
@@ -231,21 +231,55 @@
                   class="mb-1"
                   color="purple-9"
                   icon="add"
-                  @click="showCreateDialog()"
-                >
-                </q-btn>
-              </template>
-
-              <template v-slot:bottom-left>
-                <q-btn
-                  class="mb-1"
-                  color="purple-9"
-                  icon="add"
-                  @click="showCreateCategory()"
+                  @click="showCreateSubcategory()"
                 >
                 </q-btn>
               </template>
             </q-table>
+
+            <q-dialog
+              v-model="dialogCreateSubcategory"
+              id="dialogCreateSubcategory"
+            >
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <span class="q-ml-sm">Crear Categoria.</span>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-form>
+                    <q-input
+                      v-model="nomSubcategoria"
+                      label="Nombre"
+                      filled
+                      class="q-mb-md"
+                    />
+
+                    <q-select
+                      v-model="categoria"
+                      :options="categoriesOptions"
+                      label="Categoria"
+                      filled
+                      class="q-mb-md"
+                    />
+                  </q-form>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogCreateSubcategory = false"
+                  />
+                  <q-btn
+                    label="Guardar"
+                    color="purple-9"
+                    @click="createSubcategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -269,7 +303,6 @@ export default defineComponent({
       filter: "",
       nomSubcategoria: "",
       categoria: [],
-      dialogCreate: false,
       dialogCreateCategory: false,
       dialogCreateSubcategory: false,
       dialogEdit: false,
@@ -282,6 +315,38 @@ export default defineComponent({
       categoriaDelete: {
         id_categoria: "",
       },
+      subcatColumns: [
+        {
+          name: "Id",
+          required: true,
+          label: "Id",
+          align: "center",
+          field: (row) => row.id_subcategoria,
+          sortable: true,
+        },
+        {
+          name: "category",
+          required: true,
+          label: "Categoria",
+          align: "center",
+          field: (row) => row.nomCategoria,
+          sortable: true,
+        },
+        {
+          name: "subcategory",
+          required: true,
+          label: "Subcategoria",
+          align: "center",
+          field: (row) => row.subcategoria,
+          sortable: true,
+        },
+        {
+          name: "actions",
+          align: "center",
+          label: "Acciones",
+          field: "actions",
+        },
+      ],
       columns: [
         {
           name: "Id",
@@ -292,7 +357,7 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "Nom",
+          name: "Categoria",
           required: true,
           label: "Nom",
           align: "center",
@@ -310,6 +375,7 @@ export default defineComponent({
       catRowsFiltrats: [],
       subcatRows: [],
       subcatRowsFiltrats: [],
+      categoriesOptions: [],
     };
   },
   methods: {
@@ -356,6 +422,15 @@ export default defineComponent({
 
       this.catRowsFiltrats = this.catRows;
       this.loading = false;
+
+      this.categoriesOptions = [];
+      this.categories.forEach((c) => {
+        if (c.is_active === 1)
+          this.categoriesOptions.push({
+            label: c.nom,
+            value: c.id_categoria,
+          });
+      });
     },
     showEditDialog(props) {
       this.dialogEdit = true;
@@ -367,16 +442,8 @@ export default defineComponent({
       this.dialogDelete = true;
       this.categoriaDelete.id_categoria = props.row.id_categoria;
     },
-    showCreateDialog() {
-      this.dialogCreate = true;
-    },
     showCreateCategory() {
-      this.dialogCreate = false;
       this.dialogCreateCategory = true;
-    },
-    showCreateSubcategory() {
-      this.dialogCreate = false;
-      this.dialogCreateSubcategory = true;
     },
     async createCategoria() {
       try {
@@ -385,7 +452,7 @@ export default defineComponent({
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/create/categories",
           {
-            nom: this.nomCategoria,
+            nom: this.nomSubcategoria,
           }
         );
         const sendJson = await sendAxios.data;
@@ -456,14 +523,15 @@ export default defineComponent({
         }
       );
       const subcategoriesJson = await subcategoriesAxios.data;
-      console.log(subcategoriesJson);
-      this.subcategories = subcategoriesJson;
 
-      console.log("Subcategories", this.subcategories);
+      console.log(subcategoriesJson);
+
+      this.subcategories = subcategoriesJson;
       this.subcategories.forEach((c) => {
         this.subcatRows.push({
-          id_categoria: c.id_subcategoria,
-          nom: c.nom,
+          id_subcategoria: c.id_subcategoria,
+          nomCategoria: c.categories.nom,
+          subcategoria: c.nom,
         });
       });
 
@@ -473,6 +541,27 @@ export default defineComponent({
 
     showCreateSubcategory() {
       this.dialogCreateSubcategory = true;
+    },
+
+    async createSubcategoria() {
+      try {
+        this.loading = true;
+        this.dialogCreateSubcategory = false;
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/create/subcategories",
+          {
+            nom: this.nomSubcategoria,
+            id_categoria: this.categoria.value,
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getSubcategories();
+      }
     },
   },
   mounted() {
