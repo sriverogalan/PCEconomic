@@ -64,43 +64,16 @@
           </template>
         </q-table>
 
-        <q-dialog v-model="dialogCreate" persistent id="dialogCreate">
-          <q-card class="sizeTitleCard">
-            <q-card-section class="row items-center">
-              <div class="text-h6">Crear article</div>
-            </q-card-section>
-
-            <q-card-section>
-              <q-form>
-                <q-input label="Nombre" v-model="nom_article" filled class="q-mb-md" />
-                <q-input
-                  label="Descripcio"
-                  v-model="descripcio_article"
-                  filled
-                  class="q-mb-md"
-                />
-                <q-input label="Pes (Kg)" v-model="pes_article" filled class="q-mb-md" />
-                <q-select :options="marques" label="Marca" filled class="q-mb-md">
-                </q-select>
-              </q-form>
-            </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogCreate = false" />
-              <q-btn label="Crear" color="purple-14" @click="createarticle()" />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-
         <q-dialog v-model="dialogEdit" persistent id="dialogUpdate">
           <q-card class="sizeTitleCard">
             <q-card-section class="row items-center">
-              <div class="text-h6">Editar article</div>
+              <div class="text-h6">{{ titolcard }}</div>
             </q-card-section>
 
             <q-card-section>
               <q-form>
                 <q-input
+                  v-show="activeId"
                   v-model="articleEdit.id_article"
                   label="Id"
                   filled
@@ -120,13 +93,6 @@
                   class="q-mb-md"
                 />
                 <q-input v-model="articleEdit.pes" label="Pes" filled class="q-mb-md" />
-                <q-input
-                  v-model="articleEdit.marca.id_marca"
-                  label="Id Marca"
-                  filled
-                  class="q-mb-md"
-                />
-
                 <q-select
                   v-model="articleEdit.marca.nom"
                   :options="marques"
@@ -140,7 +106,7 @@
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-14" @click="updatearticle()" />
+              <q-btn label="Guardar" color="purple-14" @click="pushArticle()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -152,7 +118,7 @@
             </q-card-section>
 
             <q-card-section>
-              <p>Estas seguro que quieres eliminar {{ articleDelete.nom }} ?</p>
+              <p>Estas seguro que quieres eliminar {{ articleEdit.nom }} ?</p>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -177,9 +143,8 @@ export default defineComponent({
   name: "IndexPage",
   data() {
     return {
-      nom_article: "",
-      descripcio_article: "",
-      pes_article: "",
+      titolcard: "",
+      activeId: false,
       filter: "",
       dialogCreate: false,
       dialogEdit: false,
@@ -196,10 +161,6 @@ export default defineComponent({
         },
       },
       marques: [],
-      articleDelete: {
-        id_article: "",
-        nom: "",
-      },
       columns: [
         {
           name: "Id",
@@ -301,24 +262,60 @@ export default defineComponent({
     },
 
     showEditDialog(props) {
-      this.dialogEdit = true;
+      this.activeId = true;
+      this.titolcard = "Edita el articulo " + props.row.nom;
       this.articleEdit.id_article = props.row.id_article;
       this.articleEdit.nom = props.row.nom;
       this.articleEdit.descripcio = props.row.descripcio;
       this.articleEdit.pes = props.row.pes;
       this.articleEdit.marca.id_marca = props.row.marca.id_marca;
       this.articleEdit.marca.nom = props.row.marca.nom;
+      this.dialogEdit = true;
     },
     showDeleteDialog(props) {
+      this.articleEdit.id_article = props.row.id_article;
+      this.articleEdit.nom = props.row.nom;
       this.dialogDelete = true;
-      this.articleDelete.id_article = props.row.id_article;
-      this.articleDelete.nom = props.row.nom;
     },
     showCreateDialog() {
-      this.dialogCreate = true;
+      this.activeId = false;
+      this.titolcard = "Crea tu articulo";
+      this.articleEdit.id_article = "";
+      this.articleEdit.nom = "";
+      this.articleEdit.descripcio = "";
+      this.articleEdit.pes = "";
+      this.articleEdit.marca.id_marca = "";
+      this.articleEdit.marca.nom = "";
+      this.dialogEdit = true;
     },
-    async createarticle() {},
-    async updatearticle() {},
+    async pushArticle() {
+      if (!this.activeId) {
+        const articleAxios = await axios.post(
+          process.env.CRIDADA_API + "api/post/article",
+          {
+            nom: this.articleEdit.nom,
+            descripcio: this.articleEdit.descripcio,
+            pes: this.articleEdit.pes,
+            marca: this.articleEdit.marca.nom,
+          }
+        );
+        const articleJson = await articleAxios.data;
+        console.log(articleJson);
+      } else {
+        const articleAxios = await axios.put(
+          process.env.CRIDADA_API + "api/put/article",
+          {
+            id_article: this.articleEdit.id_article,
+            nom: this.articleEdit.nom,
+            descripcio: this.articleEdit.descripcio,
+            pes: this.articleEdit.pes,
+            marca: this.articleEdit.marca.nom,
+          }
+        );
+        const articleJson = await articleAxios.data;
+        console.log(articleJson);
+      }
+    },
     async deletearticle() {},
   },
   created() {
