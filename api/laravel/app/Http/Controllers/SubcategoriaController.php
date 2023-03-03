@@ -30,8 +30,8 @@ class SubcategoriaController extends Controller
     {
         $subcategory = new Subcategories;
         $subcategory->nom = $request->input('nom');
-        $subcategory->id_categoria = $request->input('id_categoria');
         $subcategory->is_active = 1;
+        $subcategory->id_categoria = $request->input('id_categoria');
         $subcategory->save();
         return response()->json(['message' => 'Subcategoria creada correctamente'], 201);
     }
