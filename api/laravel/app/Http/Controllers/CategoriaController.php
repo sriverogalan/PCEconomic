@@ -43,7 +43,7 @@ class CategoriaController extends Controller
     {
         $categories = Categories::find($request->input('id_categoria'));
         $categories->is_active = 0;
-        $categories->save();    
+        $categories->save();
         return response()->json(['message' => 'Categoria eliminada correctamente'], 200);
     }
 }

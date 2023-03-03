@@ -59,5 +59,5 @@ Route::controller(SubcategoriaController::class)->group(function () {
     Route::get('/api/get/subcategories', 'index');
     Route::post('/api/create/subcategories', 'store');
     Route::post('/api/update/subcategories', 'update');
-    Route::post('/api/delete/subcategories', 'delete');
+    Route::post('/api/delete/subcategories', 'destroy');
 });
