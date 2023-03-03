@@ -436,7 +436,6 @@ export default defineComponent({
       this.dialogEdit = true;
       this.categoriaEdit.id_categoria = props.row.id_categoria;
       this.categoriaEdit.nom = props.row.nom;
-      console.log("Edit", this.categoriaEdit);
     },
     showDeleteDialog(props) {
       this.dialogDelete = true;
@@ -497,8 +496,7 @@ export default defineComponent({
           }
         );
         const sendJson = await sendAxios.data;
-
-        console.log(sendJson);
+        
       } catch ($a) {
         console.log($a);
       } finally {
@@ -523,8 +521,6 @@ export default defineComponent({
         }
       );
       const subcategoriesJson = await subcategoriesAxios.data;
-
-      console.log(subcategoriesJson);
 
       this.subcategories = subcategoriesJson;
       this.subcategories.forEach((c) => {
