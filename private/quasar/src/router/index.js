@@ -48,8 +48,8 @@ export default route(function (/* { store, ssrContext } */) {
     if (localStorage.getItem("token")) {
       token = localStorage.getItem("token");
     } else {
-      window.location = process.env.CRIDADA_ERROR;
-    }
+/*       window.location = process.env.CRIDADA_ERROR;
+ */    }
     window.history.replaceState({}, document.title, "/");
 
     if (token) {
@@ -64,15 +64,15 @@ export default route(function (/* { store, ssrContext } */) {
           if (response.status < 399) {
             return response.json();
           } else {
-            window.location = process.env.CRIDADA_ERROR;
+            /* window.location = process.env.CRIDADA_ERROR; */
           }
         })
         .then((data) => {
           if (data) {
             console.log(data);
           } else {
-            window.location = process.env.CRIDADA_ERROR;
-          }
+/*             window.location = process.env.CRIDADA_ERROR;
+ */          }
         })
         .catch((error) => {
           console.error(error);

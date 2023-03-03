@@ -115,7 +115,7 @@ public class LoginController {
         try {
             registerService.savePersona(persona, registerForm);
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "El correo electronico introducido ya esta registrado");
+            model.addAttribute("error", e.getMessage());
             return "register";
         }
 
