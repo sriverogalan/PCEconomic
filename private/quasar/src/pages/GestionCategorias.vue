@@ -345,10 +345,7 @@ export default defineComponent({
         }
       );
       const categoriesJson = await categoriesAxios.data;
-      console.log(categoriesJson);
       this.categories = categoriesJson;
-
-      console.log("Categories", this.categories);
       this.categories.forEach((c) => {
         if (c.is_active === 1)
           this.catRows.push({

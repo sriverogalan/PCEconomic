@@ -19,6 +19,7 @@ class CategoriaController extends Controller
     {
         $category = new Categories;
         $category->nom = $request->input('nom');
+        $category->is_active = 1;
         $category->save();
         return response()->json(['message' => 'Categoria creada correctamente'], 201);
     }
