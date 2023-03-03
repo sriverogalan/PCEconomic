@@ -139,9 +139,8 @@ public class LoginController {
         Rols rol = registerService.getRolsByName("CLIENT");
 
         persona.setActive(true);
-        registerService.updatePersona(persona);
         persona.getRols().add(rol);
-
+        registerService.updatePersona(persona);
 
         return "redirect:/";
     }
