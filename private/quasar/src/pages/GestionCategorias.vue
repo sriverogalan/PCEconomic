@@ -68,7 +68,7 @@
                   class="mb-1"
                   color="purple-9"
                   icon="add"
-                  @click="showCreateDialog()"
+                  @click="showCreateCategory()"
                 >
                 </q-btn>
               </template>
@@ -123,7 +123,16 @@
                   <div class="text-h6">Editar categoria</div>
                 </q-card-section>
 
-                <q-card-section> </q-card-section>
+                <q-card-section>
+                  <q-form>
+                    <q-input
+                      v-model="categoriaEdit.nom"
+                      label="Nombre"
+                      filled
+                      class="q-mb-md"
+                    />
+                  </q-form>
+                </q-card-section>
 
                 <q-card-actions align="right">
                   <q-btn
@@ -150,7 +159,7 @@
                 <q-card-section>
                   <p>
                     Estas seguro que quieres eliminar la marca
-                    {{ marcaDelete.nom }} ?
+                    {{ categoriaDelete.nom }} ?
                   </p>
                 </q-card-section>
 
@@ -272,7 +281,6 @@ export default defineComponent({
       },
       categoriaDelete: {
         id_categoria: "",
-        nom: "",
       },
       columns: [
         {
@@ -342,10 +350,11 @@ export default defineComponent({
 
       console.log("Categories", this.categories);
       this.categories.forEach((c) => {
-        this.catRows.push({
-          id_categoria: c.id_categoria,
-          nom: c.nom,
-        });
+        if (c.is_active === 1)
+          this.catRows.push({
+            id_categoria: c.id_categoria,
+            nom: c.nom,
+          });
       });
 
       this.catRowsFiltrats = this.catRows;
@@ -353,13 +362,13 @@ export default defineComponent({
     },
     showEditDialog(props) {
       this.dialogEdit = true;
-      this.marcaEdit.id_categoria = props.row.id_categoria;
-      this.marcaEdit.nom = props.row.nom;
+      this.categoriaEdit.id_categoria = props.row.id_categoria;
+      this.categoriaEdit.nom = props.row.nom;
+      console.log("Edit", this.categoriaEdit);
     },
     showDeleteDialog(props) {
       this.dialogDelete = true;
-      this.marcaDelete.id_categoria = props.row.id_categoria;
-      this.marcaDelete.nom = props.row.nom;
+      this.categoriaDelete.id_categoria = props.row.id_categoria;
     },
     showCreateDialog() {
       this.dialogCreate = true;
@@ -391,21 +400,21 @@ export default defineComponent({
         this.getCategories();
       }
     },
-    async createSubcategoria() {
+    async updateCategoria() {
       try {
         this.loading = true;
-        this.dialogCreateSubcategory = false;
-        console.log("Nom Subcategoria: ", this.nomSubcategoria);
-        console.log("Nom Categoria: ", this.categoria);
+        this.dialogEdit = false;
+        console.log("Categoria Edit", this.categoriaEdit);
         const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/create/subcategories",
+          process.env.CRIDADA_API + "api/update/categories",
           {
-            nom: this.nomSubcategoria,
-            id_categoria: this.categoria.value,
+            id_categoria: this.categoriaEdit.id_categoria,
+            nom: this.categoriaEdit.nom,
           }
         );
         const sendJson = await sendAxios.data;
-        console.log(sendJson);
+
+        console.log("UpdateCategoria", sendJson);
       } catch ($a) {
         console.log($a);
       } finally {
@@ -413,36 +422,14 @@ export default defineComponent({
         this.getCategories();
       }
     },
-    async updateCategoria() {
-      try {
-        this.loading = true;
-        this.dialogEdit = false;
-        const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/update/marques",
-          {
-            id_marca: this.marcaEdit.id_marca,
-            nom: this.marcaEdit.nom,
-            cif: this.marcaEdit.cif,
-          }
-        );
-        const sendJson = await sendAxios.data;
-
-        console.log(sendJson);
-      } catch ($a) {
-        console.log($a);
-      } finally {
-        this.loading = false;
-        this.getMarques();
-      }
-    },
     async deleteCategoria() {
       try {
         this.loading = true;
         this.dialogDelete = false;
         const sendAxios = await axios.post(
-          process.env.CRIDADA_API + "api/delete/marques",
+          process.env.CRIDADA_API + "api/delete/categories",
           {
-            id_marca: this.categoriaDelete.id_categoria,
+            id_categoria: this.categoriaDelete.id_categoria,
           }
         );
         const sendJson = await sendAxios.data;
@@ -452,7 +439,7 @@ export default defineComponent({
         console.log($a);
       } finally {
         this.loading = false;
-        this.getMarques();
+        this.getCategories();
       }
     },
 
