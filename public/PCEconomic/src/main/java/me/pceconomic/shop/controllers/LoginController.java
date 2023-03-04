@@ -115,13 +115,13 @@ public class LoginController {
         try {
             registerService.savePersona(persona, registerForm);
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", "El correo electronico introducido ya esta registrado");
+            model.addAttribute("error", e.getMessage());
             return "register";
         }
 
-        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(1));
+        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(24));
         mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://www.pceconomic.me/confirmregister/" + token + " \n\n" +
-                "You have 1 hour to confirm your registration. After that, you will have to register again.");
+                "You have 24 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
@@ -139,9 +139,8 @@ public class LoginController {
         Rols rol = registerService.getRolsByName("CLIENT");
 
         persona.setActive(true);
-        registerService.updatePersona(persona);
         persona.getRols().add(rol);
-
+        registerService.updatePersona(persona);
 
         return "redirect:/";
     }

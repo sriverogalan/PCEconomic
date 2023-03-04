@@ -28,14 +28,13 @@
         <link rel="stylesheet" th:href="@{/css/stars.css}">
         <link rel="manifest" th:href="@{/manifest.json}"/>
         <link rel="apple-touch-icon" th:href="@{/img/static/logo-no-background.png}"/>
-        <link rel="icon" type="image/png" th:href="@{/img/static/logo-no-background.png}"/>
+        <link rel="icon" type="image/png" th:href="@{/img/static/logo.png}"/>
     </head>
 
     <header th:fragment="header2" class="bg-pc-economic-light">
         <div class="container">
             <a class="col-12 d-flex justify-content-center text-center" href="/">
-                <img class="col-9 logo-img"
-                     src="/img/static/logo-no-background.png" alt="logo"/>
+                <img class="col-3 logo-img" src="/img/static/logo-no-background.png" alt="logo"/>
             </a>
         </div>
     </header>
@@ -168,7 +167,7 @@
             </p>
         </div>
         <div class="row col-6 justify-content-center">
-            <a class="btn btn-pc-economic-default col-3 text-center" th:href="@{/aboutus}">Sobre Nosotros</a>
+            <a class="btn btn-pc-economic-default col-sm-4 col-xl-3 text-center" th:href="@{/aboutus}">Sobre Nosotros</a>
         </div>
     </footer>
     <div th:fragment="jquery">
@@ -234,6 +233,7 @@
                 type: "GET",
                 success: function (data) {
                     for (var c of data) {
+                        if (!c.active) continue;
                         $("#canvasBody").append(
                             '<div class="row justify-content-center">' +
                             '<div class="btn-group col-12 mb-2">' +
@@ -246,6 +246,7 @@
                             '</div>'
                         );
                         for (var s of c.subcategorias) {
+                            if (!s.active) continue;
                             $("#cat-" + c.id).append(
                                 '<li><a class="dropdown-item" href="/categoria/' + s.id + '">' + s.name + '</a></li>'
                             );

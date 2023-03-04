@@ -8,88 +8,29 @@ use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $categories = Categories::all();
         return response()->json($categories);
     }
 
-    public function getSubcategoriaByCategoriaId($id)
-    {
-        $subcategories = Subcategories::where('id_categoria', $id)->get();
-        return response()->json($subcategories);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createCategory(Request $request)
+    public function store(Request $request)
     {
         $category = new Categories;
         $category->nom = $request->input('nom');
+        $category->is_active = 1;
         $category->save();
         return response()->json(['message' => 'Categoria creada correctamente'], 201);
     }
 
-    public function createSubcategory(Request $request)
+    public function update(Request $request)
     {
-        $subcategory = new Subcategories;
-        $subcategory->nom = $request->input('nom');
-        $subcategory->id_categoria = $request->input('id_categoria');
-        $subcategory->save();
-        return response()->json(['message' => 'Subcategoria creada correctamente'], 201);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $categories = Categories::find($request->input('id_categoria'));
+        $categories->nom = $request->input('nom');
+        $categories->is_active = 1;
+        $categories->save();
+        return response()->json(['message' => 'Categoria editada correctamente'], 200);
     }
 
     /**
@@ -98,8 +39,11 @@ class CategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $categories = Categories::find($request->input('id_categoria'));
+        $categories->is_active = 0;
+        $categories->save();
+        return response()->json(['message' => 'Categoria eliminada correctamente'], 200);
     }
 }
