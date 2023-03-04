@@ -35,11 +35,7 @@ public class RestLoginController {
     }
 
     @PostMapping("/restlogin")
-    public ResponseEntity<String> validacioLogin(
-            @ModelAttribute("email") String email,
-            @ModelAttribute("password") String password,
-            HttpSession session) {
-
+    public ResponseEntity<String> validacioLogin(@ModelAttribute("email") String email, @ModelAttribute("password") String password, HttpSession session) {
         if (email == null || password == null) {
             return new ResponseEntity<>("Tienes que rellenar todos los campos", HttpStatus.UNAUTHORIZED);
         }
