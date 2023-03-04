@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticlesSubcategories;
 use Illuminate\Http\Request;
 
-class ArticlesSubcategories extends Controller
+class ArticlesSubcategoriesControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class ArticlesSubcategories extends Controller
      */
     public function index()
     {
-        
+        return response()->json(ArticlesSubcategories::all());
     }
 
     /**

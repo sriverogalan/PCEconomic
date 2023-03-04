@@ -183,6 +183,10 @@ export default defineComponent({
           id_marca: "",
           nom: "",
         },
+        subcategoria:{
+          id_subcategoria: "",
+          nom: "",
+        }
       },
       marques: [],
       columns: [
@@ -222,6 +226,14 @@ export default defineComponent({
           name: "Marca",
           required: true,
           label: "Marca",
+          align: "center",
+          field: (row) => row.marca.nom,
+          sortable: true,
+        },
+        {
+          name: "Subcategoria",
+          required: true,
+          label: "Subcategoria",
           align: "center",
           field: (row) => row.marca.nom,
           sortable: true,
@@ -285,8 +297,12 @@ export default defineComponent({
         }
       });
     },
-    async getArticlesSubcategories() {},
-    async getCategories() {},
+    async getArticlesSubcategories() {
+
+    },
+    async getSubcategories() {
+      
+    },
     showEditDialog(props) {
       this.activeId = true;
       this.titolcard = "Edita el articulo " + props.row.nom;
