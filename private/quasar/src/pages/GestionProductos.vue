@@ -285,7 +285,8 @@ export default defineComponent({
         }
       });
     },
-
+    async getArticlesSubcategories() {},
+    async getCategories() {},
     showEditDialog(props) {
       this.activeId = true;
       this.titolcard = "Edita el articulo " + props.row.nom;
