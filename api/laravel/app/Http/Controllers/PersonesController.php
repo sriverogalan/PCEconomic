@@ -78,8 +78,18 @@ class PersonesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            $person = Persones::find($request->input('id_persona'));
+            if (!$person) {
+                return response()->json(['message' => 'Person not found'], 404);
+            }
+            $person->rols()->detach();
+            $person->delete();
+            return response()->json(['message' => 'Person deleted'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
     }
 }

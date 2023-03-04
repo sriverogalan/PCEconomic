@@ -14,15 +14,29 @@
               <q-btn
                 icon="edit"
                 color="amber-5"
-                @click="showEditDialog(props)"
+                @click="editUserDialog(props)"
               />
               <q-btn
                 icon="delete"
                 class="ml-2"
                 color="red-14"
-                @click="showDeleteDialog(props)"
+                @click="deleteUserDialog(props)"
               />
             </q-td>
+          </template>
+
+          <template v-slot:top-right>
+            <q-input
+              color="purple-6"
+              v-model="filter"
+              rounded
+              outlined
+              @update:model-value="filtrarSubcategories"
+            >
+              <template v-slot:prepend>
+                <q-icon name="search" />
+              </template>
+            </q-input>
           </template>
         </q-table>
 
@@ -43,7 +57,32 @@
                 color="red-14"
                 @click="editDialog = false"
               />
-              <q-btn label="Guardar" color="purple-9" @click="updateMarca()" />
+              <q-btn label="Guardar" color="purple-9" @click="updateUser()" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="deleteDialog" persistent id="deleteDialog">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Eliminar Usuario</div>
+            </q-card-section>
+
+            <q-card-section>
+              <p>
+                Estas seguro que quieres eliminar al usuario
+                {{ deleteUserObj.nom }} ?
+              </p>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="deleteDialog = false"
+              />
+              <q-btn label="Guardar" color="purple-9" @click="deleteUser()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -62,6 +101,14 @@ export default defineComponent({
   data() {
     return {
       columns: [
+        {
+          name: "id",
+          required: true,
+          label: "ID",
+          align: "center",
+          field: (row) => row.id,
+          sortable: true,
+        },
         {
           name: "Nom",
           required: true,
@@ -109,6 +156,10 @@ export default defineComponent({
       rowsFiltrats: [],
       editDialog: false,
       deleteDialog: false,
+      deleteUserObj: {
+        id: "",
+        nom: "",
+      },
     };
   },
   methods: {
@@ -118,20 +169,10 @@ export default defineComponent({
       );
       const personesJson = await personesAxios.data;
 
-      console.log(personesJson);
-      /* personesJson.map((p) => {
-        const roles = p.rols.map((r) => r.name).join(", "); // Obtener los nombres de los roles separados por coma
-        this.rows.push({
-          nom: p.nom,
-          cognoms: p.cognom1 + " " + p.cognom2,
-          email: p.email,
-          rols: roles,
-          isactive: p.is_actiu ? "Si" : "No",
-        });
-      }); */
       personesJson.forEach((p) => {
-        const roles = p.rols.map((r) => r.name).join(", "); // Obtener los nombres de los roles separados por coma
+        const roles = p.rols.map((r) => r.name).join(", ");
         this.rows.push({
+          id: p.id_persona,
           nom: p.nom,
           cognoms: p.cognom1 + " " + p.cognom2,
           email: p.email,
@@ -141,9 +182,38 @@ export default defineComponent({
       });
       this.rowsFiltrats = this.rows;
     },
-    showEditDialog(props) {
+
+    async deleteUser() {
+      try {
+        this.loading = true;
+        this.deleteDialog = false;
+        console.log("Delete User Obj", this.deleteUserObj);
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/delete/persones",
+          {
+            id_persona: this.deleteUserObj.id,
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+        console.log("Delete User Obj", this.deleteUserObj);
+      } finally {
+        this.loading = false;
+        console.log("Delete User Obj", this.deleteUserObj);
+      }
+    },
+    editUserDialog(props) {
       this.editDialog = true;
       console.log(props.row);
+    },
+    deleteUserDialog(props) {
+      this.deleteDialog = true;
+      this.deleteUserObj.nom = props.row.nom + " " + props.row.cognoms;
+      this.deleteUserObj.id = props.row.id;
+
+      console.log("Delete User Obj", this.deleteUserObj);
     },
   },
   mounted() {
@@ -151,3 +221,12 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.ml-2 {
+  margin-left: 2rem;
+}
+
+.sizeTitleCard {
+  width: 350px;
+}
+</style>
