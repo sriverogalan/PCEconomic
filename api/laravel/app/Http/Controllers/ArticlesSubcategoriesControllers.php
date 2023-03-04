@@ -23,9 +23,25 @@ class ArticlesSubcategoriesControllers extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
+        try {
+            if ($request->input("id_article") == "") {
+                $articleSubcategory = new ArticlesSubcategories();
+                $articleSubcategory->id_article = $request->id_article;
+                $articleSubcategory->id_subcategory = $request->id_subcategory;
+                $articleSubcategory->save();
+                return response()->json($articleSubcategory);
+            } else {
+                $articleSubcategory = ArticlesSubcategories::find($request->input("id_article"));
+                $articleSubcategory->id_article = $request->id_article;
+                $articleSubcategory->id_subcategory = $request->id_subcategory;
+                $articleSubcategory->save();
+                return response()->json($articleSubcategory);
+            }
+        } catch (\Throwable $th) {
+            return response()->json($th);
+        }
     }
 
     /**
@@ -46,10 +62,6 @@ class ArticlesSubcategoriesControllers extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
