@@ -14,7 +14,7 @@ class PersonesController extends Controller
      */
     public function index()
     {
-        return response()->json(Persones::all());
+        return response()->json(Persones::with('rols')->get());
     }
 
     /**

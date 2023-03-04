@@ -37,22 +37,4 @@ public class RestMapsController {
         in.close();
         return response.toString();
     }
-
-    @GetMapping("/getmaps")
-    public String getMap() throws IOException {
-        String url = "https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=inicialitza&v=weekly";
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
-        return response.toString();
-    }
-
 }

@@ -31,6 +31,10 @@ public class RegisterService {
         return rolsRepository.getRolsByName(name);
     }
 
+    public void deletePersonaByEmail(String email) {
+        personaRepository.deletePersonaByEmail(email);
+    }
+
     public void updatePersona(Persona persona) {
         personaRepository.save(persona);
     }
@@ -39,20 +43,29 @@ public class RegisterService {
         persona.setName(registerForm.getName());
         persona.setSurname1(registerForm.getSurname1());
         persona.setSurname2(registerForm.getSurname2());
-        persona.setEmail(registerForm.getEmail());
-        persona.setTelefon(registerForm.getTelefon());
+
 
         if (registerForm.getPassword().equals(registerForm.getConfirmPassword())) {
             String password = passwordEncoder.encode(registerForm.getPassword());
             persona.setPassword(password);
         } else {
-            throw new RuntimeException("Passwords don't match");
+            throw new RuntimeException("Las contraseñas no coinciden");
         }
 
-        if (personaRepository.existsByEmail(persona.getEmail())) {
-            throw new IllegalArgumentException("Persona already exists");
+        if (personaRepository.existsByEmail(registerForm.getEmail())) {
+            throw new IllegalArgumentException("El correo introducido ya existe");
         }
 
+        if (personaRepository.existsByDni(registerForm.getDni())) {
+            throw new IllegalArgumentException("El DNI introducido ya existe");
+        }
+
+        if (personaRepository.existsByTelefon(registerForm.getTelefon())) {
+            throw new IllegalArgumentException("El teléfono introducido ya existe");
+        }
+
+        persona.setEmail(registerForm.getEmail());
+        persona.setTelefon(registerForm.getTelefon());
         persona.setDni(registerForm.getDni());
         persona.setActive(false);
 

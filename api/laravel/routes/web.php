@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarquesController;
 use App\Http\Controllers\PersonesController;
@@ -42,6 +43,7 @@ Route::controller(ArticlesController::class)->group(function () {
 
 Route::controller(PersonesController::class)->group(function () {
     Route::get('/api/get/persones', 'index');
+    Route::get('/api/get/rols', 'getRols');
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'delete');
@@ -49,7 +51,14 @@ Route::controller(PersonesController::class)->group(function () {
 
 Route::controller(CategoriaController::class)->group(function () {
     Route::get('/api/get/categories', 'index');
-    Route::post('/api/create/categories', 'createCategory');
-    Route::post('/api/update/categories', 'updateCategory');
-    Route::post('/api/delete/categories', 'deleteCategory');
+    Route::post('/api/create/categories', 'store');
+    Route::post('/api/update/categories', 'update');
+    Route::post('/api/delete/categories', 'destroy');
+});
+
+Route::controller(SubcategoriaController::class)->group(function () {
+    Route::get('/api/get/subcategories', 'index');
+    Route::post('/api/create/subcategories', 'store');
+    Route::post('/api/update/subcategories', 'update');
+    Route::post('/api/delete/subcategories', 'destroy');
 });
