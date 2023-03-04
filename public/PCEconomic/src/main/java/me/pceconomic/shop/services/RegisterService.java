@@ -31,6 +31,10 @@ public class RegisterService {
         return rolsRepository.getRolsByName(name);
     }
 
+    public void deletePersonaByEmail(String email) {
+        personaRepository.deletePersonaByEmail(email);
+    }
+
     public void updatePersona(Persona persona) {
         personaRepository.save(persona);
     }

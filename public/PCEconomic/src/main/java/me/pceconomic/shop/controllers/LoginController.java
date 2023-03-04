@@ -119,9 +119,9 @@ public class LoginController {
             return "register";
         }
 
-        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(1));
+        String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(24));
         mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://www.pceconomic.me/confirmregister/" + token + " \n\n" +
-                "You have 1 hour to confirm your registration. After that, you will have to register again.");
+                "You have 24 hour to confirm your registration. After that, you will have to register again.");
         return "confirmregister";
     }
 
