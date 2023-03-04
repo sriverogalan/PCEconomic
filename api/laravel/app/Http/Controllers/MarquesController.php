@@ -62,9 +62,13 @@ class MarquesController extends Controller
      */
     public function delete(Request $request)
     {
-        $marca = Marques::find($request->input('id_marca'));
-        $marca->is_actiu = 0;
-        $marca->save();
-        return response()->json(['message' => 'Marca eliminada correctamente'], 200);
+        try { 
+            $marca = Marques::find($request->input('id_marca'));
+            $marca->is_actiu = false;
+            $marca->save();
+            return response()->json(['message' => 'Marca eliminada correctamente'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
     }
 }

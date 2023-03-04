@@ -89,6 +89,11 @@
               return b[1].contador - a[1].contador;
             });
 
+            // ordenar por fecha de clicks
+            articulosRecomendados.sort(function (a, b) {
+              return new Date(b[1].data) - new Date(a[1].data);
+            });
+
             // mostrar solo 4 articulos recomendados
             if (articulosRecomendados.length > 4) {
               articulosRecomendados = articulosRecomendados.slice(0, 4);
