@@ -35,33 +35,32 @@ public class RestLoginController {
     }
 
     @PostMapping("/restlogin")
-    public ResponseEntity<String> validacioLogin(
-            @ModelAttribute("email") String email,
-            @ModelAttribute("password") String password,
-            HttpSession session) {
-        if (registerService.getPersonaByEmail(email) != null) {
-            Persona usuari = registerService.getPersonaByEmail(email);
+    public ResponseEntity<String> validacioLogin(@ModelAttribute("email") String email, @ModelAttribute("password") String password, HttpSession session) {
+        if (email == null || password == null) {
+            return new ResponseEntity<>("Tienes que rellenar todos los campos", HttpStatus.UNAUTHORIZED);
+        }
 
-            if (!usuari.isActive()) {
-                return new ResponseEntity<>("Tienes que activar tu cuenta antes de iniciar sesión", HttpStatus.UNAUTHORIZED);
-            }
-
-            if (passwordEncoder.matches(password, usuari.getPassword())) {
-                Persona client = registerService.getPersonaByEmail(email);
-                registerService.setSession(session, client);
-                Set<String> rols = new HashSet<>();
-                if (usuari.getRols() != null) {
-                    rols.addAll(usuari.getRols().stream().map(Rols::getName)
-                            .toList());
-                }
-                String token = tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7));
-                session.setAttribute("token", token);
-                return new ResponseEntity<>(
-                        token,
-                        HttpStatus.OK);
-            }
+        if (registerService.getPersonaByEmail(email) == null) {
             return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
+
+        Persona usuari = registerService.getPersonaByEmail(email);
+
+        if (!passwordEncoder.matches(password, usuari.getPassword()) || !usuari.isActive()) {
+            return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
+        }
+
+        Persona client = registerService.getPersonaByEmail(email);
+        registerService.setSession(session, client);
+        Set<String> rols = new HashSet<>();
+
+        if (usuari.getRols() != null) {
+            rols.addAll(usuari.getRols().stream().map(Rols::getName)
+                    .toList());
+        }
+
+        String token = tokenService.createToken(email, rols, TimeUnit.DAYS.toMillis(7));
+        session.setAttribute("token", token);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }

@@ -9,5 +9,6 @@ public interface PersonaRepository extends JpaRepository<Persona, Integer> {
     boolean existsByEmail(String email);
     boolean existsByTelefon(String telefon);
     boolean existsByDni(String dni);
+    void deletePersonaByEmail(String email);
 
 }

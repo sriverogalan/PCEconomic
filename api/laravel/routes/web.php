@@ -43,6 +43,7 @@ Route::controller(ArticlesController::class)->group(function () {
 
 Route::controller(PersonesController::class)->group(function () {
     Route::get('/api/get/persones', 'index');
+    Route::get('/api/get/rols', 'getRols');
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'delete');
@@ -59,5 +60,5 @@ Route::controller(SubcategoriaController::class)->group(function () {
     Route::get('/api/get/subcategories', 'index');
     Route::post('/api/create/subcategories', 'store');
     Route::post('/api/update/subcategories', 'update');
-    Route::post('/api/delete/subcategories', 'delete');
+    Route::post('/api/delete/subcategories', 'destroy');
 });

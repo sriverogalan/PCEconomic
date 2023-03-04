@@ -8,7 +8,6 @@
           :rows="rowsFiltrats"
           :columns="columns"
           row-key="nom"
-          no-data="no hay na"
         >
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
@@ -34,11 +33,7 @@
             </q-card-section>
 
             <q-card-section>
-              <q-form>
-                <q-input label="Id" filled class="q-mb-md" disable />
-                <q-input label="Nombre" filled class="q-mb-md" />
-                <q-input label="CIF" filled class="q-mb-md" />
-              </q-form>
+              <q-form></q-form>
             </q-card-section>
 
             <q-card-actions align="right">
@@ -90,6 +85,20 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: "rols",
+          align: "center",
+          label: "Rols",
+          field: "rols",
+          sortable: true,
+        },
+        {
+          name: "isactive",
+          align: "center",
+          label: "Esta Actiu",
+          field: "isactive",
+          sortable: true,
+        },
+        {
           name: "actions",
           align: "center",
           label: "Acciones",
@@ -108,12 +117,26 @@ export default defineComponent({
         process.env.CRIDADA_API + "api/get/persones"
       );
       const personesJson = await personesAxios.data;
+
       console.log(personesJson);
-      personesJson.map((p) => {
+      /* personesJson.map((p) => {
+        const roles = p.rols.map((r) => r.name).join(", "); // Obtener los nombres de los roles separados por coma
         this.rows.push({
           nom: p.nom,
           cognoms: p.cognom1 + " " + p.cognom2,
           email: p.email,
+          rols: roles,
+          isactive: p.is_actiu ? "Si" : "No",
+        });
+      }); */
+      personesJson.forEach((p) => {
+        const roles = p.rols.map((r) => r.name).join(", "); // Obtener los nombres de los roles separados por coma
+        this.rows.push({
+          nom: p.nom,
+          cognoms: p.cognom1 + " " + p.cognom2,
+          email: p.email,
+          rols: roles,
+          isactive: p.is_actiu ? "Si" : "No",
         });
       });
       this.rowsFiltrats = this.rows;

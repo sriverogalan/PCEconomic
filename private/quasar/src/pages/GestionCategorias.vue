@@ -153,12 +153,12 @@
             <q-dialog v-model="dialogDelete" persistent id="dialogDelete">
               <q-card class="sizeTitleCard">
                 <q-card-section class="row items-center">
-                  <div class="text-h6">Eliminar marca</div>
+                  <div class="text-h6">Eliminar categoria</div>
                 </q-card-section>
 
                 <q-card-section>
                   <p>
-                    Estas seguro que quieres eliminar la marca
+                    Estas seguro que quieres eliminar la categoria
                     {{ categoriaDelete.nom }} ?
                   </p>
                 </q-card-section>
@@ -201,13 +201,13 @@
                   <q-btn
                     icon="edit"
                     color="amber-5"
-                    @click="showEditDialog(props)"
+                    @click="showEditSubcategoryDialog(props)"
                   />
                   <q-btn
                     icon="delete"
                     class="ml-2"
                     color="red-14"
-                    @click="showDeleteDialog(props)"
+                    @click="showDeleteSubcategoryDialog(props)"
                   />
                 </q-td>
               </template>
@@ -243,7 +243,7 @@
             >
               <q-card class="sizeTitleCard">
                 <q-card-section class="row items-center">
-                  <span class="q-ml-sm">Crear Categoria.</span>
+                  <span class="q-ml-sm">Crear Subcategoria.</span>
                 </q-card-section>
 
                 <q-card-section>
@@ -280,6 +280,84 @@
                 </q-card-actions>
               </q-card>
             </q-dialog>
+
+            <q-dialog
+              v-model="dialogEditSubcategory"
+              id="dialogEditSubcategory"
+            >
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <span class="q-ml-sm">Editar Subcategoria.</span>
+                </q-card-section>
+
+                <q-card-section>
+                  <q-form>
+                    <q-input
+                      v-model="subcategoriaEdit.nom"
+                      label="Nombre"
+                      filled
+                      class="q-mb-md"
+                    />
+
+                    <q-select
+                      v-model="categoria"
+                      :options="categoriesOptions"
+                      label="Categoria"
+                      filled
+                      class="q-mb-md"
+                      :rules="[(val) => val !== null || 'Campo requerido']"
+                    />
+                  </q-form>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogEditSubcategory = false"
+                  />
+                  <q-btn
+                    label="Guardar"
+                    color="purple-9"
+                    @click="updateSubcategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
+
+            <q-dialog
+              v-model="dialogDeleteSubcategory"
+              persistent
+              id="dialogDeleteSubcategory"
+            >
+              <q-card class="sizeTitleCard">
+                <q-card-section class="row items-center">
+                  <div class="text-h6">Eliminar Subcategoria</div>
+                </q-card-section>
+
+                <q-card-section>
+                  <p>
+                    Estas seguro que quieres eliminar la subcategoria
+                    {{ subcategoriaDelete.nom }} ?
+                  </p>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogDeleteSubcategory = false"
+                  />
+                  <q-btn
+                    label="Eliminar"
+                    color="purple-9"
+                    @click="deleteSubcategoria()"
+                  />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -304,7 +382,6 @@ export default defineComponent({
       nomSubcategoria: "",
       categoria: [],
       dialogCreateCategory: false,
-      dialogCreateSubcategory: false,
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
@@ -376,6 +453,18 @@ export default defineComponent({
       subcatRows: [],
       subcatRowsFiltrats: [],
       categoriesOptions: [],
+      subcategoriaEdit: {
+        id_subcategoria: "",
+        nom: "",
+        categoria: [],
+      },
+      subcategoriaDelete: {
+        id_subcategoria: "",
+        nom: "",
+      },
+      dialogCreateSubcategory: false,
+      dialogEditSubcategory: false,
+      dialogDeleteSubcategory: false,
     };
   },
   methods: {
@@ -496,7 +585,6 @@ export default defineComponent({
           }
         );
         const sendJson = await sendAxios.data;
-        
       } catch ($a) {
         console.log($a);
       } finally {
@@ -524,19 +612,16 @@ export default defineComponent({
 
       this.subcategories = subcategoriesJson;
       this.subcategories.forEach((c) => {
-        this.subcatRows.push({
-          id_subcategoria: c.id_subcategoria,
-          nomCategoria: c.categories.nom,
-          subcategoria: c.nom,
-        });
+        if (c.is_active === 1)
+          this.subcatRows.push({
+            id_subcategoria: c.id_subcategoria,
+            nomCategoria: c.categories.nom,
+            subcategoria: c.nom,
+          });
       });
 
       this.subcatRowsFiltrats = this.subcatRows;
       this.loading = false;
-    },
-
-    showCreateSubcategory() {
-      this.dialogCreateSubcategory = true;
     },
 
     async createSubcategoria() {
@@ -556,8 +641,68 @@ export default defineComponent({
         console.log($a);
       } finally {
         this.loading = false;
+        this.categoria = [];
         this.getSubcategories();
       }
+    },
+
+    async updateSubcategoria() {
+      try {
+        this.loading = true;
+        this.dialogEditSubcategory = false;
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/update/subcategories",
+          {
+            id_subcategoria: this.subcategoriaEdit.id_subcategoria,
+            nom: this.subcategoriaEdit.nom,
+            id_categoria: this.categoria.value,
+          }
+        );
+        const sendJson = await sendAxios.data;
+
+        console.log("UpdateSubcategoria", sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getSubcategories();
+      }
+    },
+
+    async deleteSubcategoria() {
+      try {
+        this.loading = true;
+        this.dialogDeleteSubcategory = false;
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/delete/subcategories",
+          {
+            id_subcategoria: this.subcategoriaDelete.id_subcategoria,
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getSubcategories();
+      }
+    },
+
+    showCreateSubcategory() {
+      this.dialogCreateSubcategory = true;
+    },
+
+    showEditSubcategoryDialog(props) {
+      this.dialogEditSubcategory = true;
+      this.subcategoriaEdit.id_subcategoria = props.row.id_subcategoria;
+      this.subcategoriaEdit.nom = props.row.subcategoria;
+    },
+
+    showDeleteSubcategoryDialog(props) {
+      this.dialogDeleteSubcategory = true;
+      this.subcategoriaDelete.id_subcategoria = props.row.id_subcategoria;
+      this.subcategoriaDelete.nom = props.row.subcategoria;
     },
   },
   mounted() {

@@ -37,37 +37,21 @@ class SubcategoriaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $subcategory = Subcategories::find($request->input('id_subcategoria'));
+        $subcategory->nom = $request->input('nom');
+        $subcategory->is_active = 1;
+        $subcategory->id_categoria = $request->input('id_categoria');
+        $subcategory->save();
+        //['message' => 'Subcategoria actualizada correctamente']
+        return response()->json($subcategory, 201);
     }
 
     /**
@@ -76,8 +60,11 @@ class SubcategoriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $subcategory = Subcategories::find($request->input('id_subcategoria'));
+        $subcategory->is_active = 0;
+        $subcategory->save();
+        return response()->json(['message' => 'Subcategoria eliminada correctamente'], 201);
     }
 }
