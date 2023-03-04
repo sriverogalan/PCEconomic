@@ -59,8 +59,18 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn class="mb-1" color="purple-14" icon="add" @click="showCreateDialog()">
-            </q-btn>
+            <q-btn
+              class="mb-1"
+              color="purple-14"
+              icon="add"
+              @click="showCreateDialog()"
+            />
+            <q-btn
+              class="mb-1 ml-1"
+              color="amber-14"
+              icon="refresh"
+              @click="updateTable()"
+            />
           </template>
         </q-table>
 
@@ -129,15 +139,28 @@
         </q-dialog>
       </div>
     </div>
+
+    <q-dialog v-model="mensajeServidor" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">{{ message }}</div>
+        </q-card-section>
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cerrar" color="red-14" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import axios from "axios";
 import process from "process";
+import { useQuasar } from "quasar";
 import { defineComponent } from "vue";
 
 const source = axios.CancelToken.source();
+const $q = useQuasar();
 
 export default defineComponent({
   name: "IndexPage",
@@ -146,10 +169,11 @@ export default defineComponent({
       titolcard: "",
       activeId: false,
       filter: "",
-      dialogCreate: false,
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
+      mensajeServidor: false,
+      message: "",
       articleEdit: {
         id_article: "",
         nom: "",
@@ -222,7 +246,8 @@ export default defineComponent({
         );
       });
     },
-    async getArticle() {
+    async updateTable() {
+      this.dialogEdit = false;
       this.loading = true;
       this.rows = [];
       const articleAxios = await axios.get(process.env.CRIDADA_API + "api/get/articles", {
@@ -289,43 +314,51 @@ export default defineComponent({
       this.dialogEdit = true;
     },
     async pushArticle() {
-      if (!this.activeId) {
-        const articleAxios = await axios.post(
-          process.env.CRIDADA_API + "api/post/article",
-          {
-            nom: this.articleEdit.nom,
-            descripcio: this.articleEdit.descripcio,
-            pes: this.articleEdit.pes,
-            marca: this.articleEdit.marca.nom,
-          }
-        );
-        const articleJson = await articleAxios.data;
-        console.log(articleJson);
-      } else {
-        const articleAxios = await axios.put(
-          process.env.CRIDADA_API + "api/put/article",
-          {
-            id_article: this.articleEdit.id_article,
-            nom: this.articleEdit.nom,
-            descripcio: this.articleEdit.descripcio,
-            pes: this.articleEdit.pes,
-            marca: this.articleEdit.marca.nom,
-          }
-        );
-        const articleJson = await articleAxios.data;
-        console.log(articleJson);
-      }
+      let articleJson = "";
+      this.dialogEdit = false;
+      this.loading = true;
+      const articleAxios = await axios.post(
+        process.env.CRIDADA_API + "api/create/articles",
+        {
+          id_article: this.articleEdit.id_article,
+          nom: this.articleEdit.nom,
+          descripcio: this.articleEdit.descripcio,
+          pes: this.articleEdit.pes,
+          marca: this.articleEdit.marca.nom,
+        }
+      );
+      articleJson = await articleAxios.data;
+      this.mensajeServidor = true;
+      this.message = articleJson.message;
+      this.updateTable();
     },
-    async deletearticle() {},
+    async deletearticle() {
+      let articleJson = "";
+      this.dialogDelete = false;
+      this.loading = true;
+      const articleAxios = await axios.post(
+        process.env.CRIDADA_API + "api/delete/articles",
+        {
+          id_article: this.articleEdit.id_article,
+        }
+      );
+      articleJson = await articleAxios.data;
+      this.mensajeServidor = true;
+      this.message = articleJson.message;
+      this.updateTable();
+    },
   },
   created() {
     this.getMarques();
-    this.getArticle();
+    this.updateTable();
   },
 });
 </script>
 
 <style scoped>
+.ml-1 {
+  margin-left: 1rem;
+}
 .ml-2 {
   margin-left: 2rem;
 }

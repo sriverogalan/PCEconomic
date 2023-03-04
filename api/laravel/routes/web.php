@@ -36,8 +36,8 @@ Route::controller(RolesController::class)->group(function () {
 Route::controller(ArticlesController::class)->group(function () {
     Route::get('/api/get/articles', 'index');
     Route::post('/api/create/articles', 'create');
-    Route::post('/api/update/articles', 'update');
-    Route::post('/api/delete/articles', 'delete');
+    Route::post('/api/update/articles', 'create');
+    Route::post('/api/delete/articles', 'destroy');
 });
 
 Route::controller(PersonesController::class)->group(function () {
