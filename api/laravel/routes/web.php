@@ -38,6 +38,13 @@ Route::controller(ArticlesSubcategoriesControllers::class)->group(function () {
     Route::post('/api/delete/articlessubcategories', 'delete');  
 });
 
+Route::controller(SubcategoriaController::class)->group(function () {
+    Route::get('/api/get/subcategories', 'index');
+    Route::post('/api/create/subcategories', 'create');
+    Route::post('/api/update/subcategories', 'create');
+    Route::post('/api/delete/subcategories', 'delete');
+});
+
 Route::controller(RolesController::class)->group(function () {
     Route::get('/api/get/roles', 'index');
 });

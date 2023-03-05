@@ -109,8 +109,15 @@
                   label="Marca"
                   filled
                   class="q-mb-md"
-                >
-                </q-select>
+                />
+
+                <q-select
+                  v-model="articleEdit.subcategoria.nom"
+                  :options="subcategories.map((s)=>{return s.nom})"
+                  label="Subcategoria"
+                  filled
+                  class="q-mb-md"
+                />
               </q-form>
             </q-card-section>
 
@@ -248,7 +255,7 @@ export default defineComponent({
       rows: [],
       rowsFiltrats: [],
       articlesSubcategories: [],
-      subcategories: []
+      subcategories: [] 
     };
   },
   methods: {
@@ -277,13 +284,29 @@ export default defineComponent({
           descripcio: a.descripcio,
           pes: a.pes,
           marca: {
-            id_marca: a.marca.id_marca,
+            id_marca: a.id_marca,
             nom: a.marca.nom,
           },
           subcategoria: {
             id_subcategoria: "",
             nom: "",
           },
+        });
+      });
+
+      this.rows.forEach((a) => {
+        this.articlesSubcategories.forEach((aS) => {
+          if (a.id_article == aS.id_article) {
+            a.subcategoria.id_subcategoria = aS.id_subcategoria;
+          }
+        });
+      });
+
+      this.rows.forEach((a) => {
+        this.subcategories.forEach((s) => {
+          if (a.subcategoria.id_subcategoria == s.id_subcategoria) {
+            a.subcategoria.nom = s.nom;
+          }
         });
       });
 
@@ -303,8 +326,32 @@ export default defineComponent({
         }
       });
     },
-    async getArticlesSubcategories() {},
-    async getSubcategories() {},
+    async getArticlesSubcategories() {
+      const articlesSubcategoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/articlessubcategories"
+      );
+      const articlesSubcategoriesJson = await articlesSubcategoriesAxios.data;
+      console.log(articlesSubcategoriesJson);
+      articlesSubcategoriesJson.forEach((aS) => {
+        this.articlesSubcategories.push({
+          id_article: aS.id_article,
+          id_subcategoria: aS.id_subcategoria,
+        });
+      });
+    },
+    async getSubcategories() {
+      const subcategoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/subcategories"
+      );
+      const subcategoriesJson = await subcategoriesAxios.data;
+
+      subcategoriesJson.forEach((s) => {
+        this.subcategories.push({
+          id_subcategoria: s.id_subcategoria,
+          nom: s.nom,
+        });
+      });
+    },
     showEditDialog(props) {
       this.activeId = true;
       this.titolcard = "Edita el articulo " + props.row.nom;
@@ -368,8 +415,10 @@ export default defineComponent({
     },
   },
   async created() {
+    await this.getArticlesSubcategories();
+    await this.getSubcategories();
     await this.getMarques();
-    this.updateTable();
+    await this.updateTable();
   },
 });
 </script>
