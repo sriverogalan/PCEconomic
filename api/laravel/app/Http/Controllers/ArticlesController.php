@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticlesSubcategories;
 use App\Models\Marques;
+use App\Models\Subcategories;
 
 class ArticlesController extends Controller
 {
@@ -37,9 +38,18 @@ class ArticlesController extends Controller
 
                 // Encontrar la marca por su nombre y asignar su ID al artículo
                 $marca = Marques::where('nom', $request->input('marca'))->first();
-                $article->id_marca = $marca->id_marca; 
-
+                $article->id_marca = $marca->id_marca;
                 $article->save();
+
+                $subcategoria = Subcategories::where(
+                    'nom',
+                    $request->input('subcategoria')
+                )->first();
+                $articleSubcategoria = new ArticlesSubcategories;
+                $articleSubcategoria->id_article = $article->id_article;
+                $articleSubcategoria->id_subcategoria = $subcategoria->id_subcategoria;
+                $articleSubcategoria->save();
+
                 return response()->json(['message' => 'Article creat correctament'], 201);
             } else {
                 // Actualizar un artículo existente
@@ -56,7 +66,18 @@ class ArticlesController extends Controller
                 $marca = Marques::where('nom', $request->input('marca'))->first();
                 $article->id_marca = $marca->id_marca;
 
-                $article->save();
+                // Encontrar la subcategoria por su nombre y asignar su ID al artículo 
+                $subcategoria = Subcategories::where(
+                    'nom',
+                    $request->input('subcategoria')
+                )->first();
+
+                // Actualizar la subcategoria del artículo
+                $article->subcategories()->detach(); 
+                $article->subcategories()->attach($subcategoria->id_subcategoria); 
+
+                $article->save(); 
+
                 return response()->json(['message' => 'Article actualitzat correctament'], 200);
             }
         } catch (\Exception $e) {
@@ -64,55 +85,6 @@ class ArticlesController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store()
-    {
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
         try {
@@ -120,6 +92,10 @@ class ArticlesController extends Controller
             if (!$article) {
                 return response()->json(['message' => 'Article no trobat'], 404);
             }
+
+            // Eliminar la subcategoria del artículo
+            $article->subcategories()->detach();
+
             $article->delete();
             return response()->json(['message' => 'Article eliminat correctament'], 200);
         } catch (\Exception $e) {

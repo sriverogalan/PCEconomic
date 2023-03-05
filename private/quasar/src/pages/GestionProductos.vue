@@ -291,6 +291,9 @@ export default defineComponent({
       });
     },
     async updateTable() {
+      await this.getArticlesSubcategories();
+      await this.getSubcategories();
+      await this.getMarques();
       this.dialogEdit = false;
       this.loading = true;
       this.rows = [];
@@ -337,6 +340,7 @@ export default defineComponent({
       this.loading = false;
     },
     async getMarques() {
+      this.marques = [];
       const marquesAxios = await axios.get(process.env.CRIDADA_API + "api/get/marques", {
         cancelToken: source.token,
       });
@@ -350,6 +354,7 @@ export default defineComponent({
       });
     },
     async getArticlesSubcategories() {
+      this.articlesSubcategories = [];
       const articlesSubcategoriesAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/articlessubcategories"
       );
@@ -362,6 +367,7 @@ export default defineComponent({
       });
     },
     async getSubcategories() {
+      this.subcategories = [];
       const subcategoriesAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/subcategories"
       );
@@ -444,9 +450,6 @@ export default defineComponent({
     },
   },
   async created() {
-    await this.getArticlesSubcategories();
-    await this.getSubcategories();
-    await this.getMarques();
     await this.updateTable();
   },
 });

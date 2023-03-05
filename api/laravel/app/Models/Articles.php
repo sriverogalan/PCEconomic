@@ -16,4 +16,9 @@ class Articles extends Model
     {
         return $this->belongsTo(Marques::class, 'id_marca');
     }
+
+    public function subcategories()
+    {
+        return $this->belongsToMany(Subcategories::class, 'articles_subcategories', 'id_article', 'id_subcategoria');
+    }
 }

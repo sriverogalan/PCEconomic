@@ -25,23 +25,6 @@ class ArticlesSubcategoriesControllers extends Controller
      */
     public function create(Request $request)
     {
-        try {
-            if ($request->input("id_article") == "") {
-                $articleSubcategory = new ArticlesSubcategories();
-                $articleSubcategory->id_article = $request->id_article;
-                $articleSubcategory->id_subcategory = $request->id_subcategory;
-                $articleSubcategory->save();
-                return response()->json($articleSubcategory);
-            } else {
-                $articleSubcategory = ArticlesSubcategories::find($request->input("id_article"));
-                $articleSubcategory->id_article = $request->id_article;
-                $articleSubcategory->id_subcategory = $request->id_subcategory;
-                $articleSubcategory->save();
-                return response()->json($articleSubcategory);
-            }
-        } catch (\Throwable $th) {
-            return response()->json($th);
-        }
     }
 
     /**
