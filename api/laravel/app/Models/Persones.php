@@ -12,6 +12,10 @@ class Persones extends Model
     protected $table = 'persones';
     protected $primaryKey = 'id_persona';
 
+    protected $hidden = [
+        'contrasenya',
+    ];
+
     public function rols()
     {
         return $this->belongsToMany(Rols::class, 'persones_rols', 'id_persona', 'id_rol');
