@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Articles;
+use App\Models\ArticlesSubcategories;
 use App\Models\Marques;
 
 class ArticlesController extends Controller
@@ -36,7 +37,7 @@ class ArticlesController extends Controller
 
                 // Encontrar la marca por su nombre y asignar su ID al artículo
                 $marca = Marques::where('nom', $request->input('marca'))->first();
-                $article->id_marca = $marca->id_marca;
+                $article->id_marca = $marca->id_marca; 
 
                 $article->save();
                 return response()->json(['message' => 'Article creat correctament'], 201);

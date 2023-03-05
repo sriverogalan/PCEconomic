@@ -81,7 +81,7 @@
             </q-card-section>
 
             <q-card-section>
-              <q-form>
+              <q-form @submit="pushArticle()" class="q-gutter-md">
                 <q-input
                   v-show="activeId"
                   v-model="articleEdit.id_article"
@@ -89,18 +89,33 @@
                   filled
                   class="q-mb-md"
                   disable
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input
                   v-model="articleEdit.nom"
                   label="Nombre"
                   filled
                   class="q-mb-md"
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input
                   v-model="articleEdit.descripcio"
                   label="Descripcio"
                   filled
                   class="q-mb-md"
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input v-model="articleEdit.pes" label="Pes" filled class="q-mb-md" />
                 <q-select
@@ -113,18 +128,26 @@
 
                 <q-select
                   v-model="articleEdit.subcategoria.nom"
-                  :options="subcategories.map((s)=>{return s.nom})"
+                  :options="
+                    subcategories.map((s) => {
+                      return s.nom;
+                    })
+                  "
                   label="Subcategoria"
                   filled
                   class="q-mb-md"
                 />
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogEdit = false"
+                  />
+                  <q-btn type="submit" label="Guardar" color="purple-14" />
+                </q-card-actions>
               </q-form>
             </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-14" @click="pushArticle()" />
-            </q-card-actions>
           </q-card>
         </q-dialog>
 
@@ -255,7 +278,7 @@ export default defineComponent({
       rows: [],
       rowsFiltrats: [],
       articlesSubcategories: [],
-      subcategories: [] 
+      subcategories: [],
     };
   },
   methods: {
@@ -359,8 +382,9 @@ export default defineComponent({
       this.articleEdit.descripcio = props.row.descripcio;
       this.articleEdit.pes = props.row.pes;
       this.articleEdit.marca.id_marca = props.row.marca.id_marca;
-      this.articleEdit.marca.nom = props.row.marca.nom;  
-      this.articleEdit.subcategoria.id_subcategoria = props.row.subcategoria.id_subcategoria;
+      this.articleEdit.marca.nom = props.row.marca.nom;
+      this.articleEdit.subcategoria.id_subcategoria =
+        props.row.subcategoria.id_subcategoria;
       this.articleEdit.subcategoria.nom = props.row.subcategoria.nom;
 
       this.dialogEdit = true;
@@ -395,6 +419,7 @@ export default defineComponent({
           descripcio: this.articleEdit.descripcio,
           pes: this.articleEdit.pes,
           marca: this.articleEdit.marca.nom,
+          subcategoria: this.articleEdit.subcategoria.nom,
         }
       );
       articleJson = await articleAxios.data;
