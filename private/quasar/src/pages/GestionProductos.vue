@@ -331,7 +331,6 @@ export default defineComponent({
         process.env.CRIDADA_API + "api/get/articlessubcategories"
       );
       const articlesSubcategoriesJson = await articlesSubcategoriesAxios.data;
-      console.log(articlesSubcategoriesJson);
       articlesSubcategoriesJson.forEach((aS) => {
         this.articlesSubcategories.push({
           id_article: aS.id_article,
@@ -360,7 +359,10 @@ export default defineComponent({
       this.articleEdit.descripcio = props.row.descripcio;
       this.articleEdit.pes = props.row.pes;
       this.articleEdit.marca.id_marca = props.row.marca.id_marca;
-      this.articleEdit.marca.nom = props.row.marca.nom;
+      this.articleEdit.marca.nom = props.row.marca.nom;  
+      this.articleEdit.subcategoria.id_subcategoria = props.row.subcategoria.id_subcategoria;
+      this.articleEdit.subcategoria.nom = props.row.subcategoria.nom;
+
       this.dialogEdit = true;
     },
     showDeleteDialog(props) {
@@ -377,6 +379,8 @@ export default defineComponent({
       this.articleEdit.pes = "";
       this.articleEdit.marca.id_marca = "";
       this.articleEdit.marca.nom = "";
+      this.articleEdit.subcategoria.id_subcategoria = "";
+      this.articleEdit.subcategoria.nom = "";
       this.dialogEdit = true;
     },
     async pushArticle() {
