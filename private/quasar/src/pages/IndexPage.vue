@@ -12,7 +12,16 @@
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn
+                icon="person_add_alt_1"
+                color="amber-5"
+                @click="addUserAsAdmin(props)"
+              >
+                <q-tooltip>Añadir cómo Administrador</q-tooltip>
+              </q-btn>
+
+              <q-btn
                 icon="edit"
+                class="ml-2"
                 color="amber-5"
                 @click="editUserDialog(props)"
               />
@@ -58,6 +67,35 @@
                 @click="editDialog = false"
               />
               <q-btn label="Guardar" color="purple-9" @click="updateUser()" />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog
+          v-model="addUserAsAdminDialog"
+          persistent
+          id="addUserAsAdminDialog"
+        >
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Añadir cómo Administrador</div>
+            </q-card-section>
+
+            <q-card-section>
+              <p>
+                Estas seguro que quieres que el usuario
+                {{ addUserAsAdminObj.nom }} se convierta en administrador?
+              </p>
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="deleteDialog = false"
+              />
+              <q-btn label="Guardar" color="purple-9" @click="addAdminUser()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -156,14 +194,19 @@ export default defineComponent({
       rowsFiltrats: [],
       editDialog: false,
       deleteDialog: false,
+      addUserAsAdminDialog: false,
       deleteUserObj: {
+        id: "",
+        nom: "",
+      },
+      addUserAsAdminObj: {
         id: "",
         nom: "",
       },
     };
   },
   methods: {
-    async getPersones() {
+    async getUsers() {
       const personesAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/persones"
       );
@@ -187,7 +230,6 @@ export default defineComponent({
       try {
         this.loading = true;
         this.deleteDialog = false;
-        console.log("Delete User Obj", this.deleteUserObj);
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/delete/persones",
           {
@@ -198,12 +240,32 @@ export default defineComponent({
         console.log(sendJson);
       } catch ($a) {
         console.log($a);
-        console.log("Delete User Obj", this.deleteUserObj);
       } finally {
         this.loading = false;
-        console.log("Delete User Obj", this.deleteUserObj);
+        this.getUsers();
       }
     },
+
+    async addAdminUser() {
+      try {
+        this.loading = true;
+        this.addUserAsAdminDialog = false;
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/roles/admin/add",
+          {
+            id_persona: this.addUserAsAdminObj.id,
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getUsers();
+      }
+    },
+
     editUserDialog(props) {
       this.editDialog = true;
       console.log(props.row);
@@ -212,12 +274,15 @@ export default defineComponent({
       this.deleteDialog = true;
       this.deleteUserObj.nom = props.row.nom + " " + props.row.cognoms;
       this.deleteUserObj.id = props.row.id;
-
-      console.log("Delete User Obj", this.deleteUserObj);
+    },
+    addUserAsAdmin(props) {
+      this.addUserAsAdminDialog = true;
+      this.addUserAsAdminObj.nom = props.row.nom + " " + props.row.cognoms;
+      this.addUserAsAdminObj.id = props.row.id;
     },
   },
   mounted() {
-    this.getPersones();
+    this.getUsers();
   },
 });
 </script>

@@ -47,6 +47,7 @@ Route::controller(PersonesController::class)->group(function () {
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
     Route::post('/api/delete/persones', 'destroy');
+    Route::post('/api/roles/admin/add', 'addPersonAsAdmin');
 });
 
 Route::controller(CategoriaController::class)->group(function () {
