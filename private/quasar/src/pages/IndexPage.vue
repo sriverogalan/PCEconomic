@@ -13,7 +13,7 @@
             <q-td :props="props">
               <q-btn
                 icon="person_add_alt_1"
-                color="amber-5"
+                color="purple-14"
                 @click="addUserAsAdmin(props)"
               >
                 <q-tooltip>Añadir cómo Administrador</q-tooltip>
@@ -93,7 +93,7 @@
                 flat
                 label="Cancelar"
                 color="red-14"
-                @click="deleteDialog = false"
+                @click="addUserAsAdminDialog = false"
               />
               <q-btn label="Guardar" color="purple-9" @click="addAdminUser()" />
             </q-card-actions>
@@ -207,6 +207,7 @@ export default defineComponent({
   },
   methods: {
     async getUsers() {
+      this.rows = [];
       const personesAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/persones"
       );
