@@ -23,7 +23,7 @@
                 icon="edit"
                 class="ml-2"
                 color="amber-5"
-                @click="editUserDialog(props)"
+                @click="editRolesDialog(props)"
               />
               <q-btn
                 icon="delete"
@@ -124,6 +124,42 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
+
+        <q-dialog v-model="editDialog" persistent id="editDialog">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">Eliminar Usuario</div>
+            </q-card-section>
+
+            <q-card-section>
+              <!-- Select multiple de rolsOptions -->
+              <q-select
+                v-model="editUserObj.rols"
+                :options="rolsOptions"
+                label="Rols"
+                multiple
+                use-chips
+                stack-label
+                filled
+                color="purple-6"
+              />
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                flat
+                label="Cancelar"
+                color="red-14"
+                @click="editDialog = false"
+              />
+              <q-btn
+                label="Guardar"
+                color="purple-9"
+                @click="editUserRoles()"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
       </div>
     </div>
   </q-page>
@@ -203,6 +239,12 @@ export default defineComponent({
         id: "",
         nom: "",
       },
+      editUserObj: {
+        id: "",
+        nom: "",
+        rols: [],
+      },
+      rolsOptions: [],
     };
   },
   methods: {
@@ -225,6 +267,20 @@ export default defineComponent({
         });
       });
       this.rowsFiltrats = this.rows;
+    },
+
+    async getRoles() {
+      this.rolsOptions = [];
+      const rolsAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/rols"
+      );
+      const rolsJson = await rolsAxios.data;
+      rolsJson.forEach((r) => {
+        this.rolsOptions.push({
+          label: r.name,
+          value: r.id_rol,
+        });
+      });
     },
 
     async deleteUser() {
@@ -267,6 +323,27 @@ export default defineComponent({
       }
     },
 
+    async editUserRoles() {
+      try {
+        this.loading = true;
+        this.editDialog = false;
+        const sendAxios = await axios.post(
+          process.env.CRIDADA_API + "api/roles/edit",
+          {
+            id_persona: this.editUserObj.id,
+            rols: this.editUserObj.rols.map((r) => r.value),
+          }
+        );
+        const sendJson = await sendAxios.data;
+        console.log(sendJson);
+      } catch ($a) {
+        console.log($a);
+      } finally {
+        this.loading = false;
+        this.getUsers();
+      }
+    },
+
     editUserDialog(props) {
       this.editDialog = true;
       console.log(props.row);
@@ -281,9 +358,16 @@ export default defineComponent({
       this.addUserAsAdminObj.nom = props.row.nom + " " + props.row.cognoms;
       this.addUserAsAdminObj.id = props.row.id;
     },
+
+    editRolesDialog(props) {
+      this.editUserObj.id = props.row.id;
+      this.editUserObj.nom = props.row.nom + " " + props.row.cognoms;
+      this.editDialog = true;
+    },
   },
   mounted() {
     this.getUsers();
+    this.getRoles();
   },
 });
 </script>

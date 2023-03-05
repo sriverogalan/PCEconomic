@@ -18,6 +18,11 @@ class PersonesController extends Controller
         return response()->json(Persones::with('rols')->get());
     }
 
+    public function getRols()
+    {
+        return response()->json(Rols::all());
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -65,6 +70,23 @@ class PersonesController extends Controller
             $person->rols()->attach($rol->id_rol);
             $person->save();
             return response()->json(['message' => 'Person added as admin'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
+    }
+
+    // method to edit the rols of the person using an array of their ids
+    public function editRols(Request $request)
+    {
+        try {
+            $person = Persones::find($request->input('id_persona'));
+            if (!$person) {
+                return response()->json(['message' => 'Person not found'], 404);
+            }
+            $person->rols()->detach();
+            $person->rols()->attach($request->input('rols'));
+            $person->save();
+            return response()->json(['message' => 'Person rols updated'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => $e], 500);
         }
