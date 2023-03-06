@@ -448,7 +448,12 @@ export default defineComponent({
       this.message = articleJson.message;
       this.updateTable();
     },
+
+    async showPropietats(props) {
+      window.location = "/#/articles/" + props.row.id_article;
+    },
   },
+
   async created() {
     await this.updateTable();
   },
