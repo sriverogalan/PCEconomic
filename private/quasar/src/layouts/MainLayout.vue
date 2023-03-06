@@ -2,7 +2,14 @@
   <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-purple-9">
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
 
         <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
       </q-toolbar>
@@ -58,6 +65,11 @@ const linksList = [
     title: "Traduccions",
     icon: "translate",
     link: "/gestiontraducciones",
+  },
+  {
+    title: "Factures",
+    icon: "receipt",
+    link: "/gestionfacturas",
   },
 ];
 

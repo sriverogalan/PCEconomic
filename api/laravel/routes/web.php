@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ArticlesSubcategoriesControllers;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\FacturesController;
 use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarquesController;
@@ -35,7 +36,7 @@ Route::controller(ArticlesSubcategoriesControllers::class)->group(function () {
     Route::get('/api/get/articlessubcategories', 'index');
     Route::post('/api/create/articlessubcategories', 'create');
     Route::post('/api/update/articlessubcategories', 'create');
-    Route::post('/api/delete/articlessubcategories', 'delete');  
+    Route::post('/api/delete/articlessubcategories', 'delete');
 });
 
 Route::controller(ArticlesController::class)->group(function () {
@@ -67,4 +68,8 @@ Route::controller(SubcategoriaController::class)->group(function () {
     Route::post('/api/create/subcategories', 'store');
     Route::post('/api/update/subcategories', 'update');
     Route::post('/api/delete/subcategories', 'destroy');
+});
+
+Route::controller(FacturesController::class)->group(function () {
+    Route::get('/api/get/factures', 'index');
 });
