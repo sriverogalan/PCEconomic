@@ -29,7 +29,7 @@ const routes = [
         component: () => import("pages/GestionTraducciones.vue"),
       },
       {
-        path: "articles/:prop",
+        path: "articles/:id_article",
         name: "PCEconomic Propietats",
         component: () => import("pages/GestionPropietats.vue"),
       },
