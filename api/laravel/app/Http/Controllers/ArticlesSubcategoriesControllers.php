@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArticlesSubcategories;
 use Illuminate\Http\Request;
 
-class ArticlesSubcategories extends Controller
+class ArticlesSubcategoriesControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class ArticlesSubcategories extends Controller
      */
     public function index()
     {
-        
+        return response()->json(ArticlesSubcategories::all());
     }
 
     /**
@@ -22,9 +23,8 @@ class ArticlesSubcategories extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(Request $request)
     {
-        //
     }
 
     /**
@@ -45,10 +45,6 @@ class ArticlesSubcategories extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
