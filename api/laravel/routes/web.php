@@ -38,17 +38,6 @@ Route::controller(ArticlesSubcategoriesControllers::class)->group(function () {
     Route::post('/api/delete/articlessubcategories', 'delete');  
 });
 
-Route::controller(SubcategoriaController::class)->group(function () {
-    Route::get('/api/get/subcategories', 'index');
-    Route::post('/api/create/subcategories', 'create');
-    Route::post('/api/update/subcategories', 'create');
-    Route::post('/api/delete/subcategories', 'delete');
-});
-
-Route::controller(RolesController::class)->group(function () {
-    Route::get('/api/get/roles', 'index');
-});
-
 Route::controller(ArticlesController::class)->group(function () {
     Route::get('/api/get/articles', 'index');
     Route::post('/api/create/articles', 'create');
@@ -59,9 +48,11 @@ Route::controller(ArticlesController::class)->group(function () {
 Route::controller(PersonesController::class)->group(function () {
     Route::get('/api/get/persones', 'index');
     Route::get('/api/get/rols', 'getRols');
+    Route::post('api/roles/edit', 'editRols');
     Route::post('/api/create/persones', 'create');
     Route::post('/api/update/persones', 'update');
-    Route::post('/api/delete/persones', 'delete');
+    Route::post('/api/delete/persones', 'destroy');
+    Route::post('/api/roles/admin/add', 'addPersonAsAdmin');
 });
 
 Route::controller(CategoriaController::class)->group(function () {

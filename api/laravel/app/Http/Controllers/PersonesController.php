@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Persones;
+use App\Models\Rols;
 use Illuminate\Http\Request;
 
 class PersonesController extends Controller
@@ -17,47 +18,9 @@ class PersonesController extends Controller
         return response()->json(Persones::with('rols')->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getRols()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response()->json(Rols::all());
     }
 
     /**
@@ -78,8 +41,54 @@ class PersonesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        try {
+            $person = Persones::find($request->input('id_persona'));
+            if (!$person) {
+                return response()->json(['message' => 'Person not found'], 404);
+            }
+            $person->rols()->detach();
+            $person->delete();
+            return response()->json(['message' => 'Person deleted'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
+    }
+
+    public function addPersonAsAdmin(Request $request)
+    {
+        try {
+            $person = Persones::find($request->input('id_persona'));
+            if (!$person) {
+                return response()->json(['message' => 'Person not found'], 404);
+            }
+            $rol = Rols::where('name', 'ADMINISTRADOR')->first();
+
+            if (!$rol) return response()->json(['message' => 'Rol not found'], 404);
+
+            $person->rols()->attach($rol->id_rol);
+            $person->save();
+            return response()->json(['message' => 'Person added as admin'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
+    }
+
+    // method to edit the rols of the person using an array of their ids
+    public function editRols(Request $request)
+    {
+        try {
+            $person = Persones::find($request->input('id_persona'));
+            if (!$person) {
+                return response()->json(['message' => 'Person not found'], 404);
+            }
+            $person->rols()->detach();
+            $person->rols()->attach($request->input('rols'));
+            $person->save();
+            return response()->json(['message' => 'Person rols updated'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
     }
 }
