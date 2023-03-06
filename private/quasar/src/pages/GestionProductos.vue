@@ -81,7 +81,7 @@
             </q-card-section>
 
             <q-card-section>
-              <q-form>
+              <q-form @submit="pushArticle()" class="q-gutter-md">
                 <q-input
                   v-show="activeId"
                   v-model="articleEdit.id_article"
@@ -89,18 +89,33 @@
                   filled
                   class="q-mb-md"
                   disable
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input
                   v-model="articleEdit.nom"
                   label="Nombre"
                   filled
                   class="q-mb-md"
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input
                   v-model="articleEdit.descripcio"
                   label="Descripcio"
                   filled
                   class="q-mb-md"
+                  lazy-rules="
+                    val => {
+                      return val.length > 0 || 'El id es obligatorio';
+                    }
+                  "
                 />
                 <q-input v-model="articleEdit.pes" label="Pes" filled class="q-mb-md" />
                 <q-select
@@ -109,15 +124,30 @@
                   label="Marca"
                   filled
                   class="q-mb-md"
-                >
-                </q-select>
+                />
+
+                <q-select
+                  v-model="articleEdit.subcategoria.nom"
+                  :options="
+                    subcategories.map((s) => {
+                      return s.nom;
+                    })
+                  "
+                  label="Subcategoria"
+                  filled
+                  class="q-mb-md"
+                />
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    @click="dialogEdit = false"
+                  />
+                  <q-btn type="submit" label="Guardar" color="purple-14" />
+                </q-card-actions>
               </q-form>
             </q-card-section>
-
-            <q-card-actions align="right">
-              <q-btn flat label="Cancelar" color="red-14" @click="dialogEdit = false" />
-              <q-btn label="Guardar" color="purple-14" @click="pushArticle()" />
-            </q-card-actions>
           </q-card>
         </q-dialog>
 
@@ -183,6 +213,10 @@ export default defineComponent({
           id_marca: "",
           nom: "",
         },
+        subcategoria: {
+          id_subcategoria: "",
+          nom: "",
+        },
       },
       marques: [],
       columns: [
@@ -227,6 +261,14 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: "Subcategoria",
+          required: true,
+          label: "Subcategoria",
+          align: "center",
+          field: (row) => row.subcategoria.nom,
+          sortable: true,
+        },
+        {
           name: "actions",
           align: "center",
           label: "Acciones",
@@ -235,6 +277,8 @@ export default defineComponent({
       ],
       rows: [],
       rowsFiltrats: [],
+      articlesSubcategories: [],
+      subcategories: [],
     };
   },
   methods: {
@@ -247,6 +291,9 @@ export default defineComponent({
       });
     },
     async updateTable() {
+      await this.getArticlesSubcategories();
+      await this.getSubcategories();
+      await this.getMarques();
       this.dialogEdit = false;
       this.loading = true;
       this.rows = [];
@@ -263,9 +310,29 @@ export default defineComponent({
           descripcio: a.descripcio,
           pes: a.pes,
           marca: {
-            id_marca: a.marca.id_marca,
+            id_marca: a.id_marca,
             nom: a.marca.nom,
           },
+          subcategoria: {
+            id_subcategoria: "",
+            nom: "",
+          },
+        });
+      });
+
+      this.rows.forEach((a) => {
+        this.articlesSubcategories.forEach((aS) => {
+          if (a.id_article == aS.id_article) {
+            a.subcategoria.id_subcategoria = aS.id_subcategoria;
+          }
+        });
+      });
+
+      this.rows.forEach((a) => {
+        this.subcategories.forEach((s) => {
+          if (a.subcategoria.id_subcategoria == s.id_subcategoria) {
+            a.subcategoria.nom = s.nom;
+          }
         });
       });
 
@@ -273,6 +340,7 @@ export default defineComponent({
       this.loading = false;
     },
     async getMarques() {
+      this.marques = [];
       const marquesAxios = await axios.get(process.env.CRIDADA_API + "api/get/marques", {
         cancelToken: source.token,
       });
@@ -285,7 +353,33 @@ export default defineComponent({
         }
       });
     },
+    async getArticlesSubcategories() {
+      this.articlesSubcategories = [];
+      const articlesSubcategoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/articlessubcategories"
+      );
+      const articlesSubcategoriesJson = await articlesSubcategoriesAxios.data;
+      articlesSubcategoriesJson.forEach((aS) => {
+        this.articlesSubcategories.push({
+          id_article: aS.id_article,
+          id_subcategoria: aS.id_subcategoria,
+        });
+      });
+    },
+    async getSubcategories() {
+      this.subcategories = [];
+      const subcategoriesAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/subcategories"
+      );
+      const subcategoriesJson = await subcategoriesAxios.data;
 
+      subcategoriesJson.forEach((s) => {
+        this.subcategories.push({
+          id_subcategoria: s.id_subcategoria,
+          nom: s.nom,
+        });
+      });
+    },
     showEditDialog(props) {
       this.activeId = true;
       this.titolcard = "Edita el articulo " + props.row.nom;
@@ -295,6 +389,10 @@ export default defineComponent({
       this.articleEdit.pes = props.row.pes;
       this.articleEdit.marca.id_marca = props.row.marca.id_marca;
       this.articleEdit.marca.nom = props.row.marca.nom;
+      this.articleEdit.subcategoria.id_subcategoria =
+        props.row.subcategoria.id_subcategoria;
+      this.articleEdit.subcategoria.nom = props.row.subcategoria.nom;
+
       this.dialogEdit = true;
     },
     showDeleteDialog(props) {
@@ -311,6 +409,8 @@ export default defineComponent({
       this.articleEdit.pes = "";
       this.articleEdit.marca.id_marca = "";
       this.articleEdit.marca.nom = "";
+      this.articleEdit.subcategoria.id_subcategoria = "";
+      this.articleEdit.subcategoria.nom = "";
       this.dialogEdit = true;
     },
     async pushArticle() {
@@ -325,6 +425,7 @@ export default defineComponent({
           descripcio: this.articleEdit.descripcio,
           pes: this.articleEdit.pes,
           marca: this.articleEdit.marca.nom,
+          subcategoria: this.articleEdit.subcategoria.nom,
         }
       );
       articleJson = await articleAxios.data;
@@ -347,10 +448,14 @@ export default defineComponent({
       this.message = articleJson.message;
       this.updateTable();
     },
+
+    async showPropietats(props) {
+      window.location = "/#/articles/" + props.row.id_article;
+    },
   },
-  created() {
-    this.getMarques();
-    this.updateTable();
+
+  async created() {
+    await this.updateTable();
   },
 });
 </script>
