@@ -10,16 +10,10 @@ class Persones extends Model
     use HasFactory;
 
     protected $table = 'persones';
-
     protected $primaryKey = 'id_persona';
 
-    protected $attributes = [
-        'nom' => '',
-        'cognom1' => '',
-        'cognom2' => '',
-        'email' => '',
-        'telefon' => '',
-        'contraseña' => '',
+    protected $hidden = [
+        'contrasenya',
     ];
 
     public function rols()
