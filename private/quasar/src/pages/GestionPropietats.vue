@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona {{ articleId }}</h1>
+      <h1 class="col-12 text-center">{{ articleNom }}</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -21,13 +21,6 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn
-                icon="design_services"
-                color="purple-14"
-                @click="showPropietats(props)"
-              >
-                <q-tooltip> Propietats {{ props.row.nom }} </q-tooltip>
-              </q-btn>
               <q-btn
                 icon="edit"
                 class="ml-2"
@@ -59,12 +52,7 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn
-              class="mb-1"
-              color="purple-14"
-              icon="add"
-              @click="showCreateDialog()"
-            />
+            <q-btn color="purple-14" icon="add" @click="showCreateDialog()" />
             <q-btn
               class="mb-1 ml-1"
               color="amber-14"
@@ -111,6 +99,7 @@
                   label="Descripcio"
                   filled
                   class="q-mb-md"
+                  type="textarea"
                   lazy-rules="
                       val => {
                         return val.length > 0 || 'El id es obligatorio';
@@ -205,7 +194,16 @@ export default defineComponent({
       mensajeServidor: false,
       message: "",
       articleId: this.$route.params.id_article,
-      marques: [],
+      articleNom: this.$route.params.nom,
+
+      articlePropietats: {
+        id_propietats: "",
+        es_principal: "",
+        preu: "",
+        stock: "",
+        propietats: "",
+      },
+
       columns: [
         {
           name: "Id",
@@ -232,23 +230,20 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "Marca",
-          required: true,
-          label: "Marca",
-          align: "center",
-          field: (row) => row.stock,
-          sortable: true,
-        },
-        {
           name: "Stock",
           required: true,
           label: "Stock",
           align: "center",
           field: (row) => row.stock,
           sortable: true,
-        }, 
+        },
         {
-          name: ""
+          name: "Propietats",
+          required: true,
+          label: "Propiedades",
+          align: "center",
+          field: (row) => row.propietats,
+          sortable: true,
         },
         {
           name: "actions",
@@ -272,49 +267,38 @@ export default defineComponent({
         );
       });
     },
-    async updateTable() { 
+    async updateTable() {
       this.dialogEdit = false;
       this.loading = true;
       this.rows = [];
-     
-      const articleAxios = await axios.get(process.env.CRIDADA_API + "api/get/articles", {
-        cancelToken: source.token,
-      });
-      const articleJson = await articleAxios.data;
-      console.log(articleJson);
 
-      articleJson.forEach((a) => {
+      const propietatsAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/propietats",
+        {
+          params: {
+            id_article: this.articleId,
+          },
+        }
+      );
+      const propietatsJson = await propietatsAxios.data;
+      console.log(propietatsJson);
+
+      propietatsJson.forEach((a) => {
         this.rows.push({
-          id_article: a.id_article,
-          nom: a.nom,
-          descripcio: a.descripcio,
-          pes: a.pes,
-          marca: {
-            id_marca: a.id_marca,
-            nom: a.marca.nom,
-          },
-          subcategoria: {
-            id_subcategoria: "",
-            nom: "",
-          },
+          id_propietats: a.id_propietats,
+          es_principal: a.es_principal == 1 ? "Si" : "No",
+          preu: a.preu,
+          stock: a.stock,
+          propietats: a.propietats,
         });
-      }); 
+      });
 
       this.rowsFiltrats = this.rows;
       this.loading = false;
-    }, 
+    },
     showEditDialog(props) {
       this.activeId = true;
       this.titolcard = "Edita el articulo " + props.row.nom;
-      this.articleEdit.id_article = props.row.id_article;
-      this.articleEdit.nom = props.row.nom;
-      this.articleEdit.descripcio = props.row.descripcio;
-      this.articleEdit.pes = props.row.pes;
-      this.articleEdit.marca.id_marca = props.row.marca.id_marca;
-      this.articleEdit.marca.nom = props.row.marca.nom;
-      this.articleEdit.subcategoria.id_subcategoria =
-        props.row.subcategoria.id_subcategoria;
-      this.articleEdit.subcategoria.nom = props.row.subcategoria.nom;
 
       this.dialogEdit = true;
     },

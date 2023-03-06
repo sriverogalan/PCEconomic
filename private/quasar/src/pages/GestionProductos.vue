@@ -110,6 +110,7 @@
                   v-model="articleEdit.descripcio"
                   label="Descripcio"
                   filled
+                  type="textarea"
                   class="q-mb-md"
                   lazy-rules="
                     val => {
@@ -447,7 +448,7 @@ export default defineComponent({
     },
 
     async showPropietats(props) {
-      this.$router.push(`/articles/${props.row.id_article}`);
+      this.$router.push(`/article/${props.row.id_article}/${props.row.nom}`);
     },
   },
 

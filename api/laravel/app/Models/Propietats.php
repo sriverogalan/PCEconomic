@@ -9,5 +9,17 @@ class Propietats extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = "id_propietats";
+    public $timestamps = false;
     protected $table = 'propietats';
+
+    public function article()
+    {
+        return $this->belongsTo(Articles::class, 'id_article');
+    }
+
+    public function valors()
+    {
+        return $this->belongsToMany(Valors::class, 'propietats_valor', 'propietats_id_propietats', 'valor_id_valor');
+    }
 }

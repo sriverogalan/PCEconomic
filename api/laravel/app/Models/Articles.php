@@ -21,4 +21,9 @@ class Articles extends Model
     {
         return $this->belongsToMany(Subcategories::class, 'articles_subcategories', 'id_article', 'id_subcategoria');
     }
+
+    public function propietats()
+    {
+        return $this->hasMany(Propietats::class, 'id_article');
+    }
 }
