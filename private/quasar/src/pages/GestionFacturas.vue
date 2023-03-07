@@ -297,8 +297,7 @@ export default {
     },
 
     generatePDF() {
-      let table = document.querySelector("table");
-      exportToPDF(table, this.information);
+      exportToPDF(this.lineaFacturaRowsFiltrats, this.information);
     },
   },
   mounted() {
