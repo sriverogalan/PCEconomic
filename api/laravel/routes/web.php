@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ArticlesSubcategoriesControllers;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\FacturesController;
 use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarquesController;
@@ -77,3 +78,5 @@ Route::controller(SubcategoriaController::class)->group(function () {
     Route::post('/api/update/subcategories', 'update');
     Route::post('/api/delete/subcategories', 'destroy');
 });
+
+Route::get('/api/get/factures', [FacturesController::class, 'index']);
