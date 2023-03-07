@@ -1,15 +1,15 @@
 import { jsPDF } from "jspdf";
+require("jspdf-autotable");
 
 export function exportToPDF(table, information) {
-  jsPDF = new jsPDF();
-
   // Crear un nuevo documento PDF
-  var doc = new jsPDF();
+  const doc = new jsPDF();
 
-  // Agregar el título de la factura
+  // Agrega el título de la factura
   doc.setFontSize(22);
   doc.text("Factura nº " + information.id, 20, 20);
-  // Agregar las líneas de información de la factura
+
+  // Agrega las líneas de información de la factura
   doc.setFontSize(12);
   doc.text("ID: " + information.id, 20, 40);
   doc.text("Fecha: " + information.date, 20, 50);
@@ -18,19 +18,19 @@ export function exportToPDF(table, information) {
   doc.text("Método de pago: " + information.metodo_pago, 20, 80);
   doc.text("Estado de la factura: " + information.status, 20, 90);
 
-  // Convertir la tabla HTML en una tabla de PDF
+  // Convierte la tabla HTML en una tabla de PDF
   doc.autoTable({
     html: table,
     startY: 110,
   });
 
-  // Agregar el precio del transporte y el precio final
-  var precioTransporte = information.transport;
-  var precioTotal = information.price;
+  // Agrega el precio del transporte y el precio final
+  const precioTransporte = information.transport;
+  const precioTotal = information.price;
   doc.setFontSize(14);
   doc.text("Precio del transporte: " + precioTransporte, 20, 220);
   doc.text("Precio total: " + precioTotal, 20, 230);
 
-  // Guardar el PDF en el disco duro
+  // Guarda el PDF en el disco duro
   doc.save(`factura_${information.id}.pdf`);
 }
