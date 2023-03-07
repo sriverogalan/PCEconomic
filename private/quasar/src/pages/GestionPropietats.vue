@@ -96,15 +96,19 @@
                   filled
                   type="text"
                   hint="Stock"
-                  :rules="[(val) => val.length > 0 || 'Stock']"
-                /> 
+                  :rules="[(val) => val.length > 0]"
+                />
 
                 <q-file
                   name="poster_file"
-                  v-model="file"
+                  v-model="articlesSubcategories.path"
                   filled
-                  label="Select poster image"
-                />
+                  label="Elige la imagen principal"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="cloud_upload" />
+                  </template>
+                </q-file>
 
                 <q-file
                   name="cover_files"
@@ -112,8 +116,12 @@
                   filled
                   multiple
                   use-chips
-                  label="Select cover images"
-                />
+                  label="Elige las imagenes secundarias"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="cloud_upload" />
+                  </template>
+                </q-file>
 
                 <q-card-actions align="right">
                   <q-btn
@@ -317,7 +325,7 @@ export default defineComponent({
     },
     showEditDialog(props) {
       this.activeId = true;
-      this.titolcard = "Edita el articulo " + props.row.nom;  
+      this.titolcard = "Edita el articulo " + props.row.nom;
       this.articlesSubcategories.id_propietats = props.row.id_propietats;
       this.articlesSubcategories.es_principal = props.row.es_principal;
       this.articlesSubcategories.preu = props.row.preu;
