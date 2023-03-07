@@ -110,6 +110,7 @@
                   v-model="articleEdit.descripcio"
                   label="Descripcio"
                   filled
+                  type="textarea"
                   class="q-mb-md"
                   lazy-rules="
                     val => {
@@ -291,18 +292,16 @@ export default defineComponent({
       });
     },
     async updateTable() {
+      this.loading = true;
       await this.getArticlesSubcategories();
       await this.getSubcategories();
       await this.getMarques();
       this.dialogEdit = false;
-      this.loading = true;
       this.rows = [];
       const articleAxios = await axios.get(process.env.CRIDADA_API + "api/get/articles", {
         cancelToken: source.token,
       });
       const articleJson = await articleAxios.data;
-      console.log(articleJson);
-
       articleJson.forEach((a) => {
         this.rows.push({
           id_article: a.id_article,
@@ -345,7 +344,6 @@ export default defineComponent({
         cancelToken: source.token,
       });
       const marquesJson = await marquesAxios.data;
-      console.log(marquesJson);
 
       marquesJson.forEach((m) => {
         if (m.is_actiu) {
@@ -450,7 +448,7 @@ export default defineComponent({
     },
 
     async showPropietats(props) {
-      window.location = "/#/articles/" + props.row.id_article;
+      this.$router.push(`/article/${props.row.id_article}/${props.row.nom}`);
     },
   },
 
