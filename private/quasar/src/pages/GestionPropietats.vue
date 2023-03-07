@@ -98,7 +98,14 @@
                   @click="addPropietat()"
                 ></q-btn>
 
-                <div id="addProps"></div>
+                <div id="addProps" class="hidden">
+                  <q-select
+                    v-model="articlePropietats.propietats"
+                    :options="propietats"
+                    label="Propietats"
+                    filled
+                  ></q-select>
+                </div>
 
                 <q-card-actions align="right">
                   <q-btn
@@ -149,11 +156,9 @@
 <script>
 import axios from "axios";
 import process from "process";
-import { QSelect, useQuasar } from "quasar";
 import { defineComponent } from "vue";
 
 const source = axios.CancelToken.source();
-const $q = useQuasar();
 
 export default defineComponent({
   name: "IndexPage",
@@ -171,6 +176,9 @@ export default defineComponent({
       articleNom: this.$route.params.nom,
 
       valors_propietats: [],
+      propietats: [],
+      valors: [],
+
       rows: [],
       rowsFiltrats: [],
       articlesSubcategories: [],
@@ -247,31 +255,16 @@ export default defineComponent({
   },
   methods: {
     addPropietat() {
-      // crear instancia del componente QSelect
-      const qSelect = { ...QSelect };
-
-      const div = document.createElement("div");
-      document.getElementById("addProps").appendChild(div);
-
-      const props = {
-        options: this.options,
-        // Agregar otras propiedades según sea necesario
-      };
-
-      new Vue({
-        el: div,
-        render: function (createElement) {
-          return createElement(qSelect, {
-            props: props,
-          });
-        },
-      });
+      const addProps = document.querySelector("#addProps");
+      // quitar hidden addProp
+      addProps.classList.remove("hidden");
     },
     formatearEuros(numero) {
-      return numero.toLocaleString("es-ES", {
+      // Formatea el numero a euros
+      return new Intl.NumberFormat("es-ES", {
         style: "currency",
         currency: "EUR",
-      });
+      }).format(numero);
     },
 
     filtrar() {
@@ -349,9 +342,18 @@ export default defineComponent({
             valor: a.valor,
           },
         });
+        this.propietats.push(a.propietat[0].nom);
+        this.valors.push(a.valor);
       });
 
-      console.log(this.valors_propietats);
+      console.log("propietats", this.propietats);
+      console.log("valors", this.valors);
+
+      this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
+      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
+
+      console.log("propietats", this.propietats);
+      console.log("valors", this.valors);
     },
 
     showEditDialog(props) {
