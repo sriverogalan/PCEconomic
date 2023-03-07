@@ -45,7 +45,7 @@
         <q-card style="width: 100%">
           <q-card-section>
             <q-table
-              id="lineaFacturaTable"
+              id="miTabla"
               :title="facturaInfo.title"
               :rows="lineaFacturaRowsFiltrats"
               :columns="lineaFacturaColumns"
@@ -297,7 +297,7 @@ export default {
     },
 
     generatePDF() {
-      let table = document.querySelector("#lineaFacturaTable");
+      let table = document.querySelector("table");
       exportToPDF(table, this.information);
     },
   },
