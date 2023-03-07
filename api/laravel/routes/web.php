@@ -8,6 +8,8 @@ use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarquesController;
 use App\Http\Controllers\PersonesController;
+use App\Http\Controllers\PropietatsController;
+use App\Models\Propietats;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,13 @@ Route::controller(ArticlesController::class)->group(function () {
     Route::post('/api/create/articles', 'create');
     Route::post('/api/update/articles', 'create');
     Route::post('/api/delete/articles', 'destroy');
+});
+
+Route::controller(PropietatsController::class)->group(function () {
+    Route::get('/api/get/propietats', 'index');
+    Route::post('/api/create/propietats', 'create');
+    Route::post('/api/update/propietats', 'create');
+    Route::post('/api/delete/propietats', 'delete');
 });
 
 Route::controller(PersonesController::class)->group(function () {
