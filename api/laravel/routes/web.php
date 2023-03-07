@@ -70,6 +70,4 @@ Route::controller(SubcategoriaController::class)->group(function () {
     Route::post('/api/delete/subcategories', 'destroy');
 });
 
-Route::controller(FacturesController::class)->group(function () {
-    Route::get('/api/get/factures', 'index');
-});
+Route::get('/api/get/factures', [FacturesController::class, 'index']);
