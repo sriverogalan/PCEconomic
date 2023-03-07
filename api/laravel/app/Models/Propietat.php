@@ -9,5 +9,7 @@ class Propietat extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = "id_propietat";
+    public $timestamps = false;
     protected $table = 'propietat';
 }

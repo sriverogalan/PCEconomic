@@ -28,13 +28,13 @@ const routes = [
         name: "PCEconomic Traducciones",
         component: () => import("pages/GestionTraducciones.vue"),
       },
-      {
+      { 
         path: "gestionfacturas",
         name: "PCEconomic Facturas",
         component: () => import("pages/GestionFacturas.vue"),
       },
       {
-        path: "articles/:prop",
+        path: "article/:id_article/:nom",
         name: "PCEconomic Propietats",
         component: () => import("pages/GestionPropietats.vue"),
       },
