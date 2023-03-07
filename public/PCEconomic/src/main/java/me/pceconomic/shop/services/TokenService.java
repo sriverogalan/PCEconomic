@@ -42,12 +42,6 @@ public class TokenService {
         }
     }
 
-    public Claims getClaims(HttpServletRequest request) {
-        String auth = request.getHeader("Authorization");
-        String token = auth.replace("Bearer ", "");
-        return getClaims(token);
-    }
-
     public Claims getClaims(String token) {
         Claims claims = null;
         try {
@@ -59,9 +53,5 @@ public class TokenService {
             e.printStackTrace();
         }
         return claims;
-    }
-
-    public void invalidateToken(String token) {
-        Claims claims;
     }
 }
