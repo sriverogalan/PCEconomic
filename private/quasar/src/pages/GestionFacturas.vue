@@ -97,6 +97,8 @@
 </template>
 <script>
 import process from "process";
+import { formatCurrency, formatDate } from "src/other/utils";
+
 export default {
   name: "GestionFacturas",
   data() {
@@ -201,7 +203,7 @@ export default {
       factures.forEach((factura) => {
         this.facturaRows.push({
           id_factura: factura.id_factura,
-          data: this.formatDate(factura.data),
+          data: formatDate(factura.data),
           preu_transport: factura.preu_transport,
           preu_total: factura.preu,
         });
@@ -213,10 +215,10 @@ export default {
             nomArticle: lineaFactura.nom_article,
             propietats: lineaFactura.propietats,
             quantitat: lineaFactura.quantitat,
-            preuproducte: this.formatCurrency(
+            preuproducte: formatCurrency(
               parseFloat(lineaFactura.preu / lineaFactura.quantitat)
             ),
-            preulineatotal: this.formatCurrency(parseFloat(lineaFactura.preu)),
+            preulineatotal: formatCurrency(parseFloat(lineaFactura.preu)),
           });
         });
       });
@@ -231,10 +233,10 @@ export default {
 
       this.facturaInfo.id = id;
       this.facturaInfo.title = "Información de la factura nº " + id;
-      this.facturaInfo.preu_transport = this.formatCurrency(
+      this.facturaInfo.preu_transport = formatCurrency(
         parseFloat(props.row.preu_transport)
       );
-      this.facturaInfo.preu_total = this.formatCurrency(
+      this.facturaInfo.preu_total = formatCurrency(
         parseFloat(props.row.preu_total)
       );
 
@@ -244,27 +246,6 @@ export default {
     },
     showGeneratePdfDialog() {
       this.generatePdfDialog = true;
-    },
-    formatCurrency(amount) {
-      return (
-        amount
-          .toFixed(2)
-          .toString()
-          .replace(".", ",")
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €"
-      );
-    },
-    // metodo para poder formatear la fecha 
-    formatDate(date) {
-      let d = new Date(date),
-        month = "" + (d.getMonth() + 1),
-        day = "" + d.getDate(),
-        year = d.getFullYear();
-
-      if (month.length < 2) month = "0" + month;
-      if (day.length < 2) day = "0" + day;
-
-      return [day, month, year].join("/");
     },
   },
   mounted() {
