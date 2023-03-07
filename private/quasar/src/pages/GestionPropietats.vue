@@ -70,62 +70,51 @@
 
             <q-card-section>
               <q-form @submit="pushArticle()" class="q-gutter-md">
-                <q-input
-                  v-show="activeId"
-                  v-model="articleEdit.id_article"
-                  label="Id"
-                  filled
-                  class="q-mb-md"
-                  disable
-                  lazy-rules="
-                      val => {
-                        return val.length > 0 || 'El id es obligatorio';
-                      }
-                    "
-                />
-                <q-input
-                  v-model="articleEdit.nom"
-                  label="Nombre"
-                  filled
-                  class="q-mb-md"
-                  lazy-rules="
-                      val => {
-                        return val.length > 0 || 'El id es obligatorio';
-                      }
-                    "
-                />
-                <q-input
-                  v-model="articleEdit.descripcio"
-                  label="Descripcio"
-                  filled
-                  class="q-mb-md"
-                  type="textarea"
-                  lazy-rules="
-                      val => {
-                        return val.length > 0 || 'El id es obligatorio';
-                      }
-                    "
-                />
-                <q-input v-model="articleEdit.pes" label="Pes" filled class="q-mb-md" />
                 <q-select
-                  v-model="articleEdit.marca.nom"
-                  :options="marques"
-                  label="Marca"
+                  v-model="articlesSubcategories.es_principal"
+                  label="Principal"
                   filled
-                  class="q-mb-md"
+                  :options="[
+                    { label: 'Si', value: '1' },
+                    { label: 'No', value: '0' },
+                  ]"
+                  :rules="[(val) => val.length > 0 || 'Principal']"
                 />
 
-                <q-select
-                  v-model="articleEdit.subcategoria.nom"
-                  :options="
-                    subcategories.map((s) => {
-                      return s.nom;
-                    })
-                  "
-                  label="Subcategoria"
+                <q-input
+                  v-model="articlesSubcategories.preu"
+                  label="Preu"
                   filled
-                  class="q-mb-md"
+                  type="text"
+                  hint="Preu"
+                  :rules="[(val) => val.length > 0 || 'Preu']"
                 />
+
+                <q-input
+                  v-model="articlesSubcategories.stock"
+                  label="Stock"
+                  filled
+                  type="text"
+                  hint="Stock"
+                  :rules="[(val) => val.length > 0 || 'Stock']"
+                /> 
+
+                <q-file
+                  name="poster_file"
+                  v-model="file"
+                  filled
+                  label="Select poster image"
+                />
+
+                <q-file
+                  name="cover_files"
+                  v-model="files"
+                  filled
+                  multiple
+                  use-chips
+                  label="Select cover images"
+                />
+
                 <q-card-actions align="right">
                   <q-btn
                     flat
@@ -202,6 +191,9 @@ export default defineComponent({
         preu: "",
         stock: "",
         propietats: "",
+        paths: "",
+        valors: [],
+        path: [],
       },
 
       columns: [
@@ -246,6 +238,14 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: "Imatges",
+          required: true,
+          label: "Imatges",
+          align: "center",
+          field: (row) => row.paths,
+          sortable: true,
+        },
+        {
           name: "actions",
           align: "center",
           label: "Acciones",
@@ -284,12 +284,31 @@ export default defineComponent({
       console.log(propietatsJson);
 
       propietatsJson.forEach((a) => {
+        let propietats = "";
+        let paths = "";
+        a.valors.forEach((v) => {
+          propietats += v.propietat[0].nom + " " + v.valor;
+
+          if (a.valors.length > 1 && a.valors.indexOf(v) != a.valors.length - 1) {
+            propietats += ", ";
+          }
+        });
+        a.imatges.forEach((i) => {
+          paths += i.path;
+          if (a.imatges.length > 1 && a.imatges.indexOf(i) != a.imatges.length - 1) {
+            paths += ", ";
+          }
+        });
+
         this.rows.push({
           id_propietats: a.id_propietats,
           es_principal: a.es_principal == 1 ? "Si" : "No",
           preu: a.preu,
           stock: a.stock,
-          propietats: a.propietats,
+          propietats: propietats,
+          valors: a.valors,
+          pathImages: a.paths,
+          paths: paths,
         });
       });
 
@@ -298,7 +317,15 @@ export default defineComponent({
     },
     showEditDialog(props) {
       this.activeId = true;
-      this.titolcard = "Edita el articulo " + props.row.nom;
+      this.titolcard = "Edita el articulo " + props.row.nom;  
+      this.articlesSubcategories.id_propietats = props.row.id_propietats;
+      this.articlesSubcategories.es_principal = props.row.es_principal;
+      this.articlesSubcategories.preu = props.row.preu;
+      this.articlesSubcategories.stock = props.row.stock;
+      this.articlesSubcategories.propietats = props.row.propietats;
+      this.articlesSubcategories.paths = props.row.paths;
+      this.articlesSubcategories.valors = props.row.valors;
+      this.articlesSubcategories.path = props.row.path;
 
       this.dialogEdit = true;
     },
@@ -310,14 +337,14 @@ export default defineComponent({
     showCreateDialog() {
       this.activeId = false;
       this.titolcard = "Crea tu articulo";
-      this.articleEdit.id_article = "";
-      this.articleEdit.nom = "";
-      this.articleEdit.descripcio = "";
-      this.articleEdit.pes = "";
-      this.articleEdit.marca.id_marca = "";
-      this.articleEdit.marca.nom = "";
-      this.articleEdit.subcategoria.id_subcategoria = "";
-      this.articleEdit.subcategoria.nom = "";
+      this.articlesSubcategories.id_propietats = "";
+      this.articlesSubcategories.es_principal = "";
+      this.articlesSubcategories.preu = "";
+      this.articlesSubcategories.stock = "";
+      this.articlesSubcategories.propietats = "";
+      this.articlesSubcategories.paths = "";
+      this.articlesSubcategories.valors = [];
+      this.articlesSubcategories.path = [];
       this.dialogEdit = true;
     },
     async pushArticle() {

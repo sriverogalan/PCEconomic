@@ -19,7 +19,11 @@ class PropietatsController extends Controller
         $vals = Propietats::where(
             'id_article',
             $request->input('id_article')
-        )->with('valors.propietat')->get();
+        )
+            ->with('valors.propietat')
+            ->with('imatges')
+            ->get();
+
 
         return response()->json($vals);
     }
