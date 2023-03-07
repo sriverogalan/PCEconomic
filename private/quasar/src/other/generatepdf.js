@@ -11,7 +11,7 @@ export function exportToPDF(data, information) {
 
   // Agrega las líneas de información de la factura
   doc.setFontSize(12);
-  doc.text("ID: " + information.id, 20, 40);
+  doc.text("ID de la Factura: " + information.id, 20, 40);
   doc.text("Fecha: " + information.date, 20, 50);
   doc.text("Nombre del Cliente: " + information.name, 20, 60);
   doc.text("Dirección: " + information.direction, 20, 70);
