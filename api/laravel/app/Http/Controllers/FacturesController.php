@@ -13,7 +13,7 @@ class FacturesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return response()->json(Factura::with('lineafactura.marca')->get());
+    {   
+        return response()->json(Factura::with(['lineafactura.marca', 'persona'])->get());
     }
 }

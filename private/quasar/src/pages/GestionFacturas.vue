@@ -3,7 +3,6 @@
     <h1 class="col-12 text-center">Gestiona Factures</h1>
     <div class="q-pa-md">
       <q-table
-        title="Marcas"
         :rows="facturaRowsFiltrats"
         :columns="facturaColumns"
         row-key="nom"
@@ -23,12 +22,6 @@
               icon="receipt_long"
               color="amber-5"
               @click="showLineaFacturaDialog(props)"
-            />
-            <q-btn
-              icon="picture_as_pdf"
-              class="ml-2"
-              color="red-14"
-              @click="showGeneratePdfDialog()"
             />
           </q-td>
         </template>
@@ -52,6 +45,7 @@
         <q-card style="width: 100%">
           <q-card-section>
             <q-table
+              id="lineaFacturaTable"
               :title="facturaInfo.title"
               :rows="lineaFacturaRowsFiltrats"
               :columns="lineaFacturaColumns"
@@ -86,10 +80,39 @@
           <q-card-section class="row justify-end">
             <q-btn
               color="red-14"
-              label="Cerrar"
+              icon="close"
               @click="lineaFacturaDialog = false"
             />
+
+            <q-btn
+              color="green-14"
+              icon="picture_as_pdf"
+              class="ml-2"
+              @click="showGeneratePdfDialog()"
+            />
           </q-card-section>
+        </q-card>
+      </q-dialog>
+
+      <q-dialog v-model="generatePdfDialog" persistent id="generatePdfDialog">
+        <q-card class="sizeTitleCard">
+          <q-card-section class="row items-center">
+            <div class="text-h6">Generar PDF</div>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              flat
+              label="Cancelar"
+              color="red-14"
+              @click="generatePdfDialog = false"
+            />
+            <q-btn
+              icon="picture_as_pdf"
+              color="purple-9"
+              @click="generatePDF()"
+            />
+          </q-card-actions>
         </q-card>
       </q-dialog>
     </div>
@@ -97,7 +120,8 @@
 </template>
 <script>
 import process from "process";
-import { formatCurrency, formatDate } from "src/other/utils";
+import { exportToPDF } from "src/other/generatepdf.js";
+import { formatCurrency, formatDate } from "src/other/utils.js";
 
 export default {
   name: "GestionFacturas",
@@ -190,6 +214,16 @@ export default {
         preu_transport: "",
         preu_total: "",
       },
+      information: {
+        id: "",
+        date: "",
+        name: "",
+        direction: "",
+        metodo_pago: "",
+        status: "",
+        transport: "",
+        price: "",
+      },
     };
   },
   methods: {
@@ -204,6 +238,10 @@ export default {
         this.facturaRows.push({
           id_factura: factura.id_factura,
           data: formatDate(factura.data),
+          nomClient: factura.persona.nom + " " + factura.persona.cognom1,
+          direction: factura.direccio,
+          estat: factura.estat,
+          metodo_pago: factura.metodo_pagament,
           preu_transport: factura.preu_transport,
           preu_total: factura.preu,
         });
@@ -243,9 +281,24 @@ export default {
       this.lineaFacturaRowsFiltrats = this.lineaFacturaRows.filter(
         (row) => row.id_factura === id
       );
+
+      this.information.id = id;
+      this.information.date = props.row.data;
+      this.information.name = props.row.nomClient;
+      this.information.direction = props.row.direction;
+      this.information.metodo_pago = props.row.metodo_pago;
+      this.information.status = props.row.estat;
+      this.information.transport = props.row.preu_transport;
+      this.information.price = props.row.preu_total;
     },
     showGeneratePdfDialog() {
+      this.lineaFacturaDialog = false;
       this.generatePdfDialog = true;
+    },
+
+    generatePDF() {
+      let table = document.querySelector("#lineaFacturaTable");
+      exportToPDF(table, this.information);
     },
   },
   mounted() {
