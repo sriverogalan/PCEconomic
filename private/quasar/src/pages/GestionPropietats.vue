@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">{{ articleNom }}</h1>
+      <h1 class="col-12 text-center">Propietats {{ articleNom }}</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -75,13 +75,7 @@
                   color="purple-14"
                 />
 
-                <q-input
-                  v-model="articlesSubcategories.preu"
-                  label="Preu"
-                  filled
-                  type="number"
-                  slot="0.01"
-                />
+                <q-input v-model="articlesSubcategories.preu" label="Preu" filled />
 
                 <q-input
                   v-model="articlesSubcategories.stock"
@@ -90,21 +84,33 @@
                   type="number"
                 />
 
-                <q-btn
-                  icon="add"
-                  label=" Propiedades"
-                  color="purple-14"
-                  class="col-12"
-                  @click="addPropietat()"
-                ></q-btn>
-
-                <div id="addProps" class="hidden">
+                <q-select
+                  v-model="articlePropietats.propietats"
+                  :options="propietats"
+                  use-input
+                  use-chips
+                  multiple
+                  input-debounce="0"
+                  @new-value="createValue"
+                  label="Propietats"
+                  @update:model-value="(val) => (articlePropietats.propietats = val)"
+                  filled
+                ></q-select>
+                <div>
                   <q-select
-                    v-model="articlePropietats.propietats"
-                    :options="propietats"
-                    label="Propietats"
+                    v-model="articlePropietats.valors"
+                    v-for="props in articlePropietats.propietats"
+                    :options="valors"
+                    use-input
+                    use-chips
+                    multiple
+                    input-debounce="0"
+                    @new-value="createValue"
+                    :label="props"
                     filled
-                  ></q-select>
+                    class="mt-1"
+                  >
+                  </q-select>
                 </div>
 
                 <q-card-actions align="right">
@@ -189,7 +195,7 @@ export default defineComponent({
         es_principal: "",
         preu: "",
         stock: "",
-        propietats: "",
+        propietats: [],
         paths: "",
         valors: [],
         path: [],
@@ -241,7 +247,8 @@ export default defineComponent({
           required: true,
           label: "Imatges",
           align: "center",
-          field: (row) => row.paths,
+          field: (row) =>
+            row.paths.length > 0 ? row.paths.length + " Imatges" : "No hi ha imatges",
           sortable: true,
         },
         {
@@ -254,13 +261,20 @@ export default defineComponent({
     };
   },
   methods: {
+    createValue(val, done) {
+      if (val.length > 0) {
+        if (!this.propietats.includes(val)) {
+          this.propietats.push(val);
+        }
+        done(val, "toggle");
+      }
+    },
     addPropietat() {
       const addProps = document.querySelector("#addProps");
       // quitar hidden addProp
       addProps.classList.remove("hidden");
     },
     formatearEuros(numero) {
-      // Formatea el numero a euros
       return new Intl.NumberFormat("es-ES", {
         style: "currency",
         currency: "EUR",
@@ -440,7 +454,9 @@ export default defineComponent({
 .ml-2 {
   margin-left: 2rem;
 }
-
+.mt-1 {
+  margin-top: 1rem;
+}
 .background {
   background-color: #b1b1b1;
 }
