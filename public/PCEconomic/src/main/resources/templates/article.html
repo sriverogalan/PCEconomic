@@ -97,13 +97,12 @@
 
                     <div id="stockDisponible" class="col-10 row">
                         <div class="col-6">
-                            <input type="email" class="form-control" id="email_no_stock"
-                                   placeholder="Introduce tu email">
+                            <input type="email" class="form-control " id="email" placeholder="Introduce tu email">
                         </div>
-                        <button id="btn_no_stock" type="button" class="btn btn-pc-economic-dark col-6">
+                        <button type="button" class="btn btn-pc-economic-dark col-6">
                             Notificar cuando haya stock
                         </button>
-                        <div id="append_msg_correu"></div>
+
                     </div>
                 </div>
 
@@ -281,34 +280,6 @@
             });
         });
 
-        $("#btn_no_stock").on("click", function () {
-            $.ajax({
-                url: "/savecorreu",
-                type: "POST",
-                data: {
-                    id: $("main").attr("data-id"),
-                    correu: $("#email_no_stock").val()
-                },
-                success: function (data) {
-                    console.log(data);
-                    $("#append_msg_correu").html(
-                        "<p class='text-success'>Se le enviará un correo a " + $("#email_no_stock").val() + " cuando haya stock</p>"
-                    )
-                },
-                error: function (data) {
-                    console.log(data);
-                    if (data.responseText === "ALREDY_EXISTS") {
-                        $("#append_msg_correu").html(
-                            "<p class='text-danger'>El correo introducido ya ha sido introducido!</p>"
-                        )
-                        return;
-                    }
-                    $("#append_msg_correu").html(
-                        "<p class='text-danger'>Ha ocurrido un error, por favor, inténtelo de nuevo</p>"
-                    )
-                }
-            })
-        })
 
         $.ajax({
             url: "/api/propietats",
