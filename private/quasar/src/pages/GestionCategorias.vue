@@ -540,7 +540,7 @@ export default defineComponent({
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/create/categories",
           {
-            nom: this.nomSubcategoria,
+            nom: this.nomCategoria,
           }
         );
         const sendJson = await sendAxios.data;
@@ -717,9 +717,6 @@ export default defineComponent({
   margin-left: 2rem;
 }
 
-.background {
-  background-color: #b1b1b1;
-}
 .sizeTitleCard {
   width: 350px;
 }
