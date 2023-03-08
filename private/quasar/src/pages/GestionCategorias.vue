@@ -540,7 +540,7 @@ export default defineComponent({
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/create/categories",
           {
-            nom: this.nomSubcategoria,
+            nom: this.nomCategoria,
           }
         );
         const sendJson = await sendAxios.data;
