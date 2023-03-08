@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarquesController;
 use App\Http\Controllers\PersonesController;
 use App\Http\Controllers\PropietatsController;
+use App\Http\Controllers\ValorsContoller;
 use App\Models\Propietats;
 
 /*
@@ -51,9 +52,12 @@ Route::controller(ArticlesController::class)->group(function () {
 
 Route::controller(PropietatsController::class)->group(function () {
     Route::get('/api/get/propietats', 'index');
-    Route::post('/api/create/propietats', 'create');
-    Route::post('/api/update/propietats', 'create');
+    Route::post('/api/create/propietats', 'create'); 
     Route::post('/api/delete/propietats', 'delete');
+});
+
+Route::controller(ValorsContoller::class)->group(function () {
+    Route::get('/api/get/valors', 'index');
 });
 
 Route::controller(PersonesController::class)->group(function () {

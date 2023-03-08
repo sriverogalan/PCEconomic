@@ -67,53 +67,45 @@
             <q-card-section class="row items-center">
               <div class="text-h6">{{ titolcard }}</div>
             </q-card-section>
-
             <q-card-section>
-              <q-form @submit="pushArticle()" class="q-gutter-md">
-                <q-select
+              <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
+                <q-toggle
                   v-model="articlesSubcategories.es_principal"
-                  label="Principal"
-                  filled
-                  :options="[
-                    { label: 'Si', value: '1' },
-                    { label: 'No', value: '0' },
-                  ]"
-                  :rules="[(val) => val.length > 0 || 'Principal']"
+                  label="Es principal?"
+                  color="purple-14"
                 />
 
                 <q-input
                   v-model="articlesSubcategories.preu"
                   label="Preu"
                   filled
-                  type="text"
-                  hint="Preu"
-                  :rules="[(val) => val.length > 0 || 'Preu']"
+                  type="number"
+                  slot="0.01"
                 />
 
                 <q-input
                   v-model="articlesSubcategories.stock"
                   label="Stock"
                   filled
-                  type="text"
-                  hint="Stock"
-                  :rules="[(val) => val.length > 0 || 'Stock']"
-                /> 
-
-                <q-file
-                  name="poster_file"
-                  v-model="file"
-                  filled
-                  label="Select poster image"
+                  type="number"
                 />
 
-                <q-file
-                  name="cover_files"
-                  v-model="files"
-                  filled
-                  multiple
-                  use-chips
-                  label="Select cover images"
-                />
+                <q-btn
+                  icon="add"
+                  label=" Propiedades"
+                  color="purple-14"
+                  class="col-12"
+                  @click="addPropietat()"
+                ></q-btn>
+
+                <div id="addProps" class="hidden">
+                  <q-select
+                    v-model="articlePropietats.propietats"
+                    :options="propietats"
+                    label="Propietats"
+                    filled
+                  ></q-select>
+                </div>
 
                 <q-card-actions align="right">
                   <q-btn
@@ -164,11 +156,9 @@
 <script>
 import axios from "axios";
 import process from "process";
-import { useQuasar } from "quasar";
 import { defineComponent } from "vue";
 
 const source = axios.CancelToken.source();
-const $q = useQuasar();
 
 export default defineComponent({
   name: "IndexPage",
@@ -184,6 +174,15 @@ export default defineComponent({
       message: "",
       articleId: this.$route.params.id_article,
       articleNom: this.$route.params.nom,
+
+      valors_propietats: [],
+      propietats: [],
+      valors: [],
+
+      rows: [],
+      rowsFiltrats: [],
+      articlesSubcategories: [],
+      subcategories: [],
 
       articlePropietats: {
         id_propietats: "",
@@ -210,7 +209,7 @@ export default defineComponent({
           required: true,
           label: "Es principal?",
           align: "center",
-          field: (row) => row.es_principal,
+          field: (row) => (row.es_principal ? "Si" : "No"),
           sortable: true,
         },
         {
@@ -218,7 +217,7 @@ export default defineComponent({
           required: true,
           label: "Preu",
           align: "center",
-          field: (row) => row.preu,
+          field: (row) => this.formatearEuros(row.preu),
           sortable: true,
         },
         {
@@ -226,7 +225,7 @@ export default defineComponent({
           required: true,
           label: "Stock",
           align: "center",
-          field: (row) => row.stock,
+          field: (row) => row.stock + " ud.",
           sortable: true,
         },
         {
@@ -252,13 +251,22 @@ export default defineComponent({
           field: "actions",
         },
       ],
-      rows: [],
-      rowsFiltrats: [],
-      articlesSubcategories: [],
-      subcategories: [],
     };
   },
   methods: {
+    addPropietat() {
+      const addProps = document.querySelector("#addProps");
+      // quitar hidden addProp
+      addProps.classList.remove("hidden");
+    },
+    formatearEuros(numero) {
+      // Formatea el numero a euros
+      return new Intl.NumberFormat("es-ES", {
+        style: "currency",
+        currency: "EUR",
+      }).format(numero);
+    },
+
     filtrar() {
       this.rowsFiltrats = this.rows.filter((m) => {
         return (
@@ -271,6 +279,7 @@ export default defineComponent({
       this.dialogEdit = false;
       this.loading = true;
       this.rows = [];
+      this.getValors();
 
       const propietatsAxios = await axios.get(
         process.env.CRIDADA_API + "api/get/propietats",
@@ -302,7 +311,7 @@ export default defineComponent({
 
         this.rows.push({
           id_propietats: a.id_propietats,
-          es_principal: a.es_principal == 1 ? "Si" : "No",
+          es_principal: a.es_principal == 1 ? true : false,
           preu: a.preu,
           stock: a.stock,
           propietats: propietats,
@@ -315,9 +324,41 @@ export default defineComponent({
       this.rowsFiltrats = this.rows;
       this.loading = false;
     },
+
+    async getValors() {
+      const valorsAxios = await axios.get(process.env.CRIDADA_API + "api/get/valors", {
+        params: {
+          id_article: this.articleId,
+        },
+      });
+      const valorsJson = await valorsAxios.data;
+      console.log(valorsJson);
+
+      valorsJson.forEach((a) => {
+        this.valors_propietats.push({
+          propietat: a.propietat,
+          valor: {
+            id_valor: a.id_valor,
+            valor: a.valor,
+          },
+        });
+        this.propietats.push(a.propietat[0].nom);
+        this.valors.push(a.valor);
+      });
+
+      console.log("propietats", this.propietats);
+      console.log("valors", this.valors);
+
+      this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
+      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
+
+      console.log("propietats", this.propietats);
+      console.log("valors", this.valors);
+    },
+
     showEditDialog(props) {
       this.activeId = true;
-      this.titolcard = "Edita el articulo " + props.row.nom;  
+      this.titolcard = "Edita la propiedad " + props.row.id_propietats;
       this.articlesSubcategories.id_propietats = props.row.id_propietats;
       this.articlesSubcategories.es_principal = props.row.es_principal;
       this.articlesSubcategories.preu = props.row.preu;
@@ -336,7 +377,7 @@ export default defineComponent({
     },
     showCreateDialog() {
       this.activeId = false;
-      this.titolcard = "Crea tu articulo";
+      this.titolcard = "Crea tu propiedad";
       this.articlesSubcategories.id_propietats = "";
       this.articlesSubcategories.es_principal = "";
       this.articlesSubcategories.preu = "";
@@ -347,22 +388,25 @@ export default defineComponent({
       this.articlesSubcategories.path = [];
       this.dialogEdit = true;
     },
-    async pushArticle() {
+    async pushPropietats() {
       let articleJson = "";
       this.dialogEdit = false;
       this.loading = true;
+
       const articleAxios = await axios.post(
-        process.env.CRIDADA_API + "api/create/articles",
+        process.env.CRIDADA_API + "api/create/propietats",
         {
-          id_article: this.articleEdit.id_article,
-          nom: this.articleEdit.nom,
-          descripcio: this.articleEdit.descripcio,
-          pes: this.articleEdit.pes,
-          marca: this.articleEdit.marca.nom,
-          subcategoria: this.articleEdit.subcategoria.nom,
+          id_article: this.articleId,
+          id_propietats: this.articlesSubcategories.id_propietats
+            ? this.articlesSubcategories.id_propietats
+            : null,
+          es_principal: this.articlesSubcategories.es_principal ? 1 : 0,
+          preu: this.articlesSubcategories.preu,
+          stock: this.articlesSubcategories.stock,
         }
       );
       articleJson = await articleAxios.data;
+
       this.mensajeServidor = true;
       this.message = articleJson.message;
       this.updateTable();
