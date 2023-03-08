@@ -1,7 +1,7 @@
 import { jsPDF } from "jspdf";
 require("jspdf-autotable");
 
-export function exportToPDF(table, information) {
+export function exportToPDF(data, information) {
   // Crear un nuevo documento PDF
   const doc = new jsPDF();
 
@@ -11,7 +11,7 @@ export function exportToPDF(table, information) {
 
   // Agrega las líneas de información de la factura
   doc.setFontSize(12);
-  doc.text("ID: " + information.id, 20, 40);
+  doc.text("ID de la Factura: " + information.id, 20, 40);
   doc.text("Fecha: " + information.date, 20, 50);
   doc.text("Nombre del Cliente: " + information.name, 20, 60);
   doc.text("Dirección: " + information.direction, 20, 70);
@@ -19,8 +19,29 @@ export function exportToPDF(table, information) {
   doc.text("Estado de la factura: " + information.status, 20, 90);
 
   // Convierte la tabla HTML en una tabla de PDF
+  const columns = [
+    "Quantitat",
+    "Article",
+    "Propietats",
+    "Preu Unitari",
+    "Preu Total",
+  ];
+  let rows = [];
+
+  data.forEach((element) => {
+    rows.push([
+      element.quantitat,
+      element.nomMarca + " " + element.nomArticle,
+      element.propietats,
+      element.preuproducte,
+      element.preulineatotal,
+    ]);
+  });
+
   doc.autoTable({
-    html: table,
+    head: [columns],
+    body: rows,
+    margin: { top: 10 },
     startY: 110,
   });
 
