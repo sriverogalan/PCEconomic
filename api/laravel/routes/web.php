@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ArticlesSubcategoriesControllers;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CorreusController;
 use App\Http\Controllers\FacturesController;
 use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
@@ -80,3 +81,4 @@ Route::controller(SubcategoriaController::class)->group(function () {
 });
 
 Route::get('/api/get/factures', [FacturesController::class, 'index']);
+Route::get('/api/get/correus', [CorreusController::class, 'index']);
