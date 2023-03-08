@@ -37,23 +37,37 @@ class PropietatsController extends Controller
     public function create(Request $request)
     {
         try {
-
-            if ($request->id_article == "") {
-                $propietat = new Propietats;
-                $propietat->id_article = $request->input('id_article');
-                $propietat->nom = $request->input('nom');
-                $propietat->valor = $request->input('valor');
-                $propietat->save();
+            if ($request->input('id_propietats') == null) {
+                $propietat = new Propietats();
             } else {
                 $propietat = Propietats::find($request->input('id_propietats'));
-                $propietat->nom = $request->input('nom');
-                $propietat->valor = $request->input('valor');
-                $propietat->save();
             }
+
+            $propietat->es_principal = $request->input('es_principal');
+            $propietat->preu = $request->input('preu');
+            $propietat->stock = $request->input('stock');
+            $propietat->id_article = $request->input('id_article');
+
+            if ($request->input('es_principal') == 1) {
+                $propietats = Propietats::where('id_article', $request->input('id_article'))->get();
+                foreach ($propietats as $p) {
+                    $p->es_principal = 0;
+                    $p->save();
+                }
+            }
+
+            $propietat->save();
+
+            $message = ($request->input('id_propietats') == null)
+                ? 'Propietat creada correctamente'
+                : 'Propietat actualizada correctamente';
+
+            return response()->json(['message' => $message], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e], 500);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.
