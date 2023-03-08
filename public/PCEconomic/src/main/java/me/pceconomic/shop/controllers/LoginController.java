@@ -48,6 +48,8 @@ public class LoginController {
 
     @GetMapping("/login")
     public String preLogin(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session != null) session.invalidate();
 
         LoginForm loginForm = new LoginForm();
         model.addAttribute("loginForm", loginForm);
