@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Propietat;
 use App\Models\Valors;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,10 @@ class ValorsContoller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function prop()
     {
-        //
+        $prop = Propietat::get();
+        return response()->json($prop);
     }
 
     /**

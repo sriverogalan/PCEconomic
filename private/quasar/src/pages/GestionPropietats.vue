@@ -360,12 +360,20 @@ export default defineComponent({
             valor: a.valor,
           },
         });
-        this.propietats.push(a.propietat[0].nom);
         this.valors.push(a.valor);
+      });
+      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
+
+      const propietatAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/propietat"
+      );
+      const propietatJson = await propietatAxios.data;
+
+      propietatJson.forEach((a) => {
+        this.propietats.push(a.nom);
       });
 
       this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
-      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
     },
 
     showEditDialog(props) {
@@ -406,6 +414,7 @@ export default defineComponent({
       this.articlesSubcategories.paths = "";
       this.articlesSubcategories.valors = [];
       this.articlesSubcategories.path = [];
+      this.articlePropietats.propietats_valors = {};
       this.dialogEdit = true;
     },
     async pushPropietats() {
@@ -425,7 +434,7 @@ export default defineComponent({
           stock: this.articlesSubcategories.stock,
           propietats_valors: this.articlePropietats.propietats_valors,
         })
-        .catch(function (error) { 
+        .catch(function (error) {
           e = error;
         });
 
