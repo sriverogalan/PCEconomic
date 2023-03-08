@@ -97,9 +97,10 @@
                   filled
                 ></q-select>
                 <div>
+                  {{ articlePropietats }}
                   <q-select
-                    v-model="articlePropietats.valors"
                     v-for="props in articlePropietats.propietats"
+                    v-model="articlePropietats.propietats_valors[props]"
                     :options="valors"
                     use-input
                     use-chips
@@ -134,12 +135,14 @@
             </q-card-section>
 
             <q-card-section>
-              <p>Estas seguro que quieres eliminar {{ articleEdit.nom }} ?</p>
+              <p>
+                Estas seguro que quieres eliminar {{ articlePropietats.id_propietats }} ?
+              </p>
             </q-card-section>
 
             <q-card-actions align="right">
               <q-btn flat label="Cancelar" color="red-14" @click="dialogDelete = false" />
-              <q-btn label="Eliminar" color="purple-9" @click="deletearticle()" />
+              <q-btn label="Eliminar" color="purple-9" @click="deletePropietats()" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -196,6 +199,7 @@ export default defineComponent({
         preu: "",
         stock: "",
         propietats: [],
+        propietats_valors: {},
         paths: "",
         valors: [],
         path: [],
@@ -360,14 +364,8 @@ export default defineComponent({
         this.valors.push(a.valor);
       });
 
-      console.log("propietats", this.propietats);
-      console.log("valors", this.valors);
-
       this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
       this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
-
-      console.log("propietats", this.propietats);
-      console.log("valors", this.valors);
     },
 
     showEditDialog(props) {
@@ -385,8 +383,16 @@ export default defineComponent({
       this.dialogEdit = true;
     },
     showDeleteDialog(props) {
-      this.articleEdit.id_article = props.row.id_article;
-      this.articleEdit.nom = props.row.nom;
+      this.activeId = true;
+      this.articlePropietats.id_propietats = props.row.id_propietats;
+      this.articlesSubcategories.id_propietats = props.row.id_propietats;
+      this.articlesSubcategories.es_principal = props.row.es_principal;
+      this.articlesSubcategories.preu = props.row.preu;
+      this.articlesSubcategories.stock = props.row.stock;
+      this.articlesSubcategories.propietats = props.row.propietats;
+      this.articlesSubcategories.paths = props.row.paths;
+      this.articlesSubcategories.valors = props.row.valors;
+      this.articlesSubcategories.path = props.row.path;
       this.dialogDelete = true;
     },
     showCreateDialog() {
@@ -406,10 +412,10 @@ export default defineComponent({
       let articleJson = "";
       this.dialogEdit = false;
       this.loading = true;
+      let e = "";
 
-      const articleAxios = await axios.post(
-        process.env.CRIDADA_API + "api/create/propietats",
-        {
+      const articleAxios = await axios
+        .post(process.env.CRIDADA_API + "api/create/propietats", {
           id_article: this.articleId,
           id_propietats: this.articlesSubcategories.id_propietats
             ? this.articlesSubcategories.id_propietats
@@ -417,22 +423,30 @@ export default defineComponent({
           es_principal: this.articlesSubcategories.es_principal ? 1 : 0,
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
-        }
-      );
-      articleJson = await articleAxios.data;
+          propietats_valors: this.articlePropietats.propietats_valors,
+        })
+        .catch(function (error) { 
+          e = error;
+        });
 
       this.mensajeServidor = true;
-      this.message = articleJson.message;
+      if (articleAxios) {
+        articleJson = await articleAxios.data;
+        this.message = articleJson.message;
+      } else {
+        this.message = e.response.data.message;
+      }
       this.updateTable();
     },
-    async deletearticle() {
+    async deletePropietats() {
       let articleJson = "";
       this.dialogDelete = false;
       this.loading = true;
+
       const articleAxios = await axios.post(
-        process.env.CRIDADA_API + "api/delete/articles",
+        process.env.CRIDADA_API + "api/delete/propietats",
         {
-          id_article: this.articleEdit.id_article,
+          id_propietat: parseInt(this.articlePropietats.id_propietats),
         }
       );
       articleJson = await articleAxios.data;

@@ -75,11 +75,8 @@
                                 body: credential,
                             }
                         );
-                        if (responseFetch.ok) {
-                            const token = await responseFetch.text();
-                            localStorage.setItem("token", token);
-                            window.location.href = "/";
-                        } else window.location.href = "/error";
+                        if (responseFetch.ok) window.location.href = "/";
+                        else window.location.href = "/error";
                     },
                 });
                 google.accounts.id.prompt();

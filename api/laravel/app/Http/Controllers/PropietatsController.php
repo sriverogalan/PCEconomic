@@ -43,18 +43,24 @@ class PropietatsController extends Controller
                 $propietat = Propietats::find($request->input('id_propietats'));
             }
 
+
             $propietat->es_principal = $request->input('es_principal');
             $propietat->preu = $request->input('preu');
             $propietat->stock = $request->input('stock');
             $propietat->id_article = $request->input('id_article');
 
-            if ($request->input('es_principal') == 1) {
-                $propietats = Propietats::where('id_article', $request->input('id_article'))->get();
-                foreach ($propietats as $p) {
-                    $p->es_principal = 0;
-                    $p->save();
-                }
+            if (
+                $request->input("preu") == "" || $request->input('stock') == ""
+            ) {
+                return response()->json(['message' =>
+                'El preu i el stock no poden estar buits'], 400);
             }
+            $var = array_keys($request->input('propietats_valors'));
+
+            $var2 = $request->input('propietats_valors')[$var[0]];
+
+            return response()->json(['message' => $var2 , 200]);
+
 
             $propietat->save();
 
@@ -77,7 +83,7 @@ class PropietatsController extends Controller
      */
     public function delete(Request $request)
     {
-        $propietat = Propietats::find($request->input('id_propietats'));
+        $propietat = Propietats::find($request->input('id_propietat'));
         $propietat->delete();
         return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
     }
