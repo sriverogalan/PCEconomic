@@ -58,33 +58,32 @@ class PropietatsController extends Controller
                 'El preu i el stock no poden estar buits'], 400);
             }
             $var = array_keys($request->input('propietats_valors'));
-            
-            $props_valors = $request->input('propietats_valors'); 
 
-            foreach ($var as $prop) { 
-                $propBD = Propietat::where('nom' , $prop)->first();
+            $props_valors = $request->input('propietats_valors');
+
+            $propietat->save();
+
+            foreach ($var as $prop) {
+                $propBD = Propietat::where('nom', $prop)->first();
                 if ($propBD == null) {
                     $propBD = new Propietat();
                     $propBD->nom = $prop;
                     $propBD->save();
                 }
 
-                
-
-                foreach ($props_valors[$prop] as $valors ){
-                    $valor = Valors::where('valor', $valors)->first();
-                    if($valor == null){
+                foreach ($props_valors[$prop] as $valors) {
+                    $valor = Valors::where('valor', $valors)->first(); 
+                    
+                    if ($valor == null) {
                         $valor = new Valors();
                         $valor->valor = $valors;
-                        $valor->propietat()->associate($propBD);
                         $valor->save();
                     }
-                    $propietat->valors()->attach($valor);
-                } 
+                    $valor->propietat()->sync($propBD);
+                }
+                $propietat->valors()->sync($valor);
             }
 
-
-            $propietat->save();
 
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
