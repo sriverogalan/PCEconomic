@@ -717,9 +717,6 @@ export default defineComponent({
   margin-left: 2rem;
 }
 
-.background {
-  background-color: #b1b1b1;
-}
 .sizeTitleCard {
   width: 350px;
 }
