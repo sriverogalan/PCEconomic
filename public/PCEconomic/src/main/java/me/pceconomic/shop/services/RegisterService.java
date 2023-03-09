@@ -77,4 +77,11 @@ public class RegisterService {
         session.setAttribute("direccions", persona.getDireccions());
         session.setAttribute("pedidos", persona.getFactures());
     }
+
+    public void removeSession(HttpSession session) {
+        session.removeAttribute("persona");
+        session.removeAttribute("direccions");
+        session.removeAttribute("pedidos");
+        session.removeAttribute("token");
+    }
 }
