@@ -91,7 +91,7 @@
                   use-chips
                   multiple
                   input-debounce="0"
-                  @new-value="createValue"
+                  @new-value="createProps"
                   label="Propietats"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
@@ -113,6 +113,22 @@
                   >
                   </q-select>
                 </div>
+
+                <q-file
+                  name="poster_file"
+                  v-model="file"
+                  filled
+                  label="Select poster image"
+                />
+
+                <q-file
+                  name="cover_files"
+                  v-model="files"
+                  filled
+                  multiple
+                  use-chips
+                  label="Select cover images"
+                />
 
                 <q-card-actions align="right">
                   <q-btn
@@ -183,6 +199,9 @@ export default defineComponent({
       message: "",
       articleId: this.$route.params.id_article,
       articleNom: this.$route.params.nom,
+
+      file: [],
+      files: [],
 
       valors_propietats: [],
       propietats: [],
@@ -265,10 +284,18 @@ export default defineComponent({
     };
   },
   methods: {
-    createValue(val, done) {
+    createProps(val, done) {
       if (val.length > 0) {
         if (!this.propietats.includes(val)) {
           this.propietats.push(val);
+        }
+        done(val, "toggle");
+      }
+    },
+    createValue(val, done) {
+      if (val.length > 0) {
+        if (!this.valors.includes(val)) {
+          this.valors.push(val);
         }
         done(val, "toggle");
       }
@@ -360,12 +387,20 @@ export default defineComponent({
             valor: a.valor,
           },
         });
-        this.propietats.push(a.propietat[0].nom);
         this.valors.push(a.valor);
+      });
+      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
+
+      const propietatAxios = await axios.get(
+        process.env.CRIDADA_API + "api/get/propietat"
+      );
+      const propietatJson = await propietatAxios.data;
+
+      propietatJson.forEach((a) => {
+        this.propietats.push(a.nom);
       });
 
       this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
-      this.valors = this.valors.filter((v, i, a) => a.indexOf(v) === i);
     },
 
     showEditDialog(props) {
@@ -406,6 +441,7 @@ export default defineComponent({
       this.articlesSubcategories.paths = "";
       this.articlesSubcategories.valors = [];
       this.articlesSubcategories.path = [];
+      this.articlePropietats.propietats_valors = {};
       this.dialogEdit = true;
     },
     async pushPropietats() {
@@ -423,9 +459,11 @@ export default defineComponent({
           es_principal: this.articlesSubcategories.es_principal ? 1 : 0,
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
-          propietats_valors: this.articlePropietats.propietats_valors,
+          propietats_valors: this.articlePropietats.propietats_valors, 
+          file: this.file,
+          files: this.files 
         })
-        .catch(function (error) { 
+        .catch(function (error) {
           e = error;
         });
 

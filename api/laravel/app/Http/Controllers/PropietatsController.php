@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Propietat;
 use App\Models\Propietats;
+use App\Models\Valors;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -56,13 +58,30 @@ class PropietatsController extends Controller
                 'El preu i el stock no poden estar buits'], 400);
             }
             $var = array_keys($request->input('propietats_valors'));
-
-            $var2 = $request->input('propietats_valors')[$var[0]];
-
-            return response()->json(['message' => $var2 , 200]);
-
+            $props_valors = $request->input('propietats_valors');
 
             $propietat->save();
+
+            $array = [];
+
+            foreach ($var as $prop) { 
+                $propBD = Propietat::where('nom', $prop)->first();
+                if (!$propBD) {
+                    $propBD = new Propietat();
+                    $propBD->nom = $prop;
+                    $propBD->save();
+                }
+                foreach ($props_valors[$prop] as $valors) {
+                    $valor = Valors::where('valor', $valors)->first();
+                    if (!$valor) {
+                        $valor = new Valors();
+                        $valor->valor = $valors;
+                        $valor->save();
+                    }
+                    $valor->propietat()->attach($propBD);
+                }
+                $propietat->valors()->attach($valor);
+            }
 
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
