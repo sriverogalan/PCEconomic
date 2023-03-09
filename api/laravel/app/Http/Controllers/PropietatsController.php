@@ -57,12 +57,14 @@ class PropietatsController extends Controller
                 return response()->json(['message' =>
                 'El preu i el stock no poden estar buits'], 400);
             }
-            $var = array_keys($request->input('propietats_valors')); 
+            $var = array_keys($request->input('propietats_valors'));
             $props_valors = $request->input('propietats_valors');
 
             $propietat->save();
 
-            foreach ($var as $prop) {
+            $array = [];
+
+            foreach ($var as $prop) { 
                 $propBD = Propietat::where('nom', $prop)->first();
                 if (!$propBD) {
                     $propBD = new Propietat();
@@ -70,17 +72,17 @@ class PropietatsController extends Controller
                     $propBD->save();
                 }
                 foreach ($props_valors[$prop] as $valors) {
-                    $valor = Valors::where('valor', $valors)->first(); 
+                    $valor = Valors::where('valor', $valors)->first();
                     if (!$valor) {
                         $valor = new Valors();
                         $valor->valor = $valors;
                         $valor->save();
                     }
-                    $valor->propietat()->sync($propBD);
-                    $propietat->valors()->sync($valor);
-                }  
-            } 
- 
+                    $valor->propietat()->attach($propBD);
+                }
+                $propietat->valors()->attach($valor);
+            }
+
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
                 : 'Propietat actualizada correctamente';
