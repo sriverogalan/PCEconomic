@@ -19,6 +19,23 @@
             label-style="font-size: 1.1em"
           />
 
+          <template v-slot:body-cell-imatges="props">
+            <div style="text-align: center; width:100%; margin-bottom: 5px; margin-top: 5px; ">
+              <q-img
+                v-for="img in props.row.imgPrincipal"
+                :src="
+                  fotosUrl +
+                  '/img/productes/' +
+                  articleId +
+                  '/' +
+                  props.row.id_propietats +
+                  '/' +
+                  img.path
+                "
+              />
+            </div>
+          </template>
+
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn
@@ -166,7 +183,7 @@
     </div>
 
     <q-dialog v-model="mensajeServidor" persistent>
-      <q-card style="min-width: 350px">
+      <q-card style="min-width: 500px">
         <q-card-section>
           <div class="text-h6">{{ message }}</div>
         </q-card-section>
@@ -199,6 +216,7 @@ export default defineComponent({
       message: "",
       articleId: this.$route.params.id_article,
       articleNom: this.$route.params.nom,
+      fotosUrl: process.env.RUTA_IMG,
 
       file: [],
       files: [],
@@ -222,6 +240,7 @@ export default defineComponent({
         paths: "",
         valors: [],
         path: [],
+        imgPrincipal: "",
       },
 
       columns: [
@@ -266,12 +285,11 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "Imatges",
+          name: "imatges",
           required: true,
           label: "Imatges",
           align: "center",
-          field: (row) =>
-            row.paths.length > 0 ? row.paths.length + " Imatges" : "No hi ha imatges",
+          field: (row) => row.imgPrincipal,
           sortable: true,
         },
         {
@@ -353,7 +371,8 @@ export default defineComponent({
             paths += ", ";
           }
         });
-
+        console.log("----- Img ----");
+        console.log(a.imatges);
         this.rows.push({
           id_propietats: a.id_propietats,
           es_principal: a.es_principal == 1 ? true : false,
@@ -363,6 +382,7 @@ export default defineComponent({
           valors: a.valors,
           pathImages: a.paths,
           paths: paths,
+          imgPrincipal: a.imatges.filter((i) => i.principal == 1),
         });
       });
 
@@ -459,9 +479,9 @@ export default defineComponent({
           es_principal: this.articlesSubcategories.es_principal ? 1 : 0,
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
-          propietats_valors: this.articlePropietats.propietats_valors, 
+          propietats_valors: this.articlePropietats.propietats_valors,
           file: this.file,
-          files: this.files 
+          files: this.files,
         })
         .catch(function (error) {
           e = error;

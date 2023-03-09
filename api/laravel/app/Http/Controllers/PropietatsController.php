@@ -22,8 +22,7 @@ class PropietatsController extends Controller
             'id_article',
             $request->input('id_article')
         )
-            ->with('valors.propietat')
-            ->with('imatges')
+            ->with(['valors.propietat','imatges'])
             ->get();
 
 
