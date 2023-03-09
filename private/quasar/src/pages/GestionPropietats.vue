@@ -20,20 +20,29 @@
           />
 
           <template v-slot:body-cell-imatges="props">
-            <div style="text-align: center; width:100%; margin-bottom: 5px; margin-top: 5px; ">
-              <q-img
-                v-for="img in props.row.imgPrincipal"
-                :src="
-                  fotosUrl +
-                  '/img/productes/' +
-                  articleId +
-                  '/' +
-                  props.row.id_propietats +
-                  '/' +
-                  img.path
+            <q-td>
+              <div
+                style="
+                  text-align: center;
+                  width: 100%;
+                  margin-bottom: 5px;
+                  margin-top: 5px;
                 "
-              />
-            </div>
+              >
+                <q-img
+                  v-for="img in props.row.imgPrincipal"
+                  :src="
+                    fotosUrl +
+                    '/img/productes/' +
+                    articleId +
+                    '/' +
+                    props.row.id_propietats +
+                    '/' +
+                    img.path
+                  "
+                />
+              </div>
+            </q-td>
           </template>
 
           <template v-slot:body-cell-actions="props">
@@ -88,18 +97,62 @@
               <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
                 <q-toggle
                   v-model="articlesSubcategories.es_principal"
-                  label="Es principal?"
+                  label="Aquesta es la propietat principal?"
                   color="purple-14"
+                  left-label
                 />
-
-                <q-input v-model="articlesSubcategories.preu" label="Preu" filled />
-
-                <q-input
-                  v-model="articlesSubcategories.stock"
-                  label="Stock"
+                <q-file
+                  name="poster_file"
+                  v-model="file"
                   filled
-                  type="number"
-                />
+                  label="Elegeix la foto principal"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="upload">
+                      <q-tooltip anchor="top middle">
+                        Nomes se admet el format JPG
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <q-file
+                  name="cover_files"
+                  v-model="files"
+                  filled
+                  multiple
+                  use-chips
+                  label="Elegeix les fotos secundaries"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="cloud_upload">
+                      <q-tooltip anchor="top middle">
+                        INFORMACIO : Per ordenar les imatges secundaries, les has de pujar
+                        amb el numero de l'ordre que li vulguis posar. Com per exemple :
+                        1.jpg, 2.jpg, 3.jpg...
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <div class="row justify-between">
+                  <q-input
+                    v-model="articlesSubcategories.preu"
+                    label="Preu (€)"
+                    filled
+                    class="col-5"
+                  />
+
+                  <q-input
+                    v-model="articlesSubcategories.stock"
+                    label="Stock (ud.)"
+                    filled
+                    type="number"
+                    class="col-6"
+                  />
+                </div>
 
                 <q-select
                   v-model="articlePropietats.propietats"
@@ -108,13 +161,13 @@
                   use-chips
                   multiple
                   input-debounce="0"
+                  rules=" val => val.length > 0 || 'Selecciona almenys una propietat' "
                   @new-value="createProps"
-                  label="Propietats"
+                  label="Elegeix les seves propietats"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
                 ></q-select>
                 <div>
-                  {{ articlePropietats }}
                   <q-select
                     v-for="props in articlePropietats.propietats"
                     v-model="articlePropietats.propietats_valors[props]"
@@ -130,22 +183,6 @@
                   >
                   </q-select>
                 </div>
-
-                <q-file
-                  name="poster_file"
-                  v-model="file"
-                  filled
-                  label="Select poster image"
-                />
-
-                <q-file
-                  name="cover_files"
-                  v-model="files"
-                  filled
-                  multiple
-                  use-chips
-                  label="Select cover images"
-                />
 
                 <q-card-actions align="right">
                   <q-btn
@@ -218,7 +255,7 @@ export default defineComponent({
       articleNom: this.$route.params.nom,
       fotosUrl: process.env.RUTA_IMG,
 
-      file: [],
+      file: null,
       files: [],
 
       valors_propietats: [],
@@ -271,9 +308,9 @@ export default defineComponent({
         {
           name: "Stock",
           required: true,
-          label: "Stock",
+          label: "Stock disponible",
           align: "center",
-          field: (row) => row.stock + " ud.",
+          field: (row) => row.stock,
           sortable: true,
         },
         {
@@ -287,10 +324,9 @@ export default defineComponent({
         {
           name: "imatges",
           required: true,
-          label: "Imatges",
+          label: "Imagen principal",
           align: "center",
           field: (row) => row.imgPrincipal,
-          sortable: true,
         },
         {
           name: "actions",
@@ -434,6 +470,7 @@ export default defineComponent({
       this.articlesSubcategories.paths = props.row.paths;
       this.articlesSubcategories.valors = props.row.valors;
       this.articlesSubcategories.path = props.row.path;
+      this.articlePropietats.id_propietats = props.row.id_propietats;
 
       this.dialogEdit = true;
     },
@@ -448,6 +485,9 @@ export default defineComponent({
       this.articlesSubcategories.paths = props.row.paths;
       this.articlesSubcategories.valors = props.row.valors;
       this.articlesSubcategories.path = props.row.path;
+
+      this.articlePropietats.id_propietats = props.row.id_propietats;
+
       this.dialogDelete = true;
     },
     showCreateDialog() {
@@ -462,6 +502,7 @@ export default defineComponent({
       this.articlesSubcategories.valors = [];
       this.articlesSubcategories.path = [];
       this.articlePropietats.propietats_valors = {};
+      this.articlePropietats.id_propietats = [];
       this.dialogEdit = true;
     },
     async pushPropietats() {

@@ -7,6 +7,7 @@ use App\Models\Propietats;
 use App\Models\Valors;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PropietatsController extends Controller
 {
@@ -22,7 +23,7 @@ class PropietatsController extends Controller
             'id_article',
             $request->input('id_article')
         )
-            ->with(['valors.propietat','imatges'])
+            ->with(['valors.propietat', 'imatges'])
             ->get();
 
 
@@ -45,6 +46,8 @@ class PropietatsController extends Controller
             }
 
 
+
+
             $propietat->es_principal = $request->input('es_principal');
             $propietat->preu = $request->input('preu');
             $propietat->stock = $request->input('stock');
@@ -61,9 +64,22 @@ class PropietatsController extends Controller
 
             $propietat->save();
 
-            $array = [];
+            if (!$request->hasFile('file')) {
+                return response()->json(['error' => 'No image uploaded.']);
+            }
 
-            foreach ($var as $prop) { 
+            $images = $request->file('files');
+
+            foreach ($images as $image) {
+                $path = Storage::disk('public')->put('images', $image);
+                $propietat->imatges()->create(['url' => $path]);
+
+                $filename = $image->getClientOriginalName();
+                Storage::putFileAs('public/img', $image, $filename);
+            }
+
+
+            foreach ($var as $prop) {
                 $propBD = Propietat::where('nom', $prop)->first();
                 if (!$propBD) {
                     $propBD = new Propietat();
@@ -101,8 +117,15 @@ class PropietatsController extends Controller
      */
     public function delete(Request $request)
     {
-        $propietat = Propietats::find($request->input('id_propietat'));
-        $propietat->delete();
-        return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
+        try {
+            $propietat = Propietats::find($request->input('id_propietat'));
+            $propietat->valors()->detach();
+            $propietat->imatges()->delete();
+            $propietat->delete();
+
+            return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
     }
 }
