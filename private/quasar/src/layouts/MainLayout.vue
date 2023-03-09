@@ -62,9 +62,9 @@ const linksList = [
     link: "/gestionproductes",
   },
   {
-    title: "Traduccions",
-    icon: "translate",
-    link: "/gestiontraducciones",
+    title: "Correos",
+    icon: "mail_outline",
+    link: "/gestioncorreos",
   },
   {
     title: "Factures",
