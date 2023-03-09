@@ -57,6 +57,7 @@ Route::controller(PropietatsController::class)->group(function () {
 
 Route::controller(ValorsContoller::class)->group(function () {
     Route::get('/api/get/valors', 'index');
+    Route::get('/api/get/propietat', 'prop');
 });
 
 Route::controller(PersonesController::class)->group(function () {
