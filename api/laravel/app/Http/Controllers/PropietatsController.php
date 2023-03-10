@@ -76,8 +76,7 @@ class PropietatsController extends Controller
                     $valor->save();
                     $valor->propietat()->detach();
                     $valor->propietat()->attach($propBD);
-                }
-                $propietat->valors()->detach();
+                } 
                 $propietat->valors()->attach($valor);
             }
 
