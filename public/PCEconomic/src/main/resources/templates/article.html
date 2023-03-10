@@ -75,7 +75,7 @@
 
                 <div id="articles-disponibles" class="row mt-4 justify-content-center">
                     <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="visually-hidden">Cargando...</span>
                     </div>
                 </div>
 
@@ -110,12 +110,6 @@
 
             <div class="col-12 mt-5 row justify-content-center">
                 <div class="col-12">
-                    <h3>Propietades del producto</h3>
-                    <span th:each="val : ${propietats.valor}">
-                        <span th:each="prop : ${val.propietat}">
-                            <p th:text="' - ' + ${prop.nom} + ': ' + ${val.valor}"></p>
-                        </span>
-                    </span>
                     <h3>Descripción</h3>
                     <p th:text="${propietats.article.descripcio}"></p>
                 </div>
@@ -187,7 +181,7 @@
                                         <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
                                               th:object="${addvaloracio}" method="post">
                                             <div class="mb-3">
-                                                <label for="editvaloracio" class="form-label">Valoracion</label>
+                                                <label for="editvaloracio" class="form-label">Valoración</label>
                                                 <input id="editvaloracio"
                                                        th:field="*{valoracio}"
                                                        class="rating"
@@ -220,20 +214,20 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoracion</h1>
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoración</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        Esta seguro que desea eliminar la valoracion?
+                                        ¿Está seguro que desea eliminar la valoración?
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-pc-economic-default"
+                                        <button type="button" class="btn btn-danger"
                                                 data-bs-dismiss="modal">
                                             No
                                         </button>
                                         <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
-                                           class="btn btn-danger">Si</a>
+                                           class="btn btn-pc-economic-default">Si</a>
                                     </div>
                                 </div>
                             </div>

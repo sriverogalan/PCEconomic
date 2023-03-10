@@ -3,6 +3,7 @@ package me.pceconomic.shop.config;
 import me.pceconomic.shop.interceptors.CompraInterceptor;
 import me.pceconomic.shop.interceptors.LoginInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.support.NoOpCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,9 @@ public class ServerConfiguration implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
     private final CompraInterceptor compraInterceptor;
 
+    @Value("${cors.allowed.origins}")
+    private String[] allowedOrigins;
+
     @Autowired
     public ServerConfiguration(LoginInterceptor loginInterceptor, CompraInterceptor compraInterceptor) {
         this.loginInterceptor = loginInterceptor;
@@ -33,32 +37,15 @@ public class ServerConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.defaultContentType(MediaType.APPLICATION_JSON);
-        configurer.mediaType("js", MediaType.valueOf("application/javascript"));
-        configurer.mediaType("mjs", MediaType.valueOf("application/javascript"));
+        configurer.mediaType("js", MediaType.APPLICATION_JSON);
+        configurer.mediaType("mjs", MediaType.APPLICATION_JSON);
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                .allowedOrigins(
-                        "http://localhost:80",
-                        "http://localhost:5500",
-                        "http://localhost:8080",
-                        "http://pceconomic.live:8080/",
-                        "http://www.pceconomic.me/",
-                        "http://pceconomic.me/",
-                        "http://admin.pceconomic.me/",
-                        "http://api.pceconomic.me/",
-                        "https://www.pceconomic.me/",
-                        "https://pceconomic.me/",
-                        "https://admin.pceconomic.me/",
-                        "https://api.pceconomic.me/",
-                        "http://pceconomic.me:8080/",
-                        "http://pceconomic.me:8000",
-                        "http://pceconomic.me:3000"
-                )
+                .allowedOrigins(allowedOrigins)
                 .allowCredentials(true);
     }
 

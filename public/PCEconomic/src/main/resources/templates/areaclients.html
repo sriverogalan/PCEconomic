@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/layout :: head(title='Area de Clientes | PCEconomic', description='Esta es el area de clientes de la pagina web PCEconomic')"></head>
+<head th:replace="layout/layout :: head(title='Área de Clientes | PCEconomic', description='Esta es el area de clientes de la pagina web PCEconomic')"></head>
 <body class="bgbd">
     <header th:replace="layout/layout :: navbar"></header>
     <main class="container bg-cont mt-5 p-3">
         <nav aria-label="breadcrumb mt-2">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
-                <li class="breadcrumb-item active" aria-current="page">Area de Clientes</li>
+                <li class="breadcrumb-item active" aria-current="page">Área de clientes</li>
             </ol>
         </nav>
         <div class="row">
-            <div class="d-flex flex-row mt-2 mb-2">
-                <a class="btn btn-danger" href="/logout">
-                    <i class="bi bi-door-open-fill"></i>
-                </a>
-            </div>
             <div class="col-12 text-center">
                 <h1>MI CUENTA</h1>
                 <p th:text="'Bienvenido de nuevo ' + ${user.name}"></p>
+                <a class="btn btn-danger" href="/logout">
+                    <i class="bi bi-door-open-fill"></i>
+                </a>
             </div>
 
             <div class="mt-2 m-1 alert alert-danger" th:if="${updateDirectionError != null}">
@@ -55,12 +53,12 @@
                                       th:object="${changeName}">
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label>Antiguo Nombre</label>
+                                            <label>Antiguo nombre</label>
                                             <p class="m-2" th:text="${user.name}"></p>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="name">Nuevo Nombre</label>
+                                            <label for="name">Nuevo nombre</label>
                                             <input th:field="*{newName}" class="form-control" type="text" name="name"
                                                    id="name"
                                                    placeholder="Nuevo Nombre"/>
@@ -70,7 +68,7 @@
                                             <label for="repeat-name">Repetir Nombre</label>
                                             <input th:field="*{confirmNewName}" class="form-control" type="text"
                                                    name="surname" id="repeat-name"
-                                                   placeholder="Nuevo Apellido"/>
+                                                   placeholder="Repetir Nuevo Nombre"/>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row-reverse mt-2">
@@ -157,7 +155,7 @@
                             </div>
 
                             <div>
-                                <h5 class="font-weight-bold">CAMBIAR TELEFONO</h5>
+                                <h5 class="font-weight-bold">CAMBIAR TELÉFONO</h5>
                                 <div class="mt-2 m-1 alert alert-danger" th:if="${changePhoneError != null}">
                                     <i class='bi bi-exclamation-triangle'></i>
                                     <span th:text="${changePhoneError}"></span>
@@ -166,24 +164,24 @@
                                       method="post" class="needs-validation" novalidate>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="old-phone">Antiguo Telefono</label>
+                                            <label for="old-phone">Antiguo teléfono</label>
                                             <input class="form-control" type="tel" name="phone" id="old-phone"
                                                    th:field="*{oldTelephone}"
-                                                   placeholder="Antiguo Telefono"/>
+                                                   placeholder="Antiguo Teléfono"/>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="phone">Nuevo Telefono</label>
+                                            <label for="phone">Nuevo teléfono</label>
                                             <input class="form-control" type="tel" name="phone" id="phone"
                                                    th:field="*{newTelephone}"
-                                                   placeholder="Nuevo Telefono"/>
+                                                   placeholder="Nuevo Teléfono"/>
                                         </div>
 
                                         <div class="col-md-4">
-                                            <label for="confirm-phone">Repetir Nuevo Telefono</label>
+                                            <label for="confirm-phone">Repetir Nuevo teléfono</label>
                                             <input class="form-control" type="tel" name="phone" id="confirm-phone"
                                                    th:field="*{confirmNewTelephone}"
-                                                   placeholder="Repetir Nuevo Telefono"/>
+                                                   placeholder="Repetir Nuevo Teléfono"/>
                                         </div>
                                     </div>
 
@@ -209,12 +207,12 @@
                             <div class="row" th:if="${user.direccions.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente no tienes ninguna direccion de envio creada</p>
-                                    <p>Pulse aqui si le interesa añadir alguna!</p>
+                                    <p>Actualmente, no tienes ninguna dirección de envío creada</p>
+                                    <p>¡Pulse aquí si le interesa añadir alguna!</p>
 
                                     <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
                                             data-bs-target="#add">
-                                        Añadir direccion
+                                        Añadir dirección
                                     </button>
                                 </div>
                             </div>
@@ -222,8 +220,8 @@
                             <div class="row" th:if="${!user.direccions.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente tienes las siguientes direcciones de envio</p>
-                                    <p>Pulse aqui si le interesa añadir alguna!</p>
+                                    <p>Actualmente, tienes las siguientes direcciones de envío</p>
+                                    <p>¡Pulse aquí si le interesa añadir alguna!</p>
 
                                     <ul class="list-group list-group-flush w-50">
                                         <li th:each="direccio : ${user.direccions}" class="list-group-item">
@@ -251,22 +249,22 @@
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5" id="deletedirectionlabel">
                                                                 Eliminar
-                                                                direccion</h1>
+                                                                dirección</h1>
                                                             <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Desea eliminar la direccion seleccionada?
+                                                            ¿Desea eliminar la dirección seleccionada?
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
+                                                            <button type="button" class="btn btn-danger"
                                                                     data-bs-dismiss="modal">
                                                                 No
                                                             </button>
-                                                            <a class="btn btn-danger"
+                                                            <a class="btn btn-secondary"
                                                                th:href="@{/areaclients/deletedirection/{id}(id=${direccio.id})}">
-                                                                Si
+                                                                Sí
                                                             </a>
                                                         </div>
                                                     </div>
@@ -280,8 +278,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                                Añadir
-                                                                Direccion</h1>
+                                                                Añadir Dirección</h1>
                                                             <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal"
                                                                     aria-label="Close"></button>
@@ -305,7 +302,7 @@
                                                                     </div>
 
                                                                     <div class="col-12">
-                                                                        <label for="telephone">Telefono</label>
+                                                                        <label for="telephone">Teléfono</label>
                                                                         <input th:field="*{telefono}"
                                                                                class="form-control" type="text"
                                                                                name="direccion"
@@ -315,7 +312,7 @@
                                                                     </div>
 
                                                                     <div class="col-12">
-                                                                        <label for="street">Linea de direccion
+                                                                        <label for="street">Línea de dirección
                                                                             1</label>
                                                                         <input th:field="*{calle}" class="form-control"
                                                                                type="text"
@@ -343,8 +340,7 @@
                                                                     </div>
 
                                                                     <div class="col-6">
-                                                                        <label for="postalcode">Codigo
-                                                                            Postal</label>
+                                                                        <label for="postalcode">Código postal</label>
                                                                         <input th:field="*{codigoPostal}"
                                                                                class="form-control" type="text"
                                                                                name="cp" id="postalcode"
@@ -354,7 +350,7 @@
                                                                     </div>
 
                                                                     <div class="col-4">
-                                                                        <label for="country">Pais</label>
+                                                                        <label for="country">País</label>
                                                                         <input th:field="*{pais}"
                                                                                class="form-control" type="text"
                                                                                name="pais" id="country"
@@ -378,7 +374,7 @@
                                                                                th:placeholder="${direccio.isPrincipal}"
                                                                                type="checkbox" value="" id="principal">
                                                                         <label class="form-check-label" for="principal">
-                                                                            Es esta tu direccion principal?
+                                                                            ¿Es esta tu dirección principal?
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -398,7 +394,7 @@
 
                                     <button type="button" class="w-25 btn btn-pc-economic-dark" data-bs-toggle="modal"
                                             data-bs-target="#add">
-                                        Añadir direccion
+                                        Añadir dirección
                                     </button>
                                 </div>
                             </div>
@@ -409,7 +405,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h1 class="modal-title fs-5" id="addLabel">Añadir
-                                                Direccion</h1>
+                                                dirección</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
@@ -422,69 +418,88 @@
 
                                                     <div class="col-12">
                                                         <label for="fullname">Nombre completo</label>
-                                                        <input th:field="*{nombre}" class="form-control" type="text"
+                                                        <input th:field="*{nombre}" class="form-control"
+                                                               type="text"
+                                                               th:placeholder="${direccio.fullName}"
                                                                name="direccion"
                                                                id="fullname" required
                                                                placeholder="Nombre completo"/>
                                                     </div>
 
                                                     <div class="col-12">
-                                                        <label for="telefono">Telefono</label>
-                                                        <input th:field="*{telefono}" class="form-control" type="text"
+                                                        <label for="telephone2">Teléfono</label>
+                                                        <input th:field="*{telefono}"
+                                                               class="form-control" type="text"
                                                                name="direccion"
-                                                               id="telefono" required
+                                                               th:placeholder="${direccio.phone}"
+                                                               id="telephone2" required
                                                                placeholder="Telefono"/>
                                                     </div>
 
                                                     <div class="col-12">
-                                                        <label for="direccion">Linea de direccion 1</label>
-                                                        <input th:field="*{calle}" class="form-control" type="text"
+                                                        <label for="street2">Línea de dirección
+                                                            1</label>
+                                                        <input th:field="*{calle}" class="form-control"
+                                                               type="text"
                                                                name="direccion2"
-                                                               id="direccion2" required
+                                                               id="street2" required
+                                                               th:placeholder="${direccio.streetandnumber}"
                                                                placeholder="Nombre y numero de la calle"/>
-                                                        <input th:field="*{direccion}" class="form-control" type="text"
+                                                        <input th:field="*{direccion}"
+                                                               class="form-control" type="text"
                                                                name="direccion"
-                                                               id="direccion" required
+                                                               th:placeholder="${direccio.address}"
+                                                               id="direction2" required
                                                                placeholder="Apartamento, suite, unidad, edificio o piso"/>
 
                                                     </div>
 
                                                     <div class="col-6">
-                                                        <label for="ciudad">Ciudad</label>
+                                                        <label for="city2">Ciudad</label>
                                                         <input th:field="*{ciudad}"
-                                                               class="form-control" type="text" name="ciudad"
-                                                               id="ciudad" required
+                                                               class="form-control" type="text"
+                                                               name="ciudad"
+                                                               th:placeholder="${direccio.city}"
+                                                               id="city2" required
                                                                placeholder="Ciudad"/>
                                                     </div>
 
                                                     <div class="col-6">
-                                                        <label for="cp">Codigo Postal</label>
+                                                        <label for="postalcode2">Código postal</label>
                                                         <input th:field="*{codigoPostal}"
-                                                               class="form-control" type="text" name="cp" id="cp"
+                                                               class="form-control" type="text"
+                                                               name="cp" id="postalcode2"
                                                                required
+                                                               th:placeholder="${direccio.postalCode}"
                                                                placeholder="Codigo Postal"/>
                                                     </div>
 
                                                     <div class="col-4">
-                                                        <label for="pais">Pais</label>
+                                                        <label for="country2">País</label>
                                                         <input th:field="*{pais}"
-                                                               class="form-control" type="text" name="pais" id="pais"
+                                                               class="form-control" type="text"
+                                                               name="pais" id="country2"
                                                                required
+                                                               th:placeholder="${direccio.country}"
                                                                placeholder="Pais"/>
                                                     </div>
                                                     <div class="col-8">
-                                                        <label for="provincia">Provincia</label>
+                                                        <label for="province2">Provincia</label>
                                                         <input th:field="*{provincia}"
-                                                               class="form-control" type="text" name="provincia"
-                                                               id="provincia" required
+                                                               class="form-control" type="text"
+                                                               name="provincia"
+                                                               th:placeholder="${direccio.province}"
+                                                               id="province2" required
                                                                placeholder="Provincia"/>
                                                     </div>
 
                                                     <div class="col-12">
-                                                        <input th:field="*{principal}" class="form-check-input"
-                                                               type="checkbox" value="" id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            Es esta tu direccion principal?
+                                                        <input th:field="*{principal}"
+                                                               class="form-check-input"
+                                                               th:placeholder="${direccio.isPrincipal}"
+                                                               type="checkbox" value="" id="principal2">
+                                                        <label class="form-check-label" for="principal2">
+                                                            ¿Es esta tu dirección principal?
                                                         </label>
                                                     </div>
                                                 </div>
@@ -515,11 +530,11 @@
                             <div class="row" th:if="${facturas.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente no tienes ningun pedido disponible</p>
-                                    <p>Puede encargar un pedido haciendo una compra en nuestra pagina web</p>
+                                    <p>Actualmente, no tienes ningún pedido disponible</p>
+                                    <p>Puede encargar un pedido haciendo una compra en nuestra página web</p>
 
                                     <a class="w-25 btn btn-pc-economic-dark" th:href="@{/}">
-                                        Pagina principal
+                                        Página principal
                                     </a>
                                 </div>
                             </div>
@@ -527,7 +542,7 @@
                             <div class="row" th:if="${!facturas.isEmpty()}">
 
                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <p>Actualmente tienens los siguientes pedidos hechos</p>
+                                    <p>Actualmente, usted tiene los siguientes pedidos hechos</p>
 
                                     <ul class="list-group list-group-flush w-50">
                                         <li th:each="factura : ${facturas}" th:if="${factura.estat == 'COMPLETED'}"
@@ -612,7 +627,7 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="addValorationLabel">Añadir Valoracion</h1>
+                                                                <h1 class="modal-title fs-5" id="addValorationLabel">Añadir Valoración</h1>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                             </div>
@@ -621,7 +636,7 @@
                                                                       th:action="@{/areaclients/addvaloracio/{idArticle}/{idPropietat}/{idLinea}(idArticle=${productos.idArticle}, idPropietat=${productos.idPropietats}, idLinea=${productos.id})}"
                                                                       th:object="${addvaloracio}" method="post">
                                                                     <div class="mb-3">
-                                                                        <label for="valoracio" class="form-label">Valoracion</label>
+                                                                        <label for="valoracio" class="form-label">Valoración</label>
                                                                         <input id="valoracio"
                                                                                th:field="*{valoracio}"
                                                                                class="rating"
@@ -656,8 +671,7 @@
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            Le gustaria generar un PDF con los productos de su
-                                                            pedido?
+                                                            ¿Le gustaría generar un PDF con los productos de su pedido?
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-pc-economic-dark"
@@ -665,7 +679,7 @@
                                                                 No
                                                             </button>
                                                             <a type="button" class="btn btn-danger"
-                                                               th:href="@{/areaclients/generatepdf/{idfactura}(idfactura=${factura.id})}">Si</a>
+                                                               th:href="@{/areaclients/generatepdf/{idfactura}(idfactura=${factura.id})}">Sí</a>
                                                         </div>
                                                     </div>
                                                 </div>
