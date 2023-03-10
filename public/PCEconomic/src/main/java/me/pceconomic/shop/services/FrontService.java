@@ -41,6 +41,9 @@ public class FrontService {
     @Value("${google.maps.key}")
     private String key;
 
+    @Value("${admin_private_ip}")
+    private String url;
+
     @Autowired
     public FrontService(VisitaRepository visitaRepository, PersonaRepository personaRepository, ValoracionsRepository valoracionsRepository, SubcategoriaRepository subcategoriaRepository, PropietatsRepository propietatsRepository, CategoriaRepository categoriaRepository, ImatgeRepository imatgeRepository, ArticleRepository articleRepository, LineaFacturaRepository lineasFacturaRepository) {
         this.categoriaRepository = categoriaRepository;
@@ -87,6 +90,7 @@ public class FrontService {
         model.addAttribute("categories", categoriaRepository.findAll());
         model.addAttribute("subcategories", subcategoriaRepository.findAll());
         model.addAttribute("imatges", imatgeRepository.findAll());
+        model.addAttribute("admin_part", url);
 
         HttpSession session = request.getSession();
 

@@ -94,7 +94,7 @@
                                 <ul class="dropdown-menu" id="menu-login">
                                     <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
                                     <li>
-                                        <a class="dropdown-item" th:href="'http://localhost/#/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
+                                        <a class="dropdown-item" th:href="${admin_part} + '?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
                                             Productos</a></li>
                                     <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
                                 </ul>
@@ -162,8 +162,7 @@
     >
         <div class="row col-6">
             <p class="mb-0 text-muted">
-                © 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses
-                Tapereres, 32, 07500 Manacor, Balearic Islands
+                © 2023 PC Economic, Inc. y Multimedia SLU CIF B73347494. Ses Tapereres, 32, 07500 Manacor, Islas Baleares, España.
             </p>
         </div>
         <div class="row col-6 justify-content-center">
