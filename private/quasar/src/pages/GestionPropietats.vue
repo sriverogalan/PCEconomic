@@ -46,12 +46,8 @@
           </template>
 
           <template v-slot:body-cell-actions="props">
-            <q-td :props="props"> 
-              <q-btn
-                icon="delete"
-                color="red-14"
-                @click="showDeleteDialog(props)"
-              />
+            <q-td :props="props">
+              <q-btn icon="delete" color="red-14" @click="showDeleteDialog(props)" />
             </q-td>
           </template>
 
@@ -145,7 +141,7 @@
                     class="col-6"
                   />
                 </div>
- 
+
                 <q-select
                   v-model="articlePropietats.propietats"
                   :options="propietats"
@@ -165,7 +161,7 @@
                     v-model="articlePropietats.propietats_valors[props]"
                     :options="valors"
                     use-input
-                    use-chips 
+                    use-chips
                     input-debounce="0"
                     @new-value="createValue"
                     :label="props"
@@ -398,9 +394,8 @@ export default defineComponent({
           if (a.imatges.length > 1 && a.imatges.indexOf(i) != a.imatges.length - 1) {
             paths += ", ";
           }
-        });  
+        });
 
-        console.log(a);
         this.rows.push({
           id_propietats: a.id_propietats,
           es_principal: a.es_principal == 1 ? true : false,
@@ -424,7 +419,7 @@ export default defineComponent({
           id_article: this.articleId,
         },
       });
-      const valorsJson = await valorsAxios.data; 
+      const valorsJson = await valorsAxios.data;
 
       valorsJson.forEach((a) => {
         this.valors_propietats.push({
@@ -472,10 +467,9 @@ export default defineComponent({
       this.articlesSubcategories.es_principal = props.row.es_principal;
       this.articlesSubcategories.preu = props.row.preu;
       this.articlesSubcategories.stock = props.row.stock;
-      this.articlesSubcategories.propietats = props.row.propietats; 
+      this.articlesSubcategories.propietats = props.row.propietats;
 
       this.articlePropietats.id_propietats = props.row.id_propietats;
-
 
       this.dialogDelete = true;
     },
@@ -500,6 +494,14 @@ export default defineComponent({
       this.loading = true;
       let e = "";
 
+      let imgPrincipal = new FormData();
+      imgPrincipal.append("file", this.file, this.file.name);
+
+      this.files.forEach((file) => {
+        let img = new FormData();
+        img.append("files", file, file.name);
+      });
+
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {
           id_article: this.articleId,
@@ -510,12 +512,13 @@ export default defineComponent({
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
           propietats_valors: this.articlePropietats.propietats_valors
+            ? this.articlePropietats.propietats_valors
+            : null,
+          imgPrincipal,
         })
         .catch(function (error) {
           e = error;
         });
-
-      
 
       this.mensajeServidor = true;
       if (articleAxios) {
@@ -525,9 +528,6 @@ export default defineComponent({
         this.message = e.response.data.message;
       }
       this.updateTable();
-    },
-    async sendImages(){
-
     },
     async deletePropietats() {
       let articleJson = "";
