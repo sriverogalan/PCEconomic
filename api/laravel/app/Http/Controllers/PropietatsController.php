@@ -39,13 +39,13 @@ class PropietatsController extends Controller
     public function create(Request $request)
     {
         try {
+
+
             if ($request->input('id_propietats') == null) {
                 $propietat = new Propietats();
             } else {
                 $propietat = Propietats::find($request->input('id_propietats'));
             }
-
-
 
 
             $propietat->es_principal = $request->input('es_principal');
@@ -60,43 +60,39 @@ class PropietatsController extends Controller
                 'El preu i el stock no poden estar buits'], 400);
             }
             $var = array_keys($request->input('propietats_valors'));
+
             $props_valors = $request->input('propietats_valors');
 
             $propietat->save();
 
-            if (!$request->hasFile('file')) {
-                return response()->json(['error' => 'No image uploaded.']);
-            }
-
-            $images = $request->file('files');
-
-            foreach ($images as $image) {
-                $path = Storage::disk('public')->put('images', $image);
-                $propietat->imatges()->create(['url' => $path]);
-
-                $filename = $image->getClientOriginalName();
-                Storage::putFileAs('public/img', $image, $filename);
-            }
-
-
             foreach ($var as $prop) {
                 $propBD = Propietat::where('nom', $prop)->first();
-                if (!$propBD) {
+                if ($propBD == null) {
                     $propBD = new Propietat();
                     $propBD->nom = $prop;
                     $propBD->save();
                 }
+
                 foreach ($props_valors[$prop] as $valors) {
                     $valor = Valors::where('valor', $valors)->first();
-                    if (!$valor) {
+
+                    if ($valor == null) {
                         $valor = new Valors();
                         $valor->valor = $valors;
                         $valor->save();
+                        $valor->propietat()->detach();
+                        $valor->propietat()->attach($propBD);
                     }
-                    $valor->propietat()->attach($propBD);
                 }
                 $propietat->valors()->attach($valor);
             }
+
+            $file = $request->file('imgPrincipal');
+ 
+            return response()->json(['message' => $file], 200);
+
+
+
 
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
@@ -107,6 +103,8 @@ class PropietatsController extends Controller
             return response()->json(['message' => $e], 500);
         }
     }
+
+
 
 
     /**

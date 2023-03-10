@@ -47,19 +47,7 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn
-                icon="edit"
-                class="ml-2"
-                color="amber-5"
-                @click="showEditDialog(props)"
-              />
-
-              <q-btn
-                icon="delete"
-                class="ml-2"
-                color="red-14"
-                @click="showDeleteDialog(props)"
-              />
+              <q-btn icon="delete" color="red-14" @click="showDeleteDialog(props)" />
             </q-td>
           </template>
 
@@ -174,7 +162,6 @@
                     :options="valors"
                     use-input
                     use-chips
-                    multiple
                     input-debounce="0"
                     @new-value="createValue"
                     :label="props"
@@ -272,10 +259,11 @@ export default defineComponent({
         es_principal: "",
         preu: "",
         stock: "",
-        propietats: [],
         propietats_valors: {},
         paths: "",
-        valors: [],
+        props_valors: "",
+        propietat: [],
+        valor: [],
         path: [],
         imgPrincipal: "",
       },
@@ -318,7 +306,7 @@ export default defineComponent({
           required: true,
           label: "Propiedades",
           align: "center",
-          field: (row) => row.propietats,
+          field: (row) => row.props_valors,
           sortable: true,
         },
         {
@@ -331,7 +319,7 @@ export default defineComponent({
         {
           name: "actions",
           align: "center",
-          label: "Acciones",
+          label: "Acción",
           field: "actions",
         },
       ],
@@ -392,13 +380,13 @@ export default defineComponent({
       console.log(propietatsJson);
 
       propietatsJson.forEach((a) => {
-        let propietats = "";
+        let props_valors = "";
         let paths = "";
         a.valors.forEach((v) => {
-          propietats += v.propietat[0].nom + " " + v.valor;
+          props_valors += v.propietat[0].nom + " " + v.valor;
 
           if (a.valors.length > 1 && a.valors.indexOf(v) != a.valors.length - 1) {
-            propietats += ", ";
+            props_valors += ", ";
           }
         });
         a.imatges.forEach((i) => {
@@ -407,14 +395,14 @@ export default defineComponent({
             paths += ", ";
           }
         });
-        console.log("----- Img ----");
-        console.log(a.imatges);
+
+        console.log(a);
         this.rows.push({
           id_propietats: a.id_propietats,
           es_principal: a.es_principal == 1 ? true : false,
           preu: a.preu,
           stock: a.stock,
-          propietats: propietats,
+          props_valors: props_valors,
           valors: a.valors,
           pathImages: a.paths,
           paths: paths,
@@ -433,7 +421,6 @@ export default defineComponent({
         },
       });
       const valorsJson = await valorsAxios.data;
-      console.log(valorsJson);
 
       valorsJson.forEach((a) => {
         this.valors_propietats.push({
@@ -458,22 +445,7 @@ export default defineComponent({
 
       this.propietats = this.propietats.filter((v, i, a) => a.indexOf(v) === i);
     },
-
-    showEditDialog(props) {
-      this.activeId = true;
-      this.titolcard = "Edita la propiedad " + props.row.id_propietats;
-      this.articlesSubcategories.id_propietats = props.row.id_propietats;
-      this.articlesSubcategories.es_principal = props.row.es_principal;
-      this.articlesSubcategories.preu = props.row.preu;
-      this.articlesSubcategories.stock = props.row.stock;
-      this.articlesSubcategories.propietats = props.row.propietats;
-      this.articlesSubcategories.paths = props.row.paths;
-      this.articlesSubcategories.valors = props.row.valors;
-      this.articlesSubcategories.path = props.row.path;
-      this.articlePropietats.id_propietats = props.row.id_propietats;
-
-      this.dialogEdit = true;
-    },
+ 
     showDeleteDialog(props) {
       this.activeId = true;
       this.articlePropietats.id_propietats = props.row.id_propietats;
@@ -482,9 +454,6 @@ export default defineComponent({
       this.articlesSubcategories.preu = props.row.preu;
       this.articlesSubcategories.stock = props.row.stock;
       this.articlesSubcategories.propietats = props.row.propietats;
-      this.articlesSubcategories.paths = props.row.paths;
-      this.articlesSubcategories.valors = props.row.valors;
-      this.articlesSubcategories.path = props.row.path;
 
       this.articlePropietats.id_propietats = props.row.id_propietats;
 
@@ -501,8 +470,10 @@ export default defineComponent({
       this.articlesSubcategories.paths = "";
       this.articlesSubcategories.valors = [];
       this.articlesSubcategories.path = [];
-      this.articlePropietats.propietats_valors = {};
-      this.articlePropietats.id_propietats = [];
+      this.articlePropietats.propietats_valors = {}; 
+      this.file = null;
+      this.files = [];
+
       this.dialogEdit = true;
     },
     async pushPropietats() {
@@ -511,8 +482,13 @@ export default defineComponent({
       this.loading = true;
       let e = "";
 
-      const articleAxios = await axios
-        .post(process.env.CRIDADA_API + "api/create/propietats", {
+      const articleAxios = await axios({
+        method: "post",
+        url: process.env.CRIDADA_API + "api/create/propietats",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        data: {
           id_article: this.articleId,
           id_propietats: this.articlesSubcategories.id_propietats
             ? this.articlesSubcategories.id_propietats
@@ -521,12 +497,12 @@ export default defineComponent({
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
           propietats_valors: this.articlePropietats.propietats_valors,
-          file: this.file,
-          files: this.files,
-        })
-        .catch(function (error) {
-          e = error;
-        });
+          imgPrincipal: this.file,
+          imgSecundaries: this.files, 
+        },
+      }).catch(function (error) {
+        e = error;
+      });
 
       this.mensajeServidor = true;
       if (articleAxios) {
@@ -534,7 +510,8 @@ export default defineComponent({
         this.message = articleJson.message;
       } else {
         this.message = e.response.data.message;
-      }
+      }  
+
       this.updateTable();
     },
     async deletePropietats() {
