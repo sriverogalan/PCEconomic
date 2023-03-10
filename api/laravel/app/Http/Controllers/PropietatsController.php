@@ -39,14 +39,11 @@ class PropietatsController extends Controller
     public function create(Request $request)
     {
         try {
-
-
             if ($request->input('id_propietats') == null) {
                 $propietat = new Propietats();
             } else {
                 $propietat = Propietats::find($request->input('id_propietats'));
             }
-
 
             $propietat->es_principal = $request->input('es_principal');
             $propietat->preu = $request->input('preu');
@@ -71,28 +68,18 @@ class PropietatsController extends Controller
                     $propBD = new Propietat();
                     $propBD->nom = $prop;
                     $propBD->save();
+                } 
+                $valor = Valors::where('valor', $props_valors[$prop])->first();
+                if ($valor == null) {
+                    $valor = new Valors();
+                    $valor->valor = $props_valors[$prop];
+                    $valor->save();
+                    $valor->propietat()->detach();
+                    $valor->propietat()->attach($propBD);
                 }
-
-                foreach ($props_valors[$prop] as $valors) {
-                    $valor = Valors::where('valor', $valors)->first();
-
-                    if ($valor == null) {
-                        $valor = new Valors();
-                        $valor->valor = $valors;
-                        $valor->save();
-                        $valor->propietat()->detach();
-                        $valor->propietat()->attach($propBD);
-                    }
-                }
+                $propietat->valors()->detach();
                 $propietat->valors()->attach($valor);
             }
-
-            $file = $request->file('imgPrincipal');
- 
-            return response()->json(['message' => $file], 200);
-
-
-
 
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
