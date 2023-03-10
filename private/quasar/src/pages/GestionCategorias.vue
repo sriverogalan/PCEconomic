@@ -35,11 +35,7 @@
 
               <template v-slot:body-cell-actions="props">
                 <q-td :props="props">
-                  <q-btn
-                    icon="edit"
-                    color="amber-5"
-                    @click="showEditDialog(props)"
-                  />
+                  <q-btn icon="edit" color="amber-5" @click="showEditDialog(props)" />
                   <q-btn
                     icon="delete"
                     class="ml-2"
@@ -108,11 +104,7 @@
                     color="red-14"
                     @click="dialogCreateCategory = false"
                   />
-                  <q-btn
-                    label="Guardar"
-                    color="purple-9"
-                    @click="createCategoria()"
-                  />
+                  <q-btn label="Guardar" color="purple-9" @click="createCategoria()" />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -141,11 +133,7 @@
                     color="red-14"
                     @click="dialogEdit = false"
                   />
-                  <q-btn
-                    label="Guardar"
-                    color="purple-9"
-                    @click="updateCategoria()"
-                  />
+                  <q-btn label="Guardar" color="purple-9" @click="updateCategoria()" />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -170,11 +158,7 @@
                     color="red-14"
                     @click="dialogDelete = false"
                   />
-                  <q-btn
-                    label="Eliminar"
-                    color="purple-9"
-                    @click="deleteCategoria()"
-                  />
+                  <q-btn label="Eliminar" color="purple-9" @click="deleteCategoria()" />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -237,10 +221,7 @@
               </template>
             </q-table>
 
-            <q-dialog
-              v-model="dialogCreateSubcategory"
-              id="dialogCreateSubcategory"
-            >
+            <q-dialog v-model="dialogCreateSubcategory" id="dialogCreateSubcategory">
               <q-card class="sizeTitleCard">
                 <q-card-section class="row items-center">
                   <span class="q-ml-sm">Crear Subcategoria.</span>
@@ -272,19 +253,12 @@
                     color="red-14"
                     @click="dialogCreateSubcategory = false"
                   />
-                  <q-btn
-                    label="Guardar"
-                    color="purple-9"
-                    @click="createSubcategoria()"
-                  />
+                  <q-btn label="Guardar" color="purple-9" @click="createSubcategoria()" />
                 </q-card-actions>
               </q-card>
             </q-dialog>
 
-            <q-dialog
-              v-model="dialogEditSubcategory"
-              id="dialogEditSubcategory"
-            >
+            <q-dialog v-model="dialogEditSubcategory" id="dialogEditSubcategory">
               <q-card class="sizeTitleCard">
                 <q-card-section class="row items-center">
                   <span class="q-ml-sm">Editar Subcategoria.</span>
@@ -317,11 +291,7 @@
                     color="red-14"
                     @click="dialogEditSubcategory = false"
                   />
-                  <q-btn
-                    label="Guardar"
-                    color="purple-9"
-                    @click="updateSubcategoria()"
-                  />
+                  <q-btn label="Guardar" color="purple-9" @click="updateSubcategoria()" />
                 </q-card-actions>
               </q-card>
             </q-dialog>
@@ -472,10 +442,7 @@ export default defineComponent({
       this.catRowsFiltrats = this.catRows.filter((m) => {
         return (
           m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.id_categoria
-            .toString()
-            .toLowerCase()
-            .includes(this.filter.toLowerCase())
+          m.id_categoria.toString().toLowerCase().includes(this.filter.toLowerCase())
         );
       });
     },
@@ -483,10 +450,7 @@ export default defineComponent({
       this.subcatRowsFiltrats = this.subcatRows.filter((m) => {
         return (
           m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.id_categoria
-            .toString()
-            .toLowerCase()
-            .includes(this.filter.toLowerCase())
+          m.id_categoria.toString().toLowerCase().includes(this.filter.toLowerCase())
         );
       });
     },
@@ -540,7 +504,7 @@ export default defineComponent({
         const sendAxios = await axios.post(
           process.env.CRIDADA_API + "api/create/categories",
           {
-            nom: this.nomSubcategoria,
+            nom: this.nomCategoria,
           }
         );
         const sendJson = await sendAxios.data;

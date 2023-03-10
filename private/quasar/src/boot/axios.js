@@ -7,7 +7,7 @@ import { boot } from "quasar/wrappers";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: "https://api.pceconomic.me/token" });
+const api = axios.create({ baseURL: "https://api.pceconomic.live/token" });
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -19,8 +19,8 @@ export default boot(({ app }) => {
   axios.interceptors.request.use(function (config) {
     const token = localStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      config.headers["Content-Type"] = "application/json";
+      config.headers.Authorization = `Bearer ${token}`;/* 
+      config.headers["Content-Type"] = "application/json"; */
     }
     return config;
   });

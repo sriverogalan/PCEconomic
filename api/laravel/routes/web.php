@@ -25,14 +25,12 @@ use App\Models\Propietats;
 
 Route::get('/', function () {
     return response()->json(true);
-});
-
+}); 
 Route::controller(MarquesController::class)->group(function () {
     Route::get('/api/get/marques', 'index');
     Route::post('/api/create/marques', 'create');
     Route::post('/api/update/marques', 'update');
-    Route::post('/api/delete/marques', 'delete');
-    // TODO: Hacer papelera para recuperar eliminados
+    Route::post('/api/delete/marques', 'delete'); 
 });
 
 Route::controller(ArticlesSubcategoriesControllers::class)->group(function () {
