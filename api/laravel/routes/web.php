@@ -51,6 +51,7 @@ Route::controller(PropietatsController::class)->group(function () {
     Route::get('/api/get/propietats', 'index');
     Route::post('/api/create/propietats', 'create'); 
     Route::post('/api/delete/propietats', 'delete');
+    Route::post('/api/upload/imatges', 'uploadImages');
 });
 
 Route::controller(ValorsContoller::class)->group(function () {

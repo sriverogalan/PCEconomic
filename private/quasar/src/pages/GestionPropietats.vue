@@ -107,7 +107,7 @@
 
                 <q-file
                   name="cover_files"
-                  v-model="files"
+                  v-model="imatgesSecundaries"
                   filled
                   multiple
                   use-chips
@@ -243,7 +243,7 @@ export default defineComponent({
       fotosUrl: process.env.RUTA_IMG,
 
       file: null,
-      files: [],
+      imatgesSecundaries: [],
 
       valors_propietats: [],
       propietats: [],
@@ -494,14 +494,6 @@ export default defineComponent({
       this.loading = true;
       let e = "";
 
-      let imgPrincipal = new FormData();
-      imgPrincipal.append("file", this.file, this.file.name);
-
-      this.files.forEach((file) => {
-        let img = new FormData();
-        img.append("files", file, file.name);
-      });
-
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {
           id_article: this.articleId,
@@ -514,12 +506,15 @@ export default defineComponent({
           propietats_valors: this.articlePropietats.propietats_valors
             ? this.articlePropietats.propietats_valors
             : null,
-          imgPrincipal,
         })
         .catch(function (error) {
           e = error;
         });
 
+      const id_propietats = await articleAxios.data.id_propietats;
+      if (id_propietats) {
+        this.uploadImatges(id_propietats);
+      }
       this.mensajeServidor = true;
       if (articleAxios) {
         articleJson = await articleAxios.data;
@@ -527,8 +522,34 @@ export default defineComponent({
       } else {
         this.message = e.response.data.message;
       }
+
       this.updateTable();
     },
+    async uploadImatges(id_propietats) {
+      const formData = new FormData();
+      formData.append("id_article", this.articleId);
+      formData.append("id_propietats", id_propietats);
+      formData.append("imatgePrincipal", this.file); 
+      this.imatgesSecundaries.forEach((a) => {
+        formData.append("imatgesSecundaries[]", a);
+      });
+
+      const token = localStorage.getItem("token");
+
+      const articleAxios = await axios.post(
+        process.env.CRIDADA_API + "api/upload/imatges",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const articleJson = await articleAxios.data;
+      this.message = articleJson.message;
+    },
+
     async deletePropietats() {
       let articleJson = "";
       this.dialogDelete = false;
