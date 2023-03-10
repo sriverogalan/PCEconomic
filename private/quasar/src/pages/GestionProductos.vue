@@ -242,7 +242,10 @@ export default defineComponent({
           required: true,
           label: "Descripcio",
           align: "center",
-          field: (row) => row.descripcio,
+          field: (row) =>
+            [...row.descripcio].length > 20
+              ? [...row.descripcio].slice(0, 30).join("") + "..."
+              : row.descripcio,
           sortable: true,
         },
         {

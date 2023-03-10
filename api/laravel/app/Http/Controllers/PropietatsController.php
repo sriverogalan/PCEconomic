@@ -9,6 +9,7 @@ use App\Models\Propietats;
 use App\Models\Valors;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 
 class PropietatsController extends Controller
@@ -25,8 +26,7 @@ class PropietatsController extends Controller
             'id_article',
             $request->input('id_article')
         )
-            ->with('valors.propietat')
-            ->with('imatges')
+            ->with(['valors.propietat', 'imatges'])
             ->get();
 
 
@@ -47,7 +47,6 @@ class PropietatsController extends Controller
             } else {
                 $propietat = Propietats::find($request->input('id_propietats'));
             }
-
 
             $propietat->es_principal = $request->input('es_principal');
             $propietat->preu = $request->input('preu');
@@ -73,28 +72,26 @@ class PropietatsController extends Controller
                 'El preu i el stock no poden estar buits'], 400);
             }
             $var = array_keys($request->input('propietats_valors'));
+
             $props_valors = $request->input('propietats_valors');
 
             $propietat->save();
 
-            $array = [];
-
-            foreach ($var as $prop) { 
+            foreach ($var as $prop) {
                 $propBD = Propietat::where('nom', $prop)->first();
-                if (!$propBD) {
+                if ($propBD == null) {
                     $propBD = new Propietat();
                     $propBD->nom = $prop;
                     $propBD->save();
-                }
-                foreach ($props_valors[$prop] as $valors) {
-                    $valor = Valors::where('valor', $valors)->first();
-                    if (!$valor) {
-                        $valor = new Valors();
-                        $valor->valor = $valors;
-                        $valor->save();
-                    }
+                } 
+                $valor = Valors::where('valor', $props_valors[$prop])->first();
+                if ($valor == null) {
+                    $valor = new Valors();
+                    $valor->valor = $props_valors[$prop];
+                    $valor->save();
+                    $valor->propietat()->detach();
                     $valor->propietat()->attach($propBD);
-                }
+                } 
                 $propietat->valors()->attach($valor);
             }
 
@@ -109,6 +106,8 @@ class PropietatsController extends Controller
     }
 
 
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -117,8 +116,15 @@ class PropietatsController extends Controller
      */
     public function delete(Request $request)
     {
-        $propietat = Propietats::find($request->input('id_propietat'));
-        $propietat->delete();
-        return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
+        try {
+            $propietat = Propietats::find($request->input('id_propietat'));
+            $propietat->valors()->detach();
+            $propietat->imatges()->delete();
+            $propietat->delete();
+
+            return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e], 500);
+        }
     }
 }
