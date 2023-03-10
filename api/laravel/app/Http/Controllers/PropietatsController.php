@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Propietat;
+use App\Mail\PCEconomic;
+use App\Models\CorreuNoStock;
 use App\Models\Propietats;
 use App\Models\Valors;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class PropietatsController extends Controller
 {
@@ -48,6 +51,18 @@ class PropietatsController extends Controller
             $propietat->es_principal = $request->input('es_principal');
             $propietat->preu = $request->input('preu');
             $propietat->stock = $request->input('stock');
+
+            // si el stock es mayor a 0 enviamos correo
+            if ($propietat->stock > 0) {
+                $correos = CorreuNoStock::where('id_propietats', $request->input('id_propietats'))->get();
+                foreach ($correos as $c) {
+                    $email = $c->email;
+                    $correo = new PCEconomic();
+                    Mail::to($email)->send($correo);
+                    $c->delete();
+                }
+            }
+
             $propietat->id_article = $request->input('id_article');
 
             if (

@@ -48,6 +48,8 @@ public class LoginController {
 
     @GetMapping("/login")
     public String preLogin(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (session != null) registerService.removeSession(session);
 
         LoginForm loginForm = new LoginForm();
         model.addAttribute("loginForm", loginForm);
@@ -74,19 +76,15 @@ public class LoginController {
             return "login";
         }
 
-        if (passwordEncoder.matches(loginForm.getPassword(), persona.getPassword())) {
-            HttpSession session = request.getSession();
-            registerService.setSession(session, persona);
-            return "redirect:/";
-        }
-
-        return "redirect:/login";
+        HttpSession session = request.getSession();
+        registerService.setSession(session, persona);
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
     public String logoutPage(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        session.invalidate();
+        if (session != null) registerService.removeSession(session);
         return "redirect:/login";
     }
 
