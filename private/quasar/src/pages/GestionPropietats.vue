@@ -509,13 +509,13 @@ export default defineComponent({
           es_principal: this.articlesSubcategories.es_principal ? 1 : 0,
           preu: this.articlesSubcategories.preu,
           stock: this.articlesSubcategories.stock,
-          propietats_valors: this.articlePropietats.propietats_valors,
-          file: this.file,
-          files: this.files,
+          propietats_valors: this.articlePropietats.propietats_valors
         })
         .catch(function (error) {
           e = error;
         });
+
+      
 
       this.mensajeServidor = true;
       if (articleAxios) {
@@ -525,6 +525,9 @@ export default defineComponent({
         this.message = e.response.data.message;
       }
       this.updateTable();
+    },
+    async sendImages(){
+
     },
     async deletePropietats() {
       let articleJson = "";
