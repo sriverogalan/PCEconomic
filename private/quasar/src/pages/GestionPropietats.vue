@@ -167,27 +167,29 @@
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
                 ></q-select>
-                {{ valors_propietats }}
+
                 <div>
-                  <q-select
-                    v-for="props in articlePropietats.propietats"
-                    v-model="articlePropietats.propietats_valors[props]"
-                    :options="
-                      valors_propietats.forEach((val_prop) => {
-                        if (val_prop.propietat[0].nom == props) {
-                          return val_prop.valor.valor;
-                        }
-                      })
-                    "
-                    use-input
-                    use-chips
-                    input-debounce="0"
-                    @new-value="createValue"
-                    :label="props"
-                    filled
-                    class="mt-1"
-                  >
-                  </q-select>
+                  <div v-for="props in articlePropietats.propietats">
+                    <q-select
+                      v-model="articlePropietats.propietats_valors[props]"
+                      :options="
+                        valors_propietats.map((val) => {
+                          if (val.propietat[0].nom == props) {
+                            return val.valor.valor;
+                          }
+                          return undefined;
+                        }).filter((val) => val != undefined).sort()
+                      "
+                      use-input
+                      use-chips
+                      input-debounce="0"
+                      @new-value="createValue"
+                      :label="props"
+                      filled
+                      class="mt-1"
+                    >
+                    </q-select>
+                  </div>
                 </div>
 
                 <q-card-actions align="right">
