@@ -2,22 +2,19 @@
   <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-purple-9">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
+
+        <q-btn flat dense icon="home" aria-label="Volver" class="text-center" @click="redirect"
+          >Volver a la parte publica</q-btn
+        >
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>Gestiona</q-item-label>
+        <q-item-label header>Bienvenido al apartado de gestion</q-item-label>
 
         <LinkPersonalitzat
           v-for="link in essentialLinks"
@@ -79,6 +76,13 @@ export default defineComponent({
   components: {
     EssentialLink,
     LinkPersonalitzat,
+  },
+
+  methods: {
+    redirect() {
+      // quiero que me redirija a pceconomic.live sin dominio
+      window.location.href = "https://pceconomic.live";
+    },
   },
 
   setup() {
