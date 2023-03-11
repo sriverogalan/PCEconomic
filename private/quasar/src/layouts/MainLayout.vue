@@ -107,7 +107,6 @@ export default defineComponent({
 
   methods: {
     redirect() {
-      // quiero que me redirija a pceconomic.live sin dominio
       window.location.href = "https://pceconomic.live";
     },
     toggleDark() {
