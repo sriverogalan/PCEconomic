@@ -71,7 +71,7 @@
                   @click="showCreateCategory()"
                 />
                 <q-btn
-                  class="mb-1 ml-1"
+                  class="mb-1 ml-1 ml-2"
                   color="amber-14"
                   icon="refresh"
                   @click="getCategories()"
@@ -239,7 +239,7 @@
                   @click="showCreateSubcategory()"
                 />
                 <q-btn
-                  class="mb-1 ml-1"
+                  class="mb-1 ml-2"
                   color="amber-14"
                   icon="refresh"
                   @click="getSubcategories()"
