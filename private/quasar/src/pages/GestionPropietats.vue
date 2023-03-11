@@ -156,14 +156,15 @@
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
                 ></q-select>
+
+                {{ valors_propietats }}
                 <div>
                   <q-select
                     v-for="props in articlePropietats.propietats"
                     v-model="articlePropietats.propietats_valors[props]"
                     :options="valors"
                     use-input
-                    use-chips
-                    multiple
+                    use-chips 
                     input-debounce="0"
                     @new-value="createValue"
                     :label="props"
