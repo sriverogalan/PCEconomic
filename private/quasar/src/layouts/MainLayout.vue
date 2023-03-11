@@ -8,21 +8,21 @@
         <q-btn
           flat
           dense
+          icon="home"
+          aria-label="Volver"
+          class="text-center q-pa-md"
+          @click="redirect"
+          > Volver a la parte publica</q-btn
+        >
+        <q-btn
+          flat
+          dense
           icon="brightness_4"
           aria-label="Dark mode"
           class="text-center q-pa-md"
           @click="toggleDark"
         />
 
-        <q-btn
-          flat
-          dense
-          icon="home"
-          aria-label="Volver"
-          class="text-center q-pa-md"
-          @click="redirect"
-          >Volver a la parte publica</q-btn
-        >
       </q-toolbar>
     </q-header>
 
