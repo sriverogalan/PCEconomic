@@ -20,11 +20,11 @@ export function exportToPDF(data, information) {
 
   // Convierte la tabla HTML en una tabla de PDF
   const columns = [
-    "Quantitat",
-    "Article",
-    "Propietats",
-    "Preu Unitari",
-    "Preu Total",
+    "Cantidad",
+    "Artículo",
+    "Propiedades",
+    "Precio Unitario",
+    "Precio Total",
   ];
   let rows = [];
 

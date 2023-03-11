@@ -32,7 +32,7 @@
             v-model="filter"
             rounded
             outlined
-            @update:model-value="filtrar"
+            @update:model-value="filtrarFacturaPorDNI"
           >
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -64,6 +64,15 @@
                     <q-icon name="search" />
                   </template>
                 </q-input>
+              </template>
+
+              <template v-slot:top-left>
+                <q-btn
+                  class="mb-1 ml-1"
+                  color="amber-14"
+                  icon="refresh"
+                  @click="getFactures()"
+                />
               </template>
             </q-table>
           </q-card-section>
@@ -137,6 +146,23 @@ export default {
           field: (row) => row.id_factura,
           sortable: true,
         },
+        // columna Nombre y DNI
+        {
+          name: "nom",
+          required: true,
+          label: "Nom",
+          align: "center",
+          field: (row) => row.nom,
+          sortable: true,
+        },
+        {
+          name: "dni",
+          required: true,
+          label: "DNI",
+          align: "center",
+          field: (row) => row.dni,
+          sortable: true,
+        },
         {
           name: "date",
           required: true,
@@ -158,7 +184,7 @@ export default {
         {
           name: "quantitat",
           required: true,
-          label: "Quantitat",
+          label: "Cantidad",
           align: "center",
           field: (row) => row.quantitat,
           sortable: true,
@@ -174,7 +200,7 @@ export default {
         {
           name: "nomArticle",
           required: true,
-          label: "Nom Article",
+          label: "Nombre del Articulo",
           align: "center",
           field: (row) => row.nomArticle,
           sortable: true,
@@ -182,7 +208,7 @@ export default {
         {
           name: "propietats",
           required: true,
-          label: "Propietats",
+          label: "Propiedades",
           align: "center",
           field: (row) => row.propietats,
           sortable: true,
@@ -190,7 +216,7 @@ export default {
         {
           name: "preuproducte",
           required: true,
-          label: "Preu Producte",
+          label: "Precio Unitario",
           align: "center",
           field: (row) => row.preuproducte,
           sortable: true,
@@ -198,7 +224,7 @@ export default {
         {
           name: "preutotal",
           required: true,
-          label: "Preu Total",
+          label: "Precio Total",
           align: "center",
           field: (row) => row.preulineatotal,
           sortable: true,
@@ -227,6 +253,13 @@ export default {
     };
   },
   methods: {
+    filtrarFacturaPorDNI() {
+      this.facturaRowsFiltrats = this.facturaRows.filter((factura) => {
+        return factura.dni
+          .toLowerCase()
+          .includes(this.information.id.toLowerCase());
+      });
+    },
     async getFactures() {
       this.rows = [];
       this.loading = true;
@@ -238,6 +271,16 @@ export default {
         this.facturaRows.push({
           id_factura: factura.id_factura,
           data: formatDate(factura.data),
+          nom:
+            factura.persona.nom +
+              " " +
+              factura.persona.cognom1 +
+              " " +
+              factura.persona.cognom2 ==
+            null
+              ? ""
+              : factura.persona.cognom2,
+          dni: factura.persona.dni,
           nomClient: factura.persona.nom + " " + factura.persona.cognom1,
           direction: factura.direccio,
           estat: factura.estat,
@@ -288,8 +331,10 @@ export default {
       this.information.direction = props.row.direction;
       this.information.metodo_pago = props.row.metodo_pago;
       this.information.status = props.row.estat;
-      this.information.transport = props.row.preu_transport;
-      this.information.price = props.row.preu_total;
+      this.information.transport = formatCurrency(
+        parseFloat(props.row.preu_transport)
+      );
+      this.information.price = formatCurrency(parseFloat(props.row.preu_total));
     },
     showGeneratePdfDialog() {
       this.lineaFacturaDialog = false;
