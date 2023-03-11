@@ -48,7 +48,12 @@
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn icon="edit" color="yellow-14" @click="showEditDialog(props)"></q-btn>
-              <q-btn icon="delete" class="mb-1 ml-1" color="red-14" @click="showDeleteDialog(props)" />
+              <q-btn
+                icon="delete"
+                class="mb-1 ml-1"
+                color="red-14"
+                @click="showDeleteDialog(props)"
+              />
             </q-td>
           </template>
 
@@ -67,13 +72,13 @@
           </template>
 
           <template v-slot:top-left>
+            <q-btn class="mb-1" color="purple-14" icon="arrow_back" @click="goBack()" />
             <q-btn
-              class="mb-1"
-              color="purple-14"
-              icon="arrow_back"
-              @click="goBack()"
+              color="purple-10"
+              class="mb-1 ml-1"
+              icon="add"
+              @click="showCreateDialog()"
             />
-            <q-btn color="purple-10" class="mb-1 ml-1" icon="add" @click="showCreateDialog()" />
             <q-btn
               class="mb-1 ml-1"
               color="amber-14"
@@ -161,12 +166,19 @@
                   label="Elegeix les seves propietats"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
-                ></q-select> 
+                ></q-select>
+                {{ valors_propietats }}
                 <div>
                   <q-select
                     v-for="props in articlePropietats.propietats"
                     v-model="articlePropietats.propietats_valors[props]"
-                    :options="valors"
+                    :options="
+                      valors_propietats.forEach((val_prop) => {
+                        if (val_prop.propietat[0].nom == props) {
+                          return val_prop.valor.valor;
+                        }
+                      })
+                    "
                     use-input
                     use-chips
                     input-debounce="0"
@@ -416,9 +428,8 @@ export default defineComponent({
     };
   },
   methods: {
-
-    goBack(){
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
     createProps(val, done) {
       if (val.length > 0) {
