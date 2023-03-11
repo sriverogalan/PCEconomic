@@ -116,8 +116,8 @@ class PropietatsController extends Controller
 
 
             $message = ($request->input('id_propietats') == null)
-                ? 'Propietat creada correctamente'
-                : 'Propietat actualizada correctamente'; 
+                ? 'Se ha creado correctamente'
+                : 'Se ha actualizado correctamente'; 
 
             return response()->json([
                 'message' => $message,
@@ -161,7 +161,7 @@ class PropietatsController extends Controller
                 $propietat = Propietats::find($id_prop);
                 $propietat->imatges()->attach($imatge);
             }
-            return response()->json(['message' => 'Imatges creades correctament' . $path], 200);
+            return response()->json(['message' => 'Se han creado las imagenes correctamente'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e], 500);
         }
