@@ -248,7 +248,7 @@
                     data: {destination: destination},
                     success: function (response) {
                         console.log(response)
-                        var json = response;
+                        var json = JSON.parse(response);
                         if (json.rows[0].elements[0].status === "NOT_FOUND") {
                             $("#error").append("<div class=\"alert alert-danger d-flex justify-content-center align-items-center\" role=\"alert\">\n" +
                                 " <i class='bi bi-exclamation-triangle font-2'></i>" +
