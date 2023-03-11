@@ -37,7 +37,7 @@ const routes = [
         path: "article/:id_article/:nom",
         name: "PCEconomic Propietats",
         component: () => import("pages/GestionPropietats.vue"),
-      },
+      }, 
     ],
   },
 
