@@ -529,6 +529,8 @@ export default defineComponent({
       });
       const valorsJson = await valorsAxios.data;
 
+      this.valors_propietats = [];
+
       valorsJson.forEach((a) => {
         this.valors_propietats.push({
           propietat: a.propietat,
