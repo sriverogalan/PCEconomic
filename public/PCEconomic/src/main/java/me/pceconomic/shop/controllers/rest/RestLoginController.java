@@ -41,13 +41,13 @@ public class RestLoginController {
         }
 
         if (registerService.getPersonaByEmail(email) == null) {
-            return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Tu correo electrónico o tu contraseña no son válidos", HttpStatus.UNAUTHORIZED);
         }
 
         Persona usuari = registerService.getPersonaByEmail(email);
 
         if (!passwordEncoder.matches(password, usuari.getPassword()) || !usuari.isActive()) {
-            return new ResponseEntity<>("Tu correo electronico o tu contraseña no son validos", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Tu correo electrónico o tu contraseña no son válidos", HttpStatus.UNAUTHORIZED);
         }
 
         Persona client = registerService.getPersonaByEmail(email);

@@ -62,84 +62,61 @@
 
                                 <div class="col-12">
                                     <label for="fullname">Nombre completo</label>
-                                    <input th:field="*{nombre}" class="form-control"
-                                           type="text"
-                                           th:placeholder="${direccio.fullName}"
-                                           name="direccion"
+                                    <input th:field="*{nombre}" class="form-control" type="text" name="direccion"
                                            id="fullname" required
                                            placeholder="Nombre completo"/>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="telephone2">Teléfono</label>
-                                    <input th:field="*{telefono}"
-                                           class="form-control" type="text"
-                                           name="direccion"
-                                           th:placeholder="${direccio.phone}"
-                                           id="telephone2" required
+                                    <label for="telefon">Teléfono</label>
+                                    <input th:field="*{telefono}" class="form-control" type="text" name="direccion"
+                                           id="telefon" required
                                            placeholder="Telefono"/>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="street2">Línea de dirección
-                                        1</label>
-                                    <input th:field="*{calle}" class="form-control"
-                                           type="text"
-                                           name="direccion2"
-                                           id="street2" required
-                                           th:placeholder="${direccio.streetandnumber}"
+                                    <label for="direccion">Línea de dirección 1</label>
+                                    <input th:field="*{calle}" class="form-control" type="text" name="direccion2"
+                                           required
                                            placeholder="Nombre y numero de la calle"/>
-                                    <input th:field="*{direccion}"
-                                           class="form-control" type="text"
-                                           name="direccion"
-                                           th:placeholder="${direccio.address}"
-                                           id="direction2" required
+                                    <input th:field="*{direccion}" class="form-control" type="text" name="direccion"
+                                           id="direccion" required
                                            placeholder="Apartamento, suite, unidad, edificio o piso"/>
 
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="city2">Ciudad</label>
+                                    <label for="city">Ciudad</label>
                                     <input th:field="*{ciudad}"
-                                           class="form-control" type="text"
-                                           name="ciudad"
-                                           th:placeholder="${direccio.city}"
-                                           id="city2" required
+                                           class="form-control" type="text" name="ciudad"
+                                           id="city" required
                                            placeholder="Ciudad"/>
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="postalcode2">Código postal</label>
+                                    <label for="cp">Código postal</label>
                                     <input th:field="*{codigoPostal}"
-                                           class="form-control" type="text"
-                                           name="cp" id="postalcode2"
+                                           class="form-control" type="text" name="cp" id="cp"
                                            required
-                                           th:placeholder="${direccio.postalCode}"
                                            placeholder="Codigo Postal"/>
                                 </div>
 
                                 <div class="col-4">
-                                    <label for="country2">País</label>
+                                    <label for="country">País</label>
                                     <input th:field="*{pais}"
-                                           class="form-control" type="text"
-                                           name="pais" id="country2"
-                                           required
-                                           th:placeholder="${direccio.country}"
+                                           class="form-control" type="text" name="pais" id="country" required
                                            placeholder="Pais"/>
                                 </div>
                                 <div class="col-8">
-                                    <label for="province2">Provincia</label>
+                                    <label for="province">Provincia</label>
                                     <input th:field="*{provincia}"
-                                           class="form-control" type="text"
-                                           name="provincia"
-                                           th:placeholder="${direccio.province}"
-                                           id="province2" required
+                                           class="form-control" type="text" name="provincia" id="province" required
                                            placeholder="Provincia"/>
                                 </div>
 
                                 <div class="col-12">
-                                    <input th:field="*{principal}" class="form-check-input" th:placeholder="${direccio.isPrincipal}" type="checkbox" value="" id="principal2">
-                                    <label class="form-check-label" for="principal2">
+                                    <input th:field="*{principal}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
                                         ¿Es esta tu dirección principal?
                                     </label>
                                 </div>
@@ -160,7 +137,7 @@
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
-<script th:src="@{/js/formValidator.js}"></script>
+<script th:src="@{/js/formvalidator.js}"></script>
 <script>
     $.ajax({
         url: "/api/carrito",
