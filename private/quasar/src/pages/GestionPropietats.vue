@@ -48,7 +48,7 @@
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn icon="edit" color="yellow-14" @click="showEditDialog(props)"></q-btn>
-              <q-btn icon="delete" color="red-14" @click="showDeleteDialog(props)" />
+              <q-btn icon="delete" class="mb-1 ml-1" color="red-14" @click="showDeleteDialog(props)" />
             </q-td>
           </template>
 
