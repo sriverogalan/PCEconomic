@@ -579,11 +579,7 @@ export default defineComponent({
       this.editar = false;
       this.loading = true;
       let e = "";
-
-      this.articlesSubcategories.preu = this.articlesSubcategories.preu.replace(
-        ",",
-        "."
-      );
+ 
 
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {
