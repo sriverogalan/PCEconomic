@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona las marcas</h1>
+      <h1 class="col-12 text-center"> Marcas</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -216,7 +216,7 @@ export default defineComponent({
         {
           name: "Nom",
           required: true,
-          label: "Nom",
+          label: "Nombre",
           align: "center",
           field: (row) => row.nom,
           sortable: true,
