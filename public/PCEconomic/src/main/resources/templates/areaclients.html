@@ -420,7 +420,6 @@
                                                         <label for="fullname">Nombre completo</label>
                                                         <input th:field="*{nombre}" class="form-control"
                                                                type="text"
-                                                               th:placeholder="${direccio.fullName}"
                                                                name="direccion"
                                                                id="fullname" required
                                                                placeholder="Nombre completo"/>
@@ -431,7 +430,6 @@
                                                         <input th:field="*{telefono}"
                                                                class="form-control" type="text"
                                                                name="direccion"
-                                                               th:placeholder="${direccio.phone}"
                                                                id="telephone2" required
                                                                placeholder="Telefono"/>
                                                     </div>
@@ -443,12 +441,10 @@
                                                                type="text"
                                                                name="direccion2"
                                                                id="street2" required
-                                                               th:placeholder="${direccio.streetandnumber}"
                                                                placeholder="Nombre y numero de la calle"/>
                                                         <input th:field="*{direccion}"
                                                                class="form-control" type="text"
                                                                name="direccion"
-                                                               th:placeholder="${direccio.address}"
                                                                id="direction2" required
                                                                placeholder="Apartamento, suite, unidad, edificio o piso"/>
 
@@ -459,7 +455,6 @@
                                                         <input th:field="*{ciudad}"
                                                                class="form-control" type="text"
                                                                name="ciudad"
-                                                               th:placeholder="${direccio.city}"
                                                                id="city2" required
                                                                placeholder="Ciudad"/>
                                                     </div>
@@ -470,7 +465,6 @@
                                                                class="form-control" type="text"
                                                                name="cp" id="postalcode2"
                                                                required
-                                                               th:placeholder="${direccio.postalCode}"
                                                                placeholder="Codigo Postal"/>
                                                     </div>
 
@@ -480,7 +474,6 @@
                                                                class="form-control" type="text"
                                                                name="pais" id="country2"
                                                                required
-                                                               th:placeholder="${direccio.country}"
                                                                placeholder="Pais"/>
                                                     </div>
                                                     <div class="col-8">
@@ -488,7 +481,6 @@
                                                         <input th:field="*{provincia}"
                                                                class="form-control" type="text"
                                                                name="provincia"
-                                                               th:placeholder="${direccio.province}"
                                                                id="province2" required
                                                                placeholder="Provincia"/>
                                                     </div>
@@ -496,7 +488,6 @@
                                                     <div class="col-12">
                                                         <input th:field="*{principal}"
                                                                class="form-check-input"
-                                                               th:placeholder="${direccio.isPrincipal}"
                                                                type="checkbox" value="" id="principal2">
                                                         <label class="form-check-label" for="principal2">
                                                             ¿Es esta tu dirección principal?
@@ -674,11 +665,11 @@
                                                             ¿Le gustaría generar un PDF con los productos de su pedido?
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-pc-economic-dark"
+                                                            <button type="button" class="btn btn-danger"
                                                                     data-bs-dismiss="modal">
                                                                 No
                                                             </button>
-                                                            <a type="button" class="btn btn-danger"
+                                                            <a type="button" class="btn btn-pc-economic-dark"
                                                                th:href="@{/areaclients/generatepdf/{idfactura}(idfactura=${factura.id})}">Sí</a>
                                                         </div>
                                                     </div>

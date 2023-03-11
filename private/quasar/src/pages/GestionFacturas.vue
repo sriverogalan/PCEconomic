@@ -5,7 +5,7 @@
       <q-table
         :rows="facturaRowsFiltrats"
         :columns="facturaColumns"
-        row-key="nom"
+        row-key="nomClient"
         :loading="loading"
         loading-label="Cargando..."
       >
@@ -138,6 +138,7 @@ export default {
   data() {
     return {
       loading: false,
+      filter: "",
       facturaColumns: [
         {
           name: "id",
@@ -147,13 +148,12 @@ export default {
           field: (row) => row.id_factura,
           sortable: true,
         },
-        // columna Nombre y DNI
         {
-          name: "nom",
+          name: "nomClient",
           required: true,
           label: "Nom",
           align: "center",
-          field: (row) => row.nom,
+          field: (row) => row.nomClient,
           sortable: true,
         },
         {
@@ -256,9 +256,7 @@ export default {
   methods: {
     filtrarFacturaPorDNI() {
       this.facturaRowsFiltrats = this.facturaRows.filter((factura) => {
-        return factura.dni
-          .toLowerCase()
-          .includes(this.information.id.toLowerCase());
+        return factura.dni.includes(this.filter);
       });
     },
     async getFactures() {
@@ -272,17 +270,8 @@ export default {
         this.facturaRows.push({
           id_factura: factura.id_factura,
           data: formatDate(factura.data),
-          nom:
-            factura.persona.nom +
-              " " +
-              factura.persona.cognom1 +
-              " " +
-              factura.persona.cognom2 ==
-            null
-              ? ""
-              : factura.persona.cognom2,
-          dni: factura.persona.dni,
           nomClient: factura.persona.nom + " " + factura.persona.cognom1,
+          dni: factura.persona.dni,
           direction: factura.direccio,
           estat: factura.estat,
           metodo_pago: factura.metodo_pagament,
