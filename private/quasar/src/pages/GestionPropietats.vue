@@ -368,6 +368,13 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: "imatges",
+          required: true,
+          label: "Imagen principal",
+          align: "center",
+          field: (row) => row.imgPrincipal,
+        },
+        {
           name: "Es principal?",
           required: true,
           label: "Es principal?",
@@ -398,13 +405,6 @@ export default defineComponent({
           align: "center",
           field: (row) => row.props_valors,
           sortable: true,
-        },
-        {
-          name: "imatges",
-          required: true,
-          label: "Imagen principal",
-          align: "center",
-          field: (row) => row.imgPrincipal,
         },
         {
           name: "actions",
