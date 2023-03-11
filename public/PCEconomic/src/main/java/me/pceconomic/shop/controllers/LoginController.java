@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -118,8 +120,23 @@ public class LoginController {
         }
 
         String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.HOURS.toMillis(24));
-        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", "Use the link below to confirm your registration: http://www.pceconomic.me/confirmregister/" + token + " \n\n" +
-                "You have 24 hour to confirm your registration. After that, you will have to register again.");
+
+        List<String> links = new ArrayList<>();
+
+        links.add("Hola " + persona.getName() + " " + persona.getSurname1() + ", \n");
+        links.add("\n");
+        links.add("Gracias por registrarte en nuestra plataforma. Estamos encantados de que formes parte de nuestra comunidad.\n");
+        links.add("\n");
+        links.add("Para completar tu registro y acceder a todos nuestros servicios, solo tienes que hacer clic en el botón de abajo:\n");
+        links.add("\n");
+        links.add("http://www.pceconomic.me/confirmregister/" + token + "\n");
+        links.add("\n");
+        links.add("Un saludo,\n");
+        links.add("");
+        links.add("El equipo de PCEconomic\n");
+
+
+        mailService.sendMail(registerForm.getEmail(), "Welcome to PC Economic", links.toString());
         return "confirmregister";
     }
 
@@ -164,8 +181,22 @@ public class LoginController {
         }
 
         String token = tokenService.createToken(persona.getEmail(), new HashSet<>(), TimeUnit.MINUTES.toMillis(10));
-        mailService.sendMail(sendEmailForm.getEmail(), "PC Economic - Password recovery", "Use the link below to recover your password: http://pceconomic.live:8080/changepassword/" + token + " \n\n" +
-                "You have 1 hour to recover your password. After that, you will have to request a.html new password recovery.");
+
+        List<String> links = new ArrayList<>();
+        links.add("Hola " + persona.getName() + " " + persona.getSurname1() + ", \n");
+        links.add("\n");
+        links.add("Hemos recibido una solicitud para recuperar tu cuenta en nuestra plataforma. Si has sido tú quien ha hecho esta solicitud, por favor haz clic en el siguiente enlace para restablecer tu contraseña:\n");
+        links.add("\n");
+        links.add("http://pceconomic.live:8080/changepassword/" + token + "\n");
+        links.add("\n");
+        links.add("Si no has sido tú quien ha hecho esta solicitud, ignora este mensaje y contacta con nuestro servicio de atención al cliente lo antes posible.\n\n");
+        links.add("\n");
+        links.add("Lamentamos las molestias que esto pueda causarte.\n");
+        links.add("\n");
+        links.add("Un saludo,\n");
+        links.add("El equipo de PCEconomic\n");
+
+        mailService.sendMail(sendEmailForm.getEmail(), "Recuperar contraseña", links.toString());
         return "redirect:/";
     }
 

@@ -76,7 +76,10 @@
                             }
                         );
                         if (responseFetch.ok) window.location.href = "/";
-                        else window.location.href = "/error";
+                        else {
+                            document.querySelector("#error").style.display = "block";
+                            document.querySelector("#error span").textContent = await responseFetch.text();
+                        }
                     },
                 });
                 google.accounts.id.prompt();
