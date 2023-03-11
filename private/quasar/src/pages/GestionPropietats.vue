@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Propietats {{ articleNom }}</h1>
+      <h1 class="col-12 text-center">Propiedades {{ articleNom }}</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -67,7 +67,13 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn color="purple-14" icon="add" @click="showCreateDialog()" />
+            <q-btn
+              class="mb-1"
+              color="purple-14"
+              icon="arrow_back"
+              @click="goBack()"
+            />
+            <q-btn color="purple-10" class="mb-1 ml-1" icon="add" @click="showCreateDialog()" />
             <q-btn
               class="mb-1 ml-1"
               color="amber-14"
@@ -155,16 +161,14 @@
                   label="Elegeix les seves propietats"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
-                ></q-select>
-
-                {{ valors_propietats }}
+                ></q-select> 
                 <div>
                   <q-select
                     v-for="props in articlePropietats.propietats"
                     v-model="articlePropietats.propietats_valors[props]"
                     :options="valors"
                     use-input
-                    use-chips 
+                    use-chips
                     input-debounce="0"
                     @new-value="createValue"
                     :label="props"
@@ -253,7 +257,7 @@
                     type="number"
                     class="col-6"
                   />
-                </div> 
+                </div>
 
                 <q-card-actions align="right">
                   <q-btn
@@ -374,7 +378,7 @@ export default defineComponent({
         {
           name: "Preu",
           required: true,
-          label: "Preu",
+          label: "Precio ( € )",
           align: "center",
           field: (row) => this.formatearEuros(row.preu),
           sortable: true,
@@ -412,6 +416,10 @@ export default defineComponent({
     };
   },
   methods: {
+
+    goBack(){
+      this.$router.go(-1)
+    },
     createProps(val, done) {
       if (val.length > 0) {
         if (!this.propietats.includes(val)) {
@@ -535,7 +543,7 @@ export default defineComponent({
       this.activeId = true;
       this.titolcard = "Edita la propiedad " + props.row.id_propietats;
       this.articlesSubcategories.id_propietats = props.row.id_propietats;
-      this.articlesSubcategories.es_principal = props.row.es_principal; 
+      this.articlesSubcategories.es_principal = props.row.es_principal;
       this.articlesSubcategories.preu = props.row.preu;
       this.articlesSubcategories.stock = props.row.stock;
       this.articlesSubcategories.propietats = props.row.propietats;
@@ -580,7 +588,6 @@ export default defineComponent({
       this.editar = false;
       this.loading = true;
       let e = "";
- 
 
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {

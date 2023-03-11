@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Gestiona els Articles</h1>
+      <h1 class="text-center">Articulos</h1>
 
       <div class="q-pa-md">
         <q-table
@@ -61,7 +61,7 @@
           <template v-slot:top-left>
             <q-btn
               class="mb-1"
-              color="purple-14"
+              color="purple-10"
               icon="add"
               @click="showCreateDialog()"
             />
@@ -240,7 +240,7 @@ export default defineComponent({
         {
           name: "Descripcio",
           required: true,
-          label: "Descripcio",
+          label: "Descripción",
           align: "center",
           field: (row) =>
             [...row.descripcio].length > 20
@@ -251,7 +251,7 @@ export default defineComponent({
         {
           name: "Pes",
           required: true,
-          label: "Pes (Kg)",
+          label: "Peso (Kg)",
           align: "center",
           field: (row) => row.pes,
           sortable: true,
