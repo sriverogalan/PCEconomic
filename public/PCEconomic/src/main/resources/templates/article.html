@@ -102,8 +102,8 @@
                             <button type="button" id="correonostock" class="btn btn-pc-economic-dark col-6">
                                 Notificar cuando haya stock
                             </button>
-                            <p id="correonostockemail"></p>
-
+                            <div class="m-3" id="correonostockemail">
+                            </div>
                         </div>
                     </div>
 
@@ -279,12 +279,22 @@
                         type: "POST",
                         success: function (data) {
                             console.log(data);
-                            $('#correonostockemail').text("Enviado");
-                            $('#correonostockemail').attr("disabled", true);
+                            data.responseText
+                            $('#correonostockemail').append(
+                                "<div class='alert alert-success'>" +
+                                "<i class='bi bi-check2'></i>" +
+                                "<span class='text-center'>Se ha enviado un correo a " + email + " para que te avisemos cuando tengamos stock</span>" +
+                                "</div>"
+                            );
                         },
                         error: function (data) {
                             console.log(data);
-                            $('#correonostockemail').text(data.responseText);
+                            $('#correonostockemail').append(
+                                "<div class='alert alert-danger'>" +
+                                "<i class='bi bi-exclamation-triangle'></i>" +
+                                "<span class='text-center'>" + data.responseText + "</span>" +
+                                "</div>"
+                            );
                         }
                     })
                 });
