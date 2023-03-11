@@ -26,7 +26,9 @@ public class CorreoController {
     @PostMapping("/savecorreo/{email}/{idprop}")
     public ResponseEntity<String> saveCorreo(@PathVariable String email, @PathVariable int idprop) {
         Propietats propietats = propietatsRepository.findById(idprop).orElse(null);
+
         if (propietats == null) return new ResponseEntity<>("No se ha encontrado el producto.", HttpStatus.NOT_FOUND);
+        if (correoRepository.existsByEmail(email)) return new ResponseEntity<>("El correo ya está registrado.", HttpStatus.CONFLICT);
 
         CorreoNoStock correo = new CorreoNoStock();
         correo.setEmail(email);

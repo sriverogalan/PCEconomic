@@ -275,7 +275,7 @@
                 $('#correonostock').on('click', function () {
                     var email = $('#email').val();
                     $.ajax({
-                        url: "/api/propietats/" + email + "/" + $("main").attr("data-id"),
+                        url: "/savecorreo/" + email + "/" + $("main").attr("data-id"),
                         type: "POST",
                         success: function (data) {
                             console.log(data);
