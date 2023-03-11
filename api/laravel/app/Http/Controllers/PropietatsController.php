@@ -50,12 +50,13 @@ class PropietatsController extends Controller
             }
 
             $propietat->es_principal = $request->input('es_principal');
+
             $propietat->preu = $request->input('preu');
             $propietat->stock = $request->input('stock');
 
             // si el stock es mayor a 0 enviamos correo
             /* if ($propietat->stock > 0) {
-                $correos = App\Http\Controllers\CorreuNoStock::where('id_propietats', $request->input('id_propietats'))->get();
+                $correos = CorreuNo::where('id_propietats', $request->input('id_propietats'))->get();
                 foreach ($correos as $c) {
                     $email = $c->email;
                     $correo = new PCEconomic();
@@ -72,11 +73,24 @@ class PropietatsController extends Controller
                 return response()->json(['message' =>
                 'El preu i el stock no poden estar buits'], 400);
             }
+
+
+
             $var = array_keys($request->input('propietats_valors'));
 
             $props_valors = $request->input('propietats_valors');
 
             $propietat->save();
+ 
+            if ($request->input('es_principal') == 1) {
+                $propietats = Propietats::where('id_article', $request->input('id_article'))->get();
+                foreach ($propietats as $p) {
+                    if ($p->id_propietats != $propietat->id_propietats) {
+                        $p->es_principal = 0;
+                        $p->save();
+                    }
+                }
+            }
 
             foreach ($var as $prop) {
                 $propBD = Propietat::where('nom', $prop)->first();

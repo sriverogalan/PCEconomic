@@ -522,6 +522,7 @@ export default defineComponent({
       } else {
         this.message = e.response.data.message;
       }
+      this.articlePropietats.propietats_valors = {};
 
       this.updateTable();
     },
@@ -529,7 +530,7 @@ export default defineComponent({
       const formData = new FormData();
       formData.append("id_article", this.articleId);
       formData.append("id_propietats", id_propietats);
-      formData.append("imatgePrincipal", this.file); 
+      formData.append("imatgePrincipal", this.file);
       this.imatgesSecundaries.forEach((a) => {
         formData.append("imatgesSecundaries[]", a);
       });
@@ -548,6 +549,13 @@ export default defineComponent({
       );
       const articleJson = await articleAxios.data;
       this.message = articleJson.message;
+
+      if (articleJson) {
+        this.file = null;
+        this.imatgesSecundaries = [];
+
+        this.updateTable();
+      }
     },
 
     async deletePropietats() {
