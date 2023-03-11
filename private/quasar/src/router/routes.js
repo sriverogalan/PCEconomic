@@ -37,7 +37,7 @@ const routes = [
         path: "article/:id_article/:nom",
         name: "PCEconomic Propietats",
         component: () => import("pages/GestionPropietats.vue"),
-      }, 
+      },
     ],
   },
 
@@ -45,10 +45,6 @@ const routes = [
     path: "/error/:error",
     name: "Error",
     component: () => import("pages/ErrorPage.vue"),
-  },
-  {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
   },
 ];
 

@@ -258,8 +258,12 @@ export default defineComponent({
   },
   methods: {
     filtrarUsuarios() {
-      this.rowsFiltrats = this.rows.filter((r) =>
-        r.nom.toLowerCase().includes(this.filter.toLowerCase())
+      this.rowsFiltrats = this.rows.filter(
+        (r) =>
+          r.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.email.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.cognoms.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.rols.toLowerCase().includes(this.filter.toLowerCase())
       );
     },
     async getUsers() {
