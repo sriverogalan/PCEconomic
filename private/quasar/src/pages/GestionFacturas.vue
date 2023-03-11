@@ -39,6 +39,16 @@
             </template>
           </q-input>
         </template>
+
+        <template v-slot:top-left>
+          <q-btn
+            class="mb-1"
+            color="purple-9"
+            icon="refresh"
+            @click="getFactures()"
+          >
+          </q-btn>
+        </template>
       </q-table>
 
       <q-dialog v-model="lineaFacturaDialog" full-width position="top">
@@ -64,15 +74,6 @@
                     <q-icon name="search" />
                   </template>
                 </q-input>
-              </template>
-
-              <template v-slot:top-left>
-                <q-btn
-                  class="mb-1 ml-1"
-                  color="amber-14"
-                  icon="refresh"
-                  @click="getFactures()"
-                />
               </template>
             </q-table>
           </q-card-section>
