@@ -47,24 +47,21 @@ class PropietatsController extends Controller
                 $propietat = new Propietats();
             } else {
                 $propietat = Propietats::find($request->input('id_propietats'));
-            }
 
-            $propietat->es_principal = $request->input('es_principal');
-
-            $propietat->preu = $request->input('preu');
-            $propietat->stock = $request->input('stock');
-
-            // si el stock es mayor a 0 enviamos correo
-            if ($propietat->stock > 0) {
-                $correos = CorreuNoStock::where('id_propietats', $request->input('id_propietats'))->get();
-                foreach ($correos as $c) {
-                    $email = $c->email;
-                    $correo = new PCEconomic();
-                    Mail::to($email)->send($correo);
-                    $c->delete();
+                if ($propietat->stock == 0 && $request->input('stock') > 0) {
+                    $correos = CorreuNoStock::where('id_propietats', $request->input('id_propietats'))->get();
+                    foreach ($correos as $c) {
+                        $email = $c->email;
+                        $correo = new PCEconomic($propietat->article->nom, $request->input('stock'));
+                        Mail::to($email)->send($correo);
+                        $c->delete();
+                    }
                 }
             }
 
+            $propietat->es_principal = $request->input('es_principal');
+            $propietat->preu = $request->input('preu');
+            $propietat->stock = $request->input('stock');
             $propietat->id_article = $request->input('id_article');
 
             if (
@@ -117,7 +114,7 @@ class PropietatsController extends Controller
 
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
-                : 'Propietat actualizada correctamente'; 
+                : 'Propietat actualizada correctamente';
 
             return response()->json([
                 'message' => $message,
