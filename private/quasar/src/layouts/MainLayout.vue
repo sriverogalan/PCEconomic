@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
+        <q-toolbar-title> Admin PCEconomic App </q-toolbar-title>
         <q-btn
           flat
           dense
@@ -12,8 +12,7 @@
           aria-label="Dark mode"
           class="text-center q-pa-md"
           @click="toggleDark"
-          >Dark mode</q-btn
-        > 
+        />
 
         <q-btn
           flat
