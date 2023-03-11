@@ -234,6 +234,7 @@ export default defineComponent({
           field: "actions",
         },
       ],
+      filter: "",
       rows: [],
       rowsFiltrats: [],
       editDialog: false,
@@ -258,7 +259,7 @@ export default defineComponent({
   methods: {
     filtrarUsuarios() {
       this.rowsFiltrats = this.rows.filter((r) =>
-        r.nom.toLowerCase().includes(this.$refs.filtro.value.toLowerCase())
+        r.nom.toLowerCase().includes(this.filter.toLowerCase())
       );
     },
     async getUsers() {
