@@ -52,10 +52,10 @@ public class AuthController {
         GoogleIdToken.Payload payload = idToken.getPayload();
 
         Persona client = registerService.getPersonaByEmail(payload.getEmail());
-        if (client == null) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
+        if (client == null) return new ResponseEntity<>("Este correo no ha sido registrado, por favor regístrate primero", HttpStatus.NOT_FOUND);
 
         HttpSession session = request.getSession();
-        if (session.isNew()) return new ResponseEntity<>("No existeix", HttpStatus.NOT_FOUND);
+        if (session.isNew()) return new ResponseEntity<>("Ha habido un problema, inténtalo de nuevo más tarde", HttpStatus.NOT_FOUND);
 
         registerService.setSession(session, client);
 

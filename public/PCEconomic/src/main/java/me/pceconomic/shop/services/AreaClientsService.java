@@ -93,8 +93,6 @@ public class AreaClientsService {
 
     public void updateDirection(Persona persona, AddDirectionForm directionForm, int id, HttpSession session) {
         Direccio direccio = direccioRepository.findById(id).orElse(null);
-        System.out.println("Form: " + directionForm);
-        System.out.println("Direccio: " + direccio);
         if (direccio == null) {
             throw new IllegalArgumentException();
         }
@@ -109,7 +107,6 @@ public class AreaClientsService {
         direccio.setPrincipal(Boolean.parseBoolean(directionForm.getPrincipal()));
 
         direccioRepository.save(direccio);
-        System.out.println("Direccio Editada: " + direccio);
         this.resetSession(persona.getId(), session);
     }
 

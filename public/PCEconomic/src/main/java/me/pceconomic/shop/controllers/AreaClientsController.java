@@ -191,7 +191,7 @@ public class AreaClientsController {
         }
 
         if (!changeTelephoneForm.getNewTelephone().equals(changeTelephoneForm.getConfirmNewTelephone())) {
-            model.addAttribute("changePhoneError", "Los teléfonos no coinciden");
+            model.addAttribute("changePhoneError", "El teléfono al que quiere cambiar no coincide.");
             areaClientsService.sendToModel(model, session);
             return "areaclients";
         }

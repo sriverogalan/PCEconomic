@@ -8,7 +8,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
             <li class="breadcrumb-item" aria-current="page">Carrito</li>
-            <li class="breadcrumb-item active" aria-current="page">Direcciones de Envio</li>
+            <li class="breadcrumb-item active" aria-current="page">Direcciones de Envío</li>
         </ol>
     </nav>
     <h1 class="text-center mt-5 mb-5">Tramitar pedido <span class="h5" id="productos"></span></h1>
@@ -16,7 +16,7 @@
         <h2 class="text-pc-economic-dark h3 text-center"> Escribe la dirección de envío</h2>
         <div class="form-group mt-1 mb-3 row">
             <div class="col-12 row justify-content-center">
-                <h5 class="col-12 text-center mt-4">Actualmente no tienes direcciones prueba a añadir una a tu perfil</h5>
+                <h5 class="col-12 text-center mt-4">Actualmente, no tienes direcciones, prueba a añadir una a tu perfil</h5>
                 <button type="button" class="btn btn-pc-economic-default mt-3 col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir direccion</button>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 <hr class="border border-2 opacity-50 mt-2 col-11">
                 <span class="h4 col-6 mb-4 text-pc-economic-dark">Subtotal artículos</span>
                 <span class="col-6 mb-4 text-center text-pc-economic-light h4" id="subtotal"> - </span>
-                <span class="h4 col-6 text-pc-economic-dark">Envío estimado PcEconomic</span>
+                <span class="h4 col-6 text-pc-economic-dark">Envío estimado PCEconomic</span>
                 <span class="col-6 text-center text-pc-economic-light h4" id="envio"> - </span>
                 <div id="error" class="mt-2 mb-2"></div>
                 <hr class="border border-2 opacity-50 mt-2 col-11">
@@ -51,7 +51,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Añadir
-                            Direccion</h1>
+                            Dirección</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                     </div>
@@ -68,14 +68,14 @@
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="telefon">Telefono</label>
+                                    <label for="telefon">Teléfono</label>
                                     <input th:field="*{telefono}" class="form-control" type="text" name="direccion"
                                            id="telefon" required
                                            placeholder="Telefono"/>
                                 </div>
 
                                 <div class="col-12">
-                                    <label for="direccion">Linea de direccion 1</label>
+                                    <label for="direccion">Línea de dirección 1</label>
                                     <input th:field="*{calle}" class="form-control" type="text" name="direccion2"
                                            required
                                            placeholder="Nombre y numero de la calle"/>
@@ -94,7 +94,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <label for="cp">Codigo Postal</label>
+                                    <label for="cp">Código postal</label>
                                     <input th:field="*{codigoPostal}"
                                            class="form-control" type="text" name="cp" id="cp"
                                            required
@@ -102,7 +102,7 @@
                                 </div>
 
                                 <div class="col-4">
-                                    <label for="country">Pais</label>
+                                    <label for="country">País</label>
                                     <input th:field="*{pais}"
                                            class="form-control" type="text" name="pais" id="country" required
                                            placeholder="Pais"/>
@@ -117,7 +117,7 @@
                                 <div class="col-12">
                                     <input th:field="*{principal}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        Es esta tu direccion principal?
+                                        ¿Es esta tu dirección principal?
                                     </label>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@
 <footer th:replace="layout/layout.html :: footer"></footer>
 </body>
 <div th:replace="layout/layout.html :: jquery"></div>
-<script th:src="@{/js/formValidator.js}"></script>
+<script th:src="@{/js/formvalidator.js}"></script>
 <script>
     $.ajax({
         url: "/api/carrito",
