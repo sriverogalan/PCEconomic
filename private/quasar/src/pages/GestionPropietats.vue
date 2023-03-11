@@ -47,6 +47,7 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
+              <q-btn icon="edit" color="yellow-14" @click="showEditDialog(props)"></q-btn>
               <q-btn icon="delete" color="red-14" @click="showDeleteDialog(props)" />
             </q-td>
           </template>
@@ -162,6 +163,7 @@
                     :options="valors"
                     use-input
                     use-chips
+                    multiple
                     input-debounce="0"
                     @new-value="createValue"
                     :label="props"
@@ -176,7 +178,89 @@
                     flat
                     label="Cancelar"
                     color="red-14"
+                    class="q-mr-sm q-ml-sm"
                     @click="dialogEdit = false"
+                  />
+                  <q-btn type="submit" label="Guardar" color="purple-14" />
+                </q-card-actions>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="editar" persistent id="editar">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">{{ titolcard }}</div>
+            </q-card-section>
+            <q-card-section>
+              <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
+                <q-toggle
+                  v-model="articlesSubcategories.es_principal"
+                  label="Aquesta es la propietat principal?"
+                  color="purple-14"
+                  left-label
+                />
+                <q-file
+                  name="poster_file"
+                  v-model="file"
+                  filled
+                  label="Elegeix la foto principal"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="upload">
+                      <q-tooltip anchor="top middle">
+                        Nomes se admet el format JPG
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <q-file
+                  name="cover_files"
+                  v-model="imatgesSecundaries"
+                  filled
+                  multiple
+                  use-chips
+                  label="Elegeix les fotos secundaries"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="cloud_upload">
+                      <q-tooltip anchor="top middle">
+                        INFORMACIO : Per ordenar les imatges secundaries, les has de pujar
+                        amb el numero de l'ordre que li vulguis posar. Com per exemple :
+                        1.jpg, 2.jpg, 3.jpg...
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <div class="row justify-between">
+                  <q-input
+                    v-model="articlesSubcategories.preu"
+                    label="Preu (€)"
+                    filled
+                    class="col-5"
+                  />
+
+                  <q-input
+                    v-model="articlesSubcategories.stock"
+                    label="Stock (ud.)"
+                    filled
+                    type="number"
+                    class="col-6"
+                  />
+                </div> 
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    class="q-mr-sm q-ml-sm"
+                    @click="editar = false"
                   />
                   <q-btn type="submit" label="Guardar" color="purple-14" />
                 </q-card-actions>
@@ -236,6 +320,7 @@ export default defineComponent({
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
+      editar: false,
       mensajeServidor: false,
       message: "",
       articleId: this.$route.params.id_article,
@@ -449,7 +534,7 @@ export default defineComponent({
       this.activeId = true;
       this.titolcard = "Edita la propiedad " + props.row.id_propietats;
       this.articlesSubcategories.id_propietats = props.row.id_propietats;
-      this.articlesSubcategories.es_principal = props.row.es_principal;
+      this.articlesSubcategories.es_principal = props.row.es_principal; 
       this.articlesSubcategories.preu = props.row.preu;
       this.articlesSubcategories.stock = props.row.stock;
       this.articlesSubcategories.propietats = props.row.propietats;
@@ -458,7 +543,7 @@ export default defineComponent({
       this.articlesSubcategories.path = props.row.path;
       this.articlePropietats.id_propietats = props.row.id_propietats;
 
-      this.dialogEdit = true;
+      this.editar = true;
     },
     showDeleteDialog(props) {
       this.activeId = true;
@@ -491,8 +576,14 @@ export default defineComponent({
     async pushPropietats() {
       let articleJson = "";
       this.dialogEdit = false;
+      this.editar = false;
       this.loading = true;
       let e = "";
+
+      this.articlesSubcategories.preu = this.articlesSubcategories.preu.replace(
+        ",",
+        "."
+      );
 
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {

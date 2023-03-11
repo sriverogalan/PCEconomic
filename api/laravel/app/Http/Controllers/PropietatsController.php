@@ -74,14 +74,9 @@ class PropietatsController extends Controller
                 'El preu i el stock no poden estar buits'], 400);
             }
 
-
-
-            $var = array_keys($request->input('propietats_valors'));
-
-            $props_valors = $request->input('propietats_valors');
-
             $propietat->save();
- 
+
+
             if ($request->input('es_principal') == 1) {
                 $propietats = Propietats::where('id_article', $request->input('id_article'))->get();
                 foreach ($propietats as $p) {
@@ -92,28 +87,37 @@ class PropietatsController extends Controller
                 }
             }
 
-            foreach ($var as $prop) {
-                $propBD = Propietat::where('nom', $prop)->first();
-                if ($propBD == null) {
-                    $propBD = new Propietat();
-                    $propBD->nom = $prop;
-                    $propBD->save();
+            if ($request->input('propietats_valors')) {
+                $var = array_keys($request->input('propietats_valors'));
+
+                $props_valors = $request->input('propietats_valors');
+
+                foreach ($var as $prop) {
+                    $propBD = Propietat::where('nom', $prop)->first();
+                    if ($propBD == null) {
+                        $propBD = new Propietat();
+                        $propBD->nom = $prop;
+                        $propBD->save();
+                    }
+
+                    foreach ($props_valors[$prop] as $prop) {
+                        $valor = Valors::where('valor', $prop)->first();
+                        if ($valor == null) {
+                            $valor = new Valors();
+                            $valor->valor = $prop;
+                            $valor->save();
+                            $valor->propietat()->detach();
+                            $valor->propietat()->attach($propBD);
+                        }
+                        $propietat->valors()->attach($valor);
+                    }
                 }
-                $valor = Valors::where('valor', $props_valors[$prop])->first();
-                if ($valor == null) {
-                    $valor = new Valors();
-                    $valor->valor = $props_valors[$prop];
-                    $valor->save();
-                    $valor->propietat()->detach();
-                    $valor->propietat()->attach($propBD);
-                }
-                $propietat->valors()->attach($valor);
             }
+
+
             $message = ($request->input('id_propietats') == null)
                 ? 'Propietat creada correctamente'
-                : 'Propietat actualizada correctamente';
-
-
+                : 'Propietat actualizada correctamente'; 
 
             return response()->json([
                 'message' => $message,
@@ -141,6 +145,7 @@ class PropietatsController extends Controller
             $imatge->save();
 
             $propietat = Propietats::find($id_prop);
+            $propietat->imatges()->detach();
             $propietat->imatges()->attach($imatge);
 
             $imatges = $request->file('imatgesSecundaries');
@@ -176,7 +181,7 @@ class PropietatsController extends Controller
         try {
             $propietat = Propietats::find($request->input('id_propietat'));
             $propietat->valors()->detach();
-            $propietat->imatges()->detach(); 
+            $propietat->imatges()->detach();
             $propietat->delete();
 
             return response()->json(['message' => 'Propietat eliminada correctamente'], 200);
