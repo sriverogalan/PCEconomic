@@ -32,7 +32,7 @@
             v-model="filter"
             rounded
             outlined
-            @update:model-value="filtrarFacturaPorDNI"
+            @update:model-value="filtrar"
           >
             <template v-slot:prepend>
               <q-icon name="search" />
@@ -254,9 +254,12 @@ export default {
     };
   },
   methods: {
-    filtrarFacturaPorDNI() {
+    filtrar() {
       this.facturaRowsFiltrats = this.facturaRows.filter((factura) => {
-        return factura.dni.includes(this.filter);
+        return (
+          factura.dni.toLowerCase().includes(this.filter.toLowerCase()) ||
+          factura.nomClient.toLowerCase().includes(this.filter.toLowerCase())
+        );
       });
     },
     async getFactures() {

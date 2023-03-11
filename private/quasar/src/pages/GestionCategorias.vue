@@ -492,8 +492,9 @@ export default defineComponent({
     filtrarSubcategories() {
       this.subcatRowsFiltrats = this.subcatRows.filter((m) => {
         return (
-          m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.id_categoria
+          m.nomCategoria.toLowerCase().includes(this.filter.toLowerCase()) ||
+          m.subcategoria.toLowerCase().includes(this.filter.toLowerCase()) ||
+          m.id_subcategoria
             .toString()
             .toLowerCase()
             .includes(this.filter.toLowerCase())
@@ -560,6 +561,7 @@ export default defineComponent({
       } finally {
         this.loading = false;
         this.getCategories();
+        this.getSubcategories();
       }
     },
     async updateCategoria() {
