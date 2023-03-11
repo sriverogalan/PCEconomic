@@ -367,6 +367,7 @@ export default defineComponent({
         paths: "",
         props_valors: "",
         propietat: [],
+        propietats: [],
         valor: [],
         path: [],
         imgPrincipal: "",
@@ -593,6 +594,10 @@ export default defineComponent({
       this.articlesSubcategories.path = [];
       this.articlePropietats.propietats_valors = {};
       this.articlePropietats.id_propietats = [];
+      this.articlePropietats.propietats = [];
+
+      
+
       this.dialogEdit = true;
     },
     async pushPropietats() {
