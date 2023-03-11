@@ -12,9 +12,8 @@
           <q-td :props="props">
             <q-btn
               icon="send"
-              class="ml-2"
               color="amber-5"
-              @click="sendEmail(props)"
+              @click="showSendEmailDialog(props)"
             />
           </q-td>
         </template>
@@ -37,11 +36,32 @@
             class="mb-1"
             color="purple-9"
             icon="refresh"
-            @click="getFactures()"
+            @click="getCorreos()"
           >
           </q-btn>
         </template>
       </q-table>
+      <q-dialog v-model="sendEmailDialog" persistent id="sendEmailDialog">
+        <q-card class="sizeTitleCard">
+          <q-card-section class="row items-center">
+            <div class="text-h6">Enviar Correo</div>
+          </q-card-section>
+
+          <q-card-section>
+            <p>¿Desea enviar un correo electrónico a {{ email }} ?</p>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn
+              flat
+              label="Cancelar"
+              color="red-14"
+              @click="sendEmailDialog = false"
+            />
+            <q-btn icon="send" color="purple-9" @click="sendEmail()" />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </div>
 </template>
@@ -58,7 +78,7 @@ export default {
         { name: "email", label: "Email", field: "email", align: "left" },
         {
           name: "propietats",
-          label: "Nom Propietats",
+          label: "ID Propietats",
           field: "propietats",
           align: "left",
         },
@@ -73,6 +93,10 @@ export default {
       rows: [],
       rowsFiltrats: [],
       filter: "",
+      sendEmailDialog: false,
+      email: "",
+      id_propietats: "",
+      loading: false,
     };
   },
   methods: {
@@ -92,20 +116,33 @@ export default {
       console.log(data);
 
       data.forEach((e) => {
-        let props_valors = "";
-        e.propietats.valors.forEach((p) => {
-          props_valors += p.propietat[0].nom + " " + p.valor;
-
-          console.log(p);
-        });
         this.rows.push({
           id: e.id_correo,
           email: e.email,
-          propietats: props_valors,
+          propietats: e.id_propietats,
         });
       });
 
       this.rowsFiltrats = this.rows;
+      this.loading = false;
+    },
+    showSendEmailDialog(props) {
+      this.sendEmailDialog = true;
+      this.id_propietats = props.row.propietats;
+      this.email = props.row.email;
+    },
+    async sendEmail() {
+      const response = await this.$axios.post(
+        process.env.CRIDADA_API + "api/send/email",
+        {
+          id_propietats: this.id_propietats,
+          email: this.email,
+        }
+      );
+      const data = response.data;
+      console.log(data);
+      this.sendEmailDialog = false;
+      this.getCorreos();
     },
   },
   mounted() {
