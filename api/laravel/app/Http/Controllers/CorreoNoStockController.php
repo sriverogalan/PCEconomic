@@ -17,7 +17,7 @@ class CorreoNoStockController extends Controller
      */
     public function index()
     {
-        return response()->json(CorreuNoStock::with(['propietats.article', 'propietats.valors.propietat'])->get());
+        return response()->json(CorreuNoStock::all());
     }
 
     /**
@@ -27,14 +27,16 @@ class CorreoNoStockController extends Controller
      */
     public function sendEmail(Request $request)
     {
-        $correos = CorreuNoStock::where('id_propietats', $request->input('id_propietats'))->get();
+        // encuentra CorreuNoStock por email
+        $c = CorreuNoStock::where('email', $request->input('email'))->first();
+
         $propietat = Propietats::find($request->input('id_propietats'));
-        foreach ($correos as $c) {
-            $email = $c->email;
-            $correo = new PCEconomic($propietat->article->nom, $request->input('stock'));
-            Mail::to($email)->send($correo);
-            $c->delete();
-        }
+        $email = $request->input('email');
+
+        $correo = new PCEconomic($propietat->article->nom, $propietat->stock);
+        Mail::to($email)->send($correo);
+        $c->delete();
+        return response()->json(['message' => 'Email sent'], 200);
     }
 
     /**
