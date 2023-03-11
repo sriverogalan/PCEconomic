@@ -5,8 +5,23 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
+        <q-btn
+          flat
+          dense
+          icon="brightness_4"
+          aria-label="Dark mode"
+          class="text-center q-pa-md"
+          @click="toggleDark"
+          >Dark mode</q-btn
+        > 
 
-        <q-btn flat dense icon="home" aria-label="Volver" class="text-center" @click="redirect"
+        <q-btn
+          flat
+          dense
+          icon="home"
+          aria-label="Volver"
+          class="text-center q-pa-md"
+          @click="redirect"
           >Volver a la parte publica</q-btn
         >
       </q-toolbar>
@@ -31,6 +46,7 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
 import {
   default as EssentialLink,
   default as LinkPersonalitzat,
@@ -49,12 +65,12 @@ const linksList = [
     link: "/gestionmarcas",
   },
   {
-    title: "Categories",
+    title: "Categorias",
     icon: "category",
     link: "/gestioncategories",
   },
   {
-    title: "Articles",
+    title: "Articulos",
     icon: "add_business",
     link: "/gestionproductes",
   },
@@ -64,11 +80,13 @@ const linksList = [
     link: "/gestioncorreos",
   },
   {
-    title: "Factures",
+    title: "Facturas",
     icon: "receipt",
     link: "/gestionfacturas",
   },
 ];
+
+const $q = useQuasar();
 
 export default defineComponent({
   name: "MainLayout",
@@ -78,10 +96,21 @@ export default defineComponent({
     LinkPersonalitzat,
   },
 
+  data() {
+    return {
+      dark: false,
+    };
+  },
+
   methods: {
     redirect() {
       // quiero que me redirija a pceconomic.live sin dominio
       window.location.href = "https://pceconomic.live";
+    },
+    toggleDark() {
+      console.log("hola");
+      this.dark = !this.dark;
+      this.$q.dark.set(this.dark);
     },
   },
 
