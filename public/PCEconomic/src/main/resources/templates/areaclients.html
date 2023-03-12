@@ -229,7 +229,7 @@
                                                 <span th:text="${direccio.streetandnumber} + ', ' + ${direccio.postalCode} + ', ' + ${direccio.country} + ', ' + ${direccio.province} + ', ' + ${direccio.city}"></span>
                                                 <div>
                                                     <button type="button" class="btn btn-pc-economic-light text-white"
-                                                            data-bs-toggle="modal"
+                                                            data-bs-toggle="modal" id="editModalClick"
                                                             th:attr="data-bs-target='#exampleModal-' + ${direccio.id}">
                                                         <i class="bi bi-pencil"></i>
                                                     </button>
@@ -293,86 +293,79 @@
 
                                                                     <div class="col-12">
                                                                         <label for="fname">Nombre completo</label>
-                                                                        <input th:field="*{nombre}" class="form-control"
+                                                                        <input th:field="*{nombre}" class="input-formulari-edit form-control"
                                                                                type="text"
                                                                                th:placeholder="${direccio.fullName}"
                                                                                name="direccion"
-                                                                               id="fname" required
-                                                                               placeholder="Nombre completo"/>
+                                                                               id="fname" required/>
                                                                     </div>
 
                                                                     <div class="col-12">
                                                                         <label for="telephone">Teléfono</label>
                                                                         <input th:field="*{telefono}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="direccion"
                                                                                th:placeholder="${direccio.phone}"
-                                                                               id="telephone" required
-                                                                               placeholder="Telefono"/>
+                                                                               id="telephone" required/>
                                                                     </div>
 
                                                                     <div class="col-12">
                                                                         <label for="street">Línea de dirección
                                                                             1</label>
-                                                                        <input th:field="*{calle}" class="form-control"
+                                                                        <input th:field="*{calle}" class="input-formulari-edit form-control"
                                                                                type="text"
                                                                                name="direccion2"
                                                                                id="street" required
-                                                                               th:placeholder="${direccio.streetandnumber}"
-                                                                               placeholder="Nombre y numero de la calle"/>
+                                                                               th:placeholder="${direccio.streetandnumber}"/>
                                                                         <input th:field="*{direccion}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="direccion"
                                                                                th:placeholder="${direccio.address}"
-                                                                               id="direction" required
-                                                                               placeholder="Apartamento, suite, unidad, edificio o piso"/>
-
+                                                                               id="direction" required/>
                                                                     </div>
 
                                                                     <div class="col-6">
                                                                         <label for="city">Ciudad</label>
                                                                         <input th:field="*{ciudad}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="ciudad"
                                                                                th:placeholder="${direccio.city}"
-                                                                               id="city" required
-                                                                               placeholder="Ciudad"/>
+                                                                               id="city" required/>
                                                                     </div>
 
                                                                     <div class="col-6">
                                                                         <label for="postalcode">Código postal</label>
                                                                         <input th:field="*{codigoPostal}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="cp" id="postalcode"
                                                                                required
-                                                                               th:placeholder="${direccio.postalCode}"
-                                                                               placeholder="Codigo Postal"/>
+                                                                               th:placeholder="${direccio.postalCode}"/>
                                                                     </div>
 
                                                                     <div class="col-4">
                                                                         <label for="country">País</label>
                                                                         <input th:field="*{pais}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="pais" id="country"
                                                                                required
                                                                                th:placeholder="${direccio.country}"
-                                                                               placeholder="Pais"/>
+                                                                               />
                                                                     </div>
                                                                     <div class="col-8">
                                                                         <label for="province">Provincia</label>
                                                                         <input th:field="*{provincia}"
-                                                                               class="form-control" type="text"
+                                                                               class="input-formulari-edit form-control" type="text"
                                                                                name="provincia"
                                                                                th:placeholder="${direccio.province}"
                                                                                id="province" required
-                                                                               placeholder="Provincia"/>
+                                                                               />
                                                                     </div>
 
                                                                     <div class="col-12">
                                                                         <input th:field="*{principal}"
                                                                                class="form-check-input"
-                                                                               th:placeholder="${direccio.isPrincipal}"
-                                                                               type="checkbox" value="" id="principal">
+                                                                               th:value="${direccio.isPrincipal}"
+                                                                               type="checkbox" id="principal">
                                                                         <label class="form-check-label" for="principal">
                                                                             ¿Es esta tu dirección principal?
                                                                         </label>
@@ -381,7 +374,7 @@
 
                                                                 <div class="d-flex flex-row-reverse mt-2">
                                                                     <button class="btn btn-pc-economic-dark"
-                                                                            type="submit">Añadir
+                                                                            type="submit">Guardar
                                                                     </button>
                                                                 </div>
                                                             </form>
@@ -695,6 +688,18 @@
 
         $(document).ready(function () {
 
+            $("#editModalClick").on('click', function() {
+                $(".input-formulari-edit").each(function () {
+                    var placeholder = $(this).attr("placeholder");
+                    $(this).val(placeholder);
+                })
+
+                var principal = $("#principal").val();
+                if (principal === "true") {
+                    $("#principal").attr("checked", "checked");
+                }
+            })
+
             $(".factura-fecha").each(function () {
                 var fecha = $(this).text();
                 var fechaSplit = fecha.split("-");
@@ -732,6 +737,5 @@
             })
         });
     </script>
-    <div th:replace="layout/layout.html :: jquery"></div>
 </body>
 </html>
