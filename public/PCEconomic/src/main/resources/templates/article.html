@@ -114,7 +114,8 @@
                 <p th:text="${propietats.article.descripcio}"></p>
             </div>
             <div class="col-12">
-                <h3>Valoraciones</h3>
+
+                <h3 th:if="${!valoracions.isEmpty()}">Valoraciones</h3>
 
                 <div class="card m-3" th:each="valoracio : ${valoracions}"
                      th:if="${propietats.article.id == valoracio.propietats.article.id}">
