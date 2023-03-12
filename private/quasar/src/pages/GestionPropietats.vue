@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Propiedades {{ articleNom }}</h1>
+      <h4 class="col-12 text-center">Propiedades {{ articleNom }}</h4>
 
       <div class="q-pa-md">
         <q-table
@@ -97,7 +97,7 @@
               <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
                 <q-toggle
                   v-model="articlesSubcategories.es_principal"
-                  label="Aquesta es la propietat principal?"
+                  label="Es principal?"
                   color="purple-14"
                   left-label
                 />
@@ -105,7 +105,7 @@
                   name="poster_file"
                   v-model="file"
                   filled
-                  label="Elegeix la foto principal"
+                  label="Elige la imagen principal"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -123,7 +123,7 @@
                   filled
                   multiple
                   use-chips
-                  label="Elegeix les fotos secundaries"
+                  label="Elige las imagenes secundarias"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -163,7 +163,7 @@
                   input-debounce="0"
                   rules=" val => val.length > 0 || 'Selecciona almenys una propietat' "
                   @new-value="createProps"
-                  label="Elegeix les seves propietats"
+                  label="Elige sus propiedades"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
                 ></q-select>
@@ -224,7 +224,7 @@
                   name="poster_file"
                   v-model="file"
                   filled
-                  label="Elegeix la foto principal"
+                  label="Sustituye la imagen principal"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -242,7 +242,7 @@
                   filled
                   multiple
                   use-chips
-                  label="Elegeix les fotos secundaries"
+                  label="Sustituye las imagenes secundarias"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -464,9 +464,8 @@ export default defineComponent({
 
     filtrar() {
       this.rowsFiltrats = this.rows.filter((m) => {
-        return (
-          m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.descripcio.toLowerCase().includes(this.filter.toLowerCase())
+        return (  
+          m.props_valors.toLowerCase().includes(this.filter.toLowerCase()) 
         );
       });
     },
@@ -624,11 +623,9 @@ export default defineComponent({
         })
         .catch(function (error) {
           e = error;
-        });
-
-      const id_propietats = await articleAxios.data.id_propietats;
-      if (id_propietats) {
-        this.uploadImatges(id_propietats);
+        }); 
+      if (await articleAxios.data.id_propietats) { 
+        this.uploadImatges(await articleAxios.data.id_propietats);
       }
       this.mensajeServidor = true;
       if (articleAxios) {
