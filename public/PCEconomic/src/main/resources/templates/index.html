@@ -162,7 +162,7 @@
                 for (var img of prop.imatges) {
                     if (img.principal === true) {
                         imgAux =
-                            "/img/productes/" +
+                            "https://pceconomic.live/img/productes/" +
                             prop.article.id +
                             "/" +
                             prop.id +
@@ -173,7 +173,19 @@
                 if (imgAux === "") {
                     imgAux = "/img/static/no-photo.png";
                 }
+
+
+
+
+
                 if (prop.esPrincipal === true && prop.article.marca.active === true) {
+                    var val_prop = "";
+
+                    for (var val of prop.valor) {
+                        val_prop += " " + val.valor;
+                    }
+
+
                     $("#articles").append(
                         '<div class="link-pc-economic-dark producte col-xs-12 mt-1 p-4 col-sm-6 col-lg-3 text-end justify-content-between border align-items-center text-decoration-none card-deck card align-items-start"  id="propietat' +
                         prop.id +
@@ -183,7 +195,7 @@
                         "/" +
                         prop.id +
                         '" class="text-decoration-none article-propietat-image">' +
-                        '<img src="' +
+                        '<img title="' + val_prop + '" data-toggle="tooltip" data-placement="top" src="' +
                         imgAux +
                         '" class="card-img-top article-propietat-image">' +
                         "</a>" +
@@ -197,7 +209,7 @@
                         prop.id +
                         '" class="text-decoration-none row">' +
                         '<span class="text-start h5 col-12">' +
-                        prop.article.nom +
+                        prop.article.nom + val_prop +
                         "</span>" +
                         '<span class="text-start h3 text-pc-economic-default bold col-12">' +
                         formatCurrency(prop.preu) +
@@ -221,14 +233,11 @@
                             break;
                         }
 
-
-
-
                         imgAux = "";
                         for (var i of props.imatges) {
                             if (i.principal === true) {
                                 imgAux =
-                                    "/img/productes/" +
+                                    "https://pceconomic.live/img/productes/" +
                                     prop.article.id +
                                     "/" +
                                     props.id +
