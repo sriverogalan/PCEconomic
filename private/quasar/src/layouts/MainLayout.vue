@@ -5,15 +5,7 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> Admin PCEconomic App </q-toolbar-title>
-        <q-btn
-          flat
-          dense
-          icon="home"
-          aria-label="Volver"
-          class="text-center q-pa-md"
-          @click="redirect"
-          > Volver a la parte publica</q-btn
-        >
+        
         <q-btn
           flat
           dense
@@ -21,14 +13,26 @@
           aria-label="Dark mode"
           class="text-center q-pa-md"
           @click="toggleDark"
-        />
-
+        >
+          <q-tooltip> Dark mode </q-tooltip>
+        </q-btn>
+        <q-btn
+          flat
+          dense
+          icon="storefront"
+          aria-label="Volver"
+          class="text-center q-pa-md"
+          @click="redirect"
+          >
+          <q-tooltip> Volver a la tienda </q-tooltip>
+          </q-btn
+        >
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>Bienvenido al apartado de gestion</q-item-label>
+        <q-item-label header>Bienvenido al apartado de gestión</q-item-label>
 
         <LinkPersonalitzat
           v-for="link in essentialLinks"
