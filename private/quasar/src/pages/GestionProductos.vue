@@ -251,7 +251,7 @@ export default defineComponent({
         {
           name: "Pes",
           required: true,
-          label: "Pes (Kg)",
+          label: "Peso (Kg)",
           align: "center",
           field: (row) => row.pes,
           sortable: true,

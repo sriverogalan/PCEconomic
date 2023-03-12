@@ -37,4 +37,8 @@ class Propietats extends Model
             'imatges_id_imatge'
         );
     }
+
+    public function valoracions(){ 
+        return $this->hasMany(Valoracions::class, 'id_propietat');
+    }
 }
