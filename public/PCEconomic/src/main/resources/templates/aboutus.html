@@ -31,7 +31,8 @@
                         ofrecemos una garantía de satisfacción del cliente para todos nuestros productos.
                     </p>
                     <p>
-                        Además, nuestro equipo de atención al cliente está siempre a disposición para responder cualquier
+                        Además, nuestro equipo de atención al cliente está siempre a disposición para responder
+                        cualquier
                         pregunta o preocupación que pueda tener el cliente. Nos enorgullece ofrecer un servicio al
                         cliente excepcional y una experiencia de compra en línea sin problemas.
                     </p>
@@ -47,19 +48,17 @@
                     <div id="map"></div>
                     <script type="module">
                         function init() {
-                            navigator.geolocation.getCurrentPosition((position) => {
-                                const myPos = {
-                                    lat: 39.56165954084053,
-                                    lng: 3.199846605521957,
-                                };
-                                const map = new google.maps.Map(document.getElementById("map"), {
-                                    zoom: 17,
-                                    center: myPos,
-                                });
-                                const marker = new google.maps.Marker({
-                                    position: myPos,
-                                    map: map,
-                                });
+                            const myPos = {
+                                lat: 39.56165954084053,
+                                lng: 3.199846605521957,
+                            };
+                            const map = new google.maps.Map(document.getElementById("map"), {
+                                zoom: 17,
+                                center: myPos,
+                            });
+                            const marker = new google.maps.Marker({
+                                position: myPos,
+                                map: map,
                             });
                         }
 
