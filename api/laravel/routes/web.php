@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ArticlesSubcategoriesControllers;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CorreoNoStockController;
 use App\Http\Controllers\FacturesController;
 use App\Http\Controllers\SubcategoriaController;
 use Illuminate\Support\Facades\Route;
@@ -10,7 +11,6 @@ use App\Http\Controllers\MarquesController;
 use App\Http\Controllers\PersonesController;
 use App\Http\Controllers\PropietatsController;
 use App\Http\Controllers\ValorsContoller;
-use App\Models\Propietats;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,12 +25,12 @@ use App\Models\Propietats;
 
 Route::get('/', function () {
     return response()->json(true);
-}); 
+});
 Route::controller(MarquesController::class)->group(function () {
     Route::get('/api/get/marques', 'index');
     Route::post('/api/create/marques', 'create');
     Route::post('/api/update/marques', 'update');
-    Route::post('/api/delete/marques', 'delete'); 
+    Route::post('/api/delete/marques', 'delete');
 });
 
 Route::controller(ArticlesSubcategoriesControllers::class)->group(function () {
@@ -49,8 +49,9 @@ Route::controller(ArticlesController::class)->group(function () {
 
 Route::controller(PropietatsController::class)->group(function () {
     Route::get('/api/get/propietats', 'index');
-    Route::post('/api/create/propietats', 'create'); 
+    Route::post('/api/create/propietats', 'create');
     Route::post('/api/delete/propietats', 'delete');
+    Route::post('/api/upload/imatges', 'uploadImages');
 });
 
 Route::controller(ValorsContoller::class)->group(function () {
@@ -83,3 +84,8 @@ Route::controller(SubcategoriaController::class)->group(function () {
 });
 
 Route::get('/api/get/factures', [FacturesController::class, 'index']);
+
+Route::controller(CorreoNoStockController::class)->group(function () {
+    Route::get('/api/get/correus', 'index');
+    Route::post('/api/send/email', 'sendEmail');
+});

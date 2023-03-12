@@ -24,11 +24,11 @@ const routes = [
         component: () => import("pages/GestionProductos.vue"),
       },
       {
-        path: "gestiontraducciones",
-        name: "PCEconomic Traducciones",
-        component: () => import("pages/GestionTraducciones.vue"),
+        path: "gestioncorreos",
+        name: "PCEconomic Correos",
+        component: () => import("pages/GestionCorreos.vue"),
       },
-      { 
+      {
         path: "gestionfacturas",
         name: "PCEconomic Facturas",
         component: () => import("pages/GestionFacturas.vue"),
@@ -45,10 +45,6 @@ const routes = [
     path: "/error/:error",
     name: "Error",
     component: () => import("pages/ErrorPage.vue"),
-  },
-  {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
   },
 ];
 

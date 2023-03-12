@@ -40,12 +40,20 @@
               v-model="filter"
               rounded
               outlined
-              @update:model-value="filtrarSubcategories"
+              @update:model-value="filtrarUsuarios"
             >
               <template v-slot:prepend>
                 <q-icon name="search" />
               </template>
             </q-input>
+          </template>
+          <template v-slot:top-left>
+            <q-btn
+              class="mb-1 ml-1"
+              color="amber-14"
+              icon="refresh"
+              @click="getUsers()"
+            />
           </template>
         </q-table>
 
@@ -226,6 +234,7 @@ export default defineComponent({
           field: "actions",
         },
       ],
+      filter: "",
       rows: [],
       rowsFiltrats: [],
       editDialog: false,
@@ -248,6 +257,15 @@ export default defineComponent({
     };
   },
   methods: {
+    filtrarUsuarios() {
+      this.rowsFiltrats = this.rows.filter(
+        (r) =>
+          r.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.email.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.cognoms.toLowerCase().includes(this.filter.toLowerCase()) ||
+          r.rols.toLowerCase().includes(this.filter.toLowerCase())
+      );
+    },
     async getUsers() {
       this.rows = [];
       const personesAxios = await axios.get(

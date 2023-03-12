@@ -24,7 +24,7 @@ public class RestTransportController {
     @GetMapping("/api/transport")
     public String transport(@RequestParam double pesTotal, @RequestParam double distanciaTotal, @RequestParam int numPaquets) {
         if (pesTotal < 0 || distanciaTotal < 0 || numPaquets < 0) {
-            return "Error: No es pot calcular el transport";
+            return "Error: No se puede calcular el transporte";
         }
         double preuTransport = precioBase + distanciaTotal * precioKm + pesTotal * precioKg + numPaquets * precioPaquete;
 

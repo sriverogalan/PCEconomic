@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb mt-2">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Iniciar Session</li>
+                    <li class="breadcrumb-item active" aria-current="page">Iniciar Sesión</li>
                 </ol>
             </nav>
             <h1 class="text-center">Iniciar sesión</h1>
@@ -16,12 +16,12 @@
                 <form class="needs-validation col-sm-12 col-xl-3" th:action="@{/login}"
                       th:object="${loginForm}" method="post" novalidate>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electronico</label>
+                        <label for="email" class="form-label">Correo Electrónico</label>
                         <input th:field="*{email}" type="email" class="form-control" id="email"
                                placeholder="Correo Electronico"
                                aria-describedby="emailHelp" required>
                         <div class="invalid-feedback">
-                            Introduzca su Correo Electronico.
+                            Introduzca su Correo Electrónico.
                         </div>
                     </div>
                     <div class="mb-3">
@@ -76,7 +76,10 @@
                             }
                         );
                         if (responseFetch.ok) window.location.href = "/";
-                        else window.location.href = "/error";
+                        else {
+                            document.querySelector("#error").style.display = "block";
+                            document.querySelector("#error span").textContent = await responseFetch.text();
+                        }
                     },
                 });
                 google.accounts.id.prompt();

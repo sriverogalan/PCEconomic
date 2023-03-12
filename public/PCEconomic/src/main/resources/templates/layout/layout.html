@@ -94,18 +94,10 @@
                                 <ul class="dropdown-menu" id="menu-login">
                                     <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
                                     <li>
-                                        <a class="dropdown-item" th:href="'http://localhost/#/?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestionar
-                                            Productos</a></li>
-                                    <li><a class="dropdown-item" href="/logout">Cerrar Session</a></li>
+                                        <a class="dropdown-item" th:href="${admin_part} + '?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestión de Productos</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
                                 </ul>
                             </div>
-                        </li>
-
-                        <li class="nav-item d-flex justify-content-center ">
-                            <button aria-label="Cambiar idioma" type="button" class="nav-link btn btn-pc-economic-dark mt-1" data-bs-toggle="modal"
-                                    data-bs-target="#modal" data-bs-tool="tooltip" data-bs-title="Cambiar Idioma">
-                                <i class="bi bi-translate"></i>
-                            </button>
                         </li>
                         <li class="nav-item d-flex justify-content-center ">
                             <a class="nav-link btn btn-pc-economic-dark mt-1" th:href="@{/carrito}" data-bs-tool="tooltip" data-bs-title="Ver carrito de la compra">
@@ -162,8 +154,7 @@
     >
         <div class="row col-6">
             <p class="mb-0 text-muted">
-                © 2023 PCEconomic Company, Inc y Multimedia SLU CIF B73347494. Ses
-                Tapereres, 32, 07500 Manacor, Balearic Islands
+                © 2023 PC Economic, Inc. y Multimedia SLU CIF B73347494. Ses Tapereres, 32, 07500 Manacor, Islas Baleares, España.
             </p>
         </div>
         <div class="row col-6 justify-content-center">

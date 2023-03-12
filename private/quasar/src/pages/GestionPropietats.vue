@@ -1,7 +1,7 @@
 <template>
   <q-page class="row justify-center">
     <div class="col-10">
-      <h1 class="col-12 text-center">Propietats {{ articleNom }}</h1>
+      <h4 class="col-12 text-center">Propiedades {{ articleNom }}</h4>
 
       <div class="q-pa-md">
         <q-table
@@ -47,7 +47,13 @@
 
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <q-btn icon="delete" color="red-14" @click="showDeleteDialog(props)" />
+              <q-btn icon="edit" color="yellow-14" @click="showEditDialog(props)"></q-btn>
+              <q-btn
+                icon="delete"
+                class="mb-1 ml-1"
+                color="red-14"
+                @click="showDeleteDialog(props)"
+              />
             </q-td>
           </template>
 
@@ -66,7 +72,13 @@
           </template>
 
           <template v-slot:top-left>
-            <q-btn color="purple-14" icon="add" @click="showCreateDialog()" />
+            <q-btn class="mb-1" color="purple-14" icon="arrow_back" @click="goBack()" />
+            <q-btn
+              color="purple-10"
+              class="mb-1 ml-1"
+              icon="add"
+              @click="showCreateDialog()"
+            />
             <q-btn
               class="mb-1 ml-1"
               color="amber-14"
@@ -85,7 +97,7 @@
               <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
                 <q-toggle
                   v-model="articlesSubcategories.es_principal"
-                  label="Aquesta es la propietat principal?"
+                  label="Es principal?"
                   color="purple-14"
                   left-label
                 />
@@ -93,7 +105,7 @@
                   name="poster_file"
                   v-model="file"
                   filled
-                  label="Elegeix la foto principal"
+                  label="Elige la imagen principal"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -107,11 +119,11 @@
 
                 <q-file
                   name="cover_files"
-                  v-model="files"
+                  v-model="imatgesSecundaries"
                   filled
                   multiple
                   use-chips
-                  label="Elegeix les fotos secundaries"
+                  label="Elige las imagenes secundarias"
                   accept=".jpg"
                 >
                   <template v-slot:prepend>
@@ -151,24 +163,33 @@
                   input-debounce="0"
                   rules=" val => val.length > 0 || 'Selecciona almenys una propietat' "
                   @new-value="createProps"
-                  label="Elegeix les seves propietats"
+                  label="Elige sus propiedades"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
                 ></q-select>
+
                 <div>
-                  <q-select
-                    v-for="props in articlePropietats.propietats"
-                    v-model="articlePropietats.propietats_valors[props]"
-                    :options="valors"
-                    use-input
-                    use-chips
-                    input-debounce="0"
-                    @new-value="createValue"
-                    :label="props"
-                    filled
-                    class="mt-1"
-                  >
-                  </q-select>
+                  <div v-for="props in articlePropietats.propietats">
+                    <q-select
+                      v-model="articlePropietats.propietats_valors[props]"
+                      :options="
+                        valors_propietats.map((val) => {
+                          if (val.propietat[0].nom == props) {
+                            return val.valor.valor;
+                          }
+                          return undefined;
+                        }).filter((val) => val != undefined).sort()
+                      "
+                      use-input
+                      use-chips
+                      input-debounce="0"
+                      @new-value="createValue"
+                      :label="props"
+                      filled
+                      class="mt-1"
+                    >
+                    </q-select>
+                  </div>
                 </div>
 
                 <q-card-actions align="right">
@@ -176,7 +197,89 @@
                     flat
                     label="Cancelar"
                     color="red-14"
+                    class="q-mr-sm q-ml-sm"
                     @click="dialogEdit = false"
+                  />
+                  <q-btn type="submit" label="Guardar" color="purple-14" />
+                </q-card-actions>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="editar" persistent id="editar">
+          <q-card class="sizeTitleCard">
+            <q-card-section class="row items-center">
+              <div class="text-h6">{{ titolcard }}</div>
+            </q-card-section>
+            <q-card-section>
+              <q-form @submit="pushPropietats()" class="q-gutter-md d-flex">
+                <q-toggle
+                  v-model="articlesSubcategories.es_principal"
+                  label="Aquesta es la propietat principal?"
+                  color="purple-14"
+                  left-label
+                />
+                <q-file
+                  name="poster_file"
+                  v-model="file"
+                  filled
+                  label="Sustituye la imagen principal"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="upload">
+                      <q-tooltip anchor="top middle">
+                        Nomes se admet el format JPG
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <q-file
+                  name="cover_files"
+                  v-model="imatgesSecundaries"
+                  filled
+                  multiple
+                  use-chips
+                  label="Sustituye las imagenes secundarias"
+                  accept=".jpg"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="cloud_upload">
+                      <q-tooltip anchor="top middle">
+                        INFORMACIO : Per ordenar les imatges secundaries, les has de pujar
+                        amb el numero de l'ordre que li vulguis posar. Com per exemple :
+                        1.jpg, 2.jpg, 3.jpg...
+                      </q-tooltip>
+                    </q-icon>
+                  </template>
+                </q-file>
+
+                <div class="row justify-between">
+                  <q-input
+                    v-model="articlesSubcategories.preu"
+                    label="Preu (€)"
+                    filled
+                    class="col-5"
+                  />
+
+                  <q-input
+                    v-model="articlesSubcategories.stock"
+                    label="Stock (ud.)"
+                    filled
+                    type="number"
+                    class="col-6"
+                  />
+                </div>
+
+                <q-card-actions align="right">
+                  <q-btn
+                    flat
+                    label="Cancelar"
+                    color="red-14"
+                    class="q-mr-sm q-ml-sm"
+                    @click="editar = false"
                   />
                   <q-btn type="submit" label="Guardar" color="purple-14" />
                 </q-card-actions>
@@ -236,6 +339,7 @@ export default defineComponent({
       dialogEdit: false,
       dialogDelete: false,
       loading: true,
+      editar: false,
       mensajeServidor: false,
       message: "",
       articleId: this.$route.params.id_article,
@@ -243,7 +347,7 @@ export default defineComponent({
       fotosUrl: process.env.RUTA_IMG,
 
       file: null,
-      files: [],
+      imatgesSecundaries: [],
 
       valors_propietats: [],
       propietats: [],
@@ -263,6 +367,7 @@ export default defineComponent({
         paths: "",
         props_valors: "",
         propietat: [],
+        propietats: [],
         valor: [],
         path: [],
         imgPrincipal: "",
@@ -278,6 +383,13 @@ export default defineComponent({
           sortable: true,
         },
         {
+          name: "imatges",
+          required: true,
+          label: "Imagen principal",
+          align: "center",
+          field: (row) => row.imgPrincipal,
+        },
+        {
           name: "Es principal?",
           required: true,
           label: "Es principal?",
@@ -288,7 +400,7 @@ export default defineComponent({
         {
           name: "Preu",
           required: true,
-          label: "Preu",
+          label: "Precio ( € )",
           align: "center",
           field: (row) => this.formatearEuros(row.preu),
           sortable: true,
@@ -310,13 +422,6 @@ export default defineComponent({
           sortable: true,
         },
         {
-          name: "imatges",
-          required: true,
-          label: "Imagen principal",
-          align: "center",
-          field: (row) => row.imgPrincipal,
-        },
-        {
           name: "actions",
           align: "center",
           label: "Acción",
@@ -326,6 +431,9 @@ export default defineComponent({
     };
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     createProps(val, done) {
       if (val.length > 0) {
         if (!this.propietats.includes(val)) {
@@ -356,9 +464,8 @@ export default defineComponent({
 
     filtrar() {
       this.rowsFiltrats = this.rows.filter((m) => {
-        return (
-          m.nom.toLowerCase().includes(this.filter.toLowerCase()) ||
-          m.descripcio.toLowerCase().includes(this.filter.toLowerCase())
+        return (  
+          m.props_valors.toLowerCase().includes(this.filter.toLowerCase()) 
         );
       });
     },
@@ -421,6 +528,8 @@ export default defineComponent({
       });
       const valorsJson = await valorsAxios.data;
 
+      this.valors_propietats = [];
+
       valorsJson.forEach((a) => {
         this.valors_propietats.push({
           propietat: a.propietat,
@@ -458,7 +567,7 @@ export default defineComponent({
       this.articlesSubcategories.path = props.row.path;
       this.articlePropietats.id_propietats = props.row.id_propietats;
 
-      this.dialogEdit = true;
+      this.editar = true;
     },
     showDeleteDialog(props) {
       this.activeId = true;
@@ -486,21 +595,18 @@ export default defineComponent({
       this.articlesSubcategories.path = [];
       this.articlePropietats.propietats_valors = {};
       this.articlePropietats.id_propietats = [];
+      this.articlePropietats.propietats = [];
+
+      
+
       this.dialogEdit = true;
     },
     async pushPropietats() {
       let articleJson = "";
       this.dialogEdit = false;
+      this.editar = false;
       this.loading = true;
       let e = "";
-
-      let imgPrincipal = new FormData();
-      imgPrincipal.append("file", this.file, this.file.name);
-
-      this.files.forEach((file) => {
-        let img = new FormData();
-        img.append("files", file, file.name);
-      });
 
       const articleAxios = await axios
         .post(process.env.CRIDADA_API + "api/create/propietats", {
@@ -514,12 +620,13 @@ export default defineComponent({
           propietats_valors: this.articlePropietats.propietats_valors
             ? this.articlePropietats.propietats_valors
             : null,
-          imgPrincipal,
         })
         .catch(function (error) {
           e = error;
-        });
-
+        }); 
+      if (await articleAxios.data.id_propietats) { 
+        this.uploadImatges(await articleAxios.data.id_propietats);
+      }
       this.mensajeServidor = true;
       if (articleAxios) {
         articleJson = await articleAxios.data;
@@ -527,8 +634,42 @@ export default defineComponent({
       } else {
         this.message = e.response.data.message;
       }
+      this.articlePropietats.propietats_valors = {};
+
       this.updateTable();
     },
+    async uploadImatges(id_propietats) {
+      const formData = new FormData();
+      formData.append("id_article", this.articleId);
+      formData.append("id_propietats", id_propietats);
+      formData.append("imatgePrincipal", this.file);
+      this.imatgesSecundaries.forEach((a) => {
+        formData.append("imatgesSecundaries[]", a);
+      });
+
+      const token = localStorage.getItem("token");
+
+      const articleAxios = await axios.post(
+        process.env.CRIDADA_API + "api/upload/imatges",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const articleJson = await articleAxios.data;
+      this.message = articleJson.message;
+
+      if (articleJson) {
+        this.file = null;
+        this.imatgesSecundaries = [];
+
+        this.updateTable();
+      }
+    },
+
     async deletePropietats() {
       let articleJson = "";
       this.dialogDelete = false;

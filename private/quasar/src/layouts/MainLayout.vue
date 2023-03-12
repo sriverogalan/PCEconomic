@@ -2,22 +2,37 @@
   <q-layout view="lHh Lpr lFf" class="shadow-2 rounded-borders">
     <q-header elevated class="bg-purple-9">
       <q-toolbar>
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+
+        <q-toolbar-title> Admin PCEconomic App </q-toolbar-title>
+        
         <q-btn
           flat
           dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title> PCEconomic Admin </q-toolbar-title>
+          icon="brightness_4"
+          aria-label="Dark mode"
+          class="text-center q-pa-md"
+          @click="toggleDark"
+        >
+          <q-tooltip> Dark mode </q-tooltip>
+        </q-btn>
+        <q-btn
+          flat
+          dense
+          icon="storefront"
+          aria-label="Volver"
+          class="text-center q-pa-md"
+          @click="redirect"
+          >
+          <q-tooltip> Volver a la tienda </q-tooltip>
+          </q-btn
+        >
       </q-toolbar>
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header>Gestiona</q-item-label>
+        <q-item-label header>Bienvenido al apartado de gestión</q-item-label>
 
         <LinkPersonalitzat
           v-for="link in essentialLinks"
@@ -34,6 +49,7 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
 import {
   default as EssentialLink,
   default as LinkPersonalitzat,
@@ -52,26 +68,28 @@ const linksList = [
     link: "/gestionmarcas",
   },
   {
-    title: "Categories",
+    title: "Categorias",
     icon: "category",
     link: "/gestioncategories",
   },
   {
-    title: "Articles",
+    title: "Articulos",
     icon: "add_business",
     link: "/gestionproductes",
   },
   {
-    title: "Traduccions",
-    icon: "translate",
-    link: "/gestiontraducciones",
+    title: "Correos",
+    icon: "mail_outline",
+    link: "/gestioncorreos",
   },
   {
-    title: "Factures",
+    title: "Facturas",
     icon: "receipt",
     link: "/gestionfacturas",
   },
 ];
+
+const $q = useQuasar();
 
 export default defineComponent({
   name: "MainLayout",
@@ -79,6 +97,23 @@ export default defineComponent({
   components: {
     EssentialLink,
     LinkPersonalitzat,
+  },
+
+  data() {
+    return {
+      dark: false,
+    };
+  },
+
+  methods: {
+    redirect() {
+      window.location.href = "https://pceconomic.live";
+    },
+    toggleDark() {
+      console.log("hola");
+      this.dark = !this.dark;
+      this.$q.dark.set(this.dark);
+    },
   },
 
   setup() {
