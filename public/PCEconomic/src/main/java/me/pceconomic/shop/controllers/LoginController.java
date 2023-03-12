@@ -125,7 +125,7 @@ public class LoginController {
         emailBody.append("Hola ").append(persona.getName()).append(" ").append(persona.getSurname1()).append("\n\n");
         emailBody.append("Gracias por registrarte en nuestra plataforma. Estamos encantados de que formes parte de nuestra comunidad.\n\n");
         emailBody.append("Para completar tu registro y acceder a todos nuestros servicios, solo tienes que hacer clic en el botón de abajo:\n\n");
-        emailBody.append("http://www.pceconomic.me/confirmregister/").append(token).append("\n\n");
+        emailBody.append("https://www.pceconomic.live/confirmregister/").append(token).append("\n\n");
         emailBody.append("Un saludo,\nEl equipo de PCEconomic");
 
         mailService.sendMail(registerForm.getEmail(), "Bienvenido a PCEconomic", emailBody.toString());
@@ -177,7 +177,7 @@ public class LoginController {
         StringBuilder emailBody = new StringBuilder();
         emailBody.append("Hola ").append(persona.getName()).append(" ").append(persona.getSurname1()).append(",\n\n");
         emailBody.append("Hemos recibido una solicitud para recuperar tu cuenta en nuestra plataforma. Si has sido tú quien ha hecho esta solicitud, por favor haz clic en el siguiente enlace para restablecer tu contraseña:\n\n");
-        emailBody.append("http://pceconomic.live:8080/changepassword/").append(token).append("\n\n");
+        emailBody.append("https://www.pceconomic.live/changepassword/").append(token).append("\n\n");
         emailBody.append("Si no has sido tú quien ha hecho esta solicitud, ignora este mensaje y contacta con nuestro servicio de atención al cliente lo antes posible.\n\n");
         emailBody.append("Lamentamos las molestias que esto pueda causarte.\n\n");
         emailBody.append("Un saludo,\nEl equipo de PCEconomic\n");

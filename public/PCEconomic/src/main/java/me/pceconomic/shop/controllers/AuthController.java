@@ -61,9 +61,9 @@ public class AuthController {
 
         Set<String> rols = new HashSet<>(client.getRols().stream().map(Rols::getName).toList());
         String jwtToken = tokenService.createToken(payload.getEmail(), rols, TimeUnit.DAYS.toMillis(7));
-        session.setAttribute("token", token);
+        session.setAttribute("token", jwtToken);
 
-        return new ResponseEntity<>(token, HttpStatus.OK);
+        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
     }
 
 }
