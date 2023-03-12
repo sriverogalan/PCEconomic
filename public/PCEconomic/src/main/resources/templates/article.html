@@ -23,7 +23,7 @@
                     <div class="carousel-item" th:each="foto : ${propietats.imatges}"
                     >
                         <img class="d-block img-fluid imgSizeArticle carousel-image"
-                             th:src="@{ https://pceconomic.live/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
+                             th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
                              id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
                     </div>
                     <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
