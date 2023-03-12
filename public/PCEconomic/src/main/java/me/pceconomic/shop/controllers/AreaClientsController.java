@@ -1,5 +1,6 @@
 package me.pceconomic.shop.controllers;
 
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import me.pceconomic.shop.domain.forms.areaclients.*;
 import me.pceconomic.shop.services.AreaClientsService;
 import me.pceconomic.shop.services.FrontService;
 import me.pceconomic.shop.services.PDFService;
+import me.pceconomic.shop.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,18 +30,26 @@ public class AreaClientsController {
     private final FrontService frontService;
     private final AreaClientsService areaClientsService;
     private final PDFService pdfService;
+    private final TokenService tokenService;
 
     @Autowired
-    public AreaClientsController(FrontService frontService, PDFService pdfService, AreaClientsService areaClientsService) {
+    public AreaClientsController(FrontService frontService, PDFService pdfService, AreaClientsService areaClientsService, TokenService tokenService) {
         this.frontService = frontService;
         this.areaClientsService = areaClientsService;
         this.pdfService = pdfService;
+        this.tokenService = tokenService;
     }
 
-    @GetMapping("/areaclients")
-    public String areaclients(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Persona client = (Persona) session.getAttribute("persona");
+    @GetMapping("/areaclients/{token}")
+    public String areaclients(Model model, HttpServletRequest request, @PathVariable String token) {
+
+        int valid = tokenService.validateToken(token);
+        if (valid == 1 || valid == 2) return "redirect:/login";
+
+        Claims claims = tokenService.getClaims(token);
+        String email = claims.get("email", String.class);
+        Persona client = areaClientsService.getPersonaRepository().findByEmail(email);
+
         model.addAttribute("user", client);
         frontService.sendListsToView(model, request);
 
@@ -63,24 +73,13 @@ public class AreaClientsController {
         return "areaclients";
     }
 
-    @PostMapping("/areaclients/addDirection/{id}")
-    public String addDirection(@PathVariable(value = "id", required = false) int id, HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
+    @PostMapping("/areaclients/addDirection")
+    public String addDirection(HttpServletRequest request, @ModelAttribute AddDirectionForm directionForm, Model model) {
         HttpSession session = request.getSession();
         Persona client = (Persona) session.getAttribute("persona");
 
-        if (id == 0) {
-            areaClientsService.saveDirection(client, directionForm, session);
-            return "redirect:/areaclients";
-        }
-
-        try {
-            areaClientsService.updateDirection(client, directionForm, id, session);
-            return "redirect:/areaclients";
-        } catch (Exception e) {
-            model.addAttribute("updateDirectionError", "Ya tienes una dirección con ese nombre");
-            areaClientsService.sendToModel(model, session);
-            return "areaclients";
-        }
+        areaClientsService.saveDirection(client, directionForm, session);
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @GetMapping("/areaclients/deleteDirection/{id}")
@@ -93,9 +92,9 @@ public class AreaClientsController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("deleteDirection", "Esta dirección no existe o no le pertenece");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @PostMapping("/areaclients/addDirection/buying")
@@ -113,7 +112,7 @@ public class AreaClientsController {
         Persona client = (Persona) session.getAttribute("persona");
 
         areaClientsService.deleteDirection(client, id, session);
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @PostMapping("/areaclients/changeName")
@@ -124,11 +123,11 @@ public class AreaClientsController {
         if (!changeName.getNewName().equals(changeName.getConfirmNewName())) {
             model.addAttribute("changeNameError", "Los nombres no coinciden");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         areaClientsService.changeName(client, changeName);
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @PostMapping("/areaclients/changepassword")
@@ -139,17 +138,17 @@ public class AreaClientsController {
         if (!changePasswordForm.getNewPassword().equals(changePasswordForm.getConfirmPassword())) {
             model.addAttribute("changePasswordError", "Las contraseñas no coinciden");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         if (!areaClientsService.getPasswordEncoder().matches(changePasswordForm.getOldPassword(), client.getPassword())) {
             model.addAttribute("changePasswordError", "La contraseña no es correcta");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         areaClientsService.changePassword(client, changePasswordForm);
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @PostMapping("/areaclients/changeemail")
@@ -160,13 +159,13 @@ public class AreaClientsController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("changeEmailError", "El email no es válido");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         if (!changeEmailForm.getNewEmail().equals(changeEmailForm.getConfirmNewEmail())) {
             model.addAttribute("changeEmailError", "Los emails no coinciden");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         try {
@@ -174,9 +173,9 @@ public class AreaClientsController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("changeEmailError", "El email ya está en uso");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @PostMapping("/areaclients/changetelephone")
@@ -187,13 +186,13 @@ public class AreaClientsController {
         if (!client.getTelefon().equals(changeTelephoneForm.getOldTelephone())) {
             model.addAttribute("changePhoneError", "El teléfono no es correcto");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         if (!changeTelephoneForm.getNewTelephone().equals(changeTelephoneForm.getConfirmNewTelephone())) {
             model.addAttribute("changePhoneError", "El teléfono al que quiere cambiar no coincide.");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
         try {
@@ -201,10 +200,10 @@ public class AreaClientsController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("changePhoneError", "El teléfono ya está en uso");
             areaClientsService.sendToModel(model, session);
-            return "areaclients";
+            return "areaclients/" + session.getAttribute("token");
         }
 
-        return "redirect:/areaclients";
+        return "redirect:/areaclients/" + session.getAttribute("token");
     }
 
     @GetMapping("/areaclients/generatepdf/{id}")

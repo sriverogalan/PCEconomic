@@ -26,12 +26,19 @@
                     <div>
 
                         <a class="btn btn-pc-economic-dark mt-3 mb-5" th:href="@{/}">Explorar articulos</a>
-                        <a class="btn btn-pc-economic-dark mt-3 mb-5" th:href="@{/areaclients}">Area Clientes</a>
+                        <button id="btn-areaclients" class="btn btn-pc-economic-dark mt-3 mb-5">Area Clientes</button>
                     </div>
                 </div>
             </div>
         </main>
         <div th:replace="layout/layout.html :: jquery"></div>
         <footer th:replace="layout/layout.html :: footer"></footer>
+        <script>
+            $(document).ready(function () {
+                $("#btn-areaclients").on('click', function () {
+                    window.location.href = "/areaclients/" + localStorage.getItem("token");
+                });
+            });
+        </script>
     </body>
 </html>
