@@ -1,350 +1,410 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="layout/layout.html :: head(title=${propietats.article.nom} + ' | PCEconomic', description='Ficha de producto del articulo ' + ${propietats.article.nom} + ' de PCEconomic')">
-    </head>
+<head th:replace="layout/layout.html :: head(title=${propietats.article.nom} + ' | PCEconomic', description='Ficha de producto del articulo ' + ${propietats.article.nom} + ' de PCEconomic')">
+</head>
 
-    <nav th:replace="layout/layout.html :: navbar"></nav>
-    <body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
-        <main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
-            <nav aria-label="breadcrumb mt-2">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
-                    <li class="breadcrumb-item"><a class="text-decoration-none" th:each="c : ${categoria}"
-                                                   th:href="@{/categoria/{categoria}(categoria=${c.getId()})}"
-                                                   th:text="${c.getName()}"></a></li>
-                    <li class="breadcrumb-item active" aria-current="page" th:text="${propietats.article.nom}"></li>
-                </ol>
-            </nav>
+<nav th:replace="layout/layout.html :: navbar"></nav>
+<body class="bgbd" th:attr="data-id-article=${propietats.article.id}">
+<main class="container bg-cont mt-md-5 mt-5" th:attr="data-id=${propietats.id}">
+    <nav aria-label="breadcrumb mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/"><i class="bi bi-house"></i></a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" th:each="c : ${categoria}"
+                                           th:href="@{/categoria/{categoria}(categoria=${c.getId()})}"
+                                           th:text="${c.getName()}"></a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${propietats.article.nom}"></li>
+        </ol>
+    </nav>
 
-            <div class="col-12 row m-2 justify-content-center">
-                <div class="col-md-6 col-sm-12">
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <div class="carousel-inner">
-                            <div class="carousel-item" th:each="foto : ${propietats.imatges}"
-                            >
-                                <img class="d-block img-fluid imgSizeArticle carousel-image"
-                                     th:src="@{/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
-                                     id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
-                            </div>
-                            <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
-                                <img class="d-block img-fluid imgSizeArticle carousel-image"
-                                     th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto"
-                                     src="">
-                            </div>
-                        </div>
-                        <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-prev" data-bs-slide="prev"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                        </button>
-                        <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-next" data-bs-slide="next"
-                                data-bs-target="#carouselExampleIndicators"
-                                type="button">
-                            <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                        </button>
+    <div class="col-12 row m-2 justify-content-center">
+        <div class="col-md-6 col-sm-12">
+            <div id="carouselExampleIndicators" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item" th:each="foto : ${propietats.imatges}"
+                    >
+                        <img class="d-block img-fluid imgSizeArticle carousel-image"
+                             th:src="@{ https://pceconomic.live/img/productes/{article}/{prop}/{foto}(article=${propietats.article.id},prop=${propietats.id},foto=${foto.path})}"
+                             id="propietats.id" th:alt="${foto.id}" alt="foto" src="">
+                    </div>
+                    <div class="carousel-item" th:if="${propietats.imatges.size() == 0}">
+                        <img class="d-block img-fluid imgSizeArticle carousel-image"
+                             th:src="@{/img/static/no-photo.png}" th:alt="${propietats.article.id}" alt="foto"
+                             src="">
                     </div>
                 </div>
+                <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-prev" data-bs-slide="prev"
+                        data-bs-target="#carouselExampleIndicators"
+                        type="button">
+                    <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
+                </button>
+                <button th:if="${propietats.imatges.size() > 1}" class="carousel-control-next" data-bs-slide="next"
+                        data-bs-target="#carouselExampleIndicators"
+                        type="button">
+                    <span class="carousel-color" aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
+                </button>
+            </div>
+        </div>
 
-                <div class="col-md-6 col-sm-12">
-                    <div class="row">
-                        <h1 th:text="${propietats.article.nom}" class="mt-md-3 mt-5 col-6"></h1>
-                        <div th:if="!${preuOferta}" class="col-6 d-flex mt-md-3 mt-5 text-center">
-                            <span class="col h1 text-pc-economic-dark" th:text="${preuEuros} "></span>
-                        </div>
-                        <div th:if="${preuOferta}" class="col-6 d-flex">
+        <div class="col-md-6 col-sm-12">
+            <div class="row">
+                <h1 th:text="${propietats.article.nom}" id="titolPrincipal" class="mt-md-3 mt-5 col-6"></h1>
+                <div th:if="!${preuOferta}" class="col-6 d-flex mt-md-3 mt-5 text-center">
+                    <span class="col h1 text-pc-economic-dark" th:text="${preuEuros} "></span>
+                </div>
+                <div th:if="${preuOferta}" class="col-6 d-flex">
                             <span class="col h1 text-decoration-line-through"
                                   th:text="${preuEuros}"></span>
-                            <span class="col h1 text-danger" th:if="${preuOferta}"
-                                  th:text="${preuOferta}"></span>
-                        </div>
+                    <span class="col h1 text-danger" th:if="${preuOferta}"
+                          th:text="${preuOferta}"></span>
+                </div>
+            </div>
+            <h5 class="text-body mt-2"
+                th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
+
+            <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
+                <div class="col-6 row justify-content-start">
+                    <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
+                    <div class="row col-xl-4 mx-1 col-sm-6">
+                        <input id="cantidad" class="form-control border border-secondary " type="number"
+                               min="1"
+                               value="1"
+                               th:max="${propietats.stock}">
                     </div>
-                    <h5 class="text-body mt-2"
-                        th:text="'Marca: ' + ${propietats.article.marca.name} + ' - P/N: ' + ${propietats.article.marca.cif} "></h5>
+                </div>
+            </div>
 
-                    <div class="row justify-content-start align-items-start mt-4" th:if="${propietats.stock} > 0">
-                        <div class="col-6 row justify-content-start">
-                            <label for="cantidad" class="form-label h3 col-12">Cantidad</label>
-                            <div class="row col-xl-4 mx-1 col-sm-6">
-                                <input id="cantidad" class="form-control border border-secondary " type="number"
-                                       min="1"
-                                       value="1"
-                                       th:max="${propietats.stock}">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="articles-disponibles" class="row mt-4 justify-content-center">
-                        <div class="spinner-border text-secondary" role="status" id="loading-wheel">
-                            <span class="visually-hidden">Cargando...</span>
-                        </div>
-                    </div>
+            <div id="articles-disponibles" class="row mt-4 justify-content-evenly col-12">
+                <div class="spinner-border text-secondary" role="status" id="loading-wheel">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
 
 
-                    <div class="d-flex justify-content-evenly mt-5" th:if="${propietats.stock} > 0">
-                        <div id="addcarrito" class="col-5 row"></div>
-                        <div id="comprar" class="col-5 row"></div>
-                    </div>
+            <div class="d-flex justify-content-evenly mt-5" th:if="${propietats.stock} > 0">
+                <div id="addcarrito" class="col-5 row"></div>
+                <div id="comprar" class="col-5 row"></div>
+            </div>
 
-                    <div class="row justify-content-evenly mt-3" th:if="${propietats.stock} == 0">
-                        <div class="row justify-content-start align-items-start mt-4 col-12"
-                             th:if="${propietats.stock} == 0">
-                            <div class="col-12 row justify-content-start">
-                                <div class="alert alert-warning" role="alert">
-                                    Lo sentimos, este producto no está disponible en este momento.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="stockDisponible" class="col-10 row">
-                            <div class="col-6">
-                                <input type="email" class="form-control " id="email" placeholder="Introduce tu email">
-                            </div>
-                            <button type="button" id="correonostock" class="btn btn-pc-economic-dark col-6">
-                                Notificar cuando haya stock
-                            </button>
-                            <div class="m-3" id="correonostockemail">
-                            </div>
+            <div class="row justify-content-evenly mt-3" th:if="${propietats.stock} == 0">
+                <div class="row justify-content-start align-items-start mt-4 col-12"
+                     th:if="${propietats.stock} == 0">
+                    <div class="col-12 row justify-content-start">
+                        <div class="alert alert-warning" role="alert">
+                            Lo sentimos, este producto no está disponible en este momento.
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 mt-5 row justify-content-center">
-                    <div class="col-12">
-                        <h3>Descripción</h3>
-                        <p th:text="${propietats.article.descripcio}"></p>
+                <div id="stockDisponible" class="col-10 row">
+                    <div class="col-6">
+                        <input type="email" class="form-control " id="email" placeholder="Introduce tu email">
                     </div>
-                    <div class="col-12">
-                        <h3>Valoraciones</h3>
+                    <button type="button" id="correonostock" class="btn btn-pc-economic-dark col-6">
+                        Notificar cuando haya stock
+                    </button>
+                    <div class="m-3" id="correonostockemail">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <div class="card m-3" th:each="valoracio : ${valoracions}"
-                             th:if="${propietats.article.id == valoracio.propietats.article.id}">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="row col-xl-6">
-                                        <div class="col-12">
+        <div class="col-12 mt-5 row justify-content-center">
+            <div class="col-12">
+                <h3>Descripción</h3>
+                <p th:text="${propietats.article.descripcio}"></p>
+            </div>
+            <div class="col-12">
+                <h3>Valoraciones</h3>
+
+                <div class="card m-3" th:each="valoracio : ${valoracions}"
+                     th:if="${propietats.article.id == valoracio.propietats.article.id}">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="row col-xl-6">
+                                <div class="col-12">
                                     <span th:each="persona : ${persones}" th:if="${persona.id == valoracio.idPersona}">
                                         <p class="me-auto fs-5"
                                            th:text="${persona.name} + ' ' + ${persona.surname1} "></p>
                                     </span>
-                                        </div>
-                                        <div class="col-12 mb-sm-2">
-                                            <label>
-                                                <input class="rating"
-                                                       max="5"
-                                                       oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                                       step="0.5"
-                                                       th:style="'--value: ' + ${valoracio.valoracio}"
-                                                       type="range"
-                                                       value="2.5"
-                                                       disabled
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="row col-xl-6">
+                                </div>
+                                <div class="col-12 mb-sm-2">
+                                    <label>
+                                        <input class="rating"
+                                               max="5"
+                                               oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                               step="0.5"
+                                               th:style="'--value: ' + ${valoracio.valoracio}"
+                                               type="range"
+                                               value="2.5"
+                                               disabled
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row col-xl-6">
                                 <span class="valoracion-fecha my-auto fs-5 col-12 text-xl-end text-sm-start margin-left-10"
                                       th:text="${valoracio.data}"></span>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <p th:text="${valoracio.comentari}"></p>
-                                </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="col-12">
+                            <p th:text="${valoracio.comentari}"></p>
+                        </div>
 
-                                <div th:if="${user != null && user.id == valoracio.idPersona}"
-                                     class="d-flex flex-row-reverse mt-2">
-                                    <button type="button" class="margin-left-10 btn btn-danger"
-                                            data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
-                                            th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
-                                        <i class="bi bi-pencil"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        <div th:if="${user != null && user.id == valoracio.idPersona}"
+                             class="d-flex flex-row-reverse mt-2">
+                            <button type="button" class="margin-left-10 btn btn-danger"
+                                    data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#deleteModal-' + ${valoracio.id}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button type="button" class="btn btn-pc-economic-dark" data-bs-toggle="modal"
+                                    th:attr="data-bs-target='#editModal-' + ${valoracio.id}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                            <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
-                                 tabindex="-1"
-                                 aria-labelledby="editValorationLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                    <div th:if="${user != null}" class="modal fade" th:id="'editModal-' + ${valoracio.id}"
+                         tabindex="-1"
+                         aria-labelledby="editValorationLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editValorationLabel">Añadir Valoracion</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
+                                          th:object="${addvaloracio}" method="post">
+                                        <div class="mb-3">
+                                            <label for="editvaloracio" class="form-label">Valoración</label>
+                                            <input id="editvaloracio"
+                                                   th:field="*{valoracio}"
+                                                   class="rating"
+                                                   max="5"
+                                                   oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
+                                                   step="0.5"
+                                                   th:style="'--value: ' + ${valoracio.valoracio}"
+                                                   type="range"
+                                                   th:value="${valoracio.valoracio}"
+                                                   th:placeholder="${valoracio.valoracio}"
+                                            />
                                         </div>
-                                        <div class="modal-body">
-                                            <form th:action="@{/areaclients/updatevaloracio/{idArticle}/{idClient}/{idPropietat}/{idval}(idArticle=${propietats.article.id}, idClient=${user.id}, idPropietat=${propietats.id}, idval=${valoracio.id})}"
-                                                  th:object="${addvaloracio}" method="post">
-                                                <div class="mb-3">
-                                                    <label for="editvaloracio" class="form-label">Valoración</label>
-                                                    <input id="editvaloracio"
-                                                           th:field="*{valoracio}"
-                                                           class="rating"
-                                                           max="5"
-                                                           oninput="this.style.setProperty('--value', `${this.valueAsNumber}`)"
-                                                           step="0.5"
-                                                           th:style="'--value: ' + ${valoracio.valoracio}"
-                                                           type="range"
-                                                           th:value="${valoracio.valoracio}"
-                                                           th:placeholder="${valoracio.valoracio}"
-                                                    />
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="editComentari" class="form-label">Comentario</label>
-                                                    <input type="text" id="editComentari" th:field="*{comentari}"
-                                                           th:placeholder="${valoracio.comentari}">
-                                                </div>
-                                                <button type="submit" class="btn btn-pc-economic-dark">Actualizar
-                                                </button>
-                                            </form>
+                                        <div class="mb-3">
+                                            <label for="editComentari" class="form-label">Comentario</label>
+                                            <input type="text" id="editComentari" th:field="*{comentari}"
+                                                   th:placeholder="${valoracio.comentari}">
                                         </div>
-                                    </div>
+                                        <button type="submit" class="btn btn-pc-economic-dark">Actualizar
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
-                                 aria-labelledby="deleteModalLabel"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoración</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            ¿Está seguro que desea eliminar la valoración?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                    data-bs-dismiss="modal">
-                                                No
-                                            </button>
-                                            <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
-                                               class="btn btn-pc-economic-default">Si</a>
-                                        </div>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" th:id="'deleteModal-' + ${valoracio.id}" tabindex="-1"
+                         aria-labelledby="deleteModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteModalLabel">Eliminar Valoración</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Está seguro que desea eliminar la valoración?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger"
+                                            data-bs-dismiss="modal">
+                                        No
+                                    </button>
+                                    <a th:href="@{/areaclients/deletevaloracio/{id}/{idart}/{idprop}(id=${valoracio.id}, idart=${propietats.article.id}, idprop=${propietats.id})}"
+                                       class="btn btn-pc-economic-default">Si</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
-        <div th:replace="layout/layout.html :: jquery"></div>
-        <script th:src="@{/js/pagination.min.js}"></script>
+        </div>
+    </div>
+</main>
+<div th:replace="layout/layout.html :: jquery"></div>
+<script th:src="@{/js/pagination.min.js}"></script>
 
-        <script>
+<script>
 
-            $(document).ready(function () {
+    $(document).ready(function () {
 
-                $(".carousel-item:first").addClass("active");
-                $("#comprar").append(
-                    "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
-                )
-                $("#addcarrito").append(
-                    "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
-                )
-                $('#cantidad').bind('input', function () {
-                    $("#comprar").empty();
-                    $("#addcarrito").empty();
-                    $("#comprar").append(
-                        "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
-                    )
-                    $("#addcarrito").append(
-                        "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
-                    )
-                });
+        $(".carousel-item:first").addClass("active");
+        $("#comprar").append(
+            "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+        )
+        $("#addcarrito").append(
+            "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+        )
+        $('#cantidad').bind('input', function () {
+            $("#comprar").empty();
+            $("#addcarrito").empty();
+            $("#comprar").append(
+                "<a  class=\"btn btn-pc-economic-dark text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=false'> Comprar </a>"
+            )
+            $("#addcarrito").append(
+                "<a  class=\"btn btn-pc-economic-light text-white col-12\" href='/addcarrito?idprops=" + $("main").attr("data-id") + "&quantitat=" + $("#cantidad").val() + "&isMain=true'> Añadir al carrito </a>"
+            )
+        });
 
-                var tamanoArray = [[${valoracions.size()}]];
-                console.log(tamanoArray);
-
-
-                $(".valoracion-fecha").each(function () {
-                    var fecha = $(this).text();
-                    var fechaSplit = fecha.split("-");
-                    var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
-                    $(this).text(fechaFinal);
-                });
-
-                $('#correonostock').on('click', function () {
-                    var email = $('#email').val();
-                    $.ajax({
-                        url: "/savecorreo/" + email + "/" + $("main").attr("data-id"),
-                        type: "POST",
-                        success: function (data) {
-                            console.log(data);
-                            data.responseText
-                            $('#correonostockemail').append(
-                                "<div class='alert alert-success'>" +
-                                "<i class='bi bi-check2'></i>" +
-                                "<span class='text-center'>Se ha enviado un correo a " + email + " para que te avisemos cuando tengamos stock</span>" +
-                                "</div>"
-                            );
-                        },
-                        error: function (data) {
-                            console.log(data);
-                            $('#correonostockemail').append(
-                                "<div class='alert alert-danger'>" +
-                                "<i class='bi bi-exclamation-triangle'></i>" +
-                                "<span class='text-center'>" + data.responseText + "</span>" +
-                                "</div>"
-                            );
-                        }
-                    })
-                });
-            });
+        var tamanoArray = [[${valoracions.size()}]];
+        console.log(tamanoArray);
 
 
+        $(".valoracion-fecha").each(function () {
+            var fecha = $(this).text();
+            var fechaSplit = fecha.split("-");
+            var fechaFinal = fechaSplit[2] + "/" + fechaSplit[1] + "/" + fechaSplit[0];
+            $(this).text(fechaFinal);
+        });
+
+        $('#correonostock').on('click', function () {
+            var email = $('#email').val();
             $.ajax({
-                url: "/api/propietats",
-                type: "GET",
-                dataType: "json",
-                beforeSend: function () {
-                    $("#loading-wheel").show();
+                url: "/savecorreo/" + email + "/" + $("main").attr("data-id"),
+                type: "POST",
+                success: function (data) {
+                    console.log(data);
+                    data.responseText
+                    $('#correonostockemail').append(
+                        "<div class='alert alert-success'>" +
+                        "<i class='bi bi-check2'></i>" +
+                        "<span class='text-center'>Se ha enviado un correo a " + email + " para que te avisemos cuando tengamos stock</span>" +
+                        "</div>"
+                    );
                 },
-                complete: function () {
-                    $("#loading-wheel").hide();
-                },
-                success: function (propietats) {
-                    var idPropietat = $("main").attr("data-id");
-                    var idArticle = $("body").attr("data-id-article");
-                    var auxArr = [];
+                error: function (data) {
+                    console.log(data);
+                    $('#correonostockemail').append(
+                        "<div class='alert alert-danger'>" +
+                        "<i class='bi bi-exclamation-triangle'></i>" +
+                        "<span class='text-center'>" + data.responseText + "</span>" +
+                        "</div>"
+                    );
+                }
+            })
+        });
+    });
 
-                    for (var prop of propietats) {
-                        for (var v of prop.valor) {
-                            if (prop.article.id == idArticle && prop.id == idPropietat) {
-                                $("#articles-disponibles").append(
-                                    "<div class='col-12'> <h3 class='mb-3 mt-2'>" + v.propietat[0].nom + "</h3> <div id='" + v.propietat[0].nom + "' class='d-flex justify-content-evenly'> </div></div>"
-                                )
-                                $("#" + v.propietat[0].nom).append(
-                                    "<button class='btn btn-pc-economic-dark text-white col-sm-4 col-xl-2'>" + v.valor + "</button>"
-                                )
 
-                                for (var prop2 of propietats) {
-                                    for (var v2 of prop2.valor) {
-                                        if (prop2.article.id == idArticle && prop2.id != idPropietat && v2.propietat[0].nom == v.propietat[0].nom && v2.valor != v.valor) {
-                                            var auxArrIndex = auxArr.indexOf(v2.valor);
-                                            if (auxArrIndex == -1) {
-                                                auxArr.push(v2.valor);
-                                                $("#" + v.propietat[0].nom).append(
-                                                    "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-sm-4 col-xl-2'>" + v2.valor + "</a>"
-                                                );
-                                            }
-                                        }
-                                    }
-                                }
+    $.ajax({
+        url: "/api/propietats",
+        type: "GET",
+        dataType: "json",
+        beforeSend: function () {
+            $("#loading-wheel").show();
+        },
+        complete: function () {
+            $("#loading-wheel").hide();
+        },
+        success: function (propietats) {
+            var idPropietat = $("main").attr("data-id");
+            var idArticle = $("body").attr("data-id-article");
+
+            console.log(propietats)
+
+            for (var prop of propietats) {
+                var propietats_valors = "";
+                var valors = "";
+                if (prop.article.id == idArticle && prop.id == idPropietat) {
+                    for (var v of prop.valor) {
+                        if (prop.article.id == idArticle && prop.id == idPropietat) {
+                            propietats_valors += v.propietat[0].nom + ": " + v.valor;
+                            valors += v.valor;
+                            if (v != prop.valor[prop.valor.length - 1]) {
+                                propietats_valors += ", ";
+                                valors += " ";
                             }
                         }
                     }
+                    $("#titolPrincipal").append(
+                        " " + valors
+                    )
+                    for (var img of prop.imatges) {
+                        if (img.principal == true) {
+                            $("#articles-disponibles").append(
+                                "<h3 class='col-12'>Propiedades disponibles : </h3>"
+                            )
+                            $("#articles-disponibles").append(
+                                "<img  src='/img/productes/" + idArticle + "/" + idPropietat + "/" + img.path + "'" +
+                                "class='img-fluid col-2 border border-pc-economic-default pt-2 pb-2' title=\"" + propietats_valors + "\" data-toggle=\"tooltip\" data-placement=\"top\" alt='Responsive image'>"
+                            )
+                            $(function () {
+                                $('[data-toggle="tooltip"]').tooltip()
+                            })
+                        }
+                    }
                 }
-            });
-        </script>
+            }
 
-        <footer th:replace="layout/layout :: footer"></footer>
-    </body>
+            for (var prop of propietats) {
+                var propietats_valors = "";
+                if (prop.article.id == idArticle && prop.id != idPropietat) {
+                    for (var v of prop.valor) {
+                        if (prop.article.id == idArticle && prop.id != idPropietat) {
+                            propietats_valors += v.propietat[0].nom + ": " + v.valor;
+                            if (v != prop.valor[prop.valor.length - 1]) {
+                                propietats_valors += ", ";
+                            }
+                        }
+                    }
+                    for (var img of prop.imatges) {
+                        if (img.principal == true) {
+                            $("#articles-disponibles").append(
+                                "<a href='/article/"+ idArticle + "/" + prop.id + "' class='col-2 border border-light-subtle pt-2 pb-2'><img src='/img/productes/" + idArticle + "/" + prop.id + "/" + img.path + "'" +
+                                "class='img-fluid ' title=\"" + propietats_valors + "\" data-toggle=\"tooltip\" data-placement=\"top\" alt='Responsive image'></a> "
+                            )
+                            $(function () {
+                                $('[data-toggle="tooltip"]').tooltip()
+                            })
+                        }
+                    }
+                }
+            }
+
+            /* for (var prop of propietats) {
+                 for (var v of prop.valor) {
+                     if (prop.article.id == idArticle && prop.id == idPropietat) {
+                         $("#articles-disponibles").append(
+                             "<div class='col-12'> <h3 class='mb-3 mt-2'>" + v.propietat[0].nom + "</h3> <div id='" + v.propietat[0].nom + "' class='d-flex justify-content-evenly'> </div></div>"
+                         )
+                         $("#" + v.propietat[0].nom).append(
+                             "<button class='btn btn-pc-economic-dark text-white col-sm-4 col-xl-2'>" + v.valor + "</button>"
+                         )
+
+                         for (var prop2 of propietats) {
+                             for (var v2 of prop2.valor) {
+                                 if (prop2.article.id == idArticle && prop2.id != idPropietat && v2.propietat[0].nom == v.propietat[0].nom && v2.valor != v.valor) {
+                                     var auxArrIndex = auxArr.indexOf(v2.valor);
+                                     if (auxArrIndex == -1) {
+                                         auxArr.push(v2.valor);
+                                         $("#" + v.propietat[0].nom).append(
+                                             "<a href='/article/" + prop2.article.id + "/" + prop2.id + "' class='btn btn-pc-economic-light text-white col-sm-4 col-xl-2'>" + v2.valor + "</a>"
+                                         );
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                 }
+             }*/
+        }
+    });
+</script>
+
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
 </html>
