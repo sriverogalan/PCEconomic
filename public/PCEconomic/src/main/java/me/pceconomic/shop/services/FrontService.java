@@ -100,6 +100,7 @@ public class FrontService {
         model.addAttribute("client", client == null ? "LOGIN" : "LOGOUT");
         model.addAttribute("user", client);
         model.addAttribute("rols", client == null ? null : client.getRols());
+        model.addAttribute("token", session.getAttribute("token"));
     }
 
     @Transactional
