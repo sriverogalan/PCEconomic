@@ -68,9 +68,8 @@ public class PDFService {
         document.add(table);
 
         // Precio total
-        double total = factura.getPreu() + factura.getPreuTransport();
         Paragraph transportParagraph = new Paragraph("Precio del transporte: " + formatoEuros.format(factura.getPreuTransport()), textFont);
-        Paragraph totalParagraph = new Paragraph("Precio total: " + formatoEuros.format(total), textFont);
+        Paragraph totalParagraph = new Paragraph("Precio total: " + formatoEuros.format(factura.getPreu()), textFont);
 
         transportParagraph.setAlignment(Paragraph.ALIGN_RIGHT);
         totalParagraph.setAlignment(Paragraph.ALIGN_RIGHT);
