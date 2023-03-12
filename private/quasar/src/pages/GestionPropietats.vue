@@ -48,7 +48,12 @@
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
               <q-btn icon="edit" color="yellow-14" @click="showEditDialog(props)"></q-btn>
-              <q-btn icon="delete" class="mb-1 ml-1" color="red-14" @click="showDeleteDialog(props)" />
+              <q-btn
+                icon="delete"
+                class="mb-1 ml-1"
+                color="red-14"
+                @click="showDeleteDialog(props)"
+              />
             </q-td>
           </template>
 
@@ -67,13 +72,13 @@
           </template>
 
           <template v-slot:top-left>
+            <q-btn class="mb-1" color="purple-14" icon="arrow_back" @click="goBack()" />
             <q-btn
-              class="mb-1"
-              color="purple-14"
-              icon="arrow_back"
-              @click="goBack()"
+              color="purple-10"
+              class="mb-1 ml-1"
+              icon="add"
+              @click="showCreateDialog()"
             />
-            <q-btn color="purple-10" class="mb-1 ml-1" icon="add" @click="showCreateDialog()" />
             <q-btn
               class="mb-1 ml-1"
               color="amber-14"
@@ -161,21 +166,30 @@
                   label="Elegeix les seves propietats"
                   @update:model-value="(val) => (articlePropietats.propietats = val)"
                   filled
-                ></q-select> 
+                ></q-select>
+
                 <div>
-                  <q-select
-                    v-for="props in articlePropietats.propietats"
-                    v-model="articlePropietats.propietats_valors[props]"
-                    :options="valors"
-                    use-input
-                    use-chips
-                    input-debounce="0"
-                    @new-value="createValue"
-                    :label="props"
-                    filled
-                    class="mt-1"
-                  >
-                  </q-select>
+                  <div v-for="props in articlePropietats.propietats">
+                    <q-select
+                      v-model="articlePropietats.propietats_valors[props]"
+                      :options="
+                        valors_propietats.map((val) => {
+                          if (val.propietat[0].nom == props) {
+                            return val.valor.valor;
+                          }
+                          return undefined;
+                        }).filter((val) => val != undefined).sort()
+                      "
+                      use-input
+                      use-chips
+                      input-debounce="0"
+                      @new-value="createValue"
+                      :label="props"
+                      filled
+                      class="mt-1"
+                    >
+                    </q-select>
+                  </div>
                 </div>
 
                 <q-card-actions align="right">
@@ -353,6 +367,7 @@ export default defineComponent({
         paths: "",
         props_valors: "",
         propietat: [],
+        propietats: [],
         valor: [],
         path: [],
         imgPrincipal: "",
@@ -416,9 +431,8 @@ export default defineComponent({
     };
   },
   methods: {
-
-    goBack(){
-      this.$router.go(-1)
+    goBack() {
+      this.$router.go(-1);
     },
     createProps(val, done) {
       if (val.length > 0) {
@@ -515,6 +529,8 @@ export default defineComponent({
       });
       const valorsJson = await valorsAxios.data;
 
+      this.valors_propietats = [];
+
       valorsJson.forEach((a) => {
         this.valors_propietats.push({
           propietat: a.propietat,
@@ -580,6 +596,10 @@ export default defineComponent({
       this.articlesSubcategories.path = [];
       this.articlePropietats.propietats_valors = {};
       this.articlePropietats.id_propietats = [];
+      this.articlePropietats.propietats = [];
+
+      
+
       this.dialogEdit = true;
     },
     async pushPropietats() {

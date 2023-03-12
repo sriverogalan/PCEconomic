@@ -97,26 +97,25 @@ class PropietatsController extends Controller
                         $propBD->save();
                     }
 
-                    foreach ($props_valors[$prop] as $prop) {
-                        $valor = Valors::where('valor', $prop)->first();
-                        if ($valor == null) {
-                            $valor = new Valors();
-                            $valor->valor = $prop;
-                            $valor->save();
-                            $valor->propietat()->detach();
-                            $valor->propietat()->attach($propBD);
-                        }
-                        $propietat->valors()->attach($valor);
+                    $valor = Valors::where('valor', $props_valors[$prop])->first();
+ 
+                    if ($valor == null) {
+                        $valor = new Valors();
+                        $valor->valor =  $props_valors[$prop];
+                        $valor->save();
+                        $valor->propietat()->detach();
+                        $valor->propietat()->attach($propBD);
                     }
+                    $propietat->valors()->attach($valor);
                 }
             }
 
 
             $message = ($request->input('id_propietats') == null)
- 
+
                 ? 'Se ha creado correctamente'
-                : 'Se ha actualizado correctamente'; 
- 
+                : 'Se ha actualizado correctamente';
+
 
             return response()->json([
                 'message' => $message,
