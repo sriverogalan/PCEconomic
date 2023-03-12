@@ -106,13 +106,13 @@ class PropietatsController extends Controller
                         $valor->propietat()->detach();
                         $valor->propietat()->attach($propBD);
                     }
+                    
                     $propietat->valors()->attach($valor);
                 }
             }
 
 
-            $message = ($request->input('id_propietats') == null)
-
+            $message = ($request->input('id_propietats') == null) 
                 ? 'Se ha creado correctamente'
                 : 'Se ha actualizado correctamente';
 
