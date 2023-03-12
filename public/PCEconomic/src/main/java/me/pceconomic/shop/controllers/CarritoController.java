@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -105,9 +106,7 @@ public class CarritoController {
     public String deleteArticleToCart(@RequestParam int idprops) {
         ShoppingCart shoppingCart = Objects.requireNonNullElseGet((ShoppingCart) session.getAttribute("carrito"), ShoppingCart::new);
         Set<Cart> ids = shoppingCart.getIds() == null ? new HashSet<>() : shoppingCart.getIds();
-        ids.stream()
-                .filter(c -> c.getPropietats().getId() == idprops)
-                .forEach(ids::remove);
+        ids.removeIf(cart -> cart.getPropietats().getId() == idprops);
         carritoService.setTotal(shoppingCart);
 
         if (ids.isEmpty()) {
