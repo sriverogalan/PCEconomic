@@ -92,7 +92,7 @@
                                     <i class="bi bi-person-circle"></i>
                                 </button>
                                 <ul class="dropdown-menu" id="menu-login">
-                                    <li><a class="dropdown-item" href="/areaclients">Mi Area de Cliente</a></li>
+                                    <li><button id="btn-areaclients" class="dropdown-item" >Mi Area de Cliente</button></li>
                                     <li>
                                         <a class="dropdown-item" th:href="${admin_part} + '?token='+${token}" th:each="rol : ${rols}" th:if="${rol.name == 'ADMINISTRADOR'}">Gestión de Productos</a></li>
                                     <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
@@ -170,6 +170,13 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
+
+            $(document).ready(function () {
+                $("#btn-areaclients").on('click', function () {
+                    window.location.href = "/areaclients/" + localStorage.getItem("token");
+                });
+            });
+
             $.ajax({
                 url: "/api/propietats",
                 type: "GET",

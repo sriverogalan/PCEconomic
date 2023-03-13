@@ -160,7 +160,6 @@ public class FrontController {
             }
 
             Factura factura = new Factura();
-            factura.setId((int) facturaRepository.count() + 1);
             factura.setClient(persona);
             factura.setPreu(carrito.getPreuTotal());
             factura.setMetodePagament(paymentMethod);
