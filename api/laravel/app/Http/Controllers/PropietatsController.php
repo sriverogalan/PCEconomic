@@ -178,6 +178,7 @@ class PropietatsController extends Controller
     {
         try {
             $propietat = Propietats::find($request->input('id_propietat'));
+            $propietat->valoracions()->detach();
             $propietat->valors()->detach();
             $propietat->imatges()->detach();
             $propietat->delete();
