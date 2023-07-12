@@ -6,7 +6,7 @@
 ## Descripción
 
 Nuestro proyecto se basa en una tienda online que permite gestionar los productos, categorías y pedidos.
-La dirección de la tienda será pceconomic.me y el nombre de la tienda será PCEconomic. Tendremos una tienda online en la que se podrán comprar productos relacionados con la informática, como por ejemplo ordenadores, componentes, periféricos, etc.
+Tendremos una tienda online en la que se podrán comprar productos relacionados con la informática, como por ejemplo ordenadores, componentes, periféricos, etc.
 
 ## Stakeholders:
 
