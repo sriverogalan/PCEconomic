@@ -1,41 +1,37 @@
-<p align="center">
-    <img src="https://github.com/sriverogalan/ProjecteBotiga/raw/main/docs/logo.png?raw=true" alt="alt text" width="50%" style="margin: 0 auto">
-</p>
-
-## Autors
+## Autores
 
 - Miquel Angel Amengual Sastre
 - Sergi Rivero Galan
 
-## Descripció
+## Descripción
 
-El nostre projecte es basa en una botiga online que permet gestionar els productes, les categories i les comandes.
-La direcció de la botiga sera pceconomic.me i el nom de la botiga sera PCEconomic. Tendrem una botiga online on es podran comprar productes relacionats amb la informàtica, com per exemple ordinadors, components, perifèrics, etc.
+Nuestro proyecto se basa en una tienda online que permite gestionar los productos, categorías y pedidos.
+La dirección de la tienda será pceconomic.me y el nombre de la tienda será PCEconomic. Tendremos una tienda online en la que se podrán comprar productos relacionados con la informática, como por ejemplo ordenadores, componentes, periféricos, etc.
 
-## Stakeholders:     
+## Stakeholders:
 
 - Administrador
-- Usuari registrat
-- Usuari públic
+- Usuario registrado
+- Usuario público
 
-## Requisits funcionals:
+## Requisitos funcionales:
 
-- L’administrador ha de poder donar d’alta, baixa, modificar i llistar categories. Una categoria consta d’un nom i pot contenir subcategories (i aquestes també poden contenir altres subcategories.
-- L’administrador ha de poder donar d’alta, baixa, modificar i llistar propietats d’articles. Les propietats consten d’un nom i un tipus (text, enumerat, número…). Per exemple: Talla pot ser un enumerat (S, XS, M, XL, XXL).
-- L’administrador ha de poder donar d’alta, baixa, modificar i llistar articles de la tenda. Els articles poden tenir una o vàries propietats. Per exemple: una camiseta pot tenir color, talla, imatge…
-- L’administrador ha de poder controlar l’stock de cada article. Aquest stock no només ha d’anar per article, sinó per article + propietats. Per exemple: hi pot haver 3 camisetes talla XS groc, 2 camisetes talla L groc i 5 camisetes talla XS verd.
-- Els usuaris registrats han de poder marcar un article i un talla no disponible per a rebre una notificació quan aquest article estigui disponible.
-- El sistema ha de tenir un algorisme de recomanacions personalitzat per usuaris registrats i usuaris públics.
-- El sistema ha de tenir un càlcul de despeses d'enviament segons tamany o pes i segons el destí, tenint en compte destins internacionals (taula de tarifes d’un missatger)
-- L’usuari públic i l’usuari registrat ha de poder consultar tots els articles disponibles de la botiga.
-- L’usuari registrat pot comprar i realitzar el seguiment d’una comanda de la botiga. Cada compra ha de notificar per correu electrònic a l’usuari així com cada canvi d’estat del seguiment.
-- L’administrador ha de poder importar la informació dels articles a partir d’un fitxer xml o csv. Aquest article serà proporcionat per els fabricants o marques. Si un article ja existeix s’ha d’actualitzar el seu preu, si aquest ha canviat.
-- Els usuaris registrats han de tenir poder consultar les comandes anteriors.
-- Els usuaris registrats han de poder pagar a través de Paypal i una pasarel·la de pagament d’un banc.
-- L’administrador ha de poder treure un llistat en Excel dels aricles filtrats i ordenats per varis criteris del articles i propietats.
-- Un usuari públic es pot registrar. Durant el procés de registre s’ha de validar l’adreça de correu.
+- El administrador debe poder dar de alta, baja, modificar y listar categorías. Una categoría consta de un nombre y puede contener subcategorías (y éstas también pueden contener otras subcategorías).
+- El administrador debe poder dar de alta, baja, modificar y listar propiedades de artículos. Las propiedades constan de un nombre y tipo (texto, enumerado, número…). Por ejemplo: Talla puede ser un enumerado (S, XS, M, XL, XXL).
+- El administrador debe poder dar de alta, baja, modificar y listar artículos de la tienda. Los artículos pueden tener una o varias propiedades. Por ejemplo: una camiseta puede tener color, talla, imagen…
+- El administrador debe poder controlar el stock de cada artículo. Este stock no sólo debe ir por artículo, sino por artículo + propiedades. Por ejemplo: puede haber 3 camisetas talla XS amarillo, 2 camisetas talla L amarillo y 5 camisetas talla XS verde.
+- Los usuarios registrados deben poder marcar un artículo y un tamaño no disponible para recibir una notificación cuando este artículo esté disponible.
+- El sistema debe tener un algoritmo de recomendaciones personalizado por usuarios registrados y usuarios públicos.
+- El sistema debe tener un cálculo de gastos de envío según tamaño o peso y según el destino, teniendo en cuenta destinos internacionales (tabla de tarifas de un mensajero)
+- El usuario público y el usuario registrado debe poder consultar todos los artículos disponibles de la tienda.
+- El usuario registrado puede comprar y realizar el seguimiento de un pedido de la tienda. Cada compra debe notificar por correo electrónico al usuario así como cada cambio de estado del seguimiento.
+- El administrador debe poder importar la información de los artículos a partir de un archivo xml o csv. Este artículo será proporcionado por los fabricantes o marcas. Si un artículo ya existe se debe actualizar su precio, si éste ha cambiado.
+- Los usuarios registrados deben tener poder consultar los pedidos anteriores.
+- Los usuarios registrados deben poder pagar a través de Paypal y una pasarela de pago de un banco.
+- El administrador debe poder sacar un listado en Excel de los árculos filtrados y ordenados por varios criterios de los artículos y propiedades.
+- Un usuario público se puede registrar. Durante el proceso de registro se debe validar la dirección de correo.
 
-## Requisits no funcionals:
+## Requisitos no funcionales:
 
-- El sistema ha de ser segur.
-- El sistema ha de tenir una bona usabilitat tan en desktop com amb mòbil.
+- El sistema debe ser seguro.
+- El sistema debe tener una buena usabilidad tanto en desktop como en móvil.
